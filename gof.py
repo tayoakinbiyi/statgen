@@ -100,76 +100,7 @@ def monteCarlo(parms,null=False):
 
         h_stats['alr']+=[sum(np.exp(np.maximum(0,D(p_val[cor['non_zero']],F_n[cor['non_zero']])))/
                 np.array([2*j*np.log(N/3.0) for j in cor['non_zero']+1]))]
-            
-        if not null:
-            for stat in ['hcs']:
-                if h_stats[stat]>alpha[stat]:
-                    hcs_max=(cor['non_zero_hc']+1)[np.argmax(hcs)]
-            precision['hcs']+=[float(len(set(p_val_ind[0:hcs_max])&set(h_ind)))/hcs_max]
-            recall['hcs']+=[float(len(set(p_val_ind[0:hcs_max])&set(h_ind)))/eps]
-
-            hc_max=(cor['non_zero_hc']+1)[np.argmax(hc)]
-            precision['hc']+=[float(len(set(p_val_ind[0:hc_max])&set(h_ind)))/hc_max]
-            recall['hc']+=[float(len(set(p_val_ind[0:hc_max])&set(h_ind)))/eps]
-            
-            if len(cor['non_zero_ghc'])>0:
-                ghc_max=(cor['non_zero_ghc']+1)[np.argmax(ghc)]
-                precision['ghc']+=[float(len(set(p_val_ind[0:ghc_max])&set(h_ind)))/ghc_max]
-                recall['ghc']+=[float(len(set(p_val_ind[0:ghc_max])&set(h_ind)))/eps] 
-            else:
-                precision['ghc']+=[0]
-                recall['ghc']+=[0]
-
-            bj_max=np.argmax(bj)+1
-            precision['bj']+=[float(len(set(p_val_ind[0:bj_max])&set(h_ind)))/bj_max]
-            recall['bj']+=[float(len(set(p_val_ind[0:bj_max])&set(h_ind)))/eps]
-
-            rbj_max=np.argmax(rbj)+1
-            precision['rbj']+=[float(len(set(p_val_ind[0:rbj_max])&set(h_ind)))/rbj_max]
-            recall['rbj']+=[float(len(set(p_val_ind[0:rbj_max])&set(h_ind)))/eps]
-
-            if h_stats['gnull'][i]>=alpha['gnull']:
-                gnull_max=(cor['non_zero']+1)[min(np.where(gnull>=alpha['gnull'])[0])]
-                precision['gnull']+=[float(len(set(p_val_ind[0:gnull_max])&set(h_ind)))/gnull_max]            
-                recall['gnull']+=[float(len(set(p_val_ind[0:gnull_max])&set(h_ind)))/eps]         
-            else:
-                precision['gnull']+=[0]
-                recall['gnull']+=[0]
-
-            if len(cor['non_zero_gbj'])>0:
-                gbj_max=(cor['non_zero_gbj']+1)[np.argmax(gbj)]
-                precision['gbj']+=[float(len(set(p_val_ind[0:gbj_max])&set(h_ind)))/gbj_max]
-                recall['gbj']+=[float(len(set(p_val_ind[0:gbj_max])&set(h_ind)))/eps]
-            else:
-                precision['gbj']+=[0]
-                recall['gbj']+=[0]
-
-            if h_stats['ggnull'][i]>=alpha['ggnull']:
-                if len(cor['non_zero_ggnull'])==0:
-                    print(h1_stats['ggnull'][i],alpha['ggnull'])
-                ggnull_max=(cor['non_zero_ggnull']+1)[np.argmax(ggnull)]
-                precision['ggnull']+=[float(len(set(p_val_ind[0:ggnull_max])&set(h_ind)))/ggnull_max]
-                recall['ggnull']+=[float(len(set(p_val_ind[0:ggnull_max])&set(h_ind)))/eps]
-            else:
-                precision['ggnull']+=[0]
-                recall['ggnull']+=[0]
-
-            if h_stats['fdr_bh'][i]>=0:
-                fdr_bh_max=(cor['non_zero']+1)[max(np.where(fdr_bh>=0)[0])]
-                precision['fdr_bh']+=[float(len(set(p_val_ind[0:fdr_bh_max])&set(h_ind)))/fdr_bh_max]
-                recall['fdr_bh']+=[float(len(set(p_val_ind[0:fdr_bh_max])&set(h_ind)))/eps]
-            else:
-                precision['fdr_bh']+=[0]
-                recall['fdr_bh']+=[0]
-
-            if len(cor['non_zero_ghc'])>0:
-                ghc_max=(cor['non_zero_ghc']+1)[np.argmax(ghc)]
-                precision['ghc']+=[float(len(set(p_val_ind[0:ghc_max])&set(h_ind)))/ghc_max]
-                recall['ghc']+=[float(len(set(p_val_ind[0:ghc_max])&set(h_ind)))/eps] 
-            else:
-                precision['ghc']+=[0]
-                recall['ghc']+=[0]
-    
+                
     if null:
         for stat in Stats:
             alpha[stat]=np.percentile(h_stats[stat],95)
