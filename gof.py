@@ -9,7 +9,6 @@ from mymath import *
 
 def monteCarlo(parms,null=False):
     alphaCSV=pd.read_csv('alpha.csv')
-    pdb.set_trace()
     alphaThere=(alphaCSV.H0==parms['H0'])&(alphaCSV.N==parms['N'])&(alphaCSV.rho1==parms['rho1'])&(alphaCSV.rho2==parms['rho2'])&(
         alphaCSV.rho3==parms['rho3'])
 
@@ -21,9 +20,6 @@ def monteCarlo(parms,null=False):
        
     H=parms['H0'] if null else parms['H1']
 
-    z=st.multivariate_normal.rvs(mean=None,cov=1,size=(parms['N'],H))
-    p=2*st.norm.cdf(-np.abs(z))
-
     N=parms['N']
     eps=parms['eps']       
     h1_ind=range(parms['eps'])     
@@ -31,9 +27,12 @@ def monteCarlo(parms,null=False):
 
     F_n=np.array([float(j)/N for j in range(1,N+1)])
     Stats=['ghc','hc','hcs','bj','gbj','gnull','ggnull','cpma','score','alr','fdr_bh','fdr_ratio','minP']
+
     L=getL(parms)
+    z=np.matmul(L,st.multivariate_normal.rvs(mean=None,cov=1,size=(parms['N'],H))).T
+    
+    p=2*st.norm.cdf(-np.abs(z))
     sig_tri=np.matmul(L.T,L)[np.triu_indices(N,1)].flatten()
-    pdb.set_trace()
     
     h_stats={}   
     for stat in Stats:
@@ -46,20 +45,19 @@ def monteCarlo(parms,null=False):
         
     if not null:
         power={}
-        recall={}
-        precision={}
         for stat in Stats:
             power[stat]=[]
-            recall[stat]=[]
-            precision[stat]=[]
       
     for i in range(H):
-        if i%50==0:
-            print(parms,'H',i)
+        #if i%50==0:
+        print(parms,'H',i)
+        #pdb.set_trace()
             
         p_val_ind=np.argsort(p[i])
         p_val=p[i][p_val_ind]
         cor=ggof(z[i], p_val,sig_tri,arr,cr)
+        
+        h_stats['minP']+=[-min(p_val)]
 
         hc=(np.sqrt(N)*((F_n-p_val)/np.sqrt(p_val*(1-p_val))))[cor['non_zero_hc']]
         h_stats['hc']+=[max(hc)] 
@@ -71,10 +69,7 @@ def monteCarlo(parms,null=False):
         h_stats['ghc']+=[max(ghc)]
 
         bj=N*(D(F_n[:-1],p_val[:-1]))[cor['non_zero']]
-        h_stats['bj']+=[bj[bj_max-1]]
-
-        rbj=N*(D(p_val[:-1],F_n[:-1]))[cor['non_zero']]
-        h_stats['rbj']+=[rbj[rbj_max-1]]
+        h_stats['bj']+=[max(bj)]
 
         gnull=-st.beta.cdf(p_val,range(1,N+1), [N + 1 - j for j in range(1,N+1)])[cor['non_zero']]
         h_stats['gnull']+=[max(gnull)]
@@ -91,7 +86,7 @@ def monteCarlo(parms,null=False):
         if null:
             h_stats['fdr_bh']+=[0]
         else:
-            fdr_bh=np.array([float(j*fdr_bh_q)/N for j in range(1,N+1)])-p_val
+            fdr_bh=F_n*.05-p_val
             h_stats['fdr_bh']+=[max(fdr_bh)]
 
         h_stats['cpma']+=[cpma(p_val)]
@@ -109,29 +104,12 @@ def monteCarlo(parms,null=False):
         parms.update(alpha)
         alphaCSV.append(pd.DataFrame(parms,index=[0])).to_csv('alpha.csv',index=False)
     else:
-        for stat in Stats+['fdr_bh']:
+        for stat in Stats:
             power[stat]=np.mean(np.array(h1_stats[stat])>=alpha[stat])
-            if len(precision[stat])>0:
-                precision[stat]=np.mean(precision[stat])   
-                recall[stat]=np.mean(recall[stat])
-            else:
-                precision.pop(stat)
-                recall.pop(stat)
 
         power=pd.DataFrame(power,index=[0]).T.reset_index()
         power.columns=['stat','value']
         power.insert(1,'type','power')
-
-        precision=pd.DataFrame(precision,index=[0]).T.reset_index()
-        precision.columns=['stat','value']
-        precision.insert(1,'type','precision')
-
-        recall=pd.DataFrame(recall,index=[0]).T.reset_index()
-        recall.columns=['stat','value']
-        recall.insert(1,'type','recall')
-
-        power=power.append(precision)
-        power=power.append(recall)
         power.index=[0]*len(power)
         power=power.merge(pd.DataFrame(parms,index=[0]),left_index=True,right_index=True)  
         

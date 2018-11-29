@@ -129,11 +129,11 @@ def ggof(z,p,pairwise_cors,arr,cr):
         cor['gbj']=[0]
         return(cor)
     
-    null_loglik = np.array([0]*d)
+    null_loglik = np.array([0]*d,dtype='float')
     param = np.concatenate([k_vec[non_zero_gbj].reshape(-1,1),lam[non_zero_gbj].reshape(-1,1),gamma[non_zero_gbj].reshape(-1,1)],axis=1)
     null_loglik[non_zero_gbj] = np.apply_along_axis(ebb_loglik,1,param,d=d,ar=arr,cr=cr)
 
-    alt_loglik = np.array([0]*d)
+    alt_loglik = np.array([0]*d,dtype='float')
     alt_param = np.concatenate([k_vec[non_zero_gbj].reshape(-1,1),lam_alt[non_zero_gbj].reshape(-1,1),
         gamma[non_zero_gbj].reshape(-1,1)],axis=1)
 
