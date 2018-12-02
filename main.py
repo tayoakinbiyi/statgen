@@ -24,8 +24,6 @@ if __name__ == '__main__':
                      'rho1':sig[0],'rho2':sig[1],'rho3':sig[2],'r':np.round(r,3),'theta':np.round(theta,3)}]
                 genL(parms[-1])
 
-    monteCarlo(parms[0])
-    '''
     try:
         pool = Pool(cpu_count())
         results=pool.map(monteCarlo, parms)
@@ -37,4 +35,4 @@ if __name__ == '__main__':
     for result in results:
         power=power.append(result)
 
-    power.to_csv('power.csv',index=False)'''
+    power.to_csv('power.csv',index=False)
