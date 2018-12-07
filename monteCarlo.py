@@ -8,7 +8,9 @@ from genL import *
 from mymath import *
 from multiprocessing import Pool, cpu_count, freeze_support
 
+
 def monteCarlo(parms,null=False):
+    np.random.seed(1)
     freeze_support()
 
     alphaCSV=pd.read_csv('alpha.csv')
@@ -49,9 +51,12 @@ def monteCarlo(parms,null=False):
         for stat in stats:
             power[stat]=[]
       
-    M=cpu_count()
+    M=1#cpu_count()
+    for i in range(M):
+        mc((parms,F_n,arr,cr,z[i*int(H/M):min((i+1)*int(H/M),H)],h_stats,sig_tri,null))
+        
     try:
-        pool = Pool(cpu_count())
+        pool = Pool(1)#cpu_count())
         results=pool.map(mc, [(parms,F_n,arr,cr,z[i*int(H/M):min((i+1)*int(H/M),H)],h_stats,sig_tri,null) for i in range(M)])
     finally:
         pool.close()
@@ -88,9 +93,12 @@ def mc(data):
     stats=h_stats.keys()
     N=parms['N']
 
-    for i in range(len(p)):           
+    for i in range(len(p)):     
+        print(i)
+        #pdb.set_trace()
         p_val_ind=np.argsort(p[i])
         p_val=p[i][p_val_ind]
+        
         cor=ggof(z[i], p_val,sig_tri,arr,cr)
         
         h_stats['minP']+=[max(-np.log(p_val))]
@@ -104,12 +112,12 @@ def mc(data):
         ghc=cor['ghc']
         h_stats['ghc']+=[max(ghc)]
 
-        bj=N*(D(F_n[:-1],p_val[:-1]))[cor['non_zero']]
+        bj=N*(D(F_n[:-1],p_val[:-1]))[cor['non_zero_gbj']]
         h_stats['bj']+=[max(bj)]
 
         gnull=-st.beta.cdf(p_val,range(1,N+1), [N + 1 - j for j in range(1,N+1)])[cor['non_zero']]
         h_stats['gnull']+=[max(gnull)]
-
+        
         gbj=cor['gbj']
         h_stats['gbj']+=[max(gbj)]
 
