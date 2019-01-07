@@ -55,7 +55,7 @@ def var_st(t,d,pairwise_cors):
 def qnorm_mu(mu, t, kkk, d):
     return(1 - (norm.cdf(t, loc=mu) - norm.cdf(-t, loc=mu)) - kkk/float(d))
 
-def ggof(z,p,pairwise_cors,arr,cr):
+def ggof(z,p,pairwise_cors,arr,cr,L):
     z = -np.sort(-np.abs(z))
     cor={}
                              
@@ -68,6 +68,8 @@ def ggof(z,p,pairwise_cors,arr,cr):
 
     sigmasq = np.array(range(d),dtype='float')    
     sigmasq[non_zero]=var_st(z[non_zero],d,pairwise_cors)
+    #u=np.matmul(L,st.multivariate_normal.rvs(mean=None,cov=1,size=(d,10000))).T
+    #np.var(pd.DataFrame(u).apply(lambda col,y: sum(np.abs(col)>=y),axis=1,args=(z[non_zero][0],)))
     
     lam = np.array(range(d),dtype='float')
     rho = np.array(range(d),dtype='float')
@@ -107,6 +109,11 @@ def ggof(z,p,pairwise_cors,arr,cr):
 
     sigmasq_alt = np.array(range(d),dtype='float')   
     sigmasq_alt[non_zero_gbj]=var_st_mu(z[non_zero_gbj], d,mu=muj[non_zero_gbj],pairwise_cors=pairwise_cors)
+    #for i in range(len(non_zero_gbj)):
+    #    u=np.matmul(L,st.multivariate_normal.rvs(mean=muj[non_zero_gbj][i],cov=1,size=(d,100000))).T
+    #    print(i,sigmasq_alt[non_zero_gbj][i],np.var(pd.DataFrame(u).apply(
+    #        lambda col,y: sum(np.abs(col)>=y),axis=1,args=(z[non_zero_gbj][i],))))
+    #pdb.set_trace()
 
     lam_alt=np.array([0]*d,dtype='float')
     rho_alt = np.array([0]*d,dtype='float')
