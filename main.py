@@ -10,10 +10,10 @@ from norm_sig import *
 
 if __name__ == '__main__':
     
-    N=300
+    N=30
     delta=10
-    H0=500
-    H1=200
+    H0=200
+    H1=100
     
     sigName='norm_sig'
     #sig=np.eye(N)    
