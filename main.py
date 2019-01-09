@@ -26,19 +26,19 @@ if __name__ == '__main__':
     
     stats=['ghc','hc','bj','gbj','gnull','ggnull','cpma','score','alr','fdr_ratio','minP']
     N=100
-    delta=4
-    H0=500
-    H1=500
+    delta=2
+    H0=200
+    H1=200
     power=pd.DataFrame()
     
-    sigName,sig='I',np.eye(N)  
-    power=power.append(sim(N,delta,H0,H1,sigName,sig,stats))
+    #sigName,sig='I',np.eye(N)  
+    #power=power.append(sim(N,delta,H0,H1,sigName,sig,stats))
     #sig=np.loadtxt(sigName+'.csv', delimiter=",")
 
-    sigName,sig='norm_sig_1',norm_sig(N)
+    sigName,sig='norm_sig_1',norm_sig(N,.3)
     power=power.append(sim(N,delta,H0,H1,sigName,sig,stats))
 
-    sigName,sig='norm_sig_2',norm_sig(N)
+    sigName,sig='norm_sig_2',norm_sig(N,20)
     power=power.append(sim(N,delta,H0,H1,sigName,sig,stats))
 
     power.to_csv(str(N)+'-'+str(H0)+'-'+str(H1)+'.csv',index=False)

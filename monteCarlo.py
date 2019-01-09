@@ -60,6 +60,7 @@ def monteCarlo(parms,stats,L,nullHyp=False):
         alpha=pd.DataFrame(res).apply(np.nanpercentile,q=95).to_frame().T.merge(pd.DataFrame(
             parms,index=[0]),left_index=True,right_index=True)
         alphaCSV.append(alpha).to_csv('alpha.csv',index=False)
+        print(sig_tri[0:10].round(2),np.mean(sig_tri))
         return(alpha)    
     else:
         res.index=[0]*len(res)
