@@ -55,7 +55,7 @@ def var_st(t,d,pairwise_cors):
 def qnorm_mu(mu, t, kkk, d):
     return(1 - (norm.cdf(t, loc=mu) - norm.cdf(-t, loc=mu)) - kkk/float(d))
 
-def ggof(z,p,pairwise_cors,arr,cr,L):
+def ggof(z,p,pairwise_cors,arr,cr):
     z = -np.sort(-np.abs(z))
     cor={}
                              
@@ -89,17 +89,14 @@ def ggof(z,p,pairwise_cors,arr,cr,L):
 
     if len(non_zero)==0:
         return ({'non_zero':cor['non_zero'],'non_zero_hc':cor['non_zero_hc'],'non_zero_ghc':np.array([]),
-                 'non_zero_gbj':np.array([]),'non_zero_ggnull':np.array([]),'ghc':[0],'gbj':[0],'ggnull':[-1000]})
+                 'non_zero_gbj':np.array([]),'non_zero_ggnull':np.array([]),'ghc':[],'gbj':[],'ggnull':[]})
 
     param = np.concatenate([k_vec[non_zero].reshape(-1,1),lam[non_zero].reshape(-1,1),gamma[non_zero].reshape(-1,1)],axis=1)
     cor['ggnull'] = -np.apply_along_axis(ebb_gnull,1, param,d=d,ar=arr,cr=cr)
                              
     non_zero_ghc=non_zero[non_zero>=sum(p<=1.0/d)]
     cor['non_zero_ghc']=non_zero_ghc
-    if len(non_zero_ghc)==0:
-        cor['ghc']=[0]
-    else:
-        cor['ghc']=(k_vec[non_zero_ghc]+1-d*p[non_zero_ghc])/np.sqrt(sigmasq[non_zero_ghc])
+    cor['ghc']=(k_vec[non_zero_ghc]+1-d*p[non_zero_ghc])/np.sqrt(sigmasq[non_zero_ghc])
 
     muj =np.array([0]*d,dtype='float')
     
@@ -133,7 +130,7 @@ def ggof(z,p,pairwise_cors,arr,cr,L):
 
     cor['non_zero_gbj']=non_zero_gbj
     if len(non_zero_gbj)==0:
-        cor['gbj']=[0]
+        cor['gbj']=[]
         return(cor)
     
     null_loglik = np.array([0]*d,dtype='float')
