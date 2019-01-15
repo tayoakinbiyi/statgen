@@ -8,15 +8,15 @@ warnings.filterwarnings("error")
 import scipy.stats as st
 from norm_sig import *
 
-def sim(parms,sigParms,sig,stats):
+def sim(parms,sig):
     stats=['ghc','hc','bj','gbj','gnull','ggnull','cpma','score','alr','fdr_ratio','minP']
+    pdb.set_trace()
     L=scipy.linalg.cholesky(sig,overwrite_a=True, check_finite=False)
     power=pd.DataFrame([])
 
     for theta in np.linspace(.5+0.5/delta,1-0.5/delta,delta):
         for r in np.linspace(rho(theta)+(theta-rho(theta))/delta,theta-(theta-rho(theta))/delta,delta):
-            parms={**parms,**sigParts,
-                   'mu':np.round(np.sqrt(2*r*np.log(N)),3),'eps':int(N**(1-theta))}
+            parms={**parms,'mu':np.round(np.sqrt(2*r*np.log(N)),3),'eps':int(N**(1-theta))}
             power=power.append(monteCarlo(parms,stats,L))
 
     power=power.sort_values(by=['eps','mu'],ascending=[False,False])
@@ -35,22 +35,37 @@ if __name__ == '__main__':
     power=pd.DataFrame()
     
     sig,sigParms=np.eye(N),{'pct_neg_cor':0,'min_cor':0,'avg_cor':0,'max_cor':0}
-    power=power.append(sim(parms,sigParms,sig,stats))
+    power=power.append(sim({**parms,**sigParms},sig))
 
-    sig,sigParms=norm_sig(N,0)
-    power=power.append(sim({**parms,sigParms},sig,stats))
+    sig,sigParms=norm_sig(N,0,0)
+    power=power.append(sim({**parms,**sigParms},sig))
     
-    sig,sigParms=norm_sig(N,N)
-    power=power.append(sim({**parms,sigParms},sig,stats))
+    sig,sigParms=norm_sig(N,0,20)
+    power=power.append(sim({**parms,**sigParms},sig))
+
+    sig,sigParms=norm_sig(N,N,0)
+    power=power.append(sim({**parms,**sigParms},sig))
     
-    sig,sigParms=norm_sig(N,int(N**1.5))
-    power=power.append(sim({**parms,sigParms},sig,stats))
+    sig,sigParms=norm_sig(N,N,20)
+    power=power.append(sim({**parms,**sigParms},sig))
 
-    sig,sigParms=norm_sig(N,N**2)
-    power=power.append(sim({**parms,sigParms},sig,stats))
+    sig,sigParms=norm_sig(N,int(N**1.5),0)
+    power=power.append(sim({**parms,**sigParms},sig))
 
-    sig,sigParms=norm_sig(N,int(N**2.5))
-    power=power.append(sim({**parms,sigParms},sig,stats))
+    sig,sigParms=norm_sig(N,int(N**1.5),20)
+    power=power.append(sim({**parms,**sigParms},sig))
+
+    sig,sigParms=norm_sig(N,N**2,0)
+    power=power.append(sim({**parms,**sigParms},sig))
+
+    sig,sigParms=norm_sig(N,N**2,20)
+    power=power.append(sim({**parms,**sigParms},sig))
+
+    sig,sigParms=norm_sig(N,int(N**2.5),0)
+    power=power.append(sim({**parms,**sigParms},sig))
+
+    sig,sigParms=norm_sig(N,int(N**2.5),20)
+    power=power.append(sim({**parms,**sigParms},sig))
 
     sig,sigParms=rat_data(N)
 
