@@ -31,7 +31,11 @@ def monteCarlo(parms,stats,L,nullHyp=False):
 
     F_n=np.array([float(j)/N for j in range(1,N+1)])
 
+<<<<<<< HEAD
     z=np.matmul(L.T,st.multivariate_normal.rvs(mean=0,cov=1,size=(parms['N'],H))).T
+=======
+    z=np.matmul(L,st.multivariate_normal.rvs(mean=0,cov=1,size=(parms['N'],H))).T
+>>>>>>> 7c9b9e8f4e929989108941dd13bb803a12819d35
     if not nullHyp:
         z[:,random.sample(range(z.shape[1]),parms['eps'])]+=parms['mu']
     
@@ -43,7 +47,11 @@ def monteCarlo(parms,stats,L,nullHyp=False):
         
     M=float(cpu_count())
     #i=0
+<<<<<<< HEAD
     #mc((parms,F_n,arr,cr,z[i*int(H/M):min((i+1)*int(H/M),H)],h_stats,sig_tri,nullHyp))
+=======
+    #mc((parms,F_n,arr,cr,z[i*int(H/M):min((i+1)*int(H/M),H)],h_stats,sig_tri,nullHyp,L))
+>>>>>>> 7c9b9e8f4e929989108941dd13bb803a12819d35
     #pdb.set_trace()
         
     try:
@@ -60,7 +68,12 @@ def monteCarlo(parms,stats,L,nullHyp=False):
     if 'alpha' not in locals():
         alpha=pd.DataFrame(res).apply(np.nanpercentile,q=95).to_frame().T.merge(pd.DataFrame(
             parms,index=[0]),left_index=True,right_index=True)
+<<<<<<< HEAD
         alphaCSV.append(alpha,sort=False).to_csv('alpha.csv',index=False)
+=======
+        alphaCSV.append(alpha).to_csv('alpha.csv',index=False)
+        print(sig_tri[0:10].round(2),np.mean(sig_tri))
+>>>>>>> 7c9b9e8f4e929989108941dd13bb803a12819d35
         return(alpha)    
     else:
         res.index=[0]*len(res)
@@ -84,6 +97,11 @@ def mc(data):
     N=parms['N']
 
     for i in range(len(p)):     
+<<<<<<< HEAD
+=======
+        #print(i)
+        #pdb.set_trace()
+>>>>>>> 7c9b9e8f4e929989108941dd13bb803a12819d35
         p_val_ind=np.argsort(p[i])
         p_val=p[i][p_val_ind]
         

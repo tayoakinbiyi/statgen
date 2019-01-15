@@ -56,7 +56,10 @@ def qnorm_mu(mu, t, kkk, d):
     return(1 - (norm.cdf(t, loc=mu) - norm.cdf(-t, loc=mu)) - kkk/float(d))
 
 def ggof(z,p,pairwise_cors,arr,cr):
+<<<<<<< HEAD
     #pdb.set_trace()
+=======
+>>>>>>> 7c9b9e8f4e929989108941dd13bb803a12819d35
     z = -np.sort(-np.abs(z))
     cor={}
                              
@@ -101,7 +104,11 @@ def ggof(z,p,pairwise_cors,arr,cr):
     non_zero_ghc=non_zero[non_zero>=sum(p<=1.0/d)]
     cor['non_zero_ghc']=non_zero_ghc
     cor['ghc']=(k_vec[non_zero_ghc]+1-d*p[non_zero_ghc])/np.sqrt(sigmasq[non_zero_ghc])
+<<<<<<< HEAD
     #pdb.set_trace()
+=======
+
+>>>>>>> 7c9b9e8f4e929989108941dd13bb803a12819d35
     muj =np.array([0]*d,dtype='float')
     non_zero_gbj=non_zero[p[non_zero]<(k_vec[non_zero]+1)/float(d)]
     for iii in non_zero_gbj:
