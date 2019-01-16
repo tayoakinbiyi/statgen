@@ -16,7 +16,8 @@ def monteCarlo(parms,stats,L,nullHyp=False):
     freeze_support()
 
     alphaCSV=pd.read_csv('alpha.csv')
-    whichParms=['H0','N','pct_neg_cor','min_cor','avg_cor','max_cor']
+    whichParms=['H0','N','min_cor','avg_cor','max_cor']
+    
     alphaThere=[x==pd.Series(parms)[whichParms].values.tolist() for x in alphaCSV[whichParms].values.tolist()]
     
     if not nullHyp and sum(alphaThere)==0:
