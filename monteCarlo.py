@@ -64,8 +64,8 @@ def monteCarlo(parms,stats,L,nullHyp=False):
                      
     t_parms=parms.copy()
     for col in fail.columns:
-        t_parms[col+'-mean']=fail[col].mean()
-        t_parms[col+'-0']=(fail[col]==0).mean()
+        t_parms[col+'-AvgFailPct']=fail[col].mean()
+        t_parms[col+'-PctAllFail']=(fail[col]==1).mean()
 
     if 'alpha' not in locals():
         alpha=pd.DataFrame(power).apply(np.nanpercentile,q=95).to_frame().T.merge(pd.DataFrame(

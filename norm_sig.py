@@ -3,6 +3,7 @@ import numpy as np
 import pdb
 import matplotlib.pyplot as pl
 import pandas as pd
+import json
 
 def norm_sig(N,cov):
     sig=np.abs(st.multivariate_normal.rvs(mean=0,cov=1,size=(N,N)))
@@ -18,11 +19,14 @@ def norm_sig(N,cov):
     min_cor=np.round(min(sig[upp].tolist()),2)
    
     fig=pl.figure()
-    pl.hist(np.percentile(sig[upp],99),density=False,bins='sturges')
+    hist=sig[upp].flatten()
+    hist=hist[np.abs(hist)<np.percentile(np.abs(hist),99)]
+    
+    pl.hist(hist,density=False,bins='sturges')
     pl.title(str({'N':N,'min_cor':min_cor,'avg_cor':avg_cor,'max_cor':max_cor}))
     pl.xlabel("value")
     pl.ylabel("Frequency")
-    fig.savefig(str({'N':N,'name':'rat','min_cor':min_cor,'avg_cor':avg_cor,'max_cor':max_cor})+".png")
+    fig.savefig(json.dumps({'N':N,'name':'rat','min_cor':min_cor,'avg_cor':avg_cor,'max_cor':max_cor})+".png")
 
     return(sig,{'name':'norm_sig','min_cor':min_cor,'avg_cor':avg_cor,'max_cor':max_cor})
 
@@ -39,11 +43,13 @@ def rat_data(N):
     min_cor=np.round(min(rat[upp].tolist()),2)
     pct_neg_cor=np.mean((rat[upp]>0).tolist())
 
-    pdb.set_trace()
-    fig = pl.hist(np.percentile(rat[upp].flatten().tolist(),99),density=False,bins='sturges')
+    hist=rat[upp].flatten()
+    hist=hist[np.abs(hist)<np.percentile(np.abs(hist),99)]
+    
+    fig = pl.hist(hist,density=False,bins='sturges')
     pl.title('Mean')
     pl.xlabel("value")
     pl.ylabel("Frequency")
-    pl.savefig(str({'N':N,'name':'rat','min_cor':min_cor,'avg_cor':avg_cor,'max_cor':max_cor})+".png")
+    pl.savefig(json.dumps({'N':N,'name':'rat','min_cor':min_cor,'avg_cor':avg_cor,'max_cor':max_cor})+".png")
     
     return(rat,{'name':'rat','min_cor':min_cor,'avg_cor':avg_cor,'max_cor':max_cor})
