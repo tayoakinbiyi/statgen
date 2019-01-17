@@ -20,9 +20,9 @@ def norm_sig(N,cov):
    
     fig=pl.figure()
     hist=sig[upp].flatten()
-    hist=hist[np.abs(hist)<np.percentile(np.abs(hist),99)]
+    hist=hist[np.abs(hist)<np.percentile(np.abs(hist),99)].tolist()
     
-    name=json.dumps({'N':N,'name':'rat','min_cor':min_cor,'avg_cor':avg_cor,'max_cor':max_cor})
+    name=json.dumps({'N':N,'name':'norm_sig','min_cor':min_cor,'avg_cor':avg_cor,'max_cor':max_cor})
     pl.hist(hist,density=False,bins='sturges')
     pl.title(name)
     pl.xlabel("value")
@@ -45,7 +45,7 @@ def rat_data(N):
     pct_neg_cor=np.mean((rat[upp]>0).tolist())
 
     hist=rat[upp].flatten()
-    hist=hist[np.abs(hist)<np.percentile(np.abs(hist),99)]
+    hist=hist[np.abs(hist)<np.percentile(np.abs(hist),99)].tolist()
     
     name=json.dumps({'N':N,'name':'rat','min_cor':min_cor,'avg_cor':avg_cor,'max_cor':max_cor})
     pl.hist(hist,density=False,bins='sturges')
