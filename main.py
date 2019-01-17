@@ -16,8 +16,8 @@ def sim(parms,sigParms,sig,delta):
     for theta in np.linspace(.5,1,delta):
         for r in np.linspace(1.0/delta,1,delta):
             t_parms=parms
-            t_parms.update({'mu':np.round(np.sqrt(2*r*np.log(N)),3),'eps':int(N**(1-theta)),'asymp':'unidentifiable' if r<=rho(theta) 
-                       else 'identifiable' if rho(theta)<r<theta else 'detectable'})
+            t_parms.update({'mu':np.round(np.sqrt(2*r*np.log(N)),3),'eps':int(N**(1-theta)),'asymp':'undetectable' if r<=rho(theta) 
+                       else 'detectable' if rho(theta)<r<theta else 'identifiable'})
             power=power.append(monteCarlo(t_parms,stats,L))
 
     power=power.sort_values(by=['eps','mu'],ascending=[False,False])
@@ -26,30 +26,33 @@ def sim(parms,sigParms,sig,delta):
     
 if __name__ == '__main__':
     
-    N=40
-    delta=3
-    H0=100
-    H1=100
+    N=400
+    delta=10
+    H0=5000
+    H1=1000
     
     parms={'N':N,'H0':H0,'H1':H1}
     
     power=pd.DataFrame()
     
     sig,sigParms=np.eye(N),{'name':'I','min_cor':0,'avg_cor':0,'max_cor':0}
-    parms.update(sigParms)
     power=power.append(sim(parms,sigParms,sig,delta))
+    power.to_csv(str(N)+'-'+str(H0)+'-'+str(H1)+'.csv',index=False)
 
     sig,sigParms=norm_sig(N,int(N**1.5))
     power=power.append(sim(parms,sigParms,sig,delta))
+    power.to_csv(str(N)+'-'+str(H0)+'-'+str(H1)+'.csv',index=False)
 
     sig,sigParms=norm_sig(N,N**1.75)
     power=power.append(sim(parms,sigParms,sig,delta))
+    power.to_csv(str(N)+'-'+str(H0)+'-'+str(H1)+'.csv',index=False)
 
     sig,sigParms=norm_sig(N,int(N**2))
     power=power.append(sim(parms,sigParms,sig,delta))
-
-    sig,sigParms=rat_data(N)
-    power=power.append(sim(parms,sigParms,sig,delta))
-
     power.to_csv(str(N)+'-'+str(H0)+'-'+str(H1)+'.csv',index=False)
-    
+
+    N=200
+    sig,sigParms=rat_data(N)
+    parms['N']=N
+    power=power.append(sim(parms,sigParms,sig,delta))
+    power.to_csv(str(N)+'-'+str(H0)+'-'+str(H1)+'.csv',index=False)
