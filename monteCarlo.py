@@ -40,34 +40,43 @@ def monteCarlo(parms,stats,L,nullHyp=False):
     sig_tri=np.matmul(L.T,L)[np.triu_indices(N,1)].flatten()
     
     h_stats={}   
+    fail={'ghc':[],'gbj':[],'ggnull':[]}
     for stat in stats:
         h_stats[stat]=[]
         
     M=float(cpu_count())
     #i=0
-    #mc((parms,F_n,arr,cr,z[i*int(H/M):min((i+1)*int(H/M),H)],h_stats,sig_tri,nullHyp))
+    #mc((parms,F_n,arr,cr,z[i*int(H/M):min((i+1)*int(H/M),H)],h_stats,fail,sig_tri,nullHyp))
     #pdb.set_trace()
         
     try:
         pool = Pool(cpu_count())
-        results=pool.map(mc, [(parms,F_n,arr,cr,z[i*int(H/M):min((i+1)*int(H/M),H)],h_stats,sig_tri,nullHyp) for i in range(int(M))])
+        results=pool.map(mc, [(parms,F_n,arr,cr,z[i*int(H/M):min((i+1)*int(H/M),H)],h_stats,fail,sig_tri,nullHyp) for i in range(int(M))])
     finally:
         pool.close()
         pool.join()            
 
-    res=pd.DataFrame()
+    power=pd.DataFrame()
+    fail=pd.DataFrame()
     for result in results:
-        res=res.append(result)
-                        
+        power=power.append(result[0])
+        fail=fail.append(result[1])
+                     
+    t_parms=parms.copy()
+    for col in fail.columns:
+        t_parms[col+'-mean']=fail[col].mean()
+        t_parms[col+'-0']=(fail[col]==0).mean()
+
     if 'alpha' not in locals():
-        alpha=pd.DataFrame(res).apply(np.nanpercentile,q=95).to_frame().T.merge(pd.DataFrame(
-            parms,index=[0]),left_index=True,right_index=True)
+        alpha=pd.DataFrame(power).apply(np.nanpercentile,q=95).to_frame().T.merge(pd.DataFrame(
+            t_parms,index=[0]),left_index=True,right_index=True)
+        alpha.drop(columns=['mu','eps'],inplace=True)
         alphaCSV.append(alpha,sort=False).to_csv('alpha.csv',index=False)
         return(alpha)    
     else:
-        res.index=[0]*len(res)
-        power=(res-alpha[stats]>=0).apply(np.nanmean).to_frame().T.merge(pd.DataFrame(
-            parms,index=[0]),left_index=True,right_index=True)  
+        power.index=[0]*len(power)
+        power=(power-alpha[stats]>=0).apply(np.nanmean).to_frame().T.merge(pd.DataFrame(
+            t_parms,index=[0]),left_index=True,right_index=True)  
         return(power)
 
 def mc(data):
@@ -78,6 +87,7 @@ def mc(data):
     cr=data[j];j+=1
     z=data[j];j+=1
     h_stats=data[j];j+=1
+    fail=data[j];j+=1
     sig_tri=data[j];j+=1
     nullHyp=data[j];j+=1
     
@@ -94,19 +104,22 @@ def mc(data):
         h_stats['minP']+=[np.max(-np.log(p_val))]
 
         hc=(np.sqrt(N)*((F_n-p_val)/np.sqrt(p_val*(1-p_val))))[cor['non_zero_hc']]
-        h_stats['hc']+=[np.max(hc) if len(hc)>0 else np.nan] 
+        h_stats['hc']+=[np.max(hc)] 
 
-        h_stats['ghc']+=[np.max(cor['ghc']) if len(cor['ghc']>0) else np.nan]
+        fail['ghc']+=[1-float(len(cor['ghc']))/len(cor['non_zero_hc'])]
+        h_stats['ghc']+=[np.max(cor['ghc']) if len(cor['ghc']>0) else np.nan if nullHyp else 0]
         
         bj=N*(D(F_n[:-1],p_val[:-1]))[cor['non_zero']]
-        h_stats['bj']+=[np.max(bj) if len(bj)>0 else np.nan]
+        h_stats['bj']+=[np.max(bj)]
             
-        h_stats['gbj']+=[np.max(cor['gbj']) if len(cor['gbj'])>0 else np.nan]
+        fail['gbj']+=[1-float(len(cor['gbj']))/len(cor['non_zero'])]
+        h_stats['gbj']+=[np.max(cor['gbj']) if len(cor['gbj'])>0 else np.nan if nullHyp else 0]
 
         gnull=-st.beta.cdf(p_val,range(1,N+1), [N + 1 - j for j in range(1,N+1)])[cor['non_zero']]
         h_stats['gnull']+=[np.max(gnull)]
         
-        h_stats['ggnull']+=[np.max(cor['ggnull']) if len(cor['ggnull']>0) else np.nan]
+        fail['ggnull']+=[1-float(len(cor['ggnull']))/len(cor['non_zero'])]
+        h_stats['ggnull']+=[np.max(cor['ggnull']) if len(cor['ggnull']>0) else np.nan if nullHyp else -1]
         
         fdr_ratio=F_n/p_val
         h_stats['fdr_ratio']+=[np.max(fdr_ratio)]
@@ -114,8 +127,5 @@ def mc(data):
         h_stats['cpma']+=[cpma(p_val)]
 
         h_stats['score']+=[np.sum(z[i]**2)]
-
-        h_stats['alr']+=[np.sum(np.exp(np.maximum(0,D(p_val[cor['non_zero']],F_n[cor['non_zero']])))/
-                np.array([2*j*np.log(N/3.0) for j in cor['non_zero']+1]))]
   
-    return(pd.DataFrame(h_stats))
+    return(pd.DataFrame(h_stats),pd.DataFrame(fail))

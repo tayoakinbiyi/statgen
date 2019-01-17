@@ -18,13 +18,13 @@ def norm_sig(N,cov):
     min_cor=np.round(min(sig[upp].tolist()),2)
    
     fig=pl.figure()
-    pl.hist(sig[upp],density=False,bins='sturges')
+    pl.hist(np.percentile(sig[upp],99),density=False,bins='sturges')
     pl.title(str({'N':N,'min_cor':min_cor,'avg_cor':avg_cor,'max_cor':max_cor}))
     pl.xlabel("value")
     pl.ylabel("Frequency")
-    fig.savefig(str({'N':N,'min_cor':min_cor,'avg_cor':avg_cor,'max_cor':max_cor})+".png")
+    fig.savefig(str({'N':N,'name':'rat','min_cor':min_cor,'avg_cor':avg_cor,'max_cor':max_cor})+".png")
 
-    return(sig,{'min_cor':min_cor,'avg_cor':avg_cor,'max_cor':max_cor})
+    return(sig,{'name':'norm_sig','min_cor':min_cor,'avg_cor':avg_cor,'max_cor':max_cor})
 
 def rat_data(N):
     rat=pd.read_csv('rat.csv',sep='\t').iloc[:,0:N]
@@ -39,10 +39,11 @@ def rat_data(N):
     min_cor=np.round(min(rat[upp].tolist()),2)
     pct_neg_cor=np.mean((rat[upp]>0).tolist())
 
-    fig = pl.hist(rat[upp].flatten().tolist(),density=False)
+    pdb.set_trace()
+    fig = pl.hist(np.percentile(rat[upp].flatten().tolist(),99),density=False,bins='sturges')
     pl.title('Mean')
     pl.xlabel("value")
     pl.ylabel("Frequency")
-    pl.savefig(str({'N':'rat_'+str(N),'min_cor':min_cor,'avg_cor':avg_cor,'max_cor':max_cor})+".png")
+    pl.savefig(str({'N':N,'name':'rat','min_cor':min_cor,'avg_cor':avg_cor,'max_cor':max_cor})+".png")
     
-    return(rat,{'N':N,'min_cor':min_cor,'avg_cor':avg_cor,'max_cor':max_cor})
+    return(rat,{'name':'rat','min_cor':min_cor,'avg_cor':avg_cor,'max_cor':max_cor})
