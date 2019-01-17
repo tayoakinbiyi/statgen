@@ -22,11 +22,12 @@ def norm_sig(N,cov):
     hist=sig[upp].flatten()
     hist=hist[np.abs(hist)<np.percentile(np.abs(hist),99)]
     
+    name=json.dumps({'N':N,'name':'rat','min_cor':min_cor,'avg_cor':avg_cor,'max_cor':max_cor})
     pl.hist(hist,density=False,bins='sturges')
-    pl.title(str({'N':N,'min_cor':min_cor,'avg_cor':avg_cor,'max_cor':max_cor}))
+    pl.title(name)
     pl.xlabel("value")
     pl.ylabel("Frequency")
-    fig.savefig(json.dumps({'N':N,'name':'rat','min_cor':min_cor,'avg_cor':avg_cor,'max_cor':max_cor})+".png")
+    fig.savefig(name+".png")
 
     return(sig,{'name':'norm_sig','min_cor':min_cor,'avg_cor':avg_cor,'max_cor':max_cor})
 
@@ -46,10 +47,11 @@ def rat_data(N):
     hist=rat[upp].flatten()
     hist=hist[np.abs(hist)<np.percentile(np.abs(hist),99)]
     
-    fig = pl.hist(hist,density=False,bins='sturges')
-    pl.title('Mean')
+    name=json.dumps({'N':N,'name':'rat','min_cor':min_cor,'avg_cor':avg_cor,'max_cor':max_cor})
+    pl.hist(hist,density=False,bins='sturges')
+    pl.title(name)
     pl.xlabel("value")
     pl.ylabel("Frequency")
-    pl.savefig(json.dumps({'N':N,'name':'rat','min_cor':min_cor,'avg_cor':avg_cor,'max_cor':max_cor})+".png")
+    pl.savefig(name+".png")
     
     return(rat,{'name':'rat','min_cor':min_cor,'avg_cor':avg_cor,'max_cor':max_cor})
