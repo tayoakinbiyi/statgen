@@ -8,15 +8,20 @@ import scipy.stats as st
 from norm_sig import *
 
 def sim(parms,sigParms,sig,delta):
-    stats=['ghc','hc','bj','gbj','gnull','ggnull','cpma','score','fdr_ratio','minP']
+    stats=['ghc','hc','bj','gbj','gnull','ggnull','score','fdr_ratio','minP']
     L=scipy.linalg.cholesky(sig,overwrite_a=True, check_finite=False)
     power=pd.DataFrame([])
     parms.update(sigParms)
+    eps=0
 
     for theta in np.linspace(.5,1,delta):
+        t_eps=int(N**(1-theta))
+        if t_eps==eps:
+            continue
+        eps=t_eps
         for r in np.linspace(1.0/delta,1,delta):
             t_parms=parms
-            t_parms.update({'mu':np.round(np.sqrt(2*r*np.log(N)),3),'eps':int(N**(1-theta)),'asymp':'undetectable' if r<=rho(theta) 
+            t_parms.update({'mu':np.round(np.sqrt(2*r*np.log(N)),3),'eps':eps,'asymp':'undetectable' if r<=rho(theta) 
                        else 'detectable' if rho(theta)<r<theta else 'identifiable'})
             power=power.append(monteCarlo(t_parms,stats,L))
 
@@ -26,9 +31,9 @@ def sim(parms,sigParms,sig,delta):
     
 if __name__ == '__main__':
     
-    N=400
+    N=40
     delta=10
-    H0=5000
+    H0=50
     H1=1000
     
     parms={'N':N,'H0':H0,'H1':H1}

@@ -56,7 +56,6 @@ def qnorm_mu(mu, t, kkk, d):
     return(1 - (norm.cdf(t, loc=mu) - norm.cdf(-t, loc=mu)) - kkk/float(d))
 
 def ggof(z,p,pairwise_cors,arr,cr):
-    #pdb.set_trace()
     z = -np.sort(-np.abs(z))
     cor={}
                              
@@ -69,18 +68,13 @@ def ggof(z,p,pairwise_cors,arr,cr):
 
     sigmasq = np.array(range(d),dtype='float')    
     sigmasq[non_zero]=var_st(z[non_zero],d,pairwise_cors)
-    #u=np.matmul(L,st.multivariate_normal.rvs(mean=None,cov=1,size=(d,10000))).T
-    #np.var(pd.DataFrame(u).apply(lambda col,y: sum(np.abs(col)>=y),axis=1,args=(z[non_zero][0],)))
     
     lam = np.array(range(d),dtype='float')
     rho = np.array(range(d),dtype='float')
     gamma =np.array(range(d),dtype='float')
 
     lam[non_zero] = 2*norm.sf(z[non_zero])
-    try:
-        rho[non_zero] = (sigmasq[non_zero] - d*lam[non_zero]*(1-lam[non_zero])) / (d*(d-1)*lam[non_zero]*(1-lam[non_zero]))
-    except Exception as e:
-        pdb.set_trace()
+    rho[non_zero] = (sigmasq[non_zero] - d*lam[non_zero]*(1-lam[non_zero])) / (d*(d-1)*lam[non_zero]*(1-lam[non_zero]))
     gamma[non_zero] = rho[non_zero] / (1-rho[non_zero])
 
     pq_mat = np.array([[0,0]]*d,dtype='float')
@@ -101,20 +95,14 @@ def ggof(z,p,pairwise_cors,arr,cr):
     non_zero_ghc=non_zero[non_zero>=sum(p<=1.0/d)]
     cor['non_zero_ghc']=non_zero_ghc
     cor['ghc']=(k_vec[non_zero_ghc]+1-d*p[non_zero_ghc])/np.sqrt(sigmasq[non_zero_ghc])
-    #pdb.set_trace()
+    
     muj =np.array([0]*d,dtype='float')
     non_zero_gbj=non_zero[p[non_zero]<(k_vec[non_zero]+1)/float(d)]
     for iii in non_zero_gbj:
         muj[iii] = scipy.optimize.brentq(qnorm_mu, 0, 1000, args = (z[iii],k_vec[iii]+1, d))
 
-    #pdb.set_trace()
     sigmasq_alt = np.array(range(d),dtype='float')   
     sigmasq_alt[non_zero_gbj]=var_st_mu(z[non_zero_gbj], d,mu=muj[non_zero_gbj],pairwise_cors=pairwise_cors)
-    #for i in range(len(non_zero_gbj)):
-    #    u=np.matmul(L,st.multivariate_normal.rvs(mean=muj[non_zero_gbj][i],cov=1,size=(d,100000))).T
-    #    print(i,sigmasq_alt[non_zero_gbj][i],np.var(pd.DataFrame(u).apply(
-    #        lambda col,y: sum(np.abs(col)>=y),axis=1,args=(z[non_zero_gbj][i],))))
-    #pdb.set_trace()
     
     lam_alt=np.array([0]*d,dtype='float')
     rho_alt = np.array([0]*d,dtype='float')
@@ -143,7 +131,7 @@ def ggof(z,p,pairwise_cors,arr,cr):
 
     alt_loglik = np.array([0]*d,dtype='float')
     alt_param = np.concatenate([k_vec[non_zero_gbj].reshape(-1,1),lam_alt[non_zero_gbj].reshape(-1,1),
-        gamma[non_zero_gbj].reshape(-1,1)],axis=1)
+        gamma_alt[non_zero_gbj].reshape(-1,1)],axis=1)
 
     alt_loglik[non_zero_gbj] = np.apply_along_axis(ebb_loglik,1,alt_param,d=d,ar=arr,cr=cr)
     cor['gbj']= alt_loglik[non_zero_gbj] - null_loglik[non_zero_gbj]

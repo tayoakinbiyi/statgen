@@ -34,8 +34,8 @@ def monteCarlo(parms,stats,L,nullHyp=False):
     F_n=np.array([float(j)/N for j in range(1,N+1)])
 
     z=np.matmul(L.T,st.multivariate_normal.rvs(mean=0,cov=1,size=(parms['N'],H))).T
-    if not nullHyp:
-        z[:,random.sample(range(z.shape[1]),parms['eps'])]+=parms['mu']
+    #if not nullHyp:
+    #    z[:,random.sample(range(z.shape[1]),parms['eps'])]+=parms['mu']
     
     sig_tri=np.matmul(L.T,L)[np.triu_indices(N,1)].flatten()
     
@@ -100,7 +100,7 @@ def mc(data):
         p_val=p[i][p_val_ind]
         
         cor=ggof(z[i], p_val,sig_tri,arr,cr)
-        
+
         h_stats['minP']+=[np.max(-np.log(p_val))]
 
         hc=(np.sqrt(N)*((F_n-p_val)/np.sqrt(p_val*(1-p_val))))[cor['non_zero_hc']]
@@ -124,8 +124,6 @@ def mc(data):
         fdr_ratio=F_n/p_val
         h_stats['fdr_ratio']+=[np.max(fdr_ratio)]
 
-        h_stats['cpma']+=[cpma(p_val)]
-
         h_stats['score']+=[np.sum(z[i]**2)]
-  
+
     return(pd.DataFrame(h_stats),pd.DataFrame(fail))
