@@ -31,7 +31,7 @@ def sim(parms,sigParms,sig,delta):
     
 if __name__ == '__main__':
     
-    N=400
+    N=200
     delta=10
     H0=5000
     H1=500
@@ -40,7 +40,7 @@ if __name__ == '__main__':
     
     power=pd.DataFrame()
     
-    sig,sigParms=np.eye(N),{'name':'I','min_cor':0,'avg_cor':0,'max_cor':0}
+    '''sig,sigParms=np.eye(N),{'name':'I','min_cor':0,'avg_cor':0,'max_cor':0}
     power=power.append(sim(parms,sigParms,sig,delta))
     power.to_csv(str(N)+'-'+str(H0)+'-'+str(H1)+'.csv',index=False)
 
@@ -54,10 +54,8 @@ if __name__ == '__main__':
 
     sig,sigParms=norm_sig(N,int(N**2))
     power=power.append(sim(parms,sigParms,sig,delta))
-    power.to_csv(str(N)+'-'+str(H0)+'-'+str(H1)+'.csv',index=False)
+    power.to_csv(str(N)+'-'+str(H0)+'-'+str(H1)+'.csv',index=False)'''
 
-    N=200
     sig,sigParms=rat_data(N)
-    parms['N']=N
     power=power.append(sim(parms,sigParms,sig,delta))
     power.to_csv(str(N)+'-'+str(H0)+'-'+str(H1)+'.csv',index=False)
