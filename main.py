@@ -31,10 +31,10 @@ def sim(parms,sigParms,sig,delta):
     
 if __name__ == '__main__':
     
-    N=40
+    N=400
     delta=10
-    H0=50
-    H1=1000
+    H0=5000
+    H1=500
     
     parms={'N':N,'H0':H0,'H1':H1}
     
