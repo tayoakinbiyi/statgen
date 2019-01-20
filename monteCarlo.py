@@ -34,8 +34,8 @@ def monteCarlo(parms,stats,L,nullHyp=False):
     F_n=np.array([float(j)/N for j in range(1,N+1)])
 
     z=np.matmul(L.T,st.multivariate_normal.rvs(mean=0,cov=1,size=(parms['N'],H))).T
-    #if not nullHyp:
-    #    z[:,random.sample(range(z.shape[1]),parms['eps'])]+=parms['mu']
+    if not nullHyp:
+        z[:,random.sample(range(z.shape[1]),parms['eps'])]+=parms['mu']
     
     sig_tri=np.matmul(L.T,L)[np.triu_indices(N,1)].flatten()
     
