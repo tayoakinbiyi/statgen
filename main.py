@@ -41,19 +41,23 @@ if __name__ == '__main__':
     power=power.append(sim({**parms,**sigParms},sig,delta))
     power.to_csv(str(N)+'-'+str(H0)+'-'+str(H1)+'.csv',index=False)
 
-    sig,sigParms=norm_sig(N,int(N**1.5))
+    sig,sigParms=norm_sig(N,int(N**1.1))
     power=power.append(sim({**parms,**sigParms},sig,delta))
     power.to_csv(str(N)+'-'+str(H0)+'-'+str(H1)+'.csv',index=False)
 
-    sig,sigParms=norm_sig(N,N**1.75)
+    sig,sigParms=norm_sig(N,N**1.2)
     power=power.append(sim({**parms,**sigParms},sig,delta))
     power.to_csv(str(N)+'-'+str(H0)+'-'+str(H1)+'.csv',index=False)
 
-    sig,sigParms=norm_sig(N,int(N**2))
+    sig,sigParms=norm_sig(N,int(N**1.3))
     power=power.append(sim({**parms,**sigParms},sig,delta))
     power.to_csv(str(N)+'-'+str(H0)+'-'+str(H1)+'.csv',index=False)
 
-    sig,sigParms=rat_data(200)
+    sig,sigParms=raw_data('mouse.csv','mouse',parms)
+    power=power.append(sim({**parms,**sigParms},sig,delta))
+    power.to_csv(str(parms['N'])+'-'+str(H0)+'-'+str(H1)+'.csv',index=False)
+
     parms['N']=200
+    sig,sigParms=raw_data('rat.csv','rat',parms)
     power=power.append(sim({**parms,**sigParms},sig,delta))
-    power.to_csv(str(N)+'-'+str(H0)+'-'+str(H1)+'.csv',index=False)
+    power.to_csv(str(parms['N'])+'-'+str(H0)+'-'+str(H1)+'.csv',index=False)
