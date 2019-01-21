@@ -11,16 +11,10 @@ def sim(parms,sig,delta):
     stats=['ghc','hc','bj','gbj','gnull','ggnull','score','fdr_ratio','minP']
     L=scipy.linalg.cholesky(sig,overwrite_a=True, check_finite=False)
     power=pd.DataFrame([])
-    eps=0
 
-    for theta in np.linspace(.5,1,delta):
-        t_eps=int(N**(1-theta))
-        if t_eps==eps:
-            continue
-        eps=t_eps
+    for eps in np.linspace(1,int(np.sqrt(parms['N'])),delta):
         for r in np.linspace(1.0/delta,1,delta):
-            power=power.append(monteCarlo({**parms,'mu':np.round(np.sqrt(2*r*np.log(parms['N'])),3),'eps':eps,'asymp':'undetectable' if 
-                r<=rho(theta) else 'detectable' if rho(theta)<r<theta else 'identifiable'},stats,L))
+            power=power.append(monteCarlo({**parms,'mu':np.round(np.sqrt(2*r*np.log(parms['N'])),3),'eps':int(eps)},stats,L))
 
     power=power.sort_values(by=['eps','mu'],ascending=[False,False])
     power[stats]=power[stats].apply(lambda row:row.rank(ascending=False).astype(str)+'/'+(row*1000).astype(int).astype(str),axis=1)
