@@ -19,39 +19,60 @@ def sim(parms,sig,delta):
     power=power.sort_values(by=['eps','mu'],ascending=[False,False])
     power[stats]=power[stats].apply(lambda row:row.rank(ascending=False).astype(str)+'/'+(row*1000).astype(int).astype(str),axis=1)
     return(power)
+
+def failStats(raw,st):
+    raw=raw.copy()
+    firstCols=raw.columns
+    for col in firstCols:
+        raw[col+'-AvgPct']=raw[col].mean()
+        raw[col+'-PctAll']=(raw[col]==1).mean()
+    return(raw)
+
+def convStats(raw,stats,parmKeys):
+    alpha=raw.loc[raw['nullHyp'],stats].apply(np.nanpercentile,q=95).to_frame().T
+    power=(raw.loc[~raw['nullHyp'],stats]-alpha[stats]>=0).groupby(level=['mu','eps','nullHyp'],sort=False).apply(np.nanmean)
+    fail=raw['gbj-fail','ggnull-fail','ghc-fail'].groupby(level=['mu','eps','nullHyp'],sort=False).apply(failStats)
+    power=alpha.append(power).merge(fail,left_index=True,right_index=True)
+    return(power)
+
+def fileDump(rawStats,parms):
+    power=rawStats.groupby(level='name',sort=False).apply(convStats)
+    power.to_csv(json.dumps(parms)+'-power.csv')
+    rawStats.to_csv(json.dumps(parms)+'-raw.csv')
     
 if __name__ == '__main__':
     
-    N=400
     delta=10
-    H0=5000
-    H1=500
+    NORM_SIG=True
+    RAT=True
+    MOUSE=True
+               
+    if NORM_SIG:
+        for N in [1000,2000]:
+            parms={'N':N,'H0':5000,'H1':500}
+
+            sig,sigName=np.eye(N),'I'
+            fileDump(sim(parms,sig,delta),{**parms,'sigName':sigName})
+
+            sig,sigName=norm_sig(N,int(N**1.1))
+            fileDump(sim(parms,sig,delta),{**parms,'sigName':sigName})
+
+            sig,sigName=norm_sig(N,N**1.2)
+            fileDump(sim(parms,sig,delta),{**parms,'sigName':sigName})
+
+            sig,sigName=norm_sig(N,int(N**1.3))
+            fileDump(sim(parms,sig,delta),{**parms,'sigName':sigName})            
+
+    if MOUSE:
+        parms={'N':200,'H0':5000,'H1':500}
+
+        sig,sigName=raw_data('mouse.csv','mouse',parms['N'])
+        fileDump(sim(parms,sig,delta),{**parms,'sigName':sigName})
+
+    if RAT:
+        parms={'N':400,'H0':5000,'H1':500}
+
+        sig,sigName=raw_data('rat.csv','rat',parms['N'])
+        fileDump(sim(parms,sig,delta),{**parms,'sigName':sigName})
     
-    parms={'N':N,'H0':H0,'H1':H1}
-    
-    power=pd.DataFrame()
-    
-    sig,sigParms=np.eye(N),{'name':'I','min_cor':0,'avg_cor':0,'max_cor':0}
-    power=power.append(sim({**parms,**sigParms},sig,delta))
-    power.to_csv(str(N)+'-'+str(H0)+'-'+str(H1)+'.csv',index=False)
 
-    sig,sigParms=norm_sig(N,int(N**1.1))
-    power=power.append(sim({**parms,**sigParms},sig,delta))
-    power.to_csv(str(N)+'-'+str(H0)+'-'+str(H1)+'.csv',index=False)
-
-    sig,sigParms=norm_sig(N,N**1.2)
-    power=power.append(sim({**parms,**sigParms},sig,delta))
-    power.to_csv(str(N)+'-'+str(H0)+'-'+str(H1)+'.csv',index=False)
-
-    sig,sigParms=norm_sig(N,int(N**1.3))
-    power=power.append(sim({**parms,**sigParms},sig,delta))
-    power.to_csv(str(N)+'-'+str(H0)+'-'+str(H1)+'.csv',index=False)
-
-    sig,sigParms=raw_data('mouse.csv','mouse',parms)
-    power=power.append(sim({**parms,**sigParms},sig,delta))
-    power.to_csv(str(parms['N'])+'-'+str(H0)+'-'+str(H1)+'.csv',index=False)
-
-    parms['N']=200
-    sig,sigParms=raw_data('rat.csv','rat',parms)
-    power=power.append(sim({**parms,**sigParms},sig,delta))
-    power.to_csv(str(parms['N'])+'-'+str(H0)+'-'+str(H1)+'.csv',index=False)

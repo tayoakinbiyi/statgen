@@ -15,25 +15,20 @@ def norm_sig(N,cov):
     
     upp=np.triu_indices(N,1)
 
-    avg_cor=np.round(np.mean(sig[upp].tolist()),2)
-    max_cor=np.round(max(sig[upp].tolist()),2)
-    min_cor=np.round(min(sig[upp].tolist()),2)
-   
     fig=pl.figure()
     hist=sig[upp].flatten()
     hist=hist[np.abs(hist)<np.percentile(np.abs(hist),99)].tolist()
     
-    name='N:'+str(N)+'|name:'+str(round(log(cov,N),2))+'|min\\avg\\max:'+str(min_cor)+'\\'+str(avg_cor)+'\\'+str(max_cor)
+    name='N:'+str(N)+'|name: diag-'+str(round(log(cov,N),2))
     pl.hist(hist,density=False,bins='sturges')
     pl.title(name)
     pl.xlabel("value")
     pl.ylabel("Frequency")
     fig.savefig(name+".png")
 
-    return(sig,{'name':'norm_sig:'+str(round(log(cov,N),2)),'min_cor':min_cor,'avg_cor':avg_cor,'max_cor':max_cor})
+    return(sig,name)
 
-def raw_data(fileName,datName,parms):
-    N=parms['N']
+def raw_data(fileName,datName,N):
     data=pd.read_csv(fileName,sep=',').iloc[:,0:N]
     data=np.cov(data,rowvar=False)
     
@@ -41,19 +36,15 @@ def raw_data(fileName,datName,parms):
     data=(data/np.matmul(np.abs(diag),np.abs(diag).T))
     
     upp=np.triu_indices(N,1)
-    avg_cor=np.round(np.mean(data[upp].tolist()),2)
-    max_cor=np.round(max(data[upp].tolist()),2)
-    min_cor=np.round(min(data[upp].tolist()),2)
-    pct_neg_cor=np.mean((data[upp]>0).tolist())
 
     hist=data[upp].flatten()
     hist=hist[np.abs(hist)<np.percentile(np.abs(hist),99)].tolist()
     
-    name='N:'+str(N)+'|name:'+datName+'|min\\avg\\max:'+str(min_cor)+'\\'+str(avg_cor)+'\\'+str(max_cor)
+    name='N:'+str(N)+'|name: '+datName
     pl.hist(hist,density=False,bins='sturges')
     pl.title(name)
     pl.xlabel("value")
     pl.ylabel("Frequency")
     pl.savefig(name+".png")
     
-    return(data,{'name':datName,'min_cor':min_cor,'avg_cor':avg_cor,'max_cor':max_cor})
+    return(data,name)
