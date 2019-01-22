@@ -2,74 +2,64 @@ import numpy as np
 import scipy.stats as st
 import pandas as pd
 import gc
-from cpma import *
-from ggof import *
-from genL import *
-from mymath import *
 from multiprocessing import Pool, cpu_count, freeze_support
 import random
 import pdb
 
+from ggof import *
+from mymath import *
 
-def monteCarlo(t_parms,stats,L,nullHyp=False):
-    stats=stats+['fdr_arg']
+
+def monteCarlo(H,N,mu,eps,sigName,nullHyp,L):
     np.random.seed(1)
     freeze_support()
 
-    H=parms['H0'] if nullHyp else parms['H1']
-
-    N=parms['N']
     arr,cr=ggStats(N)
-    print(parms,nullHyp)
+    print(N,mu,eps,sigName,nullHyp)
 
     F_n=np.array([float(j)/N for j in range(1,N+1)])
 
-    z=np.matmul(L.T,st.multivariate_normal.rvs(mean=0,cov=1,size=(parms['N'],H))).T
+    z=np.matmul(L.T,st.multivariate_normal.rvs(mean=0,cov=1,size=(N,H))).T
     if not nullHyp:
-        z[:,random.sample(range(z.shape[1]),parms['eps'])]+=parms['mu']
+        z[:,random.sample(range(z.shape[1]),eps)]+=mu
     
     sig_tri=np.matmul(L.T,L)[np.triu_indices(N,1)].flatten()
     
-    h_stats={}   
-    fail={'ghc':[],'gbj':[],'ggnull':[]}
-    for stat in stats:
-        h_stats[stat]=[]
-        
     M=float(cpu_count())
-    i=0
-    mc((parms,F_n,arr,cr,z[i*int(H/M):min((i+1)*int(H/M),H)],h_stats,fail,sig_tri,nullHyp))
-    pdb.set_trace()
+    #i=0
+    #results=mc((N,nullHyp,F_n,arr,cr,z[i*int(np.ceil(H/M)):min((i+1)*int(np.ceil(H/M)),H)],sig_tri))
+    #pdb.set_trace()
         
     try:
         pool = Pool(cpu_count())
-        results=pool.map(mc, [(parms,F_n,arr,cr,z[i*int(H/M):min((i+1)*int(H/M),H)],h_stats,fail,sig_tri,nullHyp) for i in range(int(M))])
+        results=pool.map(mc, [(N,nullHyp,F_n,arr,cr,z[i*int(np.ceil(H/M)):min((i+1)*int(np.ceil(H/M)),H)],sig_tri) for i in range(int(M))])
     finally:
         pool.close()
         pool.join()            
 
     power=pd.DataFrame()
     for result in results:
-        power=power.append(result[0])
+        power=power.append(result)
                      
-    power.index=pd.MultiIndex.from_tuples(len(power)*[(parms['sigName'],parms['mu'] if not nullHyp else np.nan,parms['eps']
-        if not nullHyp else np.nan,nullHyp)],names=['sigName','mu','eps','nullHyp'])
+    power.columns=['Type','Value']
+    power.index=len(power)*[0]
+    power=power.merge(pd.DataFrame([[mu,eps,nullHyp]],columns=['mu','eps','nullHyp'],index=[0]),left_index=True,right_index=True)
 
     return(power)
 
 def mc(data):
     j=0
-    parms=data[j];j+=1
+    N=data[j];j+=1
+    nullHyp=data[j];j+=1
     F_n=data[j];j+=1
     arr=data[j];j+=1
     cr=data[j];j+=1
     z=data[j];j+=1
-    h_stats=data[j];j+=1
-    fail=data[j];j+=1
     sig_tri=data[j];j+=1
-    nullHyp=data[j];j+=1
     
     p=2*st.norm.cdf(-np.abs(z))  
-    N=parms['N']
+    
+    out=[]
 
     for i in range(len(p)):     
         p_val_ind=np.argsort(p[i])
@@ -77,29 +67,29 @@ def mc(data):
         
         cor=ggof(z[i], p_val,sig_tri,arr,cr)
 
-        h_stats['minP']+=[np.max(-np.log(p_val[cor['non_zero']]))]
+        out+=[['minP',np.max(-np.log(p_val[cor['non_zero']]))]]
 
         hc=(np.sqrt(N)*((F_n-p_val)/np.sqrt(p_val*(1-p_val))))[cor['non_zero_hc']]
-        h_stats['hc']+=[np.max(hc)] 
+        out+=[['hc',np.max(hc)]]
 
-        h_stats['ghc-fail']+=[1-float(len(cor['ghc']))/len(cor['non_zero_hc'])]
-        h_stats['ghc']+=[np.max(cor['ghc']) if len(cor['ghc']>0) else np.nan if nullHyp else 0]
+        out+=[['ghc-fail',1-float(len(cor['ghc']))/len(cor['non_zero_hc'])]]
+        out+=[['ghc',np.max(cor['ghc']) if len(cor['ghc']>0) else np.nan if nullHyp else 0]]
         
         bj=N*(D(F_n[:-1],p_val[:-1]))[cor['non_zero']]
-        h_stats['bj']+=[np.max(bj)]
+        out+=[['bj',np.max(bj)]]
             
-        h_stats['gbj-fail']+=[1-float(len(cor['gbj']))/len(cor['non_zero'])]
-        h_stats['gbj']+=[np.max(cor['gbj']) if len(cor['gbj'])>0 else np.nan if nullHyp else 0]
+        out+=[['gbj-fail',1-float(len(cor['gbj']))/len(cor['non_zero'])]]
+        out+=[['gbj',np.max(cor['gbj']) if len(cor['gbj'])>0 else np.nan if nullHyp else 0]]
 
         gnull=-st.beta.cdf(p_val,range(1,N+1), [N + 1 - j for j in range(1,N+1)])[cor['non_zero']]
-        h_stats['gnull']+=[np.max(gnull)]
+        out+=[['gnull',np.max(gnull)]]
         
-        h_stats['ggnull-fail']+=[1-float(len(cor['ggnull']))/len(cor['non_zero'])]
-        h_stats['ggnull']+=[np.max(cor['ggnull']) if len(cor['ggnull']>0) else np.nan if nullHyp else -1]
+        out+=[['ggnull-fail',1-float(len(cor['ggnull']))/len(cor['non_zero'])]]
+        out+=[['ggnull',np.max(cor['ggnull']) if len(cor['ggnull']>0) else np.nan if nullHyp else -1]]
         
         fdr_ratio=(F_n/p_val)[cor['non_zero']]
-        h_stats['fdr_ratio']+=[np.max(fdr_ratio)]
+        out+=[['fdr_ratio',np.max(fdr_ratio)]]
 
-        h_stats['score']+=[np.sum(z[i]**2)]
+        out+=[['score',np.sum(z[i]**2)]]
 
-    return(pd.DataFrame(h_stats),pd.DataFrame(fail))
+    return(pd.DataFrame(out))

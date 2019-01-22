@@ -7,7 +7,9 @@ import json
 from math import log
 
 def norm_sig(N,cov):
+    cov=int(N**cov)
     sig=np.abs(st.multivariate_normal.rvs(mean=0,cov=1,size=(N,N)))
+    
     sig=(np.matmul(sig,sig.T)+cov*np.diag(np.abs(st.multivariate_normal.rvs(mean=0,cov=1,size=(N,1)))))
     
     diag=np.sqrt(np.diag(sig).reshape(-1,1))
@@ -26,7 +28,7 @@ def norm_sig(N,cov):
     pl.ylabel("Frequency")
     fig.savefig(name+".png")
 
-    return(sig,name)
+    return(sig,str(round(log(cov,N),2)))
 
 def raw_data(fileName,datName,N):
     data=pd.read_csv(fileName,sep=',').iloc[:,0:N]
@@ -47,4 +49,4 @@ def raw_data(fileName,datName,N):
     pl.ylabel("Frequency")
     pl.savefig(name+".png")
     
-    return(data,name)
+    return(data,{**parms,'sigName':datName})
