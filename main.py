@@ -24,7 +24,7 @@ def sim(N,H0,H1,sigName,sig,delta):
 
 if __name__ == '__main__':
     
-    delta=10
+    delta=3
     NORM_SIG=True
     RAT=False
     MOUSE=False

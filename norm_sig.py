@@ -21,7 +21,7 @@ def norm_sig(N,cov):
     hist=sig[upp].flatten()
     hist=hist[np.abs(hist)<np.percentile(np.abs(hist),99)].tolist()
     
-    name='N:'+str(N)+'|name: diag-'+str(round(log(cov,N),2))
+    name=str(N)+'-diag-'+str(round(log(cov,N),2))
     pl.hist(hist,density=False,bins='sturges')
     pl.title(name)
     pl.xlabel("value")
@@ -42,7 +42,7 @@ def raw_data(fileName,datName,N):
     hist=data[upp].flatten()
     hist=hist[np.abs(hist)<np.percentile(np.abs(hist),99)].tolist()
     
-    name='N:'+str(N)+'|name: '+datName
+    name=str(N)+'-'+datName
     pl.hist(hist,density=False,bins='sturges')
     pl.title(name)
     pl.xlabel("value")
