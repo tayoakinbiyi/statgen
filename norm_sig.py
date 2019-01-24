@@ -6,9 +6,10 @@ import pandas as pd
 import json
 from math import log
 
-def norm_sig(N,cov):
+def norm_sig(N,cov,neg):
     cov=int(N**cov)
-    sig=np.abs(st.multivariate_normal.rvs(mean=0,cov=1,size=(N,N)))
+    sig=np.matmul(np.diag([1 if c<=neg else -1 for c in np.rand.uniform(size=N)]),np.abs(
+        st.multivariate_normal.rvs(mean=0,cov=1,size=(N,N))))               
     
     sig=(np.matmul(sig,sig.T)+cov*np.diag(np.abs(st.multivariate_normal.rvs(mean=0,cov=1,size=(N,1)))))
     
@@ -49,4 +50,8 @@ def raw_data(fileName,datName,N):
     pl.ylabel("Frequency")
     pl.savefig(name+".png")
     
-    return(data,{**parms,'sigName':datName})
+    return(data,datName)
+
+if __name__ == '__main__':
+    pdb.set_trace()
+                          
