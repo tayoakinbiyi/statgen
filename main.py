@@ -25,22 +25,22 @@ def sim(N,H0,H1,sigName,sig,delta):
 if __name__ == '__main__':
     
     I=True
-    EXCHANGEABLE=False
+    EXCHANGEABLE=True
     NORM_SIG=False
-    RAT=False
-    MOUSE=False
+    RAT=True
+    MOUSE=True
     
     delta=20
-    H0=100
-    H1=100
+    H0=5000
+    H1=500
     
     if I:
-        N=100
+        N=400
         sig,sigName=np.eye(N),'I'
         fileDump(sim(N,H0,H1,sigName,sig,delta))
         
     if EXCHANGEABLE:
-        N=1000
+        N=400
         sig,sigName=exchangeable(N,.1)
         fileDump(sim(N,H0,H1,sigName,sig,delta))
         

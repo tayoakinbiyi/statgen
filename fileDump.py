@@ -4,6 +4,14 @@ import pandas as pd
 import matplotlib.pylab as plt
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
+def strConcat(df):
+    minDF=df.power.rank(ascending=False,method='min').astype('int').astype(str)
+    maxDF=df.power.rank(ascending=False,method='max').astype('int').astype(str)
+    concat=pd.Series(minDF.astype('int').astype(str),name='r')
+    sel=minDF!=maxDF
+    concat[sel]=minDF[sel]+'-'+maxDF[sel]
+    return(pd.concat([df,concat],axis=1))
+
 def fileDump(parms):
     j=0
     rawStats=parms[j];j+=1
@@ -25,16 +33,13 @@ def fileDump(parms):
     power.name='power'
     power=power.reset_index()
     power.drop(columns='nullHyp',inplace=True)
-    
-    power=power.groupby(['mu','eps'],sort=False).apply(lambda df:pd.concat([df,pd.Series(df.power.rank(
-        ascending=False,method='min').astype('int')+'-'+df.power.rank(ascending=False,method='max').astype('int'),
-        name='r')],axis=1)).sort_values(by=['mu','eps','r'],ascending=[False,False,True])
+    power=power.groupby(['mu','eps'],sort=False).apply(strConcat).sort_values(by=['mu','eps','r'],ascending=[False,False,True])
 
     rawStats.to_csv(str(N)+'-'+sigName+'-'+str(H0)+'-'+str(H1)+'-raw.csv')
     
     fail=rawStats[rawStats.Type.str.contains('fail')]
-    failAvg=fail.groupby(['mu','eps','nullHyp','Type']).apply(lambda df:pd.DataFrame({'avg':100*np.mean(df.Value),
-        'all':100*np.mean(df.Value==1)},index=[0]))
+    failAvg=fail.groupby(['mu','eps','nullHyp','Type']).apply(lambda df:pd.DataFrame({'avgFailRate':100*np.mean(df.Value),
+        'pctAllFail':100*np.mean(df.Value==1)},index=[0]).astype(int))
     failAvg=failAvg.reset_index().drop(columns='level_4')
 
     numType=len(power.Type.drop_duplicates().values.tolist())
@@ -47,27 +52,28 @@ def fileDump(parms):
 
     j=0
     j=heatMap(power,'power','r','power','eps','mu',0,100,j,axs) 
-    j=heatMap(failAvg,'avgFail','all','avg','eps','mu',0,100,j,axs)
+    j=heatMap(failAvg,'','pctAllFail','avgFailRate','eps','mu',0,100,j,axs)
     
     fig.savefig(str(N)+'-'+sigName+'-'+str(H0)+'-'+str(H1)+'.png')
 
 def heatMap(df,name,textCol,colorCol,index,columns,vmin,vmax,j,axs):
     for Type in df.Type.drop_duplicates().values.tolist():
-        im=pd.pivot_table(df[df.Type==Type],values=colorCol,index=index,columns=columns).fillna(0)
-        im=im.values.astype('int')
-        textDF=pd.pivot_table(df[df.Type==Type],values=textCol,index=index,columns=columns).fillna('')
-        
+        cols=df[columns].drop_duplicates()
+        rows=df[index].drop_duplicates()
+        im=df[df.Type==Type].pivot(values=colorCol,index=index,columns=columns).fillna(0).astype('int').values
+        textDF=df[df.Type==Type].astype(str).pivot(values=textCol,index=index,columns=columns).fillna('').values
         im = axs[j].imshow(im, interpolation='nearest', cmap='Greys',vmin=vmin,vmax=vmax)
         
-        axs[j].set_xticks(np.arange(len(t_df)))
-        axs[j].set_yticks(np.arange(len(t_df)))
-        axs[j].set_xticklabels(t_df.columns,fontsize=10,rotation=-30)
-        axs[j].set_yticklabels(t_df.index,fontsize=10)
+        axs[j].set_xticks(np.arange(len(textDF)))
+        axs[j].set_yticks(np.arange(len(textDF)))
+        axs[j].set_xticklabels(cols,fontsize=10,rotation=-30)
+        axs[j].set_yticklabels(rows,fontsize=10)
         axs[j].set_xlabel('mu')
         axs[j].set_ylabel('eps')
         axs[j].tick_params(axis='x',pad=7)
 
-        plt.colorbar(im, ax=axs[j],cmap='Greys')
+        cbar=plt.colorbar(im, ax=axs[j],cmap='Greys')
+        cbar.set_label(colorCol)
 
         for x in range(len(textDF)):
             for y in range(len(textDF)):

@@ -3,19 +3,14 @@ import numpy as np
 import pdb
 import matplotlib.pyplot as pl
 import pandas as pd
+import json
 from math import log
 from scipy.cluster.hierarchy import linkage, fcluster
 from scipy.spatial.distance import squareform
 
-def exchangeable(N,rho):
-    sig=np.full((N,N),rho)
-    np.set_diag(sig,1)
-
-    return(sig,'rho-'+str(rho))
-
 def norm_sig(N,cov,neg):
     cov=int(N**cov)
-    sig=np.matmul(np.diag([1 if c>=neg else -1 for c in np.rand.uniform(size=N)]),np.abs(
+    sig=np.matmul(np.diag([1 if c<=neg else -1 for c in np.rand.uniform(size=N)]),np.abs(
         st.multivariate_normal.rvs(mean=0,cov=1,size=(N,N))))               
     
     sig=(np.matmul(sig,sig.T)+cov*np.diag(np.abs(st.multivariate_normal.rvs(mean=0,cov=1,size=(N,1)))))
