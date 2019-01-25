@@ -26,7 +26,8 @@ def fileDump(parms):
     power=power.reset_index()
     power.drop(columns='nullHyp',inplace=True)
     
-    power=power.groupby(['mu','eps'],sort=False).apply(lambda df:pd.concat([df,pd.Series(df.power.rank(ascending=False),
+    power=power.groupby(['mu','eps'],sort=False).apply(lambda df:pd.concat([df,pd.Series(df.power.rank(
+        ascending=False,method='min').astype('int')+'-'+df.power.rank(ascending=False,method='max').astype('int'),
         name='r')],axis=1)).sort_values(by=['mu','eps','r'],ascending=[False,False,True])
 
     rawStats.to_csv(str(N)+'-'+sigName+'-'+str(H0)+'-'+str(H1)+'-raw.csv')
@@ -38,26 +39,25 @@ def fileDump(parms):
 
     numType=len(power.Type.drop_duplicates().values.tolist())
 
-    fig, axs = plt.subplots(2*numType+6, 1,tight_layout=True)
+    fig, axs = plt.subplots(numType+3, 1,tight_layout=True)
     fig.set_figwidth(delta/2,forward=True)
-    fig.set_figheight(delta*(2*numType+6)/2,forward=True)
+    fig.set_figheight(delta*(numType+3)/2,forward=True)
 
     axs=axs.flatten()
 
     j=0
-    j=heatMap(power,'power','power','eps','mu',0,100,j,axs) 
-    j=heatMap(power,'rank','r','eps','mu',1,numType,j,axs)   
-    j=heatMap(failAvg,'avgFail','avg','eps','mu',0,100,j,axs)
-    j=heatMap(failAvg,'pctAllFail','all','eps','mu',0,100,j,axs)
+    j=heatMap(power,'power','r','power','eps','mu',0,100,j,axs) 
+    j=heatMap(failAvg,'avgFail','all','avg','eps','mu',0,100,j,axs)
     
     fig.savefig(str(N)+'-'+sigName+'-'+str(H0)+'-'+str(H1)+'.png')
 
-def heatMap(df,name,values,index,columns,vmin,vmax,j,axs):
+def heatMap(df,name,textCol,colorCol,index,columns,vmin,vmax,j,axs):
     for Type in df.Type.drop_duplicates().values.tolist():
-        t_df=pd.pivot_table(df[df.Type==Type],values=values,index=index,columns=columns).fillna(0)
-        data=t_df.values.astype('int')
+        im=pd.pivot_table(df[df.Type==Type],values=colorCol,index=index,columns=columns).fillna(0)
+        im=im.values.astype('int')
+        textDF=pd.pivot_table(df[df.Type==Type],values=textCol,index=index,columns=columns).fillna('')
         
-        im = axs[j].imshow(data, interpolation='nearest', cmap='Greys',vmin=vmin,vmax=vmax)
+        im = axs[j].imshow(im, interpolation='nearest', cmap='Greys',vmin=vmin,vmax=vmax)
         
         axs[j].set_xticks(np.arange(len(t_df)))
         axs[j].set_yticks(np.arange(len(t_df)))
@@ -69,9 +69,9 @@ def heatMap(df,name,values,index,columns,vmin,vmax,j,axs):
 
         plt.colorbar(im, ax=axs[j],cmap='Greys')
 
-        for x in range(len(t_df)):
-            for y in range(len(t_df)):
-                text = axs[j].text(y, x, data[x, y], ha="center", va="center", color="r",fontsize=10)
+        for x in range(len(textDF)):
+            for y in range(len(textDF)):
+                axs[j].text(y, x, textDF[x, y], ha="center", va="center", color="r",fontsize=10)
                 
         axs[j].set_title(Type+'-'+name)
         j+=1

@@ -16,27 +16,45 @@ def sim(N,H0,H1,sigName,sig,delta):
     power=pd.DataFrame([])
 
     power=power.append(monteCarlo(H0,N,0,0,sigName,True,L))
-    for eps in np.linspace(1,int(np.sqrt(N)),delta):
-        for r in np.linspace(1.0/delta,1,delta):
-            power=power.append(monteCarlo(H1,N,np.round(np.sqrt(2*r*np.log(N)),3),int(eps),sigName,False,L))
+    for eps in np.linspace(1,3*int(np.sqrt(N)),delta):
+        for mu in np.linspace(np.sqrt(2*np.log(N))/delta,np.sqrt(2*np.log(N)),delta):
+            power=power.append(monteCarlo(H1,N,np.round(mu,3),int(eps),sigName,False,L))
 
     return(power,N,H0,H1,sigName,delta)
 
 if __name__ == '__main__':
     
+    I=True
+    EXCHANGEABLE=False
     NORM_SIG=False
-    RAT=True
-    MOUSE=True
+    RAT=False
+    MOUSE=False
     
-    delta=10
-    H0=5000
-    H1=500
+    delta=20
+    H0=100
+    H1=100
     
-    if NORM_SIG:
-        N=1000
+    if I:
+        N=100
         sig,sigName=np.eye(N),'I'
         fileDump(sim(N,H0,H1,sigName,sig,delta))
+        
+    if EXCHANGEABLE:
+        N=1000
+        sig,sigName=exchangeable(N,.1)
+        fileDump(sim(N,H0,H1,sigName,sig,delta))
+        
+        sig,sigName=exchangeable(N,.2)
+        fileDump(sim(N,H0,H1,sigName,sig,delta))
 
+        sig,sigName=exchangeable(N,.4)
+        fileDump(sim(N,H0,H1,sigName,sig,delta))
+
+        sig,sigName=exchangeable(N,.6)
+        fileDump(sim(N,H0,H1,sigName,sig,delta))
+
+    if NORM_SIG:
+        N=1000
         sig,sigName=norm_sig(N,1.1)
         fileDump(sim(N,H0,H1,sigName,sig,delta))
 

@@ -118,7 +118,7 @@ def ggof(z_raw,p,pairwise_cors,arr,cr):
     pq_mat_alt[non_zero_gbj, 1] = -(1-lam_alt[non_zero_gbj]) / (d-1)    
     gamma_check_alt = pq_mat_alt.max(1)
     
-    non_zero_gbj = non_zero_gbj[gamma_alt[non_zero_gbj] >= gamma_check_alt[non_zero_gbj]] 
+    #non_zero_gbj = non_zero_gbj[gamma_alt[non_zero_gbj] >= gamma_check_alt[non_zero_gbj]] 
     
     cor['non_zero_gbj']=non_zero_gbj
     if len(non_zero_gbj)==0:
