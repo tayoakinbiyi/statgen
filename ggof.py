@@ -1,9 +1,8 @@
 import numpy as np
-import scipy.stats as st
 import pdb
 import pandas as pd
-from scipy.stats import norm
 import scipy
+from scipy.stats import norm
 
 def herm(t1,t2,pairwise_cors):
     rho_bar1 = np.mean(pairwise_cors)
