@@ -4,49 +4,48 @@ from monteCarlo import *
 from fileDump import *
 from norm_sig import *
 
-#warnings.filterwarnings("error")
+warnings.filterwarnings("error")
 
 import numpy as np
 import pdb
 
-def sim(N,H0,H1,sigName,sig,mu_delta,eps_delta):
+def sim(N,H0,H1,sigName,sig,mu_delta,eps_frac):
     L=np.linalg.cholesky(sig)
     power=pd.DataFrame([])
+    fail=pd.DataFrame([])
 
-    power=power.append(monteCarlo(H0,N,0,0,sigName,L))
-    for eps in np.linspace(1,np.ceil(N*.01),eps_delta).round().astype(int):
+    mc=monteCarlo(H0,N,0,0,sigName,L)
+    power=power.append(mc[0])
+    fail=fail.append(mc[1])
+    for eps in range(1,int(np.ceil(N*eps_frac))+1):
         for mu in np.linspace(np.sqrt(2*np.log(N))/mu_delta,np.sqrt(2*np.log(N)),mu_delta):
-            power=power.append(monteCarlo(H1,N,np.round(mu,3),eps,sigName,L))
+            mc=monteCarlo(H1,N,np.round(mu,3),eps,sigName,L)
+            power=power.append(mc[0])
+            fail=fail.append(mc[1])
     
-    return(power,N,H0,H1,sigName)
+    return(power,fail,N,H0,H1,sigName,mu_delta,eps_frac)
 
 if __name__ == '__main__':
-    I=True
-    EXCHANGEABLE=True
+    EXCHANGEABLE=[0,.1,.2,.3]
     NORM_SIG=False
-    RAT=True
-    MOUSE=True
+    RAT=False
+    MOUSE=False
+    fontsize=17
     
-    eps_delta=4
-    mu_delta=10
+    eps_frac=.015
+    mu_delta=20
     H0=50000
     H1=1000
     
-    if I:
-        N=400
-        sig,sigName=np.eye(N),'I'
-        fileDump(sim(N,H0,H1,sigName,sig,mu_delta,eps_delta),Types=np.array(['bj','fdr_ratio','hc','score','minP','gnull']))
-        
-    if EXCHANGEABLE:
-        N=400
-        sig,sigName=exchangeable(N,.1)
-        fileDump(sim(N,H0,H1,sigName,sig,mu_delta,eps_delta))
-        
-        sig,sigName=exchangeable(N,.2)
-        fileDump(sim(N,H0,H1,sigName,sig,mu_delta,eps_delta))
-
-        sig,sigName=exchangeable(N,.4)
-        fileDump(sim(N,H0,H1,sigName,sig,mu_delta,eps_delta))
+    if len(EXCHANGEABLE)>0:
+        N=500       
+        for rho in EXCHANGEABLE:
+            sig,sigName=exchangeable(N,rho)
+            if rho==0:
+                Types=['hc','gnull','bj','fdr_ratio','minP','score']
+            else:
+                Types=None
+            fileDump(sim(N,H0,H1,sigName,sig,mu_delta,eps_frac),Types,fontsize)
 
     if NORM_SIG:
         N=1000
@@ -62,11 +61,11 @@ if __name__ == '__main__':
     if MOUSE:
         N=300
         sig,sigName=raw_data('mouse.csv','mouse',N)
-        fileDump(sim(N,H0,H1,sigName,sig,mu_delta,eps_delta))
+        fileDump(sim(N,H0,H1,sigName,sig,mu_delta,eps_frac))
 
     if RAT:
         N=200
         sig,sigName=raw_data('rat.csv','rat',N)
-        fileDump(sim(N,H0,H1,sigName,sig,mu_delta,eps_delta))
+        fileDump(sim(N,H0,H1,sigName,sig,mu_delta,eps_frac))
     
 

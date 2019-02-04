@@ -117,7 +117,7 @@ def ggof(z_raw,p,pairwise_cors,arr,cr):
     pq_mat_alt[non_zero_gbj, 1] = -(1-lam_alt[non_zero_gbj]) / (d-1)    
     gamma_check_alt = pq_mat_alt.max(1)
     
-    #non_zero_gbj = non_zero_gbj[gamma_alt[non_zero_gbj] >= gamma_check_alt[non_zero_gbj]] 
+    non_zero_gbj = non_zero_gbj[gamma_alt[non_zero_gbj] >= gamma_check_alt[non_zero_gbj]] 
     
     cor['non_zero_gbj']=non_zero_gbj
     if len(non_zero_gbj)==0:
@@ -148,8 +148,5 @@ def ebb_loglik(x, d,ar,cr):
     k=int(x[0])+1
     lam=x[1]
     gamma=x[2]
-    try:
-        ans=cr[k] + np.nansum(np.log(lam+gamma*ar.T[k])) + np.nansum(np.log(1-lam+gamma*ar[k]))- np.nansum(np.log(1+ar[0]*gamma))
-    except:
-        pdb.set_trace()
+    ans=cr[k] + np.nansum(np.log(lam+gamma*ar.T[k])) + np.nansum(np.log(1-lam+gamma*ar[k]))- np.nansum(np.log(1+ar[0]*gamma))
     return(ans)

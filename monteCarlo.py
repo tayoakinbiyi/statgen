@@ -38,14 +38,20 @@ def monteCarlo(H,N,mu,eps,sigName,L):
         pool.join()            
 
     power=pd.DataFrame()
+    fail=pd.DataFrame()
     for result in results:
-        power=power.append(result)
+        power=power.append(result[0])
+        fail=fail.append(result[1])
                      
     power.columns=['Type','Value']
     power.index=len(power)*[0]
     power=power.merge(pd.DataFrame([[mu,eps]],columns=['mu','eps'],index=[0]),left_index=True,right_index=True)
 
-    return(power)
+    fail.columns=['Type','Value']
+    fail.index=len(fail)*[0]
+    fail=fail.merge(pd.DataFrame([[mu,eps]],columns=['mu','eps'],index=[0]),left_index=True,right_index=True)
+
+    return((power,fail))
 
 def mc(data):
     j=0
@@ -59,6 +65,7 @@ def mc(data):
     p=2*norm.cdf(-np.abs(z))  
     
     out=[]
+    fail=[]
 
     for i in range(len(p)):     
         p_val_ind=np.argsort(p[i])
@@ -71,19 +78,16 @@ def mc(data):
         hc=(np.sqrt(N)*((F_n-p_val)/np.sqrt(p_val*(1-p_val))))[cor['non_zero_hc']]
         out+=[['hc',np.max(hc)]]
 
-        out+=[['ghc-fail',1-float(len(cor['ghc']))/len(cor['non_zero_hc'])]]
         out+=[['ghc',np.max(cor['ghc'])]]
         
         bj=N*(D(F_n[:-1],p_val[:-1]))[cor['non_zero']]
         out+=[['bj',np.max(bj)]]
             
-        out+=[['gbj-fail',1-float(len(cor['gbj']))/len(cor['non_zero'])]]
         out+=[['gbj',np.max(cor['gbj']) if len(cor['gbj'])>0 else 0]]
 
         gnull=-beta.cdf(p_val,range(1,N+1), [N + 1 - j for j in range(1,N+1)])[cor['non_zero']]
         out+=[['gnull',np.max(gnull)]]
         
-        out+=[['ggnull-fail',1-float(len(cor['ggnull']))/len(cor['non_zero'])]]
         out+=[['ggnull',np.max(cor['ggnull'])]]
         
         fdr_ratio=(F_n/p_val)[cor['non_zero']]
@@ -91,4 +95,8 @@ def mc(data):
 
         out+=[['score',np.sum(z[i]**2)]]
 
-    return(pd.DataFrame(out))
+        fail+=[['ghc',1-float(len(cor['ghc']))/len(cor['non_zero_hc'])]]
+        fail+=[['gbj',1-float(len(cor['gbj']))/len(cor['non_zero'])]]
+        fail+=[['ggnull',1-float(len(cor['ggnull']))/len(cor['non_zero'])]]
+
+    return((pd.DataFrame(out),pd.DataFrame(fail)))
