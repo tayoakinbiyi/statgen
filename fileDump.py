@@ -47,7 +47,7 @@ def heatMapPower(parms,Types,fontsize):
                     
     mu=np.round(sorted(power.mu.drop_duplicates().values.tolist()),2)
     eps=np.round(sorted(power.eps.drop_duplicates().values.tolist()),2)
-    title=['-Power','-Rank','-Fraction of Max']
+    title=['Power','Rank','Fraction of Max']
 
     mat=[0]*len(Types)
     for Type in range(len(Types)):
@@ -55,9 +55,9 @@ def heatMapPower(parms,Types,fontsize):
     mMax=power.groupby(['eps','mu'],sort=False)['power'].max().reset_index().pivot(
         values='power',index='eps',columns='mu').fillna(0).astype(int).values
     
-    fig, axs = plt.subplots(len(Types)+1,3,dpi=50)   
-    fig.set_figwidth(len(mu)*4,forward=True)
-    fig.set_figheight(len(Types)*len(eps)*2,forward=True)
+    fig, axs = plt.subplots(len(Types)+1,3,dpi=50,tight_layout=True)   
+    fig.set_figwidth(len(mu)*2,forward=True)
+    fig.set_figheight(len(Types)*len(eps),forward=True)
 
     textDF=[0,0,0]   
     for Type in range(len(Types)):
@@ -77,23 +77,24 @@ def heatMapPower(parms,Types,fontsize):
             axs[Type,Plot].set_xlabel('mu',fontsize=fontsize)
             axs[Type,Plot].set_ylabel('eps',fontsize=fontsize)
             axs[Type,Plot].tick_params(axis='x',pad=7)
-            axs[Type,Plot].set_title(Types[Type]+title[Plot],fontsize=fontsize)
+            axs[Type,Plot].set_title(sigName+' , '+Types[Type]+' , '+title[Plot],fontsize=fontsize)
             
             for x in range(len(eps)):
                 for y in range(len(mu)):
                     axs[Type,Plot].text(y, x, textDF[Plot][x,y], ha="center", va="center", color="r",fontsize=fontsize)              
 
-    fig.savefig('heatmap-power-'+str(N)+'-'+str(H0)+'-'+str(H1)+'-'+sigName+'-'+str(mu_delta)+'-'+str(eps_frac)+'.png')
+    fig.savefig('heatmap-power-N:'+str(N)+'-H0:'+str(H0)+'-H1:'+str(H1)+'-Sig:'+sigName+'-numMu:'+str(mu_delta)+
+                '-epsFrac:'+str(eps_frac)+'.png')
 
     best=power[power.r.str.contains('[^0-9]*1[^0-9]*')].groupby(['mu','eps','power'],sort=False).apply(
         lambda df: pd.DataFrame({'Type':'\n'.join(df.Type),'len':df.shape[0]},index=[0])).reset_index()
     
-    fig, axs = plt.subplots(2,1,dpi=50)   
-    fig.set_figwidth(len(mu)*4,forward=True)
-    fig.set_figheight(best.len.sum()*2,forward=True)
+    fig, axs = plt.subplots(2,1,dpi=50,tight_layout=True)   
+    fig.set_figwidth(len(mu),forward=True)
+    fig.set_figheight(best.len.sum()/2,forward=True)
     
     textDF=[0,0]
-    textDF[0]=best.pivot(values='power',index='eps',columns='mu').values
+    textDF[0]=best.pivot(values='power',index='eps',columns='mu').values.astype(int)
     textDF[1]=best.pivot(values='Type',index='eps',columns='mu').values
     
     axs[0].imshow(textDF[0],interpolation='nearest', cmap='Greys',vmin=0,vmax=1000)
@@ -108,13 +109,14 @@ def heatMapPower(parms,Types,fontsize):
         axs[Plot].set_xlabel('mu',fontsize=fontsize)
         axs[Plot].set_ylabel('eps',fontsize=fontsize)
         axs[Plot].tick_params(axis='x',pad=7)
-        axs[Plot].set_title(title[Plot],fontsize=2*fontsize)
+        axs[Plot].set_title(sigName+' , '+Types[Type]+' , '+title[Plot],fontsize=2*fontsize)
 
         for x in range(len(eps)):
             for y in range(len(mu)):
                 axs[Plot].text(y, x, textDF[Plot][x,y], ha="center", va="center", color="r",fontsize=1.2*fontsize)              
     
-    fig.savefig('heatmap-best-'+str(N)+'-'+str(H0)+'-'+str(H1)+'-'+sigName+'-'+str(mu_delta)+'-'+str(eps_frac)+'.png')
+    fig.savefig('heatmap-best-N:'+str(N)+'-H0:'+str(H0)+'-H1:'+str(H1)+'-Sig:'+sigName+'-numMu:'+str(mu_delta)+
+                '-epsFrac:'+str(eps_frac)+'.png')
 
 def heatMapFail(parms,fontsize):
     j=0
@@ -134,7 +136,7 @@ def heatMapFail(parms,fontsize):
     
     mu=np.round(sorted(fail.mu.drop_duplicates().values.tolist()),2)
     eps=np.round(sorted(fail.eps.drop_duplicates().values.tolist()),2)
-    title=['-Average Fail Rate','-Pct All FAil']
+    title=['Average over runs: % of k Approx Failed','% of runs: Approx Failed on All k']
 
     avgFailRate=[0]*len(Types)
     pctAllFail=[0]*len(Types)
@@ -142,9 +144,9 @@ def heatMapFail(parms,fontsize):
         avgFailRate[Type]=fail[fail.Type==Types[Type]].pivot(values='avgFailRate',index='eps',columns='mu').fillna(0).astype(int).values
         pctAllFail[Type]=fail[fail.Type==Types[Type]].pivot(values='pctAllFail',index='eps',columns='mu').fillna(0).astype(int).values
     
-    fig, axs = plt.subplots(len(Types),2,dpi=50)   
-    fig.set_figwidth(len(mu)*3,forward=True)
-    fig.set_figheight(len(Types)*len(eps)*2,forward=True)
+    fig, axs = plt.subplots(len(Types),2,dpi=50,tight_layout=True)   
+    fig.set_figwidth(len(mu)*2,forward=True)
+    fig.set_figheight(len(Types)*len(eps),forward=True)
 
     textDF=[0,0]   
     for Type in range(len(Types)):
@@ -162,11 +164,12 @@ def heatMapFail(parms,fontsize):
             axs[Type,Plot].set_xlabel('mu',fontsize=fontsize)
             axs[Type,Plot].set_ylabel('eps',fontsize=fontsize)
             axs[Type,Plot].tick_params(axis='x',pad=7)
-            axs[Type,Plot].set_title(Types[Type]+title[Plot],fontsize=fontsize)
+            axs[Type,Plot].set_title(sigName+' , '+Types[Type]+' , '+title[Plot],fontsize=fontsize)
             
             for x in range(len(eps)):
                 for y in range(len(mu)):
                     axs[Type,Plot].text(y, x, textDF[Plot][x,y], ha="center", va="center", color="r",fontsize=fontsize)              
 
-    fig.savefig('heatmap-fail-'+str(N)+'-'+str(H0)+'-'+str(H1)+'-'+sigName+'-'+str(mu_delta)+'-'+str(eps_frac)+'.png')
+    fig.savefig('heatmap-fail-N:'+str(N)+'-H0:'+str(H0)+'-H1:'+str(H1)+'-Sig:'+sigName+'-numMu:'+str(mu_delta)+
+                '-epsFrac:'+str(eps_frac)+'.png')
     

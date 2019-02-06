@@ -33,12 +33,12 @@ def sim(N,H0,H1,sigName,sig,mu_delta,eps_frac,run=True):
     return(power,fail,N,H0,H1,sigName,mu_delta,eps_frac)
 
 if __name__ == '__main__':
-    EXCHANGEABLE=[0,.1,.2,.3]
+    EXCHANGEABLE=[0,.1]
     NORM_SIG=False
     RAT=False
     MOUSE=False
     fontsize=17
-    Run=True
+    Run=False
     
     eps_frac=.015
     mu_delta=20
