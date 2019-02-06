@@ -91,7 +91,7 @@ def mc(data):
         out+=[['ggnull',np.max(cor['ggnull'])]]
         
         fdr_ratio=(F_n/p_val)[cor['non_zero']]
-        out+=[['fdr_ratio',np.max(fdr_ratio)]]
+        out+=[['fdr',np.max(fdr_ratio)]]
 
         out+=[['score',np.sum(z[i]**2)]]
 
