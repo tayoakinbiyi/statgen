@@ -15,17 +15,25 @@ def strConcat(df):
     concat[sel]=minDF[sel]+'-'+maxDF[sel]
     return(pd.concat([df,concat],axis=1))
 
+def bestFunc(df,H1,H01):
+    mpPool=(df.power.max()+df.power)/2000
+    mmPool=(df.power.max()+df.power.min())/2000
+    Types=df.Type[(df.power.max()-df.power)/1000-1.96*np.sqrt(2*mpPool*(1-mpPool)/H1)<=0]
+    return(pd.DataFrame({'Type':'\n'.join(Types) if len(Types)<len(df) else '','len':len(Types) if len(Types)<len(df) else 1},index=[0]))  
+
 def fileDump(parms,Types=None,fontsize=20):
     heatMapPower(parms,Types,fontsize) 
     heatMapFail(parms,fontsize) 
 
 def heatMapPower(parms,Types,fontsize):
     j=0
+    alpha=parms[j];j=1
     power=parms[j];j+=1
     fail=parms[j];j+=1
     N=parms[j];j+=1
     H0=parms[j];j+=1
     H1=parms[j];j+=1
+    H01=parms[j];j+=1
     sigName=parms[j];j+=1    
     mu_delta=parms[j];j+=1
     eps_frac=parms[j];j+=1
@@ -34,12 +42,13 @@ def heatMapPower(parms,Types,fontsize):
         Types=np.sort(power.Type.drop_duplicates().values.flatten())
     else:
         power=power[power.Type.isin(Types)]
+        alpha=alpha[alpha.Type.isin(Types)]
     
-    alpha=power[power.mu*power.eps==0].groupby('Type',sort=False).apply(lambda df:np.nanpercentile(df.Value,q=95))
+    alpha=alpha.groupby('Type',sort=False).apply(lambda df:np.nanpercentile(df.Value,q=95))
     alpha.name='alpha'
     alpha=alpha.reset_index()
     
-    power=power[power.mu*power.eps>0].merge(alpha,on=['Type'])
+    power=power.merge(alpha,on=['Type'])
     power=power.groupby(['mu','eps','Type']).apply(lambda df:1000*np.nanmean(df.Value>=df.alpha))
     power.name='power'
     power=power.reset_index()
@@ -53,16 +62,18 @@ def heatMapPower(parms,Types,fontsize):
     for Type in range(len(Types)):
         mat[Type]=power[power.Type==Types[Type]].pivot(values='power',index='eps',columns='mu').fillna(0).astype(int).values
     mMax=power.groupby(['eps','mu'],sort=False)['power'].max().reset_index().pivot(
-        values='power',index='eps',columns='mu').fillna(0).astype(int).values
-    
+        values='power',index='eps',columns='mu').fillna(1).astype(int).values
+    mMin=power.groupby(['eps','mu'],sort=False)['power'].min().reset_index().pivot(
+        values='power',index='eps',columns='mu').fillna(1).astype(int).values
+  
     fig, axs = plt.subplots(len(Types)+1,3,dpi=50,tight_layout=True)   
-    fig.set_figwidth(len(mu)*2,forward=True)
-    fig.set_figheight(len(Types)*len(eps),forward=True)
+    fig.set_figwidth(len(mu)*3,forward=True)
+    fig.set_figheight(len(Types)*len(eps)*1.5,forward=True)
 
     textDF=[0,0,0]   
     for Type in range(len(Types)):
         textDF[0]=mat[Type]
-        textDF[1]=power[power.Type==Types[Type]].pivot(values='r',index='eps',columns='mu').values
+        textDF[1]=power[power.Type==Types[Type]].pivot(values='r',index='eps',columns='mu').fillna(0).values
         textDF[2]=(1000*mat[Type]/mMax).astype(int)
 
         axs[Type,0].imshow(mat[Type],interpolation='nearest', cmap='Greys',vmin=0,vmax=1000)
@@ -83,48 +94,47 @@ def heatMapPower(parms,Types,fontsize):
                 for y in range(len(mu)):
                     axs[Type,Plot].text(y, x, textDF[Plot][x,y], ha="center", va="center", color="r",fontsize=fontsize)              
 
-    fig.savefig('heatmap-power-N:'+str(N)+'-H0:'+str(H0)+'-H1:'+str(H1)+'-Sig:'+sigName+'-numMu:'+str(mu_delta)+
+    fig.savefig('heatmap-power-N:'+str(N)+'-H0:'+str(H0)+'-H1:'+str(H1)+'-H01:'+str(H01)+'-Sig:'+sigName+'-numMu:'+str(mu_delta)+
                 '-epsFrac:'+str(eps_frac)+'.png')
 
-    best=power[power.r.str.contains('[^0-9]*1[^0-9]*')].groupby(['mu','eps','power'],sort=False).apply(
-        lambda df: pd.DataFrame({'Type':'\n'.join(df.Type),'len':df.shape[0]},index=[0])).reset_index()
-    
-    fig, axs = plt.subplots(2,1,dpi=50,tight_layout=True)   
-    fig.set_figwidth(len(mu),forward=True)
-    fig.set_figheight(best.len.sum()/2,forward=True)
-    
-    textDF=[0,0]
-    textDF[0]=best.pivot(values='power',index='eps',columns='mu').values.astype(int)
-    textDF[1]=best.pivot(values='Type',index='eps',columns='mu').values
-    
-    axs[0].imshow(textDF[0],interpolation='nearest', cmap='Greys',vmin=0,vmax=1000)
-    axs[1].imshow(textDF[0],interpolation='nearest', cmap='Greys',vmin=0,vmax=1000)
+    bestType=power.groupby(['mu','eps'],sort=False).apply(bestFunc,H1,H01).reset_index()
+    lenType=bestType.pivot(values='len',index='eps',columns='mu').fillna(1).values
+    textType=bestType.pivot(values='Type',index='eps',columns='mu').fillna('').values
+    textType[0,0]=str(int(1000*(mMax[0,0]/1000-1.96*np.sqrt((.05*.95)/H01))))+'-'+str(int(1000*(mMax[0,0]/1000+
+        1.96*np.sqrt((.05*.95)/H01))))
+
+    fig, axs = plt.subplots(1,1,dpi=50,tight_layout=True)   
+    fig.set_figwidth(len(mu)*2,forward=True)
+    fig.set_figheight(lenType.sum(axis=0).max()*2,forward=True)
+       
+    axs.imshow(mMax,interpolation='nearest', cmap='Greys',vmin=0,vmax=1000)
     
     title=['Best Power','Best Stat']
-    for Plot in range(2):
-        axs[Plot].set_xticks(np.arange(textDF[0].shape[1]))
-        axs[Plot].set_yticks(np.arange(textDF[0].shape[0]))
-        axs[Plot].set_xticklabels(mu,fontsize=fontsize,rotation=-30)
-        axs[Plot].set_yticklabels(eps,fontsize=fontsize)
-        axs[Plot].set_xlabel('mu',fontsize=fontsize)
-        axs[Plot].set_ylabel('eps',fontsize=fontsize)
-        axs[Plot].tick_params(axis='x',pad=7)
-        axs[Plot].set_title(sigName+' , '+Types[Type]+' , '+title[Plot],fontsize=2*fontsize)
+    axs.set_xticks(np.arange(textType.shape[1]))
+    axs.set_yticks(np.arange(textType.shape[0]))
+    axs.set_xticklabels(mu,fontsize=fontsize,rotation=-30)
+    axs.set_yticklabels(eps,fontsize=fontsize)
+    axs.set_xlabel('mu',fontsize=fontsize)
+    axs.set_ylabel('eps',fontsize=fontsize)
+    axs.tick_params(axis='x',pad=7)
+    axs.set_title(sigName+' , '+title[0],fontsize=2*fontsize)
 
-        for x in range(len(eps)):
-            for y in range(len(mu)):
-                axs[Plot].text(y, x, textDF[Plot][x,y], ha="center", va="center", color="r",fontsize=1.2*fontsize)              
+    for x in range(len(eps)):
+        for y in range(len(mu)):
+            axs.text(y, x, textType[x,y], ha="center", va="center", color="r",fontsize=1.2*fontsize)              
     
-    fig.savefig('heatmap-best-N:'+str(N)+'-H0:'+str(H0)+'-H1:'+str(H1)+'-Sig:'+sigName+'-numMu:'+str(mu_delta)+
+    fig.savefig('heatmap-best-N:'+str(N)+'-H0:'+str(H0)+'-H1:'+str(H1)+'-H01:'+str(H01)+'-Sig:'+sigName+'-numMu:'+str(mu_delta)+
                 '-epsFrac:'+str(eps_frac)+'.png')
 
 def heatMapFail(parms,fontsize):
     j=0
+    alpha=parms[j];j=1
     power=parms[j];j+=1
     fail=parms[j];j+=1
     N=parms[j];j+=1
     H0=parms[j];j+=1
     H1=parms[j];j+=1
+    H01=parms[j];j+=1
     sigName=parms[j];j+=1    
     mu_delta=parms[j];j+=1
     eps_frac=parms[j];j+=1
@@ -144,9 +154,10 @@ def heatMapFail(parms,fontsize):
         avgFailRate[Type]=fail[fail.Type==Types[Type]].pivot(values='avgFailRate',index='eps',columns='mu').fillna(0).astype(int).values
         pctAllFail[Type]=fail[fail.Type==Types[Type]].pivot(values='pctAllFail',index='eps',columns='mu').fillna(0).astype(int).values
     
+    #pdb.set_trace()
     fig, axs = plt.subplots(len(Types),2,dpi=50,tight_layout=True)   
-    fig.set_figwidth(len(mu)*2,forward=True)
-    fig.set_figheight(len(Types)*len(eps),forward=True)
+    fig.set_figwidth(len(mu)*3,forward=True)
+    fig.set_figheight(len(Types)*len(eps)*1.5,forward=True)
 
     textDF=[0,0]   
     for Type in range(len(Types)):
@@ -170,6 +181,6 @@ def heatMapFail(parms,fontsize):
                 for y in range(len(mu)):
                     axs[Type,Plot].text(y, x, textDF[Plot][x,y], ha="center", va="center", color="r",fontsize=fontsize)              
 
-    fig.savefig('heatmap-fail-N:'+str(N)+'-H0:'+str(H0)+'-H1:'+str(H1)+'-Sig:'+sigName+'-numMu:'+str(mu_delta)+
+    fig.savefig('heatmap-fail-N:'+str(N)+'-H0:'+str(H0)+'-H1:'+str(H1)+'-H01:'+str(H01)+'-Sig:'+sigName+'-numMu:'+str(mu_delta)+
                 '-epsFrac:'+str(eps_frac)+'.png')
     

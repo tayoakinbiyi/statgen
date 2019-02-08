@@ -8,52 +8,60 @@ warnings.filterwarnings("error")
 
 import numpy as np
 import pdb
+import os  
 
-def sim(N,H0,H1,sigName,sig,mu_delta,eps_frac,run=True):
+def sim(N,H0,H1,H01,sigName,sig,mu_delta,eps_frac,run=True):
     L=np.linalg.cholesky(sig)
     power=pd.DataFrame([])
     fail=pd.DataFrame([])
 
+    if os.path.isfile('raw-alpha-'+str(N)+'-'+str(H0)+'-'+sigName+'.csv'):
+        alpha=pd.read_csv('raw-alpha-'+str(N)+'-'+str(H0)+'-'+sigName+'.csv')
+    else:
+        alpha=pd.DataFrame(monteCarlo(H0,N,0,0,sigName,L)[0])
+        alpha.to_csv('raw-alpha-'+str(N)+'-'+str(H0)+'-'+sigName+'.csv',index=False)
+        
     if run:
-        mc=monteCarlo(H0,N,0,0,sigName,L)
+        mc=monteCarlo(H01,N,0,0,sigName,L)
         power=power.append(mc[0])
         fail=fail.append(mc[1])
-        for eps in range(1,int(np.ceil(N*eps_frac))+1):
-            for mu in np.linspace(np.sqrt(2*np.log(N))/mu_delta,np.sqrt(2*np.log(N)),mu_delta):
+        for eps in range(2,int(np.ceil(N*eps_frac))+1):
+            for mu in np.linspace(1,3,mu_delta):
                 mc=monteCarlo(H1,N,np.round(mu,3),eps,sigName,L)
                 power=power.append(mc[0])
                 fail=fail.append(mc[1])
 
-        power.to_csv('raw-power-'+str(N)+'-'+str(H0)+'-'+str(H1)+'-'+sigName+'-'+str(mu_delta)+'-'+str(eps_frac)+'.csv',index=False)
-        fail.to_csv('raw-fail-'+str(N)+'-'+str(H0)+'-'+str(H1)+'-'+sigName+'-'+str(mu_delta)+'-'+str(eps_frac)+'.csv',index=False)
+        power.to_csv('raw-power-'+str(N)+'-'+str(H1)+'-'+sigName+'-'+str(mu_delta)+'-'+str(eps_frac)+'.csv',index=False)
+        fail.to_csv('raw-fail-'+str(N)+'-'+str(H1)+'-'+sigName+'-'+str(mu_delta)+'-'+str(eps_frac)+'.csv',index=False)
     else:
-        power=pd.read_csv('raw-power-'+str(N)+'-'+str(H0)+'-'+str(H1)+'-'+sigName+'-'+str(mu_delta)+'-'+str(eps_frac)+'.csv')
-        fail=pd.read_csv('raw-fail-'+str(N)+'-'+str(H0)+'-'+str(H1)+'-'+sigName+'-'+str(mu_delta)+'-'+str(eps_frac)+'.csv')       
+        power=pd.read_csv('raw-power-'+str(N)+'-'+str(H1)+'-'+sigName+'-'+str(mu_delta)+'-'+str(eps_frac)+'.csv')
+        fail=pd.read_csv('raw-fail-'+str(N)+'-'+str(H1)+'-'+sigName+'-'+str(mu_delta)+'-'+str(eps_frac)+'.csv')       
     
-    return(power,fail,N,H0,H1,sigName,mu_delta,eps_frac)
+    return(alpha,power,fail,N,H0,H1,H01,sigName,mu_delta,eps_frac)
 
 if __name__ == '__main__':
-    EXCHANGEABLE=[0,.1]
+    EXCHANGEABLE=[0]
     NORM_SIG=False
     RAT=False
     MOUSE=False
     fontsize=17
     Run=False
     
-    eps_frac=.015
-    mu_delta=20
+    eps_frac=.01
+    mu_delta=8
     H0=50000
     H1=1000
+    H01=10000
     
     if len(EXCHANGEABLE)>0:
-        N=500       
+        N=700       
         for rho in EXCHANGEABLE:
             sig,sigName=exchangeable(N,rho)
             if rho==0:
                 Types=['hc','gnull','bj','fdr','minP','score']
             else:
                 Types=None
-            fileDump(sim(N,H0,H1,sigName,sig,mu_delta,eps_frac,Run),Types,fontsize)
+            fileDump(sim(N,H0,H1,H01,sigName,sig,mu_delta,eps_frac,Run),Types,fontsize)
 
     if NORM_SIG:
         N=1000
