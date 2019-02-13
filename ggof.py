@@ -54,7 +54,7 @@ def var_st(t,d,pairwise_cors):
 def qnorm_mu(mu, t, kkk, d):
     return(1 - (norm.cdf(t, loc=mu) - norm.cdf(-t, loc=mu)) - kkk/float(d))
 
-def ggof(z_raw,p,pairwise_cors,arr,cr):
+def ggof(z_raw,p,pairwise_cors,arr,cr,Types):
     z = -np.sort(-np.abs(z_raw))
     cor={}
                              
