@@ -3,6 +3,7 @@ import warnings
 from monteCarlo import *
 from fileDump import *
 from norm_sig import *
+from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
 
 warnings.filterwarnings("error")
 
@@ -10,20 +11,14 @@ import numpy as np
 import pdb
 import os  
 
-def strConcat(df,alpha):
-    df=df.merge(alpha,on=['Type'])
-    df=df.groupby(['mu','eps','Type']).apply(lambda df:1000*np.nanmean(df.Value>=df.alpha))
-    df.name='power'
-    df=df.reset_index()
-
+def strConcat(df):
     minDF=df.power.rank(ascending=False,method='min').astype('int').astype(str)
     maxDF=df.power.rank(ascending=False,method='max').astype('int').astype(str)
     concat=pd.Series(minDF.astype('int').astype(str),name='r')
     sel=minDF!=maxDF
     concat[sel]=minDF[sel]+'-'+maxDF[sel]
 
-    df=pd.concat([df,concat],axis=1)    
-    df=df.sort_values(by=['mu','eps','r'],ascending=[False,False,True])
+    df=pd.concat([df,concat],axis=1) 
     return(df)
 
 def sim(parms,I=False):
@@ -31,78 +26,42 @@ def sim(parms,I=False):
         L=np.linalg.cholesky(sig)
     else:
         L=None
+        
+    power=pd.DataFrame()
+    fail=pd.DataFrame()
 
-    pool = Pool()
+    H0=[(parms['H0'],parms['N'],0,0,sigName,L,parms['Types'],True)]
+    H01=[(parms['H01'],parms['N'],0,0,sigName,L,parms['Types'],False)]
+    H1=[(parms['H1'],parms['N'],mu,eps,sigName,L,parms['Types'],False) 
+        for eps in np.unique(parms['epsRange'].round().astype(int)) for mu in np.unique(parms['muRange']).round(3)]
+ 
+    with ProcessPoolExecutor() as executor:    
+        results=executor.map(monteCarlo,H0+H01+H1)  
 
-    if parms['runAlpha']:
-        alpha=pd.DataFrame(monteCarlo(parms['H0'],parms['N'],0,0,sigName,L,parms['Types'],pool)[0])
-        alpha=alpha.groupby('Type',sort=False).apply(lambda df:np.nanpercentile(df.Value,q=95))
-        alpha.name='alpha'
-        alpha=alpha.reset_index()
-        alpha.to_csv('raw-alpha-'+str(parms['N'])+'-'+str(parms['H0'])+'-'+sigName+'.csv',index=False)
-    else:
-        alpha=pd.read_csv('raw-alpha-'+str(parms['N'])+'-'+str(parms['H0'])+'-'+sigName+'.csv')
-        
-    if parms['runH01']:
-        mc=monteCarlo(parms['H01'],parms['N'],0,0,sigName,L,parms['Types'],pool)
-        powerH01=mc[0]
-        failH01=mc[1]
-        
-        powerH01=strConcat(powerH01,alpha)
-        powerH01.to_csv('raw-H01-power-'+str(parms['N'])+'-'+str(parms['H01'])+'-'+sigName+'.csv',index=False)
+        for result in results:
+            if result['alpha']:
+                alpha=result['power'].groupby('Type',sort=False).apply(lambda df:np.nanpercentile(df.Value,q=95))
+                alpha.name='alpha'
+                alpha=alpha.reset_index()
+            else:
+                power=power.append(result['power'])
+                fail=fail.append(result['fail'])
+                            
+    power=power.merge(alpha,on='Type')
+    power=power.groupby(['mu','eps','Type','alpha'],sort=False).apply(lambda df:1000*np.nanmean(df.Value>=df.alpha))
+    power.name='power'
+    power=power.reset_index().drop(columns='alpha')
+    power=power.groupby(['mu','eps'],sort=False).apply(strConcat)
+    power=power.sort_values(by=['mu','eps','r'],ascending=[False,False,True])
 
-        if len(failH01)>0:        
-            failH01=failH01.groupby(['mu','eps','Type']).apply(lambda df:pd.DataFrame({'avgFailRate':1000*np.mean(df.Value),
-                'pctAllFail':1000*np.mean(df.Value==1)},index=[0]).astype(int)).reset_index().drop(columns='level_3')    
-            failH01.to_csv('raw-H01-fail-'+str(parms['N'])+'-'+str(parms['H01'])+'-'+sigName+'.csv',index=False)
-    else:
-        powerH01=pd.read_csv('raw-H01-power-'+str(parms['N'])+'-'+str(parms['H01'])+'-'+sigName+'.csv')
-        if len(set(powerH01.Type.drop_duplicates())&set(['ggnull','ghc','gbj']))>0:        
-            failH01=pd.read_csv('raw-H01-fail-'+str(parms['N'])+'-'+str(parms['H01'])+'-'+sigName+'.csv') 
-        else:
-            failH01=pd.DataFrame()
-        
-    if parms['runPower'] in ['append','existing']:
-        power=pd.read_csv('raw-power-'+str(parms['N'])+'-'+str(parms['H1'])+'-'+sigName+'-'+str(parms['muRange'])+'.csv')
-        if len(set(power.Type.drop_duplicates())&set(['ggnull','ghc','gbj']))>0:        
-            fail=pd.read_csv('raw-fail-'+str(parms['N'])+'-'+str(parms['H1'])+'-'+sigName+'-'+str(parms['muRange'])+'.csv')
-        else:
-            fail=pd.DataFrame()
-    else:
-        power=pd.DataFrame([])
-        fail=pd.DataFrame([])
-        
-    if parms['runPower'] in ['replace','append']:
-        t_power=pd.DataFrame()
-        t_fail=pd.DataFrame()
-        
-        for eps in np.unique(parms['epsRange'].round().astype(int)):
-            for mu in np.unique(parms['muRange']).round(3):
-                mc=monteCarlo(parms['H1'],parms['N'],mu,eps,sigName,L,parms['Types'],pool)
-                gc.collect()
-                
-                t_power=t_power.append(strConcat(mc[0],alpha))
-                if len(mc[1])>0:
-                    t_fail=t_fail.append(mc[1].groupby(['mu','eps','Type']).apply(lambda df:pd.DataFrame(
-                        {'avgFailRate':1000*np.mean(df.Value),'pctAllFail':1000*np.mean(df.Value==1)},
-                        index=[0]).astype(int)).reset_index().drop(columns='level_3'))
-                    
-        pool.close()
-        pool.join()            
+    if len(fail)>0:
+        fail=fail.groupby(['mu','eps','Type']).apply(lambda df:pd.DataFrame(
+                {'avgFailRate':1000*np.mean(df.Value),'pctAllFail':1000*np.mean(df.Value==1)},
+                index=[0]).astype(int)).reset_index().drop(columns='level_3')
 
-    if parms['runPower'] =='append':
-        power=power.append(t_power)
-        fail=fail.append(t_fail)
-    elif parms['runPower']=='replace':
-        power=t_power
-        fail=t_fail
+    power.to_csv('raw-power-'+str(parms['N'])+'-'+str(parms['H1'])+'-'+sigName+'.csv',index=False)
+    fail.to_csv('raw-fail-'+str(parms['N'])+'-'+str(parms['H1'])+'-'+sigName+'.csv',index=False)            
         
-    power.to_csv('raw-power-'+str(parms['N'])+'-'+str(parms['H1'])+'-'+sigName+'-'+str(parms['muRange'])+'.csv',index=False)
-    fail.to_csv('raw-fail-'+str(parms['N'])+'-'+str(parms['H1'])+'-'+sigName+'-'+str(parms['muRange'])+'.csv',index=False)            
-        
-    power=powerH01.append(power)
-    fail=failH01.append(fail)
-    
     return(power,fail,parms)
 
 if __name__ == '__main__':
@@ -112,20 +71,15 @@ if __name__ == '__main__':
     MOUSE=False
     parms={
         'Types':None,
-        'runAlpha':True,
-        'runH01':True,
-        'runPower':'append',
-        'plot':False,
-        'H0':50000,
+        'plot':True,
+        'H0':10000,
         'H1':10000,
         'H01':10000,
         'fontsize':17
     }
-    '''(400,np.linspace(2,3.5,10),range(2,8)),
-            (700,np.linspace(2,3.5,10),range(2,8)),
-            (1000,np.linspace(2,3.5,10),range(2,15)),'''
+
     if len(EXCHANGEABLE)>0:
-        for N in [1500]:
+        for N in [2001]:
             for rho in EXCHANGEABLE:            
                 sig,sigName=exchangeable(N,rho)
                 if rho==0:
@@ -134,7 +88,7 @@ if __name__ == '__main__':
                     Types=['hc','gnull','bj','fdr','minP','score','ggnull','ghc','gbj']
                     
                 fileDump(sim({**parms,'sigName':sigName,'Types':Types,'N':N,
-                              'muRange':np.linspace(1,3.5,12)[2:4],'epsRange':np.linspace(2,N*.01,12)},True))
+                              'muRange':np.linspace(2,3,4),'epsRange':np.linspace(2,N*(.01 if N>1000 else .015),4)},True))
 
     if NORM_SIG:
         N=1000
@@ -158,4 +112,3 @@ if __name__ == '__main__':
         sig,sigName=raw_data('rat.csv','rat',N)
         fileDump(sim(N,H0,H1,sigName,sig,mu_delta,eps_frac,Run))
     
-
