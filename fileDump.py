@@ -16,15 +16,10 @@ def bestFunc(df,H1,H01):
         str(df.power.max().astype(int)),'len':len(Types)+1 if len(Types)<len(df) else 1},index=[0]))  
 
 def fileDump(dat):
-    heatMapPower(dat) 
-    heatMapFail(dat) 
+    heatMapPower(dat[0],dat[2]) 
+    heatMapFail(dat[1],dat[2]) 
 
-def heatMapPower(dat):
-    j=0
-    power=dat[j];j+=1
-    fail=dat[j];j+=1
-    parms=dat[j];j+=1
-    
+def heatMapPower(power,parms):
     if not parms['plot']:
         return()
 
@@ -44,6 +39,7 @@ def heatMapPower(dat):
     mat=[0]*len(Types)
     for Type in range(len(Types)):
         mat[Type]=power[power.Type==Types[Type]].pivot(values='power',index='eps',columns='mu').fillna(500).astype(int).values
+    
     mMax=power.groupby(['eps','mu'],sort=False)['power'].max().reset_index().pivot(
         values='power',index='eps',columns='mu').fillna(500).astype(int).values
     mMin=power.groupby(['eps','mu'],sort=False)['power'].min().reset_index().pivot(
@@ -57,13 +53,13 @@ def heatMapPower(dat):
     for Type in range(len(Types)):
         textDF[0]=mat[Type].astype(str)
         textDF[0][0,0]=str(int(1000*(mat[Type][0,0]/1000-1.96*np.sqrt((.05*.95)/H01))))+'-'+str(int(1000*(mat[Type][0,0]/1000+
-        1.96*np.sqrt((.05*.95)/H01))))
+            1.96*np.sqrt((.05*.95)/H01))))
         textDF[1]=power[power.Type==Types[Type]].pivot(values='r',index='eps',columns='mu').fillna(0).values
         textDF[2]=(1000*mat[Type]/mMax).astype(int)
 
         axs[Type,0].imshow(mat[Type],interpolation='nearest', cmap='seismic',vmin=0,vmax=1000)
         axs[Type,1].imshow(mat[Type],interpolation='nearest', cmap='seismic',vmin=0,vmax=1000)
-        axs[Type,2].imshow(textDF[2],interpolation='nearest', cmap='seismic',vmin=0,vmax=1000)
+        axs[Type,2].imshow(textDF[2],interpolation='nearest', cmap='Greys',vmin=0,vmax=1000)
 
         for Plot in range(len(textDF)):
             axs[Type,Plot].set_xticks(np.arange(mat[Type].shape[1]))
@@ -108,12 +104,7 @@ def heatMapPower(dat):
     
     fig.savefig('heatmap-best-N:'+str(N)+'-H0:'+str(H0)+'-H1:'+str(H1)+'-H01:'+str(H01)+'-Sig:'+sigName+'.png')
 
-def heatMapFail(dat):
-    j=0
-    power=dat[j];j+=1
-    fail=dat[j];j+=1
-    parms=dat[j];j+=1
-    
+def heatMapFail(fail,parms):    
     if not parms['plot']:
         return()
 
@@ -149,8 +140,8 @@ def heatMapFail(dat):
         textDF[0]=fail[fail.Type==Types[Type]].pivot(values='avgFailRate',index='eps',columns='mu').fillna(0).astype(int).values
         textDF[1]=fail[fail.Type==Types[Type]].pivot(values='pctAllFail',index='eps',columns='mu').fillna(0).astype(int).values
 
-        axs[Type,0].imshow(textDF[0],interpolation='nearest', cmap='seismic',vmin=0,vmax=1000)
-        axs[Type,1].imshow(textDF[1],interpolation='nearest', cmap='seismic',vmin=0,vmax=1000)
+        axs[Type,0].imshow(textDF[0],interpolation='nearest', cmap='Greys',vmin=0,vmax=1000)
+        axs[Type,1].imshow(textDF[1],interpolation='nearest', cmap='Greys',vmin=0,vmax=1000)
 
         for Plot in range(len(textDF)):
             axs[Type,Plot].set_xticks(np.arange(textDF[0].shape[1]))
@@ -168,3 +159,26 @@ def heatMapFail(dat):
 
     fig.savefig('heatmap-fail-N:'+str(N)+'-H0:'+str(H0)+'-H1:'+str(H1)+'-H01:'+str(H01)+'-Sig:'+sigName+'.png')
     
+def nPlot(power,H1,sigName):
+    N=power['N'].drop_duplicates().sort_values().values
+    mu=power['mu'].drop_duplicates().sort_values().values.round(3)
+    mu=mu[mu!=0]
+    Types=power.Type.drop_duplicates().values
+    
+    fig, axs = plt.subplots(len(N),len(mu),dpi=50,tight_layout=True)   
+    fig.set_figwidth(len(mu)*10,forward=True)
+    fig.set_figheight(len(N)*10,forward=True)
+
+    for t_N in range(len(N)):
+        for t_mu in range(len(mu)):
+            for Type in Types:                
+                df=power[(power.mu==mu[t_mu])&(power.N==N[t_N])&(power.Type==Type)].sort_values(by='eps').plot(x='eps',y='power',
+                    ax=axs[t_N,t_mu],label=Type,linewidth=6,fontsize=20)
+                axs[t_N,t_mu].set_xlabel('eps',fontsize=20)
+                axs[t_N,t_mu].set_ylabel('power',fontsize=20)
+                axs[t_N,t_mu].legend(fontsize=20)
+                axs[t_N,t_mu].set_title(Type+'-N='+str(N[t_N])+'-mu='+str(mu[t_mu]),fontsize=20)
+
+                
+    fig.savefig('N-plot-H1:'+str(H1)+'-'+sigName+'.png')
+                

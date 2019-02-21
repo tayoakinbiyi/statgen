@@ -14,6 +14,12 @@ def ggStats(d):
     cr=nCr(d,int(np.ceil(d/2.0)))
     return(arr,cr)
 
+def ggStats1(d):
+    arr=np.array([[np.nan]*j+list(range(d+1-j)) for j in range(1,int(np.ceil(d/2.0))+2)])
+    cr=np.cumsum(nCr(d,int(np.ceil(d/2.0))))
+
+    return(arr,cr)
+
 def rho(theta):
     if .5<theta<=0.75:
         return(theta-.5)
