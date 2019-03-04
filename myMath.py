@@ -1,4 +1,5 @@
 import numpy as np
+import pdb
 
 def D(u,v):
     return(u*np.log(u/v)+(1-u)*np.log((1-u)/(1-v)))
