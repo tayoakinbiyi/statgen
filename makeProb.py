@@ -14,7 +14,7 @@ def newC(n):
     return(bacw[0:int(n/2)]-forw[0:int(n/2)])
     
 def binsMinMax(df,B,N):
-    bins=np.array(range(int(max(0,df.bins.min()-N*1.5)),int(min(B-1,df.bins.max()+N*1.5))+1)).reshape(-1,1)
+    bins=np.array(range(int(max(0,df.bins.min()-N)),int(min(B-1,df.bins.max()+N))+1)).reshape(-1,1)
     k=np.array([df.k.iloc[0]]*len(bins)).reshape(-1,1)
     return(pd.DataFrame(np.concatenate([k,bins],axis=1),columns=['k','bins']))
 
@@ -31,7 +31,6 @@ def makeProb(L,t_mu,t_eps,size,pairwise_cors,N,name):
 
     M=multiprocessing.cpu_count()
     
-    print('mu')
     res=[]
     
     for mu in t_mu:
@@ -43,10 +42,10 @@ def makeProb(L,t_mu,t_eps,size,pairwise_cors,N,name):
             res+=[np.concatenate([lam.reshape(-1,1),[[x] for x in range(d)]*len(t_z)],axis=1)] # lam,k
             
     res=np.concatenate(res,axis=0)
-    bins=np.histogram_bin_edges(res[:,0],bins=N*20)
+    bins=np.histogram_bin_edges(res[:,0],bins=int(N**1.5))
     bins=np.append(np.append(np.linspace(0,bins[2],100),bins[3:-2]),np.linspace(bins[-2],1,100))
     mids=(bins[1:]+bins[:-1]).reshape(-1,1)/2
-    print('res')
+   
     res=np.concatenate([res[:,1].reshape(-1,1),(np.digitize(res[:,0],bins)-1).reshape(-1,1)],axis=1) #[k,bins] 
     res=pd.DataFrame(res,columns=['k','bins']).groupby('k').apply(binsMinMax,B=len(mids),N=N).reset_index(drop=True)
     res.insert(2,'mids',mids[res.bins.astype(int)])
@@ -54,7 +53,7 @@ def makeProb(L,t_mu,t_eps,size,pairwise_cors,N,name):
     res=res.groupby('mids',sort=False).apply(kMinMax).reset_index(drop=True)
     res=res.sort_values(by='mids').values # mids, min, max
     res=np.concatenate([res,bins[1:].reshape(-1,1)],axis=1) # mids, min, max, binEdge
-    print('vst')
+    
     t_z=np.abs(norm.ppf(mids/2))
     with ProcessPoolExecutor() as executor:    
         results=executor.map(vst, [(t_z[i*int(np.ceil(len(mids)/M)):min((i+1)*int(np.ceil(len(mids)/M)),len(mids))],
@@ -74,7 +73,7 @@ def makeProb(L,t_mu,t_eps,size,pairwise_cors,N,name):
     #pdb.set_trace()
     #i=0
     #mp((res,N,cr))
-    print('mp')
+    
     with ProcessPoolExecutor() as executor: 
         results=executor.map(mp, [(res[i*int(np.ceil(len(res)/M)):min((i+1)*int(np.ceil(len(res)/M)),len(res)),:],N,cr) 
             for i in range(int(M))])

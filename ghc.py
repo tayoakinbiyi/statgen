@@ -13,10 +13,10 @@ def ghc(z,name):
     ebb=pd.read_csv(name+'-ebb.csv')
     
     M=multiprocessing.cpu_count()
-    results=[ghcHelp((0,z,ebb,binEdges,name))]
-    #with ProcessPoolExecutor() as executor: 
-    #    results=executor.map(ghcHelp, [(i,z[i*int(np.ceil(len(z)/M)):min((i+1)*int(np.ceil(len(z)/M)),len(z))],ebb,binEdges,name) 
-    #        for i in range(int(M))])
+    #results=[ghcHelp((0,z,ebb,binEdges,name))]
+    with ProcessPoolExecutor() as executor: 
+        results=executor.map(ghcHelp, [(i,z[i*int(np.ceil(len(z)/M)):min((i+1)*int(np.ceil(len(z)/M)),len(z))],ebb,binEdges,name) 
+            for i in range(int(M))])
 
     res=[]
     for result in results:
@@ -43,15 +43,16 @@ def ghcHelp(dat):
     N=int(d*2)
     
     kvec=pd.Series([x for x in range(d)]*B,name='kvec')
-    replicant=pd.Series([x for x in range(B) for i in range(d)]*B,name='replicant')
-    p_vals=pd.Series(2*norm.sf(z).flatten(),name='p_vals')
-    
+    p_vals=pd.Series(2*norm.sf(z).flatten(),name='p_vals')   
     loc=binEdges.iloc[pd.cut(p_vals,binEdges,labels=False)+1].reset_index(drop=True)+kvec
+
+    del kvec
     locOrd=loc.argsort()
     
     val=ebb[['var','k','sorter']].iloc[ebb.sorter.searchsorted(loc.iloc[locOrd].values)].reset_index(drop=True)
-    val.insert(2,'replicant',replicant.iloc[locOrd].values)
+    val.insert(2,'replicant',np.array([[x]*d for x in range(B)]).flatten()[locOrd])
     val.insert(3,'p',p_vals.iloc[locOrd].values)
+    del p_vals
     val=val[val.p>=1/N]
     
     if len(val)>0:

@@ -2,6 +2,9 @@ from concurrent.futures import ProcessPoolExecutor
 import pandas as pd
 import numpy as np
 import multiprocessing
+from scipy.stats import norm, beta
+import pdb
+import psutil
 
 def ggnull(z,name):
     B,N=z.shape
@@ -21,7 +24,7 @@ def ggnull(z,name):
     res=[]
     for result in results:
         res+=[result]
-    
+        
     res=sorted(res,key=lambda x: x[0])
     
     power=[]
@@ -47,14 +50,15 @@ def ggHelp(dat):
     N=int(d*2)
     
     kvec=pd.Series([x for x in range(d)]*B,name='kvec')
-    replicant=pd.Series([x for x in range(B) for i in range(d)]*B,name='replicant')
     p_vals=pd.Series(2*norm.sf(z).flatten(),name='p_vals')
-    
     loc=binEdges.iloc[pd.cut(p_vals,binEdges,labels=False)+1].reset_index(drop=True)+kvec
+
+    del kvec
+    del p_vals
     locOrd=loc.argsort()
     
     val=ebb.ebb.iloc[ebb.sorter.searchsorted(loc.iloc[locOrd].values)].reset_index(drop=True).to_frame()
-    val.insert(1,'replicant',replicant.iloc[locOrd].values)
+    val.insert(1,'replicant',np.array([[x]*d for x in range(B)]).flatten()[locOrd])
 
     if len(val)>0:
         fail=val.groupby('replicant').apply(lambda df: pd.DataFrame({'Type':'ggnull1','Value':1-df.ebb.count()/df.shape[0]},

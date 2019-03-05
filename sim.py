@@ -35,7 +35,7 @@ def sim(parms,I=False):
     
     z=np.matmul(L.T,np.random.normal(0,1,size=(N,max(parms['H0'],parms['H1'],parms['H01'])))).T
     empSig=np.corrcoef(z,rowvar=False)
-    sig_tri=np.array([0]*int(N*(N-1)/2)) #empSig[np.triu_indices(N,1)].flatten()
+    sig_tri=empSig[np.triu_indices(N,1)].flatten() #np.array([0]*int(N*(N-1)/2)) 
     
     t=time.time()
     makeProb(L,np.unique(parms['muRange']).round(3),np.unique(parms['epsRange']).round().astype(int),40,sig_tri,N,parms['sigName'])

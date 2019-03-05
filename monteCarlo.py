@@ -34,32 +34,44 @@ def monteCarlo(H,parms,mu,eps,z):
     #i=0
     #results=mc((N,F_n,arr,cr,z[i*int(np.ceil(H/M)):min((i+1)*int(np.ceil(H/M)),H)],sig_tri,Types))
     #pdb.set_trace()
-    print(mu,eps,psutil.virtual_memory().percent)
+    print(psutil.virtual_memory().percent)
     
     #results=[mc((N,F_n,arr,cr,z,sig_tri,Types))]
+    t=time.time()
     with ProcessPoolExecutor() as executor:    
         results=executor.map(mc, [(N,F_n,arr,cr,z[i*int(np.ceil(B/M)):min((i+1)*int(np.ceil(B/M)),B)],sig_tri,Types) for i in
                                   range(int(M))])
     
     power=pd.DataFrame()
     fail=pd.DataFrame()
-    ghc0=pd.DataFrame()
     for result in results:
         power=power.append(result[0])
         fail=fail.append(result[1])
-        ghc0=ghc0.append(result[2])
+    print('mc '+str((time.time()-t)/60))
+    print(psutil.virtual_memory().percent)
 
+    t=time.time()
     powerGG,failGG=ggnull(z,parms['sigName'])
     power=power.append(powerGG)
+    print('ggnull '+str((time.time()-t)/60))
+    print(psutil.virtual_memory().percent)
+
+    t=time.time()
     power=power.append(ghc(z,parms['sigName']))
-    #yy=pd.concat([ghc0.reset_index(),ghc1.reset_index()],axis=1)
-    #xx=np.abs(ghc0.reset_index().Value-ghc1.reset_index().Value)>.05
+    print('ghc '+str((time.time()-t)/60))
+    print(psutil.virtual_memory().percent)
     #xx=pd.concat([power[power.Type=='ggnull'].Value.reset_index(),power[power.Type=='ggnull1'].Value.reset_index()],axis=1)
+    
+    t=time.time()
     power=power.append(myStats(z))
+    print('myStats '+str((time.time()-t)/60))
+    print(psutil.virtual_memory().percent)
+    pdb.set_trace()
+
     Types=power.Type.drop_duplicates()
     Types=Types[~Types.str.contains('1')]
     for typ in Types:
-        print(typ,np.max(np.abs(power[power.Type==typ].Value.values-power[power.Type==typ+'1'].Value.values)))
+            print(typ,np.percentile(np.abs(power[power.Type==typ].Value.values-power[power.Type==typ+'1'].Value.values),99))
     pdb.set_trace()
     power.index=len(power)*[0]
     power=power.merge(pd.DataFrame([[mu,eps]],columns=['mu','eps'],index=[0]),left_index=True,right_index=True)
@@ -84,7 +96,6 @@ def mc(data):
     
     out=[]
     fail=[]
-    ghc0=[]
 
     for i in range(len(p)):   
         p_val_ind=np.argsort(p[i])
@@ -92,8 +103,6 @@ def mc(data):
   
         non_zero = np.array(range(int(np.ceil(len(p_val)/2.0))))
         non_zero_hc=non_zero[non_zero>=sum(p_val<1.0/len(p_val))]
-        #non_zero=non_zero.tolist()
-        #non_zero_hc=non_zero_hc.tolist()
         
         if len(set(Types)&set(['ggnull','ghc','gbj']))>0:
             cor=ggof(z[i], p_val,sig_tri,arr,cr,Types)
@@ -107,7 +116,6 @@ def mc(data):
 
         if 'ghc' in Types:
             out+=[['ghc',np.max(cor['ghc']) if len(cor['ghc'])>0 else 0]]
-            ghc0+=[[cor['k'][k],'ghc0',cor['ghc'][k],i,p_val[non_zero_hc][k],cor['var'][k]] for k in range(int(len(cor['ghc'])))]
             fail+=[['ghc',1-float(len(cor['ghc']))/len(non_zero_hc)]]
         
         if 'bj' in Types:
@@ -134,5 +142,4 @@ def mc(data):
         if 'score' in Types:
             out+=[['score',np.sum(np.sort(-np.abs(z[i]))[non_zero]**2)]]
 
-    return((pd.DataFrame(out,columns=['Type','Value']),pd.DataFrame(fail,columns=['Type','Value']),
-           pd.DataFrame(ghc0,columns=['k','Type','Value','replicant','p','var'])))
+    return((pd.DataFrame(out,columns=['Type','Value']),pd.DataFrame(fail,columns=['Type','Value'])))
