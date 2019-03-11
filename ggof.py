@@ -17,8 +17,7 @@ def ebb_gnull(x,ar,cr):
     return(1-sum(np.exp(cr[0:(k+1)]+np.nansum(np.log(ar[0:(k+1)]*gamma+1-lam),axis=1)+
         np.nansum(np.log(ar.T[0:(k+1)]*gamma+lam),axis=1)-np.nansum(np.log(1+ar[0]*gamma)))))
 
-def ggof(z_raw,p,pairwise_cors,arr,cr,Types):
-    arr1,cr1=ggStats1(len(z_raw))
+def ggof(z_raw,p,pairwise_cors,arr,cr):
     z = -np.sort(-np.abs(z_raw))
     cor={}
                              
@@ -61,7 +60,7 @@ def ggof(z_raw,p,pairwise_cors,arr,cr,Types):
     cor['var']=sigmasq[non_zero_ghc]
     cor['k']=k_vec[non_zero_ghc]
     
-    if 'gbj' in Types:
+    if 'gbj' in ['5']:#Types:
         muj =np.array([0]*d,dtype='float')
         non_zero_gbj=non_zero[p[non_zero]<(k_vec[non_zero]+1)/float(d)]
         for iii in non_zero_gbj:

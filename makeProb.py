@@ -6,6 +6,7 @@ from concurrent.futures import ProcessPoolExecutor
 from scipy.stats import norm, beta
 from qq_var import *
 import pdb
+import psutil
 
 def newC(n):
     lFac=np.log(list(range(1,n+1)))
@@ -21,30 +22,38 @@ def binsMinMax(df,B,N):
 def kMinMax(df):
     return(pd.DataFrame({'mids':df.mids.iloc[0],'min':df.k.min(),'max':df.k.max()},index=[0]))
 
-def makeProb(L,t_mu,t_eps,size,pairwise_cors,N,name):
-    #if  os.path.isfile(name+'-ebb.csv'):
-    #    return()
-    z=np.matmul(L.T,np.random.normal(0,1,size=(N,500))).T
-
+def makeProb(L,parms):
+    N=parms['N']
+    sigName=parms['sigName']
+    
     d=int(N/2)
     cr=newC(N)
 
+    z=np.matmul(L.T,np.random.normal(0,1,size=(N,500))).T
+    empSig=np.corrcoef(z,rowvar=False)
+    pairwise_cors=np.array([0]*int((N-1)*N/2))#empSig[np.triu_indices(N,1)].flatten() 
+
+    if os.path.isfile(sigName+'-'+str(N)+'-ebb.csv'):
+        return()
+    
     M=multiprocessing.cpu_count()
     
     res=[]
     
-    for mu in t_mu:
-        for eps in np.linspace(2,N*(.008 if N>2000 else .01 if N>1000 else .017),10).astype(int):
+    for mu in parms['muRange']:
+        for eps in parms['epsRange']:
             t_z=z.copy()
             if mu*eps>0:
                 t_z[:,range(eps)]+=mu
             lam=np.sort((2*norm.sf(np.abs(t_z))))[:,0:d].reshape(-1,1)
             res+=[np.concatenate([lam.reshape(-1,1),[[x] for x in range(d)]*len(t_z)],axis=1)] # lam,k
             
+    print('for', psutil.virtual_memory().percent)
     res=np.concatenate(res,axis=0)
     bins=np.histogram_bin_edges(res[:,0],bins=int(N**1.5))
     bins=np.append(np.append(np.linspace(0,bins[2],100),bins[3:-2]),np.linspace(bins[-2],1,100))
     mids=(bins[1:]+bins[:-1]).reshape(-1,1)/2
+    print('mids', psutil.virtual_memory().percent)
    
     res=np.concatenate([res[:,1].reshape(-1,1),(np.digitize(res[:,0],bins)-1).reshape(-1,1)],axis=1) #[k,bins] 
     res=pd.DataFrame(res,columns=['k','bins']).groupby('k').apply(binsMinMax,B=len(mids),N=N).reset_index(drop=True)
@@ -55,6 +64,7 @@ def makeProb(L,t_mu,t_eps,size,pairwise_cors,N,name):
     res=np.concatenate([res,bins[1:].reshape(-1,1)],axis=1) # mids, min, max, binEdge
     
     t_z=np.abs(norm.ppf(mids/2))
+    print('t_z', psutil.virtual_memory().percent)
     with ProcessPoolExecutor() as executor:    
         results=executor.map(vst, [(t_z[i*int(np.ceil(len(mids)/M)):min((i+1)*int(np.ceil(len(mids)/M)),len(mids))],
             N,pairwise_cors) for i in range(int(M))])
@@ -62,7 +72,8 @@ def makeProb(L,t_mu,t_eps,size,pairwise_cors,N,name):
     var=[]
     for result in results:
         var+=[result]
-
+    
+    print('var', psutil.virtual_memory().percent)
     var=np.concatenate(var,axis=0)
     var=var[np.argsort(-var[:,0]),1].reshape(-1,1) # sort according to lam / mids
     rho = (var - N*mids*(1-mids)) / (N*(N-1)*mids*(1-mids))
@@ -74,6 +85,7 @@ def makeProb(L,t_mu,t_eps,size,pairwise_cors,N,name):
     #i=0
     #mp((res,N,cr))
     
+    print('gamma', psutil.virtual_memory().percent)
     with ProcessPoolExecutor() as executor: 
         results=executor.map(mp, [(res[i*int(np.ceil(len(res)/M)):min((i+1)*int(np.ceil(len(res)/M)),len(res)),:],N,cr) 
             for i in range(int(M))])
@@ -82,12 +94,13 @@ def makeProb(L,t_mu,t_eps,size,pairwise_cors,N,name):
     for result in results:
         ebb+=result
 
+    print('result', psutil.virtual_memory().percent)
     ebb=pd.concat(ebb,axis=0) # binEdge+k,ebb
     ebb=ebb.sort_values(by='sorter')
     bins=pd.Series(bins,name='bins')
     
-    ebb.to_csv(name+'-ebb.csv',index=False)
-    bins.to_csv(name+'-ebb-binEdges.csv',index=False,header=True)
+    ebb.to_csv(sigName+'-'+str(N)+'-ebb.csv',index=False)
+    bins.to_csv(sigName+'-'+str(N)+'-ebb-binEdges.csv',index=False,header=True)
     
     return()
         
@@ -104,8 +117,7 @@ def mp(dat):
     res=dat[j];j+=1
     N=dat[j];j+=1
     cr=dat[j];j+=1
-    # res:  mids, min,max,gamma,binEdge
-    #pdb.set_trace()
+
     ebb=[]    
     for row in res:
         j=0

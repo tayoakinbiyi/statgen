@@ -7,19 +7,16 @@ import pdb
 import psutil
 
 def ggnull(z,name):
-    B,N=z.shape
+    Reps,N=z.shape
     d=int(N/2)
 
     z=-np.sort(-np.abs(z))[:,0:d]
-    binEdges=pd.read_csv(name+'-ebb-binEdges.csv').bins
-    ebb=pd.read_csv(name+'-ebb.csv')
     
     M=multiprocessing.cpu_count()
-    #results=[ggHelp((0,z,ebb,binEdges,name))]
-    #pdb.set_trace()
+    
     with ProcessPoolExecutor() as executor: 
-        results=executor.map(ggHelp, [(i,z[i*int(np.ceil(B/M)):min((i+1)*int(np.ceil(B/M)),B)],ebb,binEdges,name) 
-        for i in range(int(M))])
+        results=executor.map(ggHelp, [(i,z[i*int(np.ceil(Reps/M)):min((i+1)*int(np.ceil(Reps/M)),Reps)].tolist(),name)
+            for i in range(int(M))])
 
     res=[]
     for result in results:
@@ -41,29 +38,30 @@ def ggnull(z,name):
 def ggHelp(dat):
     j=0;
     segment=dat[j];j+=1
-    z=dat[j];j+=1
-    ebb=dat[j];j+=1
-    binEdges=dat[j];j+=1
+    z=np.array(dat[j]);j+=1
     name=dat[j];j+=1
     
-    B,d=z.shape
+    Reps,d=z.shape
     N=int(d*2)
     
-    kvec=pd.Series([x for x in range(d)]*B,name='kvec')
-    p_vals=pd.Series(2*norm.sf(z).flatten(),name='p_vals')
-    loc=binEdges.iloc[pd.cut(p_vals,binEdges,labels=False)+1].reset_index(drop=True)+kvec
+    binEdges=pd.read_csv(name+'-'+str(N)+'-ebb-binEdges.csv').bins
+    ebb=pd.read_csv(name+'-'+str(N)+'-ebb.csv')
+
+    kvec=np.array([x for x in range(d)]*Reps).flatten()
+    p_vals=2*norm.sf(z).flatten()
+    loc=binEdges.iloc[pd.cut(p_vals,binEdges,labels=False)+1].values+kvec
 
     del kvec
     del p_vals
     locOrd=loc.argsort()
     
-    val=ebb.ebb.iloc[ebb.sorter.searchsorted(loc.iloc[locOrd].values)].reset_index(drop=True).to_frame()
-    val.insert(1,'replicant',np.array([[x]*d for x in range(B)]).flatten()[locOrd])
+    val=ebb.ebb.iloc[ebb.sorter.searchsorted(loc[locOrd])].reset_index(drop=True).to_frame()
+    val.insert(1,'replicant',np.array([[x]*d for x in range(Reps)]).flatten()[locOrd])
 
     if len(val)>0:
-        fail=val.groupby('replicant').apply(lambda df: pd.DataFrame({'Type':'ggnull1','Value':1-df.ebb.count()/df.shape[0]},
+        fail=val.groupby('replicant').apply(lambda df: pd.DataFrame({'Type':'ggnull','Value':1-df.ebb.count()/df.shape[0]},
             index=[0])).reset_index().sort_values(by='replicant')[['Type','Value']]
-        power=val.groupby('replicant').apply(lambda df: pd.DataFrame({'Type':'ggnull1','Value':-df.ebb.min()},index=[0])
+        power=val.groupby('replicant').apply(lambda df: pd.DataFrame({'Type':'ggnull','Value':-df.ebb.min()},index=[0])
             ).reset_index().sort_values(by='replicant')[['Type','Value']]
     else:
         fail=pd.DataFrame()

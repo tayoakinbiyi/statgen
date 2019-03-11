@@ -48,7 +48,7 @@ def heatMapPower(power,parms):
     fig, axs = plt.subplots(len(Types),3,dpi=50,tight_layout=True)   
     fig.set_figwidth(len(mu)*3,forward=True)
     fig.set_figheight(len(Types)*len(eps)*1.5,forward=True)
-
+    
     textDF=[0,0,0]   
     for Type in range(len(Types)):
         textDF[0]=mat[Type].astype(str)
@@ -105,6 +105,7 @@ def heatMapPower(power,parms):
     fig.savefig('heatmap-best-N:'+str(N)+'-H0:'+str(H0)+'-H1:'+str(H1)+'-H01:'+str(H01)+'-Sig:'+sigName+'.png')
 
 def heatMapFail(fail,parms):    
+    return()
     if not parms['plot']:
         return()
 
@@ -140,8 +141,8 @@ def heatMapFail(fail,parms):
         textDF[0]=fail[fail.Type==Types[Type]].pivot(values='avgFailRate',index='eps',columns='mu').fillna(0).astype(int).values
         textDF[1]=fail[fail.Type==Types[Type]].pivot(values='pctAllFail',index='eps',columns='mu').fillna(0).astype(int).values
 
-        axs[Type,0].imshow(textDF[0],interpolation='nearest', cmap='Greys',vmin=0,vmax=1000)
-        axs[Type,1].imshow(textDF[1],interpolation='nearest', cmap='Greys',vmin=0,vmax=1000)
+        axs[Type,0].imshow(textDF[0],interpolation='nearest', cmap='seismic',vmin=500,vmax=1000)
+        axs[Type,1].imshow(textDF[1],interpolation='nearest', cmap='seismic',vmin=500,vmax=1000)
 
         for Plot in range(len(textDF)):
             axs[Type,Plot].set_xticks(np.arange(textDF[0].shape[1]))
