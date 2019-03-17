@@ -3,10 +3,13 @@ import pandas as pd
 import os
 import multiprocessing
 from concurrent.futures import ProcessPoolExecutor
+from bounded_pool_executor import BoundedProcessPoolExecutor
 from scipy.stats import norm, beta
 from qq_var import *
 import pdb
 import psutil
+import matplotlib.pylab as plt
+
 
 def newC(n):
     lFac=np.log(list(range(1,n+1)))
@@ -20,54 +23,92 @@ def binsMinMax(df,B,N):
     return(pd.DataFrame(np.concatenate([k,bins],axis=1),columns=['k','bins']))
 
 def kMinMax(df):
-    return(pd.DataFrame({'mids':df.mids.iloc[0],'min':df.k.min(),'max':df.k.max()},index=[0]))
+    return(pd.DataFrame({'min':df.k.min(),'max':df.k.max()},index=[0]))
+
+def makeZ(dat):
+    j=0
+    z=np.array(dat[j]);j+=1
+    mu=dat[j];j+=1
+    eps=dat[j];j+=1
+    bins=dat[j];j+=1
+    
+    Reps,N=z.shape
+    d=int(N/2)
+    
+    if mu*eps>0:
+        z[:,range(eps)]+=mu
+
+    res=np.concatenate([np.digitize(np.sort(2*norm.sf(np.abs(z)))[:,0:d].reshape(-1,1),bins)-1,[[x] for x in range(d)]*len(z)],axis=1)
+    res=pd.DataFrame(res,columns=['bins','k']).groupby('k').apply(binsMinMax,B=len(bins)-1,N=N).reset_index(drop=True)
+    return(res)
 
 def makeProb(L,parms):
     N=parms['N']
     sigName=parms['sigName']
     
     d=int(N/2)
-    cr=newC(N)
 
-    z=np.matmul(L.T,np.random.normal(0,1,size=(N,500))).T
+    z=np.matmul(L.T,np.random.normal(0,1,size=(N,200))).T
     empSig=np.corrcoef(z,rowvar=False)
-    pairwise_cors=np.array([0]*int((N-1)*N/2))#empSig[np.triu_indices(N,1)].flatten() 
+    pairwise_cors=np.array([0]*int((N-1)*N/2)) # empSig[np.triu_indices(N,1)].flatten() 
 
-    if os.path.isfile(sigName+'-'+str(N)+'-ebb.csv'):
+    if os.path.isfile(sigName+'-'+str(N)+'-ebb-prob.csv'):
         return()
     
     M=multiprocessing.cpu_count()
     
-    res=[]
-    
-    for mu in parms['muRange']:
-        for eps in parms['epsRange']:
-            t_z=z.copy()
-            if mu*eps>0:
-                t_z[:,range(eps)]+=mu
-            lam=np.sort((2*norm.sf(np.abs(t_z))))[:,0:d].reshape(-1,1)
-            res+=[np.concatenate([lam.reshape(-1,1),[[x] for x in range(d)]*len(t_z)],axis=1)] # lam,k
-            
-    print('for', psutil.virtual_memory().percent)
-    res=np.concatenate(res,axis=0)
-    bins=np.histogram_bin_edges(res[:,0],bins=int(N**1.5))
-    bins=np.append(np.append(np.linspace(0,bins[2],100),bins[3:-2]),np.linspace(bins[-2],1,100))
+    numBins=int(N**2)
+    bins=np.linspace(0,.5,numBins+1)
     mids=(bins[1:]+bins[:-1]).reshape(-1,1)/2
-    print('mids', psutil.virtual_memory().percent)
-   
-    res=np.concatenate([res[:,1].reshape(-1,1),(np.digitize(res[:,0],bins)-1).reshape(-1,1)],axis=1) #[k,bins] 
-    res=pd.DataFrame(res,columns=['k','bins']).groupby('k').apply(binsMinMax,B=len(mids),N=N).reset_index(drop=True)
-    res.insert(2,'mids',mids[res.bins.astype(int)])
-    res.drop(columns='bins',inplace=True)    
-    res=res.groupby('mids',sort=False).apply(kMinMax).reset_index(drop=True)
-    res=res.sort_values(by='mids').values # mids, min, max
-    res=np.concatenate([res,bins[1:].reshape(-1,1)],axis=1) # mids, min, max, binEdge
     
-    t_z=np.abs(norm.ppf(mids/2))
-    print('t_z', psutil.virtual_memory().percent)
+    '''
+    with BoundedProcessPoolExecutor(max_workers=M) as executor: 
+        results=executor.map(makeZ, [(z.tolist(),mu,eps,bins.tolist()) for mu in parms['muRange'] for eps in parms['epsRange']])
+    
+    res=pd.DataFrame()
+    for result in results:
+        res=res.append(result)
+    '''
+
+    mMin=np.digitize(np.append([mids[0]]*5,beta.ppf(1e-8,np.array(range(5,d))+1,N-np.array(range(5,d)))),bins).astype(int)
+    mMax=np.digitize(beta.ppf(1-1e-8,np.array(range(d))+1,N-np.array(range(d))),bins).astype(int)
+    res=pd.DataFrame([[x,y] for x in range(d) for y in range(mMin[x],mMax[x])], columns=['k','bins'])
+    
+    del mMin, mMax
+    
+    print('max', psutil.virtual_memory().percent)
+    
+    '''
+    res=res.groupby('k').apply(lambda df: pd.DataFrame({'k':df.k.iloc[0],'bins':range(df.bins.min(),df.bins.max()+1)}))
+    xx=res.reset_index(drop=True).groupby('k').apply(lambda df,mids: pd.DataFrame({'k':df.k.iloc[0]/150,'min':mids[df.bins.min()],
+        'max':mids[df.bins.max()]},index=[0]),mids=mids).reset_index(drop=True)
+    yy=xx
+    xx=xx.sort_values(by='k')
+    xx.insert(0,'minBeta',np.append([0]*5,beta.ppf(1e-8,np.array(range(5,d)),N-np.array(range(5,d)))))
+    xx.insert(0,'maxBeta',np.append([beta.ppf(1-1e-6,1,N)],beta.ppf(1-1e-8,np.array(range(1,d))+1,N-np.array(range(1,d))))}))
+    xx.plot(x='k',y=['min','max','minBeta','maxBeta'])
+    plt.savefig('t.png')
+    pdb.set_trace()
+    print('mids', psutil.virtual_memory().percent)
+    res=pd.DataFrame({'k':range(d),'min':np.digitize(np.append([0]*5,beta.ppf(1e-8,range(6,d+1),N-range(6,d+1))),bins),'max':
+        np.digitize(np.append([0]*5,beta.ppf(1-1e-8,range(1,d+1),N-range(1,d+1))),bins)})
+    pdb.set_trace()'''
+   
+    res.insert(2,'mids',mids[res.bins.astype(int)-1])
+    res.insert(3,'binEdges',bins[res.bins.astype(int)])
+    res.drop(columns='bins',inplace=True)
+    res.reset_index(inplace=True)
+    print('res', psutil.virtual_memory().percent)
+
+    res=res.groupby(['mids','binEdges'],sort=False).apply(kMinMax).reset_index()
+    res.drop(columns='level_2',inplace=True)
+    res=res.sort_values(by='mids') # mids, binEdges, min, max
+    
+    z=np.abs(norm.ppf(mids/2))
+    print('makeZ', psutil.virtual_memory().percent)
     with ProcessPoolExecutor() as executor:    
-        results=executor.map(vst, [(t_z[i*int(np.ceil(len(mids)/M)):min((i+1)*int(np.ceil(len(mids)/M)),len(mids))],
-            N,pairwise_cors) for i in range(int(M))])
+        results=executor.map(vst, [(z[i*int(np.ceil(len(mids)/M)):min((i+1)*int(np.ceil(len(mids)/M)),len(mids))].tolist(),
+            N,pairwise_cors.tolist()) for i in range(int(M))])
         
     var=[]
     for result in results:
@@ -76,18 +117,17 @@ def makeProb(L,parms):
     print('var', psutil.virtual_memory().percent)
     var=np.concatenate(var,axis=0)
     var=var[np.argsort(-var[:,0]),1].reshape(-1,1) # sort according to lam / mids
+    pd.DataFrame(np.concatenate([bins[1:].reshape(-1,1),var],axis=1),columns=['binEdges','var']).to_csv(
+        sigName+'-'+str(N)+'-ebb-var.csv',index=False)
+
     rho = (var - N*mids*(1-mids)) / (N*(N-1)*mids*(1-mids))
     gamma = rho / (1-rho)
 
-    res=np.concatenate([res,gamma,var],axis=1) # mids, min,max,binEdge, gamma, var
-    
-    #pdb.set_trace()
-    #i=0
-    #mp((res,N,cr))
+    res=np.concatenate([res,gamma,var],axis=1) # mids, binEdge,min,max, gamma, var
     
     print('gamma', psutil.virtual_memory().percent)
     with ProcessPoolExecutor() as executor: 
-        results=executor.map(mp, [(res[i*int(np.ceil(len(res)/M)):min((i+1)*int(np.ceil(len(res)/M)),len(res)),:],N,cr) 
+        results=executor.map(mp, [(res[i*int(np.ceil(len(res)/M)):min((i+1)*int(np.ceil(len(res)/M)),len(res)),:].tolist(),N) 
             for i in range(int(M))])
     
     ebb=[]
@@ -99,32 +139,32 @@ def makeProb(L,parms):
     ebb=ebb.sort_values(by='sorter')
     bins=pd.Series(bins,name='bins')
     
-    ebb.to_csv(sigName+'-'+str(N)+'-ebb.csv',index=False)
+    ebb.to_csv(sigName+'-'+str(N)+'-ebb-prob.csv',index=False)
     bins.to_csv(sigName+'-'+str(N)+'-ebb-binEdges.csv',index=False,header=True)
     
     return()
         
 def vst(dat):
     j=0
-    z=dat[j].reshape(-1,1);j+=1
+    z=np.array(dat[j]).reshape(-1,1);j+=1
     d=dat[j];j+=1
-    pairwise_cors=dat[j];j+=1
+    pairwise_cors=np.array(dat[j]);j+=1
     
     return(np.concatenate([z,np.apply_along_axis(var_st,1, z,d=d,pairwise_cors=pairwise_cors)],axis=1))
 
 def mp(dat):
     j=0;
-    res=dat[j];j+=1
+    res=np.array(dat[j]);j+=1
     N=dat[j];j+=1
-    cr=dat[j];j+=1
+    cr=newC(N)
 
     ebb=[]    
     for row in res:
         j=0
         rLam=row[j];j+=1
+        rBinEdge=row[j];j+=1
         rMin=int(row[j]);j+=1
         rMax=int(row[j]);j+=1
-        rBinEdge=row[j];j+=1
         rGamma=row[j];j+=1
         rVar=row[j];j+=1
         rLen=(rMax-rMin+1)
@@ -136,11 +176,10 @@ def mp(dat):
             baseCr=cr[0:(int(rMax)+1)]
 
             Pr=np.exp(baseCr+baseOne+baseTwo-baseThree)
-            ebb+=[pd.DataFrame({'sorter':[rBinEdge+x for x in range(rMin,rMax+1)],'k':range(rMin,rMax+1),'ebb':
-                (1-(np.sum(Pr[0:rMin])+np.cumsum(Pr[rMin:rMax+1]))),'var':rVar},index=range(rLen))] # binEdge+k,ebb, var
+            ebb+=[pd.DataFrame({'sorter':[rBinEdge+x for x in range(rMin,rMax+1)],'ebb':
+                (1-(np.sum(Pr[0:rMin])+np.cumsum(Pr[rMin:rMax+1])))},index=range(rLen))] # binEdge+k,ebb, var
              
         else:
-            ebb+=[pd.DataFrame({'sorter':[rBinEdge+x for x in range(rMin,rMax+1)],'k':range(rMin,rMax+1),'ebb':np.nan,
-                  'var':rVar},index=range(rLen))] # binEdge+k,np.nan, var
+            ebb+=[pd.DataFrame({'sorter':[rBinEdge+x for x in range(rMin,rMax+1)],'ebb':np.nan,},index=range(rLen))] # binEdge+k,ebb
 
     return(ebb)

@@ -21,15 +21,15 @@ if __name__ == '__main__':
     parms={
         'Types':['hc','gnull','bj','fdr','minP','score','ggnull','ghc'],
         'plot':True,
-        'H0':5000,
-        'H01':5000,
+        'H0':3000,
+        'H01':3000,
         'H1':5000,
         'fontsize':17,
         'new':True
     }
     
     if len(EXCHANGEABLE)>0:
-        for N in [200,1000,1500,2000,2500,3000,3500,4000,4500,5000,5500,6000,6500,7000,7500,8000,8500,9000,10000]:
+        for N in [500,1000,1500,2000,2500,3000,3500,4000,4500,5000,5500,6000,6500,7000,7500,8000,8500,9000,10000]:
             for rho in EXCHANGEABLE:            
                 sig,_=exchangeable(N,rho)
                 sigName='iid-ggnull-ghc'

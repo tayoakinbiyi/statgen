@@ -41,6 +41,8 @@ def sim(parms):
     makeProb(L,parms)
     if parms['new']:
         alpha,_=monteCarlo(L,sigName,0,0,parms['H0'])
+        print('alpha', psutil.virtual_memory().percent)
+        pdb.set_trace()
         alpha=alpha.groupby('Type',sort=False).apply(lambda df:np.nanpercentile(df.Value,q=95))
         alpha.name='alpha'
         alpha=alpha.reset_index()
@@ -72,7 +74,6 @@ def sim(parms):
                        for Type in parms['Types'] if (t_eps<eps and t_mu<mu)],columns=power.columns))
                 epsMu=[(t_eps,t_mu) for (t_eps,t_mu) in epsMu if not (t_eps<eps and t_mu<mu)]
         
-        pdb.set_trace()
         power.reset_index(drop=True,inplace=True)
         fail.reset_index(drop=True,inplace=True)
         power.to_csv('raw-power-'+str(parms['N'])+'-'+sigName+'.csv',index=False)

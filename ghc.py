@@ -4,6 +4,7 @@ import pandas as pd
 import multiprocessing
 from scipy.stats import norm,beta
 import psutil
+import pdb
 
 def ghc(z,name):
     Reps,N=z.shape
@@ -12,7 +13,8 @@ def ghc(z,name):
     z=-np.sort(-np.abs(z))[:,0:d]
     
     M=multiprocessing.cpu_count()
-    #results=[ghcHelp((0,z,ebb,binEdges,name))]
+    i=0
+    #ghcHelp((i,z[i*int(np.ceil(Reps/M)):min((i+1)*int(np.ceil(Reps/M)),Reps)].tolist(),name))
     with ProcessPoolExecutor() as executor: 
         results=executor.map(ghcHelp, [(i,z[i*int(np.ceil(Reps/M)):min((i+1)*int(np.ceil(Reps/M)),Reps)].tolist(),name)
         for i in range(int(M))])
@@ -40,26 +42,25 @@ def ghcHelp(dat):
     N=int(d*2)
     
     binEdges=pd.read_csv(name+'-'+str(N)+'-ebb-binEdges.csv').bins
-    ebb=pd.read_csv(name+'-'+str(N)+'-ebb.csv')
+    var=pd.read_csv(name+'-'+str(N)+'-ebb-var.csv')
 
     kvec=np.array([range(d)]*Reps).flatten()
     p_vals=2*norm.sf(z).flatten()
-    loc=binEdges.iloc[pd.cut(p_vals,binEdges,labels=False)+1].values+kvec
+    locOrd=np.argsort(p_vals)
 
-    locOrd=loc.argsort()
-    
-    val=ebb[['var','k','sorter']].iloc[ebb.sorter.searchsorted(loc[locOrd])].reset_index(drop=True)
-    val.insert(2,'replicant',np.array([[x]*d for x in range(Reps)]).flatten()[locOrd])
-    val.insert(3,'p',p_vals[locOrd])
-    
-    del p_vals
+    val=pd.DataFrame({'var':var['var'].iloc[np.minimum(len(var)-1,var.binEdges.searchsorted(p_vals[locOrd]).flatten())],
+        'k':kvec[locOrd],'replicant':np.array([range(Reps)]*d).T.flatten()[locOrd],'p':p_vals[locOrd]})
+    if(len(val.replicant.drop_duplicates())<len(z)):
+        print(len(val.replicant.drop_duplicates()),len(z))
+    #pdb.set_trace()
+    power=val.groupby('replicant').apply(lambda df,N: pd.DataFrame({'Type':'ghcFull','Value':
+        np.max(((df.k+1-N*df.p)/(df['var']**.5)))},index=[0]),N=N).reset_index().sort_values(by='replicant')[['Type','Value']]
+
     val=val[val.p>=1/N]
     
-    if len(val)>0:
-        power=val.groupby('replicant').apply(lambda df,N: pd.DataFrame({'Type':'ghc','Value':np.max((df.k+1-N*df.p)/(df['var']**.5))},
-            index=[0]),N=N).reset_index().sort_values(by='replicant')[['Type','Value']]
-    else:
-        power=pd.DataFrame()
+    power=val.groupby('replicant').apply(lambda df,N: pd.DataFrame({'Type':'ghc','Value':
+        np.max(((df.k+1-N*df.p)/(df['var']**.5))[df.p<=(df.k+1)/N])},index=[0]),N=N).reset_index().sort_values(
+        by='replicant')[['Type','Value']]
     
     return(segment,power)
 

@@ -14,6 +14,8 @@ def ggnull(z,name):
     
     M=multiprocessing.cpu_count()
     
+    i=0
+    #ggHelp((i,z[i*int(np.ceil(Reps/M)):min((i+1)*int(np.ceil(Reps/M)),Reps)].tolist(),name))
     with ProcessPoolExecutor() as executor: 
         results=executor.map(ggHelp, [(i,z[i*int(np.ceil(Reps/M)):min((i+1)*int(np.ceil(Reps/M)),Reps)].tolist(),name)
             for i in range(int(M))])
@@ -45,18 +47,18 @@ def ggHelp(dat):
     N=int(d*2)
     
     binEdges=pd.read_csv(name+'-'+str(N)+'-ebb-binEdges.csv').bins
-    ebb=pd.read_csv(name+'-'+str(N)+'-ebb.csv')
+    print(str(segment)+' before', psutil.virtual_memory().percent)
+    ebb=pd.read_csv(name+'-'+str(N)+'-ebb-prob.csv')
+    print(str(segment)+' after', psutil.virtual_memory().percent)
 
-    kvec=np.array([x for x in range(d)]*Reps).flatten()
+    kvec=np.array([range(d)]*Reps).flatten()
     p_vals=2*norm.sf(z).flatten()
-    loc=binEdges.iloc[pd.cut(p_vals,binEdges,labels=False)+1].values+kvec
+    loc=binEdges.iloc[np.minimum(len(binEdges)-1,np.digitize(p_vals,binEdges))].values+kvec
 
-    del kvec
-    del p_vals
     locOrd=loc.argsort()
     
     val=ebb.ebb.iloc[ebb.sorter.searchsorted(loc[locOrd])].reset_index(drop=True).to_frame()
-    val.insert(1,'replicant',np.array([[x]*d for x in range(Reps)]).flatten()[locOrd])
+    val.insert(1,'replicant',np.array([range(Reps)]*d).T.flatten()[locOrd])
 
     if len(val)>0:
         fail=val.groupby('replicant').apply(lambda df: pd.DataFrame({'Type':'ggnull','Value':1-df.ebb.count()/df.shape[0]},

@@ -45,6 +45,7 @@ def myStatsHelp(dat):
 
     minP=-p_val[:,0]   
     hc=[np.sqrt(N)*np.max(((Fn0 -p)/np.sqrt(p*(1-p)))[p>=1/N]) for p in p_val]
+    hcFull=np.sqrt(N)*np.max((Fn-p_val)/np.sqrt(p_val*(1-p_val)),axis=1)
     bj=np.max(N*D(Fn,p_val),axis=1)
     gnull=np.max(-beta.cdf(p_val,np.array([range(1,d+1)]*Reps),(N+1)-np.array([range(1,d+1)]*Reps)),axis=1)
     fdr=np.max(Fn/p_val,axis=1)
@@ -52,6 +53,7 @@ def myStatsHelp(dat):
     
     power=pd.concat([
         pd.DataFrame({'Type':'hc','Value':hc}),
+        pd.DataFrame({'Type':'hcFull','Value':hcFull}),
         pd.DataFrame({'Type':'minP','Value':minP}),
         pd.DataFrame({'Type':'bj','Value':bj}),
         pd.DataFrame({'Type':'gnull','Value':gnull}),
