@@ -38,13 +38,13 @@ def sim(parms):
     muRange=parms['muRange']
     sigName=parms['sigName']
     
-    makeProb(L,parms)
+    pairwise_cors=makeProb(L,parms)
     if parms['new']:
-        alpha,_=monteCarlo(L,sigName,0,0,parms['H0'])
+        alpha,_=monteCarlo(L,sigName,0,0,parms['H0'],pairwise_cors)
         print('alpha', psutil.virtual_memory().percent)
         ggnull=alpha[alpha.Type=='ggnull']
         ggnull0=alpha[alpha.Type=='ggnull0']
-        diff=np.abs(ggnull.Value+ggnull0.Value)>.01
+        diff=np.abs(ggnull.Value-ggnull0.Value)>.01
         summ=pd.concat([ggnull,ggnull0],axis=1)[diff]
         pdb.set_trace()
         alpha=alpha.groupby('Type',sort=False).apply(lambda df:np.nanpercentile(df.Value,q=95))

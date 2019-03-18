@@ -13,13 +13,16 @@ from myStats import *
 from ghc import *
 from ggnull import *
 
-def monteCarlo(L,sigName,eps,mu,Reps):
+def monteCarlo(L,sigName,eps,mu,Reps,pairwise_cors):
     N=len(L)
     
     z=np.matmul(L.T,np.random.normal(0,1,size=(N,Reps))).T
     
     if mu*eps>0:
         z[:,range(eps)]+=mu
+    
+    #empSig=np.corrcoef(z,rowvar=False)
+    #pairwise_cors=empSig[np.triu_indices(N,1)].flatten()  # np.array([0]*int((N-1)*N/2)) # 
     
     power=pd.DataFrame()
     fail=pd.DataFrame()
@@ -36,7 +39,8 @@ def monteCarlo(L,sigName,eps,mu,Reps):
     
     M=multiprocessing.cpu_count()
     with ProcessPoolExecutor() as executor:    
-        results=executor.map(mc, [(i,z[i*int(np.ceil(Reps/M)):min((i+1)*int(np.ceil(Reps/M)),Reps)].tolist(),) for i in range(int(M))])
+        results=executor.map(mc, [(i,z[i*int(np.ceil(Reps/M)):min((i+1)*int(np.ceil(Reps/M)),Reps)].tolist(),pairwise_cors) for
+            i in range(int(M))])
     
     res=[]
     for result in results:
@@ -46,7 +50,7 @@ def monteCarlo(L,sigName,eps,mu,Reps):
     
     for element in res:
         power=power.append(element[1])
-        #fail=fail.append(element[2])
+        fail=fail.append(element[2])
     
     power.index=len(power)*[0]
     power=power.merge(pd.DataFrame([[eps,mu]],columns=['eps','mu'],index=[0]),left_index=True,right_index=True)
@@ -61,13 +65,13 @@ def mc(data):
     j=0
     segment=data[j];j+=1
     z=np.array(data[j]);j+=1
+    sig_tri=data[j];j+=1
+    
     Reps,N=z.shape
     arr,cr=ggStats(N)
 
     F_n=np.array([float(j)/N for j in range(1,N+1)])
 
-    sig_tri=np.array([0]*int((N-1)*N/2))
-    
     p=2*norm.cdf(-np.abs(z))  
     
     out=[]
@@ -98,7 +102,8 @@ def mc(data):
         out+=[['gnull0',np.max(gnull)]]
         
         if len(cor['ggnull'])>0:
-            val+=[['ggnull0',cor['ggnull'][x],p_val[non_zero][x],x] for x in range(len(cor['ggnull']))]
+            out+=[['ggnull0',max(cor['ggnull'])]]
+            #out+=[['ggnull00',cor['ggnull'][x],p_val[non_zero][x],x] for x in range(len(cor['ggnull']))]
         fail+=[['ggnull0',1-float(len(cor['ggnull']))/len(non_zero)]]
         
         fdr=(F_n/p_val)[non_zero]
@@ -106,4 +111,4 @@ def mc(data):
 
         out+=[['score0',np.sum(np.sort(-np.abs(z[i]))[non_zero]**2)]]
         
-    return(segment,pd.DataFrame(val,columns=['Type','Value','p','k']),pd.DataFrame(out,columns=['Type','Value']),pd.DataFrame(fail,columns=['Type','Value']))
+    return(segment,pd.DataFrame(out,columns=['Type','Value']),pd.DataFrame(fail,columns=['Type','Value']))

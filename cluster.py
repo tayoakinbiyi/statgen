@@ -6,6 +6,7 @@ import pandas as pd
 from math import log
 from scipy.cluster.hierarchy import linkage, fcluster, dendrogram
 from scipy.spatial.distance import squareform
+import matplotlib.pyplot as plt
 
 def cluster(fileName,datName,N=None):    
     data=pd.read_csv(fileName,sep=',')
@@ -56,9 +57,10 @@ def cluster(fileName,datName,N=None):
     
 def hcluster():
     data=pd.read_csv('mouse.csv',sep=',')
-    Z=linkage(data, 'single', 'correlation')
+    Z=linkage(data.T, 'single', 'correlation')
     pdb.set_trace()
-    dendrogram(Z, color_threshold=0) 
+    dendrogram(Z, color_threshold=0)
+    plt.savefig('full_dendogram.png')
     
 if __name__ == '__main__':
     hcluster()

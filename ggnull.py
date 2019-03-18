@@ -29,10 +29,10 @@ def ggnull(z,name):
     fail=[]
     for element in res:        
         power+=[element[1]]
-        #fail+=[element[2]]
+        fail+=[element[2]]
    
     power=pd.concat(power,axis=0)
-    fail=pd.DataFrame()#pd.concat(fail,axis=0)
+    fail=pd.concat(fail,axis=0)
 
     return(power,fail)
     
@@ -55,13 +55,9 @@ def ggHelp(dat):
     sortOrd=sorter.argsort()
     
     val=pd.DataFrame()
-    val.insert(0,'Value',ebb.ebb.iloc[ebb.sorter.searchsorted(sorter[sortOrd])].values)
+    val.insert(0,'ebb',ebb.ebb.iloc[ebb.sorter.searchsorted(sorter[sortOrd])].values)
     val.insert(1,'replicant',np.array([range(Reps)]*d).T.flatten()[sortOrd])
-    val.insert(2,'Type','ggnull')
-    val.insert(3,'k',kvec[sortOrd])
-    val.insert(4,'p',p_vals[sortOrd])
-    val=val.sort_values(by=['replicant','k'])
-    '''
+
     if len(val)>0:
         fail=val.groupby('replicant').apply(lambda df: pd.DataFrame({'Type':'ggnull','Value':1-df.ebb.count()/df.shape[0]},
             index=[0])).reset_index().sort_values(by='replicant')[['Type','Value']]
@@ -69,7 +65,7 @@ def ggHelp(dat):
             ).reset_index().sort_values(by='replicant')[['Type','Value']]
     else:
         fail=pd.DataFrame()
-        power=pd.DataFrame()'''
-    return(segment,val)        
-    #return(segment,power,fail,val)
+        power=pd.DataFrame()
+        
+    return(segment,power,fail)
     

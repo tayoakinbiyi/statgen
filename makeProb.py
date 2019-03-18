@@ -8,7 +8,7 @@ from qq_var import *
 import pdb
 import psutil
 import matplotlib.pylab as plt
-
+from apply import *
 
 def newC(n):
     lFac=np.log(list(range(1,n+1)))
@@ -48,8 +48,7 @@ def makeProb(L,parms):
     d=int(N/2)
 
     z=np.matmul(L.T,np.random.normal(0,1,size=(N,200))).T
-    empSig=np.corrcoef(z,rowvar=False)
-    pairwise_cors=np.array([0]*int((N-1)*N/2)) # empSig[np.triu_indices(N,1)].flatten() 
+    pairwise_cors=np.corrcoef(z,rowvar=False)[np.triu_indices(N,1)].flatten()  # np.array([0]*int((N-1)*N/2)) # 
 
     if os.path.isfile(sigName+'-'+str(N)+'-ebb-prob.csv'):
         return()
@@ -57,45 +56,21 @@ def makeProb(L,parms):
     M=multiprocessing.cpu_count()
     
     numBins=int(N**2)
-    bins=np.linspace(0,.5,numBins+1)
+    bins=np.append(np.linspace(0,.5,numBins+1)[:-1],np.linspace(.5,1,10000))
     mids=(bins[1:]+bins[:-1]).reshape(-1,1)/2
     
-    '''
-    with BoundedProcessPoolExecutor(max_workers=M) as executor: 
-        results=executor.map(makeZ, [(z.tolist(),mu,eps,bins.tolist()) for mu in parms['muRange'] for eps in parms['epsRange']])
-    
-    res=pd.DataFrame()
-    for result in results:
-        res=res.append(result)
-    '''
-
     mMin=np.digitize(np.append([mids[0]]*5,beta.ppf(1e-8,np.array(range(5,d))+1,N-np.array(range(5,d)))),bins).astype(int)
     mMax=np.digitize(beta.ppf(1-1e-8,np.maximum(2,np.array(range(d))+1),N-np.maximum(1,np.array(range(d)))),bins).astype(int)
+    bins=bins[:max(mMax)]
+    mids=mids[:len(bins)-1]
     res=pd.DataFrame([[x,y] for x in range(d) for y in range(mMin[x],mMax[x])], columns=['k','bins'])
     del mMin, mMax
     
     print('max', psutil.virtual_memory().percent)
     
-    '''
-    res=res.groupby('k').apply(lambda df: pd.DataFrame({'k':df.k.iloc[0],'bins':range(df.bins.min(),df.bins.max()+1)}))
-    xx=res.reset_index(drop=True).groupby('k').apply(lambda df,mids: pd.DataFrame({'k':df.k.iloc[0]/150,'min':mids[df.bins.min()],
-        'max':mids[df.bins.max()]},index=[0]),mids=mids).reset_index(drop=True)
-    yy=xx
-    xx=xx.sort_values(by='k')
-    xx.insert(0,'minBeta',np.append([0]*5,beta.ppf(1e-8,np.array(range(5,d)),N-np.array(range(5,d)))))
-    xx.insert(0,'maxBeta',np.append([beta.ppf(1-1e-6,1,N)],beta.ppf(1-1e-8,np.array(range(1,d))+1,N-np.array(range(1,d))))}))
-    xx.plot(x='k',y=['min','max','minBeta','maxBeta'])
-    plt.savefig('t.png')
-    pdb.set_trace()
-    print('mids', psutil.virtual_memory().percent)
-    res=pd.DataFrame({'k':range(d),'min':np.digitize(np.append([0]*5,beta.ppf(1e-8,range(6,d+1),N-range(6,d+1))),bins),'max':
-        np.digitize(np.append([0]*5,beta.ppf(1-1e-8,range(1,d+1),N-range(1,d+1))),bins)})
-    pdb.set_trace()'''
-   
     res.insert(2,'mids',mids[res.bins.astype(int)-1])
     res.insert(3,'binEdges',bins[res.bins.astype(int)])
     res.drop(columns='bins',inplace=True)
-    res.reset_index(inplace=True)
     print('res', psutil.virtual_memory().percent)
 
     res=res.groupby(['mids','binEdges'],sort=False).apply(kMinMax).reset_index()
@@ -141,7 +116,7 @@ def makeProb(L,parms):
     ebb.to_csv(sigName+'-'+str(N)+'-ebb-prob.csv',index=False)
     bins.to_csv(sigName+'-'+str(N)+'-ebb-binEdges.csv',index=False,header=True)
     
-    return()
+    return(pairwise_cors)
         
 def vst(dat):
     j=0
