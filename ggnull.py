@@ -15,7 +15,6 @@ def ggnull(z,name):
     M=multiprocessing.cpu_count()
     
     i=0
-    #ggHelp((i,z[i*int(np.ceil(Reps/M)):min((i+1)*int(np.ceil(Reps/M)),Reps)].tolist(),name))
     with ProcessPoolExecutor() as executor: 
         results=executor.map(ggHelp, [(i,z[i*int(np.ceil(Reps/M)):min((i+1)*int(np.ceil(Reps/M)),Reps)].tolist(),name)
             for i in range(int(M))])
@@ -30,10 +29,10 @@ def ggnull(z,name):
     fail=[]
     for element in res:        
         power+=[element[1]]
-        fail+=[element[2]]
-        
+        #fail+=[element[2]]
+   
     power=pd.concat(power,axis=0)
-    fail=pd.concat(fail,axis=0)
+    fail=pd.DataFrame()#pd.concat(fail,axis=0)
 
     return(power,fail)
     
@@ -47,19 +46,22 @@ def ggHelp(dat):
     N=int(d*2)
     
     binEdges=pd.read_csv(name+'-'+str(N)+'-ebb-binEdges.csv').bins
-    print(str(segment)+' before', psutil.virtual_memory().percent)
     ebb=pd.read_csv(name+'-'+str(N)+'-ebb-prob.csv')
-    print(str(segment)+' after', psutil.virtual_memory().percent)
 
     kvec=np.array([range(d)]*Reps).flatten()
     p_vals=2*norm.sf(z).flatten()
-    loc=binEdges.iloc[np.minimum(len(binEdges)-1,np.digitize(p_vals,binEdges))].values+kvec
+    sorter=binEdges.iloc[np.minimum(len(binEdges)-1,np.digitize(p_vals,binEdges))].values+kvec
 
-    locOrd=loc.argsort()
+    sortOrd=sorter.argsort()
     
-    val=ebb.ebb.iloc[ebb.sorter.searchsorted(loc[locOrd])].reset_index(drop=True).to_frame()
-    val.insert(1,'replicant',np.array([range(Reps)]*d).T.flatten()[locOrd])
-
+    val=pd.DataFrame()
+    val.insert(0,'Value',ebb.ebb.iloc[ebb.sorter.searchsorted(sorter[sortOrd])].values)
+    val.insert(1,'replicant',np.array([range(Reps)]*d).T.flatten()[sortOrd])
+    val.insert(2,'Type','ggnull')
+    val.insert(3,'k',kvec[sortOrd])
+    val.insert(4,'p',p_vals[sortOrd])
+    val=val.sort_values(by=['replicant','k'])
+    '''
     if len(val)>0:
         fail=val.groupby('replicant').apply(lambda df: pd.DataFrame({'Type':'ggnull','Value':1-df.ebb.count()/df.shape[0]},
             index=[0])).reset_index().sort_values(by='replicant')[['Type','Value']]
@@ -67,7 +69,7 @@ def ggHelp(dat):
             ).reset_index().sort_values(by='replicant')[['Type','Value']]
     else:
         fail=pd.DataFrame()
-        power=pd.DataFrame()
-            
-    return(segment,power,fail)
+        power=pd.DataFrame()'''
+    return(segment,val)        
+    #return(segment,power,fail,val)
     

@@ -3,7 +3,6 @@ import pandas as pd
 import os
 import multiprocessing
 from concurrent.futures import ProcessPoolExecutor
-from bounded_pool_executor import BoundedProcessPoolExecutor
 from scipy.stats import norm, beta
 from qq_var import *
 import pdb
@@ -71,9 +70,8 @@ def makeProb(L,parms):
     '''
 
     mMin=np.digitize(np.append([mids[0]]*5,beta.ppf(1e-8,np.array(range(5,d))+1,N-np.array(range(5,d)))),bins).astype(int)
-    mMax=np.digitize(beta.ppf(1-1e-8,np.array(range(d))+1,N-np.array(range(d))),bins).astype(int)
+    mMax=np.digitize(beta.ppf(1-1e-8,np.maximum(2,np.array(range(d))+1),N-np.maximum(1,np.array(range(d)))),bins).astype(int)
     res=pd.DataFrame([[x,y] for x in range(d) for y in range(mMin[x],mMax[x])], columns=['k','bins'])
-    
     del mMin, mMax
     
     print('max', psutil.virtual_memory().percent)
@@ -102,7 +100,7 @@ def makeProb(L,parms):
 
     res=res.groupby(['mids','binEdges'],sort=False).apply(kMinMax).reset_index()
     res.drop(columns='level_2',inplace=True)
-    res=res.sort_values(by='mids') # mids, binEdges, min, max
+    res=res.sort_values(by='mids') # mids, binEdges, max, min
     
     z=np.abs(norm.ppf(mids/2))
     print('makeZ', psutil.virtual_memory().percent)
@@ -123,7 +121,7 @@ def makeProb(L,parms):
     rho = (var - N*mids*(1-mids)) / (N*(N-1)*mids*(1-mids))
     gamma = rho / (1-rho)
 
-    res=np.concatenate([res,gamma,var],axis=1) # mids, binEdge,min,max, gamma, var
+    res=np.concatenate([res,gamma,var],axis=1) # mids, binEdge,max,min, gamma, var
     
     print('gamma', psutil.virtual_memory().percent)
     with ProcessPoolExecutor() as executor: 
@@ -138,6 +136,7 @@ def makeProb(L,parms):
     ebb=pd.concat(ebb,axis=0) # binEdge+k,ebb
     ebb=ebb.sort_values(by='sorter')
     bins=pd.Series(bins,name='bins')
+    pdb.set_trace()
     
     ebb.to_csv(sigName+'-'+str(N)+'-ebb-prob.csv',index=False)
     bins.to_csv(sigName+'-'+str(N)+'-ebb-binEdges.csv',index=False,header=True)
@@ -163,8 +162,8 @@ def mp(dat):
         j=0
         rLam=row[j];j+=1
         rBinEdge=row[j];j+=1
-        rMin=int(row[j]);j+=1
         rMax=int(row[j]);j+=1
+        rMin=int(row[j]);j+=1
         rGamma=row[j];j+=1
         rVar=row[j];j+=1
         rLen=(rMax-rMin+1)
@@ -180,6 +179,6 @@ def mp(dat):
                 (1-(np.sum(Pr[0:rMin])+np.cumsum(Pr[rMin:rMax+1])))},index=range(rLen))] # binEdge+k,ebb, var
              
         else:
-            ebb+=[pd.DataFrame({'sorter':[rBinEdge+x for x in range(rMin,rMax+1)],'ebb':np.nan,},index=range(rLen))] # binEdge+k,ebb
+            ebb+=[pd.DataFrame({'sorter':[rBinEdge+x for x in range(rMin,rMax+1)],'ebb':np.nan},index=range(rLen))] # binEdge+k,ebb
 
     return(ebb)

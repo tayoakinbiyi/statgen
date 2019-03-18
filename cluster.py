@@ -4,7 +4,7 @@ import pdb
 import matplotlib.pyplot as pl
 import pandas as pd
 from math import log
-from scipy.cluster.hierarchy import linkage, fcluster
+from scipy.cluster.hierarchy import linkage, fcluster, dendrogram
 from scipy.spatial.distance import squareform
 
 def cluster(fileName,datName,N=None):    
@@ -43,7 +43,7 @@ def cluster(fileName,datName,N=None):
     im = axs.imshow(data, interpolation='nearest', cmap='Greys')
 
     pl.tick_params(
-        axis='both',          # changes apply to the x-axis
+        axis='both',       # changes apply to the x-axis
         which='both',      # both major and minor ticks are affected
         bottom=False,      # ticks along the bottom edge are off
         top=False,         # ticks along the top edge are off
@@ -54,7 +54,14 @@ def cluster(fileName,datName,N=None):
     pl.colorbar(im, ax=axs,cmap='Greys')
     fig.savefig(str(N)+'-'+datName+'-postcluster-heatmap.png')
     
+def hcluster():
+    data=pd.read_csv('mouse.csv',sep=',')
+    Z=linkage(data, 'single', 'correlation')
+    pdb.set_trace()
+    dendrogram(Z, color_threshold=0) 
+    
 if __name__ == '__main__':
-    cluster('rat.csv','rat',300)
+    hcluster()
+    #cluster('rat.csv','rat',300)
     
     

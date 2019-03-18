@@ -36,12 +36,18 @@ def monteCarlo(L,sigName,eps,mu,Reps):
     
     M=multiprocessing.cpu_count()
     with ProcessPoolExecutor() as executor:    
-        results=executor.map(mc, [(z[i*int(np.ceil(Reps/M)):min((i+1)*int(np.ceil(Reps/M)),Reps)].tolist(),) for i in range(int(M))])
+        results=executor.map(mc, [(i,z[i*int(np.ceil(Reps/M)):min((i+1)*int(np.ceil(Reps/M)),Reps)].tolist(),) for i in range(int(M))])
     
+    res=[]
     for result in results:
-        power=power.append(result[0])
-        fail=fail.append(result[1])
-
+        res+=[result]
+        
+    res=sorted(res,key=lambda x: x[0])
+    
+    for element in res:
+        power=power.append(element[1])
+        #fail=fail.append(element[2])
+    
     power.index=len(power)*[0]
     power=power.merge(pd.DataFrame([[eps,mu]],columns=['eps','mu'],index=[0]),left_index=True,right_index=True)
 
@@ -53,6 +59,7 @@ def monteCarlo(L,sigName,eps,mu,Reps):
 
 def mc(data):
     j=0
+    segment=data[j];j+=1
     z=np.array(data[j]);j+=1
     Reps,N=z.shape
     arr,cr=ggStats(N)
@@ -64,6 +71,7 @@ def mc(data):
     p=2*norm.cdf(-np.abs(z))  
     
     out=[]
+    val=[]
     fail=[]
 
     for i in range(len(p)):   
@@ -90,12 +98,12 @@ def mc(data):
         out+=[['gnull0',np.max(gnull)]]
         
         if len(cor['ggnull'])>0:
-            out+=[['ggnull0',np.max(cor['ggnull'])]]
+            val+=[['ggnull0',cor['ggnull'][x],p_val[non_zero][x],x] for x in range(len(cor['ggnull']))]
         fail+=[['ggnull0',1-float(len(cor['ggnull']))/len(non_zero)]]
         
         fdr=(F_n/p_val)[non_zero]
         out+=[['fdr0',np.max(fdr)]]
 
         out+=[['score0',np.sum(np.sort(-np.abs(z[i]))[non_zero]**2)]]
-
-    return((pd.DataFrame(out,columns=['Type','Value']),pd.DataFrame(fail,columns=['Type','Value'])))
+        
+    return(segment,pd.DataFrame(val,columns=['Type','Value','p','k']),pd.DataFrame(out,columns=['Type','Value']),pd.DataFrame(fail,columns=['Type','Value']))

@@ -14,7 +14,7 @@ def ghc(z,name):
     
     M=multiprocessing.cpu_count()
     i=0
-    #ghcHelp((i,z[i*int(np.ceil(Reps/M)):min((i+1)*int(np.ceil(Reps/M)),Reps)].tolist(),name))
+    #ghcHelp((0,z.tolist(),name))
     with ProcessPoolExecutor() as executor: 
         results=executor.map(ghcHelp, [(i,z[i*int(np.ceil(Reps/M)):min((i+1)*int(np.ceil(Reps/M)),Reps)].tolist(),name)
         for i in range(int(M))])
@@ -46,20 +46,21 @@ def ghcHelp(dat):
 
     kvec=np.array([range(d)]*Reps).flatten()
     p_vals=2*norm.sf(z).flatten()
-    locOrd=np.argsort(p_vals)
+    sortOrd=np.argsort(p_vals)
 
-    val=pd.DataFrame({'var':var['var'].iloc[np.minimum(len(var)-1,var.binEdges.searchsorted(p_vals[locOrd]).flatten())],
-        'k':kvec[locOrd],'replicant':np.array([range(Reps)]*d).T.flatten()[locOrd],'p':p_vals[locOrd]})
+    val=pd.DataFrame({'var':var['var'].iloc[np.minimum(len(var)-1,var.binEdges.searchsorted(p_vals[sortOrd]).flatten())],
+        'k':kvec[sortOrd],'replicant':np.array([range(Reps)]*d).T.flatten()[sortOrd],'p':p_vals[sortOrd]})
+    
     if(len(val.replicant.drop_duplicates())<len(z)):
         print(len(val.replicant.drop_duplicates()),len(z))
-    #pdb.set_trace()
+    
     power=val.groupby('replicant').apply(lambda df,N: pd.DataFrame({'Type':'ghcFull','Value':
         np.max(((df.k+1-N*df.p)/(df['var']**.5)))},index=[0]),N=N).reset_index().sort_values(by='replicant')[['Type','Value']]
 
     val=val[val.p>=1/N]
     
     power=val.groupby('replicant').apply(lambda df,N: pd.DataFrame({'Type':'ghc','Value':
-        np.max(((df.k+1-N*df.p)/(df['var']**.5))[df.p<=(df.k+1)/N])},index=[0]),N=N).reset_index().sort_values(
+        np.max(((df.k+1-N*df.p)/(df['var']**.5)))},index=[0]),N=N).reset_index().sort_values(
         by='replicant')[['Type','Value']]
     
     return(segment,power)
