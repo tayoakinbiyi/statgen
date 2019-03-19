@@ -57,8 +57,9 @@ def cluster(fileName,datName,N=None):
     
 def hcluster():
     data=pd.read_csv('mouse.csv',sep=',')
-    Z=linkage(data.T, 'single', 'correlation')
+    xx=np.corrcoef(data.T.iloc[:,0:50])
     pdb.set_trace()
+    Z=linkage(data.T.iloc[:,0:50], 'single', 'correlation')
     dendrogram(Z, color_threshold=0)
     plt.savefig('full_dendogram.png')
     
