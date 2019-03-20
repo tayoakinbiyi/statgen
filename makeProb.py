@@ -115,6 +115,7 @@ def makeProb(L,parms):
     
     ebb.to_csv(sigName+'-'+str(N)+'-ebb-prob.csv',index=False)
     bins.to_csv(sigName+'-'+str(N)+'-ebb-binEdges.csv',index=False,header=True)
+    pd.Series(pairwise_cors,name='pairwise_cors').to_csv(sigName+'-'+str(N)+'-ebb-pairwise_cors.csv',index=False)
     
     return(pairwise_cors)
         

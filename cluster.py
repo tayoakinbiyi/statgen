@@ -56,12 +56,19 @@ def cluster(fileName,datName,N=None):
     fig.savefig(str(N)+'-'+datName+'-postcluster-heatmap.png')
     
 def hcluster():
-    data=pd.read_csv('mouse.csv',sep=',')
-    xx=np.corrcoef(data.T.iloc[:,0:50])
+    N=1200
+    data=pd.read_csv('mouse.csv',sep=',').T.values[0:N,:]
+    data=data[np.array([len(np.unique(x))>2 for x in data])]    
+    xx=np.corrcoef(data,rowvar=True)
+    Z=linkage(data, 'single', 'correlation')
+    den=dendrogram(Z, color_threshold=0)
+    axs=plt.gca()
+    axs.tick_params(axis='X',labelsize=20)
+    fig=plt.gcf()
+    fig.set_figwidth(N/2,forward=True)
+    fig.set_figheight(5,forward=True)
+    fig.savefig('full_dendogram.png',bbox_inches='tight')
     pdb.set_trace()
-    Z=linkage(data.T.iloc[:,0:50], 'single', 'correlation')
-    dendrogram(Z, color_threshold=0)
-    plt.savefig('full_dendogram.png')
     
 if __name__ == '__main__':
     hcluster()

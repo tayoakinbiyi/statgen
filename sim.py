@@ -40,7 +40,7 @@ def sim(parms):
     
     pairwise_cors=makeProb(L,parms)
     if parms['new']:
-        alpha,_=monteCarlo(L,sigName,5,1.5,parms['H0'],pairwise_cors)
+        alpha,_=monteCarlo(L,sigName,5,1.5,parms['H0'])
         print('alpha', psutil.virtual_memory().percent)
         ggnull=alpha[alpha.Type=='ggnull']
         ggnull0=alpha[alpha.Type=='ggnull0']
@@ -51,7 +51,7 @@ def sim(parms):
         alpha.name='alpha'
         alpha=alpha.reset_index()
         
-        power, fail=powerMat(monteCarlo(L,sigName,0,0,parms['H01']),alpha,pairwise_cors)
+        power, fail=powerMat(monteCarlo(L,sigName,0,0,parms['H01']),alpha)
 
         muSD=np.sqrt(np.sum(muRange**2))
         epsSD=np.sqrt(np.sum(epsRange**2))

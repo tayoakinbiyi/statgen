@@ -13,10 +13,11 @@ from myStats import *
 from ghc import *
 from ggnull import *
 
-def monteCarlo(L,sigName,eps,mu,Reps,pairwise_cors):
+def monteCarlo(L,sigName,eps,mu,Reps):
     N=len(L)
     
     z=np.matmul(L.T,np.random.normal(0,1,size=(N,Reps))).T
+    pairwise_cors=pd.read_csv(sigName+'-'+str(N)+'-ebb-pairwise_cors.csv').values
     
     if mu*eps>0:
         z[:,range(eps)]+=mu
@@ -65,7 +66,7 @@ def mc(data):
     j=0
     segment=data[j];j+=1
     z=np.array(data[j]);j+=1
-    sig_tri=data[j];j+=1
+    pairwise_cors=data[j];j+=1
     
     Reps,N=z.shape
     arr,cr=ggStats(N)
@@ -85,7 +86,7 @@ def mc(data):
         non_zero = np.array(range(int(np.ceil(len(p_val)/2.0))))
         non_zero_hc=non_zero[non_zero>=sum(p_val<1.0/N)]
         
-        cor=ggof(z[i], p_val,sig_tri,arr,cr)
+        cor=ggof(z[i], p_val,pairwise_cors,arr,cr)
             
         out+=[['minP0',np.max(-np.log(p_val[non_zero]))]]
 
