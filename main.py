@@ -21,9 +21,9 @@ if __name__ == '__main__':
     parms={
         'Types':['hc','gnull','bj','fdr','minP','score','ggnull','ghc'],
         'plot':True,
-        'H0':3000,
-        'H01':3000,
-        'H1':5000,
+        'H0':100,
+        'H01':100,
+        'H1':100,
         'fontsize':17,
         'new':True
     }

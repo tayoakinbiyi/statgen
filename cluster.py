@@ -59,13 +59,18 @@ def hcluster():
     N=1200
     data=pd.read_csv('mouse.csv',sep=',').T.values[0:N,:]
     data=data[np.array([len(np.unique(x))>2 for x in data])]    
-    xx=np.corrcoef(data,rowvar=True)
     Z=linkage(data, 'single', 'correlation')
     den=dendrogram(Z, color_threshold=0)
+    
+    leaves=den['leaves']
+    icoord=den['icoord']
+    dcoord=den['dcoord']
+    
+    
     axs=plt.gca()
     axs.tick_params(axis='X',labelsize=20)
     fig=plt.gcf()
-    fig.set_figwidth(N/2,forward=True)
+    fig.set_figwidth(N/3,forward=True)
     fig.set_figheight(5,forward=True)
     fig.savefig('full_dendogram.png',bbox_inches='tight')
     pdb.set_trace()

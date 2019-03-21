@@ -8,7 +8,7 @@ from qq_var import *
 import pdb
 import psutil
 import matplotlib.pylab as plt
-from apply import *
+#from apply import *
 
 def newC(n):
     lFac=np.log(list(range(1,n+1)))
@@ -42,52 +42,64 @@ def makeZ(dat):
     return(res)
 
 def makeProb(L,parms):
+    eps=1e-8
+    binPower=1.5
+    
     N=parms['N']
     sigName=parms['sigName']
     
     d=int(N/2)
 
     z=np.matmul(L.T,np.random.normal(0,1,size=(N,200))).T
-    pairwise_cors=np.corrcoef(z,rowvar=False)[np.triu_indices(N,1)].flatten()  # np.array([0]*int((N-1)*N/2)) # 
+    pairwise_cors=np.array([0]*int((N-1)*N/2)) #np.corrcoef(z,rowvar=False)[np.triu_indices(N,1)].flatten()   
 
     if os.path.isfile(sigName+'-'+str(N)+'-ebb-prob.csv'):
         return()
     
     M=multiprocessing.cpu_count()
     
-    numBins=int(N**2)
-    bins=np.append(np.linspace(0,.5,numBins+1)[:-1],np.linspace(.5,1,10000))
-    mids=(bins[1:]+bins[:-1]).reshape(-1,1)/2
+    numBins=int(N**binPower)
     
-    mMin=np.digitize(np.append([mids[0]]*5,beta.ppf(1e-8,np.array(range(5,d))+1,N-np.array(range(5,d)))),bins).astype(int)
-    mMax=np.digitize(beta.ppf(1-1e-8,np.maximum(2,np.array(range(d))+1),N-np.maximum(1,np.array(range(d)))),bins).astype(int)
-    bins=bins[:max(mMax)]
-    mids=mids[:len(bins)-1]
-    res=pd.DataFrame([[x,y] for x in range(d) for y in range(mMin[x],mMax[x])], columns=['k','bins'])
-    del mMin, mMax
+    bins=np.linspace(0,.5,numBins+1)
+    bins=np.concatenate([np.linspace(0,bins[1],1000),bins[2:-1],np.linspace(bins[-1],1,N)]).flatten()
     
-    print('max', psutil.virtual_memory().percent)
+    kRan=np.array(range(1,d+1))
+    minB=np.digitize(beta.ppf(eps,kRan,N-kRan),bins).astype(int)-1   
+    maxB=np.digitize(beta.ppf(1-eps,kRan,N-kRan),bins).astype(int)-1
+    maxB[0]=maxB[1]
     
-    res.insert(2,'mids',mids[res.bins.astype(int)-1])
-    res.insert(3,'binEdges',bins[res.bins.astype(int)])
-    res.drop(columns='bins',inplace=True)
-    print('res', psutil.virtual_memory().percent)
+    numBins=max(maxB)+1
+    bins=bins[:numBins+1]
+    mids=(bins[1:]+bins[:-1])/2
+    
+    bins[-1]=1 # make sure any lam is mathematically ok
+    mids[-1]=1-1e-8 # conservative last mid for rare very large observed lam
+    
+    res=pd.DataFrame({'mids':mids,'binEdge':bins[1:]})
+    minK=pd.DataFrame({'maxB':maxB,'k':range(d)}).groupby(by='maxB').apply(lambda df: pd.DataFrame({'maxB':df.maxB.iloc[0],
+        'k':df.k.min()},index=[0])).reset_index(drop=True)
+    res.insert(2,'minK',minK.k.iloc[minK.maxB.searchsorted(range(numBins),side='left')].values)
 
-    res=res.groupby(['mids','binEdges'],sort=False).apply(kMinMax).reset_index()
-    res.drop(columns='level_2',inplace=True)
-    res=res.sort_values(by='mids') # mids, binEdges, max, min
+    maxK=pd.DataFrame({'minB':minB,'k':range(d)}).groupby(by='minB').apply(lambda df: pd.DataFrame({'minB':df.minB.iloc[0],
+        'k':df.k.max()},index=[0])).reset_index(drop=True)
+    res.insert(3,'maxK',maxK.k.iloc[maxK.minB.iloc[1:].searchsorted(range(numBins),side='right')].values)
+
+    res=res.values
     
+    print('ends', psutil.virtual_memory().percent)
+    
+    del minB, maxB
+       
     z=np.abs(norm.ppf(mids/2))
-    print('makeZ', psutil.virtual_memory().percent)
     with ProcessPoolExecutor() as executor:    
         results=executor.map(vst, [(z[i*int(np.ceil(len(mids)/M)):min((i+1)*int(np.ceil(len(mids)/M)),len(mids))].tolist(),
             N,pairwise_cors.tolist()) for i in range(int(M))])
+    print('vst', psutil.virtual_memory().percent)
         
     var=[]
     for result in results:
         var+=[result]
     
-    print('var', psutil.virtual_memory().percent)
     var=np.concatenate(var,axis=0)
     var=var[np.argsort(-var[:,0]),1].reshape(-1,1) # sort according to lam / mids
     pd.DataFrame(np.concatenate([bins[1:].reshape(-1,1),var],axis=1),columns=['binEdges','var']).to_csv(
@@ -111,7 +123,6 @@ def makeProb(L,parms):
     ebb=pd.concat(ebb,axis=0) # binEdge+k,ebb
     ebb=ebb.sort_values(by='sorter')
     bins=pd.Series(bins,name='bins')
-    pdb.set_trace()
     
     ebb.to_csv(sigName+'-'+str(N)+'-ebb-prob.csv',index=False)
     bins.to_csv(sigName+'-'+str(N)+'-ebb-binEdges.csv',index=False,header=True)
@@ -138,8 +149,8 @@ def mp(dat):
         j=0
         rLam=row[j];j+=1
         rBinEdge=row[j];j+=1
-        rMax=int(row[j]);j+=1
         rMin=int(row[j]);j+=1
+        rMax=int(row[j]);j+=1
         rGamma=row[j];j+=1
         rVar=row[j];j+=1
         rLen=(rMax-rMin+1)
