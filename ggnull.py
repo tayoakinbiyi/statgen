@@ -15,10 +15,11 @@ def ggnull(z,name):
     M=multiprocessing.cpu_count()
     
     i=0
+    #ggHelp((i,z.tolist(),name))
     with ProcessPoolExecutor() as executor: 
         results=executor.map(ggHelp, [(i,z[i*int(np.ceil(Reps/M)):min((i+1)*int(np.ceil(Reps/M)),Reps)].tolist(),name)
-            for i in range(int(M))])
-
+            for i in range(int(Reps/np.ceil(Reps/M)))])
+    
     res=[]
     for result in results:
         res+=[result]
@@ -66,6 +67,6 @@ def ggHelp(dat):
     else:
         fail=pd.DataFrame()
         power=pd.DataFrame()
-        
+    
     return(segment,power,fail)
     

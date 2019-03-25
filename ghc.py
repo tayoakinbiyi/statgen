@@ -17,7 +17,7 @@ def ghc(z,name):
     #ghcHelp((0,z.tolist(),name))
     with ProcessPoolExecutor() as executor: 
         results=executor.map(ghcHelp, [(i,z[i*int(np.ceil(Reps/M)):min((i+1)*int(np.ceil(Reps/M)),Reps)].tolist(),name)
-        for i in range(int(M))])
+            for i in range(int(Reps/np.ceil(Reps/M)))])
 
     res=[]
     for result in results:
