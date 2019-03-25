@@ -41,7 +41,7 @@ def monteCarlo(L,sigName,eps,mu,Reps):
     M=multiprocessing.cpu_count()
     with ProcessPoolExecutor() as executor:    
         results=executor.map(mc, [(i,z[i*int(np.ceil(Reps/M)):min((i+1)*int(np.ceil(Reps/M)),Reps)].tolist(),pairwise_cors) for
-            i in range(int(M))])
+            i in range(int(Reps/np.ceil(Reps/M)))])
     
     res=[]
     for result in results:

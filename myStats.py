@@ -16,7 +16,7 @@ def myStats(z):
 
     with ProcessPoolExecutor() as executor: 
         results=executor.map(myStatsHelp, [(i,z[i*int(np.ceil(Reps/M)):min((i+1)*int(np.ceil(Reps/M)),Reps)].tolist())
-            for i in range(int(M))])
+            for i in range(int(Reps/np.ceil(Reps/M)))])
 
     res=[]
     for result in results:

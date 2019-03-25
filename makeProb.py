@@ -101,15 +101,15 @@ def makeProb(L,parms):
         var+=[result]
     
     var=np.concatenate(var,axis=0)
-    var=var[np.argsort(-var[:,0]),1].reshape(-1,1) # sort according to lam / mids
-    pd.DataFrame(np.concatenate([bins[1:].reshape(-1,1),var],axis=1),columns=['binEdges','var']).to_csv(
+    var=var[np.argsort(-var[:,0]),1] # sort according to lam / mids
+    pd.DataFrame(np.concatenate([bins[1:].reshape(-1,1),var.reshape(-1,1)],axis=1),columns=['binEdges','var']).to_csv(
         sigName+'-'+str(N)+'-ebb-var.csv',index=False)
 
     rho = (var - N*mids*(1-mids)) / (N*(N-1)*mids*(1-mids))
     gamma = rho / (1-rho)
 
-    res=np.concatenate([res,gamma,var],axis=1) # mids, binEdge,max,min, gamma, var
-    
+    res=np.concatenate([res,gamma.reshape(-1,1),var.reshape(-1,1)],axis=1) # mids, binEdge,min,max, gamma, var
+
     print('gamma', psutil.virtual_memory().percent)
     with ProcessPoolExecutor() as executor: 
         results=executor.map(mp, [(res[i*int(np.ceil(len(res)/M)):min((i+1)*int(np.ceil(len(res)/M)),len(res)),:].tolist(),N) 
@@ -126,7 +126,7 @@ def makeProb(L,parms):
     
     ebb.to_csv(sigName+'-'+str(N)+'-ebb-prob.csv',index=False)
     bins.to_csv(sigName+'-'+str(N)+'-ebb-binEdges.csv',index=False,header=True)
-    pd.Series(pairwise_cors,name='pairwise_cors').to_csv(sigName+'-'+str(N)+'-ebb-pairwise_cors.csv',index=False)
+    pd.Series(pairwise_cors,name='pairwise_cors').to_csv(sigName+'-'+str(N)+'-ebb-pairwise_cors.csv',index=False,header=True)
     
     return(pairwise_cors)
         
