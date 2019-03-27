@@ -13,17 +13,13 @@ from myStats import *
 from ghc import *
 from ggnull import *
 
-def monteCarlo(L,sigName,eps,mu,Reps):
+def monteCarlo(L,sigName,eps,mu,Reps,pairwise_cors):
     N=len(L)
     
     z=np.matmul(L.T,np.random.normal(0,1,size=(N,Reps))).T
-    pairwise_cors=pd.read_csv(sigName+'-'+str(N)+'-ebb-pairwise_cors.csv').values
     
     if mu*eps>0:
         z[:,range(eps)]+=mu
-    
-    #empSig=np.corrcoef(z,rowvar=False)
-    #pairwise_cors=empSig[np.triu_indices(N,1)].flatten()  # np.array([0]*int((N-1)*N/2)) # 
     
     power=pd.DataFrame()
     fail=pd.DataFrame()
@@ -41,7 +37,7 @@ def monteCarlo(L,sigName,eps,mu,Reps):
     M=multiprocessing.cpu_count()
     with ProcessPoolExecutor() as executor:    
         results=executor.map(mc, [(i,z[i*int(np.ceil(Reps/M)):min((i+1)*int(np.ceil(Reps/M)),Reps)].tolist(),pairwise_cors) for
-            i in range(int(Reps/np.ceil(Reps/M)))])
+            i in range(int(np.ceil(Reps/np.ceil(Reps/M))))])
     
     res=[]
     for result in results:

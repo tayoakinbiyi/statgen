@@ -2,12 +2,14 @@ import numpy as np
 import pandas as pd
 import os
 import multiprocessing
-from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 from scipy.stats import norm, beta
 from qq_var import *
 import pdb
 import psutil
 import matplotlib.pylab as plt
+import time
+from ggof import *
 #from apply import *
 
 def newC(n):
@@ -43,7 +45,7 @@ def makeZ(dat):
 
 def makeProb(L,parms):
     eps=1e-8
-    binPower=1.5
+    binPower=500
     
     N=parms['N']
     sigName=parms['sigName']
@@ -53,15 +55,22 @@ def makeProb(L,parms):
     z=np.matmul(L.T,np.random.normal(0,1,size=(N,200))).T
     pairwise_cors=np.array([0]*int((N-1)*N/2)) #np.corrcoef(z,rowvar=False)[np.triu_indices(N,1)].flatten()   
 
-    if os.path.isfile(sigName+'-'+str(N)+'-ebb-prob.csv'):
+    if os.path.isfile('ebb/'+sigName+'/ebb.csv'):
         return()
+    else:
+        try:
+            os.mkdir('ebb/'+sigName)
+        except:
+            print('directory already exists')
     
     M=multiprocessing.cpu_count()
     
-    numBins=int(N**binPower)
+    numBins=int(N*binPower)
+    t0=time.time()
+    print('start',round((time.time()-t0),2))
     
     bins=np.linspace(0,.5,numBins+1)
-    bins=np.concatenate([np.linspace(0,bins[1],1000),bins[2:-1],np.linspace(bins[-1],1,N)]).flatten()
+    bins=np.concatenate([np.linspace(0,bins[1],500),bins[2:-1],np.linspace(bins[-1],1,500)]).flatten()
     
     kRan=np.array(range(1,d+1))
     minB=np.digitize(beta.ppf(eps,kRan,N-kRan),bins).astype(int)-1   
@@ -69,86 +78,97 @@ def makeProb(L,parms):
     maxB[0]=maxB[1]
     
     numBins=max(maxB)+1
-    bins=bins[:numBins+1]
-    mids=(bins[1:]+bins[:-1])/2
-    
-    bins[-1]=1 # make sure any lam is mathematically ok
-    mids[-1]=1-1e-8 # conservative last mid for rare very large observed lam
-    
-    res=pd.DataFrame({'mids':mids,'binEdge':bins[1:]})
+    bins=bins[1:numBins+1]
+       
+    minMaxK=pd.DataFrame({'binEdge':bins})
     minK=pd.DataFrame({'maxB':maxB,'k':range(d)}).groupby(by='maxB').apply(lambda df: pd.DataFrame({'maxB':df.maxB.iloc[0],
         'k':df.k.min()},index=[0])).reset_index(drop=True)
-    res.insert(2,'minK',minK.k.iloc[minK.maxB.searchsorted(range(numBins),side='left')].values)
+    minMaxK.insert(1,'minK',minK.k.iloc[minK.maxB.searchsorted(range(numBins),side='left')].values)
 
     maxK=pd.DataFrame({'minB':minB,'k':range(d)}).groupby(by='minB').apply(lambda df: pd.DataFrame({'minB':df.minB.iloc[0],
         'k':df.k.max()},index=[0])).reset_index(drop=True)
-    res.insert(3,'maxK',maxK.k.iloc[maxK.minB.iloc[1:].searchsorted(range(numBins),side='right')].values)
+    minMaxK.insert(2,'maxK',maxK.k.iloc[maxK.minB.iloc[1:].searchsorted(range(numBins),side='right')].values)
 
-    res=res.values
+    minMaxK=minMaxK.values
     
-    print('ends', psutil.virtual_memory().percent)
-    
-    del minB, maxB
-       
-    z=np.abs(norm.ppf(mids/2))
+    print('ends', psutil.virtual_memory().percent,round((time.time()-t0),2))
+          
+    z=np.abs(norm.ppf(bins/2))
+    rhoBar=getRhoBar(pairwise_cors)
     with ProcessPoolExecutor() as executor:    
-        results=executor.map(vst, [(z[i*int(np.ceil(len(mids)/M)):min((i+1)*int(np.ceil(len(mids)/M)),len(mids))].tolist(),
-            N,pairwise_cors.tolist()) for i in range(int(M))])
-    print('vst', psutil.virtual_memory().percent)
+        results=executor.map(vst, [(z[i*int(np.ceil(numBins/M)):min((i+1)*int(np.ceil(numBins/M)),numBins)].tolist(),N,rhoBar) 
+            for i in range(int(np.ceil(numBins/np.ceil(numBins/M))))])
         
-    var=[]
+    print('vst', psutil.virtual_memory().percent,round((time.time()-t0),2))
+        
+    res=[]
     for result in results:
-        var+=[result]
+        res+=[result]
     
-    var=np.concatenate(var,axis=0)
-    var=var[np.argsort(-var[:,0]),1] # sort according to lam / mids
-    pd.DataFrame(np.concatenate([bins[1:].reshape(-1,1),var.reshape(-1,1)],axis=1),columns=['binEdges','var']).to_csv(
-        sigName+'-'+str(N)+'-ebb-var.csv',index=False)
+    var=np.concatenate(res)
+    pd.DataFrame(np.concatenate([bins.reshape(-1,1),var.reshape(-1,1)],axis=1),columns=['binEdges','var']).to_csv(
+        'ebb/'+sigName+'/var.csv',index=False)
 
-    rho = (var - N*mids*(1-mids)) / (N*(N-1)*mids*(1-mids))
+    rho = (var - N*bins*(1-bins)) / (N*(N-1)*bins*(1-bins))
     gamma = rho / (1-rho)
 
-    res=np.concatenate([res,gamma.reshape(-1,1),var.reshape(-1,1)],axis=1) # mids, binEdge,min,max, gamma, var
+    minMaxK=np.concatenate([minMaxK,gamma.reshape(-1,1),var.reshape(-1,1)],axis=1) # binEdge,min,max, gamma, var
+    print('gamma', psutil.virtual_memory().percent,round((time.time()-t0),2))
 
-    print('gamma', psutil.virtual_memory().percent)
     with ProcessPoolExecutor() as executor: 
-        results=executor.map(mp, [(res[i*int(np.ceil(len(res)/M)):min((i+1)*int(np.ceil(len(res)/M)),len(res)),:].tolist(),N) 
-            for i in range(int(M))])
+        results=executor.map(mp, [(minMaxK[i*int(np.ceil(numBins/M)):min((i+1)*int(np.ceil(numBins/M)),numBins)].tolist(),N) 
+            for i in range(int(np.ceil(numBins/np.ceil(numBins/M))))])
     
-    ebb=[]
-    for result in results:
-        ebb+=result
+    print('mp', psutil.virtual_memory().percent,round((time.time()-t0),2))
 
-    print('result', psutil.virtual_memory().percent)
-    ebb=pd.concat(ebb,axis=0) # binEdge+k,ebb
-    ebb=ebb.sort_values(by='sorter')
-    bins=pd.Series(bins,name='bins')
+    res=[]
+    for result in results:
+        res+=result
+
+    ebb=np.array(res) # binEdge,k,ebb
+    ebb=ebb[np.argsort(ebb[:,0]+ebb[:,1])][:,[0,2]]
     
-    ebb.to_csv(sigName+'-'+str(N)+'-ebb-prob.csv',index=False)
-    bins.to_csv(sigName+'-'+str(N)+'-ebb-binEdges.csv',index=False,header=True)
-    pd.Series(pairwise_cors,name='pairwise_cors').to_csv(sigName+'-'+str(N)+'-ebb-pairwise_cors.csv',index=False,header=True)
+    print('ebb', psutil.virtual_memory().percent,round((time.time()-t0),2))
+
+    end=np.cumsum(maxB-minB+1).reshape(-1,1)
+    start=np.append([0],end[:-1]).reshape(-1,1)
+    minMaxB=np.concatenate([start,end-1],axis=1)
+    '''arr,cr=ggStats(N)
+    pdb.set_trace()    
+    b=0;lam=np.append(ebb[minMaxB[:,0]+b,0],[.9]*d);print(ggof(np.abs(norm.ppf(lam/2)),lam,pairwise_cors,arr,cr)['ggnull'],'\n',ebb[minMaxB[:,0]+b,1])'''
+    
+    np.savetxt('ebb/'+sigName+'/minMaxB.csv',minMaxB,delimiter=',')
+    pd.Series(rhoBar,name='rhoBar').to_csv('ebb/'+sigName+'/rhoBar.csv',index=False,header=True)
+    np.savetxt('ebb/'+sigName+'/ebb.csv',ebb,delimiter=',')  
     
     return(pairwise_cors)
-        
+           
+def saveEBB(dat):
+    j=0
+    name=dat[j];j+=1
+    df=pd.DataFrame(dat[j],columns=['binEdge','ebb']);j+=1
+    print(name)
+    df.to_csv(name,index=False)
+    
 def vst(dat):
     j=0
-    z=np.array(dat[j]).reshape(-1,1);j+=1
+    z=np.array(dat[j]).flatten();j+=1
     d=dat[j];j+=1
-    pairwise_cors=np.array(dat[j]);j+=1
+    rhoBar=dat[j];j+=1
     
-    return(np.concatenate([z,np.apply_along_axis(var_st,1, z,d=d,pairwise_cors=pairwise_cors)],axis=1))
-
+    return(getVarNoMu(z,d,rhoBar))
+    
 def mp(dat):
     j=0;
     res=np.array(dat[j]);j+=1
     N=dat[j];j+=1
+    
     cr=newC(N)
 
     ebb=[]    
     for row in res:
         j=0
         rLam=row[j];j+=1
-        rBinEdge=row[j];j+=1
         rMin=int(row[j]);j+=1
         rMax=int(row[j]);j+=1
         rGamma=row[j];j+=1
@@ -162,10 +182,9 @@ def mp(dat):
             baseCr=cr[0:(int(rMax)+1)]
 
             Pr=np.exp(baseCr+baseOne+baseTwo-baseThree)
-            ebb+=[pd.DataFrame({'sorter':[rBinEdge+x for x in range(rMin,rMax+1)],'ebb':
-                (1-(np.sum(Pr[0:rMin])+np.cumsum(Pr[rMin:rMax+1])))},index=range(rLen))] # binEdge+k,ebb, var
-             
+            ans=1-(np.sum(Pr[0:rMin])+np.cumsum(Pr[rMin:rMax+1]))
+            ebb+=[[rLam,rMin+k,ans[k]] for k in range(rMax-rMin+1)] 
         else:
-            ebb+=[pd.DataFrame({'sorter':[rBinEdge+x for x in range(rMin,rMax+1)],'ebb':np.nan},index=range(rLen))] # binEdge+k,ebb
-
+            ebb+=[[rLam,rMin+k,np.nan] for k in range(rMax-rMin+1)] # binEdge+k,ebb
+    
     return(ebb)

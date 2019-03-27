@@ -6,7 +6,7 @@ from scipy.stats import norm, beta
 import pdb
 import psutil
 
-def ggnull(z,name):
+def ggnull(z,sigName):
     Reps,N=z.shape
     d=int(N/2)
 
@@ -14,59 +14,36 @@ def ggnull(z,name):
     
     M=multiprocessing.cpu_count()
     
-    i=0
-    #ggHelp((i,z.tolist(),name))
+    ebb=np.loadtxt('ebb/'+sigName+'/ebb.csv',delimiter=',')
+    minMaxB=np.loadtxt('ebb/'+sigName+'/minMaxB.csv',delimiter=',').astype(int)
+        
+    k=0
+    #ggHelp((z[:,k].tolist(),ebb[minMaxB[k,0]:minMaxB[k,1]].tolist()))
+    #pdb.set_trace()
     with ProcessPoolExecutor() as executor: 
-        results=executor.map(ggHelp, [(i,z[i*int(np.ceil(Reps/M)):min((i+1)*int(np.ceil(Reps/M)),Reps)].tolist(),name)
-            for i in range(int(Reps/np.ceil(Reps/M)))])
+        results=executor.map(ggHelp, [(z[:,k].flatten().tolist(),ebb[minMaxB[k,0]:minMaxB[k,1]].tolist()) for k in range(d)])
     
     res=[]
     for result in results:
         res+=[result]
-        
-    res=sorted(res,key=lambda x: x[0])
+               
+    raw=np.concatenate(res)
     
-    power=[]
-    fail=[]
-    for element in res:        
-        power+=[element[1]]
-        fail+=[element[2]]
-   
-    power=pd.concat(power,axis=0)
-    fail=pd.concat(fail,axis=0)
+    power=pd.DataFrame({'Type':'ggnull','Value':-np.min(raw,axis=0)})
+    fail=pd.DataFrame({'Type':'ggnull','Value':np.sum(np.isnan(raw),axis=0)})
 
     return(power,fail)
     
 def ggHelp(dat):
     j=0;
-    segment=dat[j];j+=1
     z=np.array(dat[j]);j+=1
-    name=dat[j];j+=1
+    ebb=pd.DataFrame(dat[j],columns=['binEdge','ebb']);j+=1
     
-    Reps,d=z.shape
-    N=int(d*2)
+    Reps=len(z)   
+    p_vals=2*norm.sf(z)
+    sortOrd=p_vals.argsort()
+                          
+    raw=ebb.ebb.iloc[ebb.binEdge.searchsorted(p_vals[sortOrd])].values.flatten()[np.argsort(sortOrd)].reshape(1,-1).tolist()
     
-    binEdges=pd.read_csv(name+'-'+str(N)+'-ebb-binEdges.csv').bins
-    ebb=pd.read_csv(name+'-'+str(N)+'-ebb-prob.csv')
-
-    kvec=np.array([range(d)]*Reps).flatten()
-    p_vals=2*norm.sf(z).flatten()
-    sorter=binEdges.iloc[np.minimum(len(binEdges)-1,np.digitize(p_vals,binEdges))].values+kvec
-
-    sortOrd=sorter.argsort()
-    
-    val=pd.DataFrame()
-    val.insert(0,'ebb',ebb.ebb.iloc[ebb.sorter.searchsorted(sorter[sortOrd])].values)
-    val.insert(1,'replicant',np.array([range(Reps)]*d).T.flatten()[sortOrd])
-
-    if len(val)>0:
-        fail=val.groupby('replicant').apply(lambda df: pd.DataFrame({'Type':'ggnull','Value':1-df.ebb.count()/df.shape[0]},
-            index=[0])).reset_index().sort_values(by='replicant')[['Type','Value']]
-        power=val.groupby('replicant').apply(lambda df: pd.DataFrame({'Type':'ggnull','Value':-df.ebb.min()},index=[0])
-            ).reset_index().sort_values(by='replicant')[['Type','Value']]
-    else:
-        fail=pd.DataFrame()
-        power=pd.DataFrame()
-    
-    return(segment,power,fail)
+    return(raw)
     

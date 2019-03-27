@@ -29,10 +29,10 @@ if __name__ == '__main__':
     }
     
     if len(EXCHANGEABLE)>0:
-        for N in [1000,1000,1500,2000,2500,3000,3500,4000,4500,5000,5500,6000,6500,7000,7500,8000,8500,9000,10000]:
+        for N in [110,1000,1500,2000,2500,3000,3500,4000,4500,5000,5500,6000,6500,7000,7500,8000,8500,9000,10000]:
             for rho in EXCHANGEABLE:            
                 sig,_=exchangeable(N,rho)
-                sigName='iid-ggnull-ghc'
+                sigName='iid-ggnull-ghc-'+str(N)
                     
                 fileDump(sim({**parms,'sigName':sigName,'N':N,'sig':sig,'muRange':np.unique(np.linspace(2,3,10)).round(3),
                     'epsRange':np.unique(np.linspace(2,N*(.008 if N>2000 else .01 if N>1000 else .017),10).round()).astype(int)}))
