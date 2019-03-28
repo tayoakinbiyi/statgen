@@ -6,7 +6,7 @@ from scipy.stats import norm, beta
 import pdb
 import psutil
 
-def ggnull(z,sigName):
+def ggnull(z,sigName,ebb):
     Reps,N=z.shape
     d=int(N/2)
 
@@ -14,12 +14,12 @@ def ggnull(z,sigName):
     
     M=multiprocessing.cpu_count()
     
-    ebb=np.loadtxt('ebb/'+sigName+'/ebb.csv',delimiter=',')
     minMaxB=np.loadtxt('ebb/'+sigName+'/minMaxB.csv',delimiter=',').astype(int)
-        
-    k=0
+
+    #k=0
     #ggHelp((z[:,k].tolist(),ebb[minMaxB[k,0]:minMaxB[k,1]].tolist()))
     #pdb.set_trace()
+    print('ggnull-pool',psutil.virtual_memory().percent)
     with ProcessPoolExecutor() as executor: 
         results=executor.map(ggHelp, [(z[:,k].flatten().tolist(),ebb[minMaxB[k,0]:minMaxB[k,1]].tolist()) for k in range(d)])
     
@@ -35,6 +35,7 @@ def ggnull(z,sigName):
     return(power,fail)
     
 def ggHelp(dat):
+    print('ggHelp',psutil.virtual_memory().percent)
     j=0;
     z=np.array(dat[j]);j+=1
     ebb=pd.DataFrame(dat[j],columns=['binEdge','ebb']);j+=1

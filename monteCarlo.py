@@ -13,7 +13,8 @@ from myStats import *
 from ghc import *
 from ggnull import *
 
-def monteCarlo(L,sigName,eps,mu,Reps,pairwise_cors):
+def monteCarlo(L,sigName,eps,mu,Reps,ebb,var):
+    pairwise_cors=np.loadtxt('ebb/'+sigName+'/pairwise_cors.csv')
     N=len(L)
     
     z=np.matmul(L.T,np.random.normal(0,1,size=(N,Reps))).T
@@ -25,29 +26,23 @@ def monteCarlo(L,sigName,eps,mu,Reps,pairwise_cors):
     fail=pd.DataFrame()
     
     print(eps,mu,psutil.virtual_memory().percent)
-    powerGG,failGG=ggnull(z,sigName)
+    powerGG,failGG=ggnull(z,sigName,ebb)
     print('ggnull',psutil.virtual_memory().percent)
     power=power.append(powerGG)
     fail=fail.append(failGG)
-    power=power.append(ghc(z,sigName))
+    power=power.append(ghc(z,sigName,var))
     print('ghc',psutil.virtual_memory().percent)
     power=power.append(myStats(z))
     print('myStats',psutil.virtual_memory().percent)
     
     M=multiprocessing.cpu_count()
     with ProcessPoolExecutor() as executor:    
-        results=executor.map(mc, [(i,z[i*int(np.ceil(Reps/M)):min((i+1)*int(np.ceil(Reps/M)),Reps)].tolist(),pairwise_cors) for
+        results=executor.map(mc, [(z[i*int(np.ceil(Reps/M)):min((i+1)*int(np.ceil(Reps/M)),Reps)].tolist(),pairwise_cors) for
             i in range(int(np.ceil(Reps/np.ceil(Reps/M))))])
     
-    res=[]
-    for result in results:
-        res+=[result]
-        
-    res=sorted(res,key=lambda x: x[0])
-    
-    for element in res:
-        power=power.append(element[1])
-        fail=fail.append(element[2])
+    for res in results:
+        power=power.append(res[0])
+        fail=fail.append(res[1])
     
     power.index=len(power)*[0]
     power=power.merge(pd.DataFrame([[eps,mu]],columns=['eps','mu'],index=[0]),left_index=True,right_index=True)
@@ -56,11 +51,10 @@ def monteCarlo(L,sigName,eps,mu,Reps,pairwise_cors):
         fail.index=len(fail)*[0]
         fail=fail.merge(pd.DataFrame([[eps,mu]],columns=['eps','mu'],index=[0]),left_index=True,right_index=True)
 
-    return((power,fail))
+    return(power,fail)
 
 def mc(data):
     j=0
-    segment=data[j];j+=1
     z=np.array(data[j]);j+=1
     pairwise_cors=data[j];j+=1
     
@@ -89,6 +83,9 @@ def mc(data):
         hc=(np.sqrt(N)*((F_n-p_val)/np.sqrt(p_val*(1-p_val))))[non_zero_hc]
         out+=[['hc0',np.max(hc)]]
 
+        hcFull=(np.sqrt(N)*((F_n-p_val)/np.sqrt(p_val*(1-p_val))))[non_zero]
+        out+=[['hcFull0',np.max(hcFull)]]
+
         out+=[['ghc0',np.max(cor['ghc']) if len(cor['ghc'])>0 else 0]]
         fail+=[['ghc0',1-float(len(cor['ghc']))/len(non_zero_hc)]]
         
@@ -108,4 +105,4 @@ def mc(data):
 
         out+=[['score0',np.sum(np.sort(-np.abs(z[i]))[non_zero]**2)]]
         
-    return(segment,pd.DataFrame(out,columns=['Type','Value']),pd.DataFrame(fail,columns=['Type','Value']))
+    return(pd.DataFrame(out,columns=['Type','Value']),pd.DataFrame(fail,columns=['Type','Value']))

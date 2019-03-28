@@ -1,9 +1,6 @@
 import pdb
 import numpy as np
 import pandas as pd
-import matplotlib
-matplotlib.use('agg')
-from mpl_toolkits.axes_grid1 import make_axes_locatable
 import matplotlib.pylab as plt
 import gc
 
@@ -30,7 +27,7 @@ def heatMapPower(power,parms):
     sigName=parms['sigName']  
     fontsize=parms['fontsize']
     
-    Types=np.sort(power.Type.drop_duplicates().values.flatten())
+    Types=np.sort(power.Type.drop_duplicates().sort_values().values.flatten())
                     
     mu=np.round(sorted(power.mu.drop_duplicates().values.tolist()),2)
     eps=np.round(sorted(power.eps.drop_duplicates().values.tolist()),2)

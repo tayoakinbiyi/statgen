@@ -45,7 +45,7 @@ def makeZ(dat):
 
 def makeProb(L,parms):
     eps=1e-8
-    binPower=500
+    binPower=700
     
     N=parms['N']
     sigName=parms['sigName']
@@ -56,7 +56,9 @@ def makeProb(L,parms):
     pairwise_cors=np.array([0]*int((N-1)*N/2)) #np.corrcoef(z,rowvar=False)[np.triu_indices(N,1)].flatten()   
 
     if os.path.isfile('ebb/'+sigName+'/ebb.csv'):
-        return()
+        ebb=np.loadtxt('ebb/'+sigName+'/ebb.csv',delimiter=',').astype('float32')
+        var=pd.read_csv('ebb/'+sigName+'/var.csv')
+        return(ebb,var)
     else:
         try:
             os.mkdir('ebb/'+sigName)
@@ -69,8 +71,7 @@ def makeProb(L,parms):
     t0=time.time()
     print('start',round((time.time()-t0),2))
     
-    bins=np.linspace(0,.5,numBins+1)
-    bins=np.concatenate([np.linspace(0,bins[1],500),bins[2:-1],np.linspace(bins[-1],1,500)]).flatten()
+    bins=np.append(np.linspace(0,.5,numBins+1)[:-1],np.linspace(.5,1,binPower))
     
     kRan=np.array(range(1,d+1))
     minB=np.digitize(beta.ppf(eps,kRan,N-kRan),bins).astype(int)-1   
@@ -106,8 +107,8 @@ def makeProb(L,parms):
         res+=[result]
     
     var=np.concatenate(res)
-    pd.DataFrame(np.concatenate([bins.reshape(-1,1),var.reshape(-1,1)],axis=1),columns=['binEdges','var']).to_csv(
-        'ebb/'+sigName+'/var.csv',index=False)
+    varEBB=pd.DataFrame(np.concatenate([bins.reshape(-1,1),var.reshape(-1,1)],axis=1),columns=['binEdges','var'])
+    varEBB.to_csv('ebb/'+sigName+'/var.csv',index=False)
 
     rho = (var - N*bins*(1-bins)) / (N*(N-1)*bins*(1-bins))
     gamma = rho / (1-rho)
@@ -121,18 +122,23 @@ def makeProb(L,parms):
     
     print('mp', psutil.virtual_memory().percent,round((time.time()-t0),2))
 
-    res=[]
+    ebb=np.empty([int(np.sum(minMaxK[:,2]-minMaxK[:,1]+1)),2],dtype='float32')
+    count=0
     for result in results:
-        res+=result
+        lenRes=len(result)
+        ebb[count:count+lenRes]=result
+        count+=lenRes
 
-    ebb=np.array(res) # binEdge,k,ebb
-    ebb=ebb[np.argsort(ebb[:,0]+ebb[:,1])][:,[0,2]]
-    
+    ebb=ebb[np.argsort(ebb[:,0])]
+    ebb[:,0]=(ebb[:,0]-ebb[:,0].astype(int))
+        
     print('ebb', psutil.virtual_memory().percent,round((time.time()-t0),2))
 
-    end=np.cumsum(maxB-minB+1).reshape(-1,1)
-    start=np.append([0],end[:-1]).reshape(-1,1)
+    end=np.cumsum(maxB-minB+1).reshape(-1,1) 
+    start=np.append([0],end.flatten()[:-1]).reshape(-1,1)
     minMaxB=np.concatenate([start,end-1],axis=1)
+    
+    
     '''arr,cr=ggStats(N)
     pdb.set_trace()    
     b=0;lam=np.append(ebb[minMaxB[:,0]+b,0],[.9]*d);print(ggof(np.abs(norm.ppf(lam/2)),lam,pairwise_cors,arr,cr)['ggnull'],'\n',ebb[minMaxB[:,0]+b,1])'''
@@ -140,8 +146,9 @@ def makeProb(L,parms):
     np.savetxt('ebb/'+sigName+'/minMaxB.csv',minMaxB,delimiter=',')
     pd.Series(rhoBar,name='rhoBar').to_csv('ebb/'+sigName+'/rhoBar.csv',index=False,header=True)
     np.savetxt('ebb/'+sigName+'/ebb.csv',ebb,delimiter=',')  
+    np.savetxt('ebb/'+sigName+'/pairwise_cors.csv',pairwise_cors,delimiter=',')
     
-    return(pairwise_cors)
+    return(ebb,varEBB)
            
 def saveEBB(dat):
     j=0
@@ -165,7 +172,9 @@ def mp(dat):
     
     cr=newC(N)
 
-    ebb=[]    
+    ebb=np.empty([int(np.sum(res[:,2]-res[:,1]+1)),2],dtype='float32')  
+    ebb[:,1]=np.nan
+    count=0
     for row in res:
         j=0
         rLam=row[j];j+=1
@@ -182,9 +191,10 @@ def mp(dat):
             baseCr=cr[0:(int(rMax)+1)]
 
             Pr=np.exp(baseCr+baseOne+baseTwo-baseThree)
-            ans=1-(np.sum(Pr[0:rMin])+np.cumsum(Pr[rMin:rMax+1]))
-            ebb+=[[rLam,rMin+k,ans[k]] for k in range(rMax-rMin+1)] 
-        else:
-            ebb+=[[rLam,rMin+k,np.nan] for k in range(rMax-rMin+1)] # binEdge+k,ebb
+            ebb[count:count+rLen,1]=1-(np.sum(Pr[0:rMin])+np.cumsum(Pr[rMin:rMax+1]))
+
+        ebb[count:count+rLen,0]=rLam+np.arange(rMin,rMax+1)
+        count+=rLen
+        
     
     return(ebb)
