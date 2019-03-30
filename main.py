@@ -24,21 +24,21 @@ if __name__ == '__main__':
     parms={
         'Types':['hc','gnull','bj','fdr','minP','score','ggnull','ghc'],
         'plot':True,
-        'H0':50,
-        'H01':50,
-        'H1':50,
+        'H0':70,
+        'H01':70,
+        'H1':70,
         'fontsize':17,
         'new':True
     }
     
     if len(EXCHANGEABLE)>0:
-        for N in [1500,1000,1500,2000,2500,3000,3500,4000,4500,5000,5500,6000,6500,7000,7500,8000,8500,9000,10000]:
+        for N in [2000,1000,1500,2000,2500,3000,3500,4000,4500,5000,5500,6000,6500,7000,7500,8000,8500,9000,10000]:
             for rho in EXCHANGEABLE:            
                 sig,_=exchangeable(N,rho)
                 sigName='iid-ggnull-ghc-'+str(N)
                     
-                fileDump(sim({**parms,'sigName':sigName,'N':N,'sig':sig,'muRange':np.unique(np.linspace(2,3,3)).round(3),
-                    'epsRange':np.unique(np.linspace(2,N*(.008 if N>2000 else .01 if N>1000 else .017),3).round()).astype(int)}))
+                fileDump(sim({**parms,'sigName':sigName,'N':N,'sig':sig,'muRange':np.unique(np.linspace(2,3,4)).round(3),
+                    'epsRange':np.unique(np.linspace(2,N*(.008 if N>2000 else .01 if N>1000 else .017),4).round()).astype(int)}))
                 pdb.set_trace()
 
     if NORM_SIG:

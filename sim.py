@@ -42,12 +42,14 @@ def sim(parms):
     
     if parms['new']:
         alpha,_=monteCarlo(L,sigName,0,0,parms['H0'],ebb,var)
+        
         print('alpha', psutil.virtual_memory().percent)
         ggnull=alpha[alpha.Type=='ggnull']
         ggnull0=alpha[alpha.Type=='ggnull0']
         diff=np.abs(ggnull.Value-ggnull0.Value)>.01
         summ=pd.concat([ggnull,ggnull0],axis=1)[diff]
-        print(len(summ))
+        
+        print('summ',len(summ))
         alpha=alpha.groupby('Type',sort=False).apply(lambda df:np.nanpercentile(df.Value,q=95))
         alpha.name='alpha'
         alpha=alpha.reset_index()
@@ -81,10 +83,10 @@ def sim(parms):
         
         power.reset_index(drop=True,inplace=True)
         fail.reset_index(drop=True,inplace=True)
-        power.to_csv('raw-power-'+str(parms['N'])+'-'+sigName+'.csv',index=False)
-        fail.to_csv('raw-fail-'+str(parms['N'])+'-'+sigName+'.csv',index=False)            
+        power.to_csv('raw/raw-power-'+str(parms['N'])+'-'+sigName+'.csv',index=False)
+        fail.to_csv('raw/raw-fail-'+str(parms['N'])+'-'+sigName+'.csv',index=False)            
     else:
-        power=pd.read_csv('raw-power-'+str(parms['N'])+'-'+sigName+'.csv')
-        fail=pd.read_csv('raw-fail-'+str(parms['N'])+'-'+sigName+'.csv')            
+        power=pd.read_csv('raw/raw-power-'+str(parms['N'])+'-'+sigName+'.csv')
+        fail=pd.read_csv('raw/raw-fail-'+str(parms['N'])+'-'+sigName+'.csv')            
         
     return(power,fail,parms)

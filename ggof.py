@@ -57,7 +57,7 @@ def ggof(z_raw,p,pairwise_cors,arr,cr):
     non_zero_ghc=non_zero[non_zero>=sum(p<1.0/d)]
     cor['non_zero_ghc']=non_zero_ghc
     cor['ghc']=(k_vec[non_zero_ghc]+1-d*p[non_zero_ghc])/np.sqrt(sigmasq[non_zero_ghc])
-    cor['var']=sigmasq[non_zero_ghc]
+    #cor['var']=sigmasq[non_zero_ghc]
     cor['k']=k_vec[non_zero_ghc]
     
     if 'gbj' in ['5']:#Types:

@@ -1,4 +1,4 @@
-from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures import ProcessPoolExecutor, wait, FIRST_COMPLETED
 import pandas as pd
 import numpy as np
 import multiprocessing
@@ -14,37 +14,29 @@ def ggnull(z,sigName,ebb):
     
     M=multiprocessing.cpu_count()
     
-    minMaxB=np.loadtxt('ebb/'+sigName+'/minMaxB.csv',delimiter=',').astype(int)
+    minMaxB=pd.read_csv('ebb/'+sigName+'/minMaxB.csv').astype(int)
 
-    #k=0
-    #ggHelp((z[:,k].tolist(),ebb[minMaxB[k,0]:minMaxB[k,1]].tolist()))
-    #pdb.set_trace()
-    print('ggnull-pool',psutil.virtual_memory().percent)
+    futures=[]
     with ProcessPoolExecutor() as executor: 
-        results=executor.map(ggHelp, [(z[:,k].flatten().tolist(),ebb[minMaxB[k,0]:minMaxB[k,1]].tolist()) for k in range(d)])
+        for k in range(d):
+            futures.append(executor.submit(ggHelp,z[:,k],ebb.iloc[minMaxB.loc[k,'start']:minMaxB.loc[k,'end']],k))
     
-    res=[]
-    for result in results:
-        res+=[result]
-               
-    raw=np.concatenate(res)
+    ggnull=pd.DataFrame(dtype='float32')
+    for f in wait(futures,return_when=FIRST_COMPLETED)[0]:
+        result=f.result()
+        ggnull.insert(ggnull.shape[1],result.name,result)
     
-    power=pd.DataFrame({'Type':'ggnull','Value':-np.min(raw,axis=0)})
-    fail=pd.DataFrame({'Type':'ggnull','Value':np.sum(np.isnan(raw),axis=0)})
+    power=pd.DataFrame({'Type':'ggnull','Value':-ggnull.min(axis=1)})
+    fail=pd.DataFrame({'Type':'ggnull','Value':ggnull.isnull().sum(axis=1)/d})
 
     return(power,fail)
     
-def ggHelp(dat):
-    print('ggHelp',psutil.virtual_memory().percent)
-    j=0;
-    z=np.array(dat[j]);j+=1
-    ebb=pd.DataFrame(dat[j],columns=['binEdge','ebb']);j+=1
-    
+def ggHelp(z,ebb,k):   
     Reps=len(z)   
     p_vals=2*norm.sf(z)
     sortOrd=p_vals.argsort()
-                          
-    raw=ebb.ebb.iloc[ebb.binEdge.searchsorted(p_vals[sortOrd])].values.flatten()[np.argsort(sortOrd)].reshape(1,-1).tolist()
+                 
+    ggnull=pd.Series(ebb.ebb.iloc[ebb.binEdge.searchsorted(p_vals[sortOrd])].iloc[np.argsort(sortOrd)].values,name=str(k),dtype='float32')
     
-    return(raw)
-    
+    return(ggnull)
+        

@@ -15,6 +15,7 @@ from ggnull import *
 
 def monteCarlo(L,sigName,eps,mu,Reps,ebb,var):
     pairwise_cors=np.loadtxt('ebb/'+sigName+'/pairwise_cors.csv')
+   
     N=len(L)
     
     z=np.matmul(L.T,np.random.normal(0,1,size=(N,Reps))).T
@@ -24,8 +25,9 @@ def monteCarlo(L,sigName,eps,mu,Reps,ebb,var):
     
     power=pd.DataFrame()
     fail=pd.DataFrame()
-    
+        
     print(eps,mu,psutil.virtual_memory().percent)
+
     powerGG,failGG=ggnull(z,sigName,ebb)
     print('ggnull',psutil.virtual_memory().percent)
     power=power.append(powerGG)
@@ -36,27 +38,26 @@ def monteCarlo(L,sigName,eps,mu,Reps,ebb,var):
     print('myStats',psutil.virtual_memory().percent)
     
     M=multiprocessing.cpu_count()
-    with ProcessPoolExecutor() as executor:    
-        results=executor.map(mc, [(z[i*int(np.ceil(Reps/M)):min((i+1)*int(np.ceil(Reps/M)),Reps)].tolist(),pairwise_cors) for
-            i in range(int(np.ceil(Reps/np.ceil(Reps/M))))])
+    futures=[]
+    with ProcessPoolExecutor() as executor:  
+        for i in range(int(np.ceil(Reps/np.ceil(Reps/M)))):
+            futures.append(executor.submit(mc,z[i*int(np.ceil(Reps/M)):min((i+1)*int(np.ceil(Reps/M)),Reps)],pairwise_cors))
     
-    for res in results:
-        power=power.append(res[0])
-        fail=fail.append(res[1])
+    for f in wait(futures,return_when=FIRST_COMPLETED)[0]:
+        result=f.result()
+        power=power.append(result[0])
+        fail=fail.append(result[1])
     
     power.index=len(power)*[0]
     power=power.merge(pd.DataFrame([[eps,mu]],columns=['eps','mu'],index=[0]),left_index=True,right_index=True)
-
+    
     if len(fail)>0:
         fail.index=len(fail)*[0]
         fail=fail.merge(pd.DataFrame([[eps,mu]],columns=['eps','mu'],index=[0]),left_index=True,right_index=True)
 
     return(power,fail)
 
-def mc(data):
-    j=0
-    z=np.array(data[j]);j+=1
-    pairwise_cors=data[j];j+=1
+def mc(z,pairwise_cors):
     
     Reps,N=z.shape
     arr,cr=ggStats(N)
@@ -66,7 +67,6 @@ def mc(data):
     p=2*norm.cdf(-np.abs(z))  
     
     out=[]
-    val=[]
     fail=[]
 
     for i in range(len(p)):   
