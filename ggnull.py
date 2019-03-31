@@ -24,11 +24,11 @@ def ggnull(z,sigName,ebb):
     ggnull=pd.DataFrame(dtype='float32')
     for f in wait(futures,return_when=FIRST_COMPLETED)[0]:
         result=f.result()
-        ggnull.insert(ggnull.shape[1],result.name,result)
+        ggnull.insert(ggnull.shape[1],result[0],result[1])
     
     power=pd.DataFrame({'Type':'ggnull','Value':-ggnull.min(axis=1)})
     fail=pd.DataFrame({'Type':'ggnull','Value':ggnull.isnull().sum(axis=1)/d})
-
+    
     return(power,fail)
     
 def ggHelp(z,ebb,k):   
@@ -36,7 +36,8 @@ def ggHelp(z,ebb,k):
     p_vals=2*norm.sf(z)
     sortOrd=p_vals.argsort()
                  
-    ggnull=pd.Series(ebb.ebb.iloc[ebb.binEdge.searchsorted(p_vals[sortOrd])].iloc[np.argsort(sortOrd)].values,name=str(k),dtype='float32')
+    ggnull=ebb.ebb.iloc[np.minimum(ebb.binEdge.searchsorted(p_vals[sortOrd]),len(ebb)-1)].iloc[
+        np.argsort(sortOrd)].values.astype('float32')
     
-    return(ggnull)
+    return(k,ggnull)
         

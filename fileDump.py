@@ -47,6 +47,7 @@ def heatMapPower(power,parms):
     fig.set_figheight(len(Types)*len(eps)*1.5,forward=True)
     
     textDF=[0,0,0]   
+        
     for Type in range(len(Types)):
         textDF[0]=mat[Type].astype(str)
         textDF[0][0,0]=str(int(1000*(mat[Type][0,0]/1000-1.96*np.sqrt((.05*.95)/H01))))+'-'+str(int(1000*(mat[Type][0,0]/1000+
@@ -72,7 +73,7 @@ def heatMapPower(power,parms):
                 for y in range(len(mu)):
                     axs[Type,Plot].text(y, x, textDF[Plot][x,y], ha="center", va="center", color="black",fontsize=fontsize)              
 
-    fig.savefig('heatmap-power-N:'+str(N)+'-H0:'+str(H0)+'-H1:'+str(H1)+'-H01:'+str(H01)+'-Sig:'+sigName+'.png')
+    fig.savefig('heatmap/heatmap-power-N:'+str(N)+'-H0:'+str(H0)+'-H1:'+str(H1)+'-H01:'+str(H01)+'-Sig:'+sigName+'.png')
 
     bestType=power.groupby(['mu','eps'],sort=False).apply(bestFunc,H1,H01).reset_index()
     lenType=bestType.pivot(values='len',index='eps',columns='mu').fillna(1).values
@@ -99,7 +100,7 @@ def heatMapPower(power,parms):
         for y in range(len(mu)):
             axs.text(y, x, textType[x,y], ha="center", va="center", color="black",fontsize=1.2*fontsize)              
     
-    fig.savefig('heatmap-best-N:'+str(N)+'-H0:'+str(H0)+'-H1:'+str(H1)+'-H01:'+str(H01)+'-Sig:'+sigName+'.png')
+    fig.savefig('heatmap/heatmap-best-N:'+str(N)+'-H0:'+str(H0)+'-H1:'+str(H1)+'-H01:'+str(H01)+'-Sig:'+sigName+'.png')
 
 def heatMapFail(fail,parms):    
     return()
