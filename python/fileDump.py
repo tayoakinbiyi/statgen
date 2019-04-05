@@ -42,7 +42,7 @@ def heatMapPower(power,parms):
     mMin=power.groupby(['eps','mu'],sort=False)['power'].min().reset_index().pivot(
         values='power',index='eps',columns='mu').fillna(500).astype(int).values
   
-    fig, axs = plt.subplots(len(Types),3,dpi=50,tight_layout=True)   
+    fig, axs = plt.subplots(len(Types),3,dpi=50)   
     fig.set_figwidth(len(mu)*3,forward=True)
     fig.set_figheight(len(Types)*len(eps)*1.5,forward=True)
     
@@ -73,14 +73,15 @@ def heatMapPower(power,parms):
                 for y in range(len(mu)):
                     axs[Type,Plot].text(y, x, textDF[Plot][x,y], ha="center", va="center", color="black",fontsize=fontsize)              
 
-    fig.savefig('heatmap/heatmap-power-N:'+str(N)+'-H0:'+str(H0)+'-H1:'+str(H1)+'-H01:'+str(H01)+'-Sig:'+sigName+'.png')
+    fig.savefig('heatmap/heatmap-power-N:'+str(N)+'-H0:'+str(H0)+'-H1:'+str(H1)+'-H01:'+str(H01)+'-Sig:'+sigName+'.png',
+                bbox_inches='tight')
 
     bestType=power.groupby(['mu','eps'],sort=False).apply(bestFunc,H1,H01).reset_index()
     lenType=bestType.pivot(values='len',index='eps',columns='mu').fillna(1).values
     textType=bestType.pivot(values='Type',index='eps',columns='mu').fillna('').values
     textType[0,0]=str(mMin[0,0])+'-'+str(mMax[0,0])
 
-    fig, axs = plt.subplots(1,1,dpi=50,tight_layout=True)   
+    fig, axs = plt.subplots(1,1,dpi=50)   
     fig.set_figwidth(len(mu)*2,forward=True)
     fig.set_figheight(lenType.sum(axis=0).max()*2,forward=True)
        
@@ -130,7 +131,7 @@ def heatMapFail(fail,parms):
         pctAllFail[Type]=fail[fail.Type==Types[Type]].pivot(values='pctAllFail',index='eps',columns='mu').fillna(0).astype(int).values
     
     #pdb.set_trace()
-    fig, axs = plt.subplots(len(Types),2,dpi=50,tight_layout=True)   
+    fig, axs = plt.subplots(len(Types),2,dpi=50)   
     fig.set_figwidth(len(mu)*3,forward=True)
     fig.set_figheight(len(Types)*len(eps)*1.5,forward=True)
 
@@ -156,7 +157,7 @@ def heatMapFail(fail,parms):
                 for y in range(len(mu)):
                     axs[Type,Plot].text(y, x, textDF[Plot][x,y], ha="center", va="center", color="black",fontsize=fontsize)              
 
-    fig.savefig('heatmap-fail-N:'+str(N)+'-H0:'+str(H0)+'-H1:'+str(H1)+'-H01:'+str(H01)+'-Sig:'+sigName+'.png')
+    fig.savefig('heatmap-fail-N:'+str(N)+'-H0:'+str(H0)+'-H1:'+str(H1)+'-H01:'+str(H01)+'-Sig:'+sigName+'.png',bbox_inches='tight')
     
 def nPlot(power,H1,sigName):
     N=power['N'].drop_duplicates().sort_values().values
@@ -164,7 +165,7 @@ def nPlot(power,H1,sigName):
     mu=mu[mu!=0]
     Types=power.Type.drop_duplicates().values
     
-    fig, axs = plt.subplots(len(N),len(mu),dpi=50,tight_layout=True)   
+    fig, axs = plt.subplots(len(N),len(mu),dpi=50)   
     fig.set_figwidth(len(mu)*10,forward=True)
     fig.set_figheight(len(N)*10,forward=True)
 
@@ -179,5 +180,5 @@ def nPlot(power,H1,sigName):
                 axs[t_N,t_mu].set_title(Type+'-N='+str(N[t_N])+'-mu='+str(mu[t_mu]),fontsize=20)
 
                 
-    fig.savefig('N-plot-H1:'+str(H1)+'-'+sigName+'.png')
+    fig.savefig('N-plot-H1:'+str(H1)+'-'+sigName+'.png',bbox_inches='tight')
                 

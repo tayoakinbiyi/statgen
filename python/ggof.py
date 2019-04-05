@@ -3,13 +3,14 @@ import pdb
 import pandas as pd
 from scipy.stats import norm,beta
 import time
-from myMath import *
 from multiprocessing import Pool, cpu_count, freeze_support, set_start_method
 from concurrent.futures import ProcessPoolExecutor
-from qq_var import *
 import random
 import os
-    
+
+from python.myMath import *
+from python.qq_var import *
+
 def ebb_gnull(x,ar,cr):
     k=int(x[0])
     lam=x[1]

@@ -8,13 +8,13 @@ from scipy.stats import norm, beta
 import psutil
 import time
 
-from ggof import *
-from myStats import *
-from ghc import *
-from ggnull import *
+from python.ggof import *
+from python.myStats import *
+from python.ghc import *
+from python.ggnull import *
 
-def monteCarlo(L,sigName,eps,mu,Reps,ebb,var):
-    pairwise_cors=np.loadtxt('ebb/'+sigName+'/pairwise_cors.csv')
+def monteCarlo(L,sigName,eps,mu,Reps,ggnullDat,ghcDat):
+    pairwise_cors=np.loadtxt('../ebb/'+sigName+'/pairwise_cors.csv')
    
     N=len(L)
     
@@ -28,11 +28,11 @@ def monteCarlo(L,sigName,eps,mu,Reps,ebb,var):
         
     print(eps,mu,psutil.virtual_memory().percent)
 
-    powerGG,failGG=ggnull(z,sigName,ebb)
+    powerGG,failGG=ggnull(z,sigName,ggnullDat)
     print('ggnull',psutil.virtual_memory().percent)
     power=power.append(powerGG)
     fail=fail.append(failGG)
-    power=power.append(ghc(z,sigName,var))
+    power=power.append(ghc(z,sigName,ghcDat))
     print('ghc',psutil.virtual_memory().percent)
     power=power.append(myStats(z))
     print('myStats',psutil.virtual_memory().percent)

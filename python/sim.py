@@ -1,6 +1,6 @@
-from monteCarlo import *
-from norm_sig import *
-from makeProb import *
+from python.monteCarlo import *
+from python.norm_sig import *
+from python.makeProb import *
 from functools import partial
 
 def strConcat(df):
@@ -38,15 +38,17 @@ def sim(parms):
     muRange=parms['muRange']
     sigName=parms['sigName']
     
-    ebb,var=makeProb(L,parms)
+    t0=time.time()
+    ggnullDat,ghcDat=makeProb(L,parms)
+    print('makeProb',round((time.time()-t0),2))
     
     if parms['new']:
-        alpha,_=monteCarlo(L,sigName,0,0,parms['H0'],ebb,var)
+        alpha,_=monteCarlo(L,sigName,0,0,parms['H0'],ggnullDat,ghcDat)
         alpha=alpha.groupby('Type',sort=False).apply(lambda df:np.nanpercentile(df.Value,q=95))
         alpha.name='alpha'
         alpha=alpha.reset_index()
         
-        power, fail=powerMat(monteCarlo(L,sigName,0,0,parms['H01'],ebb,var),alpha)
+        power, fail=powerMat(monteCarlo(L,sigName,0,0,parms['H01'],ggnullDat,ghcDat),alpha)
 
         muSD=np.sqrt(np.sum(muRange**2))
         epsSD=np.sqrt(np.sum(epsRange**2))
@@ -59,7 +61,7 @@ def sim(parms):
         
         while len(epsMu)>0:
             eps,mu=epsMu[0]
-            mc=powerMat(monteCarlo(L,sigName,eps,mu,parms['H1'],ebb,var),alpha)
+            mc=powerMat(monteCarlo(L,sigName,eps,mu,parms['H1'],ggnullDat,ghcDat),alpha)
             power=power.append(mc[0])
             fail=fail.append(mc[1])
 
@@ -68,17 +70,17 @@ def sim(parms):
                 power=power.append(pd.DataFrame([[t_eps,t_mu,Type,1000,'1-'+str(len(parms['Types']))] for (t_eps,t_mu) in epsMu 
                        for Type in parms['Types'] if (t_eps>eps and t_mu>mu)],columns=power.columns))
                 epsMu=[(t_eps,t_mu) for (t_eps,t_mu) in epsMu if not (t_eps>eps and t_mu>mu)]
-            if mc[0].power.max()<350:
+            if mc[0].power.max()<250:
                 power=power.append(pd.DataFrame([[t_eps,t_mu,Type,1,'1-'+str(len(parms['Types']))] for (t_eps,t_mu) in epsMu 
                        for Type in parms['Types'] if (t_eps<eps and t_mu<mu)],columns=power.columns))
                 epsMu=[(t_eps,t_mu) for (t_eps,t_mu) in epsMu if not (t_eps<eps and t_mu<mu)]
         
         power.reset_index(drop=True,inplace=True)
         fail.reset_index(drop=True,inplace=True)
-        power.to_csv('raw/raw-power-'+str(parms['N'])+'-'+sigName+'.csv',index=False)
-        fail.to_csv('raw/raw-fail-'+str(parms['N'])+'-'+sigName+'.csv',index=False)            
+        power.to_csv('../raw/raw-power-'+str(parms['N'])+'-'+sigName+'.csv',index=False)
+        fail.to_csv('../raw/raw-fail-'+str(parms['N'])+'-'+sigName+'.csv',index=False)            
     else:
-        power=pd.read_csv('raw/raw-power-'+str(parms['N'])+'-'+sigName+'.csv')
-        fail=pd.read_csv('raw/raw-fail-'+str(parms['N'])+'-'+sigName+'.csv')            
+        power=pd.read_csv('../raw/raw-power-'+str(parms['N'])+'-'+sigName+'.csv')
+        fail=pd.read_csv('../raw/raw-fail-'+str(parms['N'])+'-'+sigName+'.csv')            
         
     return(power,fail,parms)

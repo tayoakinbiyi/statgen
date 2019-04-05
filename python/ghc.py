@@ -6,7 +6,7 @@ from scipy.stats import norm,beta
 import psutil
 import pdb
 
-def ghc(z,name,var):
+def ghc(z,name,ghcDat):
     Reps,N=z.shape
     d=int(N/2)
 
@@ -18,7 +18,7 @@ def ghc(z,name,var):
     futures=[]
     with ProcessPoolExecutor() as executor: 
         for i in range(int(np.ceil(Reps/np.ceil(Reps/M)))):
-            futures.append(executor.submit(ghcHelp,z[i*int(np.ceil(Reps/M)):min((i+1)*int(np.ceil(Reps/M)),Reps)],name,var))
+            futures.append(executor.submit(ghcHelp,z[i*int(np.ceil(Reps/M)):min((i+1)*int(np.ceil(Reps/M)),Reps)],name,ghcDat))
 
     ghc=pd.DataFrame(dtype='float32')
     for f in wait(futures,return_when=FIRST_COMPLETED)[0]:
@@ -40,13 +40,13 @@ def ghcHelp(z,name,var):
     if(len(val.replicant.drop_duplicates())<len(z)):
         print(len(val.replicant.drop_duplicates()),len(z))
     
-    power=val.groupby('replicant').apply(lambda df,N: pd.DataFrame({'Type':'ghcFull','Value':
-        np.max(((df.k+1-N*df.p)/(df['var']**.5)))},index=[0]),N=N).reset_index().sort_values(by='replicant')[['Type','Value']]
+    #power=val.groupby('replicant').apply(lambda df,N: pd.DataFrame({'Type':'ghcFull','Value':
+    #    np.max(((df.k+1-N*df.p)/(df['var']**.5)))},index=[0]),N=N).reset_index().sort_values(by='replicant')[['Type','Value']]
 
     val=val[val.p>=1/N]
     
-    power=power.append(val.groupby('replicant').apply(lambda df,N: pd.DataFrame({'Type':'ghc','Value':
-        np.max(((df.k+1-N*df.p)/(df['var']**.5)))},index=[0]),N=N).reset_index().sort_values(by='replicant')[['Type','Value']])
+    power=val.groupby('replicant').apply(lambda df,N: pd.DataFrame({'Type':'ghc','Value':
+        np.max(((df.k+1-N*df.p)/(df['var']**.5)))},index=[0]),N=N).reset_index().sort_values(by='replicant')[['Type','Value']]
     
     return(power)
 

@@ -4,14 +4,14 @@ import os
 import multiprocessing
 from concurrent.futures import ProcessPoolExecutor, wait, FIRST_COMPLETED
 from scipy.stats import norm, beta
-from qq_var import *
 import pdb
 import psutil
 import matplotlib.pylab as plt
 import time
-from ggof import *
-from mpHelp import *
-#from apply import *
+
+from python.qq_var import *
+from python.ggof import *
+from python.mpHelp import *
 
 def binsMinMax(df,B,N):
     bins=np.array(range(int(max(0,df.bins.min()-N)),int(min(B-1,df.bins.max()+N))+1)).reshape(-1,1)
@@ -23,26 +23,26 @@ def kMinMax(df):
 
 def makeProb(L,parms):
     eps=1e-8
-    binPower=700
+    binPower=500
     
     N=parms['N']
     sigName=parms['sigName']
     
     d=int(N/2)
 
-    z=np.matmul(L.T,np.random.normal(0,1,size=(N,200))).T
-    pairwise_cors=np.corrcoef(z,rowvar=False)[np.triu_indices(N,1)].flatten()   
-
-    if os.path.isfile('ebb/'+sigName+'/ebb.csv'):
-        ebb=pd.read_csv('ebb/'+sigName+'/ebb.csv',dtype='float32')
-        var=pd.read_csv('ebb/'+sigName+'/var.csv',dtype='float32')
-        return(ebb,var)
-    else:
-        try:
-            os.mkdir('ebb/'+sigName)
-        except:
-            print('directory already exists')
+    #z=np.matmul(L.T,np.random.normal(0,1,size=(N,200))).T
+    pairwise_cors=np.array([0]*int(N*(N-1)/2))#np.corrcoef(z,rowvar=False)[np.triu_indices(N,1)].flatten()   
+    mkdir=False
     
+    if os.path.isdir('../ebb/'+sigName):
+        ggnullDat={}
+        for k in range(d):
+            ggnullDat[k]=pd.read_csv('../ebb/'+sigName+'/ggnullDat-'+str(k)+'.csv',dtype='float32')
+        ghcDat=pd.read_csv('../ebb/'+sigName+'/ghcDat.csv',dtype='float32')
+        return(ggnullDat,ghcDat)
+    else:
+        mkdir=True
+            
     M=multiprocessing.cpu_count()
     
     numBins=int(N*binPower)
@@ -72,7 +72,7 @@ def makeProb(L,parms):
           
     end=np.cumsum(maxB-minB+1) 
     start=np.append([0],end[:-1])
-    minMaxB=pd.DataFrame({'start':start,'end':end},dtype='float32')
+    minMaxB=pd.DataFrame({'start':start,'end':end},dtype='int')
     
     rhoBar=getRhoBar(pairwise_cors)
     futures=[]
@@ -80,41 +80,44 @@ def makeProb(L,parms):
         for i in range(int(np.ceil(numBins/np.ceil(numBins/M)))):
             futures.append(executor.submit(vst,bins[i*int(np.ceil(numBins/M)):min((i+1)*int(np.ceil(numBins/M)),numBins)],N,rhoBar))
         
-    var=pd.DataFrame(columns=['binEdge','var'],dtype='float32')
+    ghcDat=pd.DataFrame(columns=['binEdge','var'],dtype='float32')
     for f in wait(futures,return_when=FIRST_COMPLETED)[0]:
-        var=var.append(f.result())
+        ghcDat=ghcDat.append(f.result())
     
-    var=var.sort_values(by='binEdge').reset_index(drop=True)
-    print('vst', psutil.virtual_memory().percent,round((time.time()-t0),2))
+    ghcDat=ghcDat.sort_values(by='binEdge').reset_index(drop=True)
+    print('ghcDat', psutil.virtual_memory().percent,round((time.time()-t0),2))
 
-    minMaxK.insert(minMaxK.shape[1],'var',var['var']) # binEdge,min,max, var
+    minMaxK.insert(minMaxK.shape[1],'var',ghcDat['var']) # binEdge,min,max, var
     print('gamma', psutil.virtual_memory().percent,round((time.time()-t0),2))
 
     futures=[]
-    #i=0
-    #pdb.set_trace()
-    #mpHelp(minMaxK.iloc[27726-5:27726+5],N)
+    mpHelp(minMaxK,N)
     with ProcessPoolExecutor() as executor: 
         for i in range(int(np.ceil(numBins/np.ceil(numBins/M)))):
             futures.append(executor.submit(mpHelp,minMaxK[i*int(np.ceil(numBins/M)):min((i+1)*int(np.ceil(numBins/M)),numBins)],N))
                                       
-    ebb=pd.DataFrame(columns=['binEdge','ebb'],dtype='float32')
+    ebb=pd.DataFrame(columns=['binEdge','ggnull'],dtype='float32')
     for f in wait(futures,return_when=FIRST_COMPLETED)[0]:
         ebb=ebb.append(f.result())
 
     print('mp', psutil.virtual_memory().percent,round((time.time()-t0),2))
 
     ebb=ebb.sort_values(by='binEdge')
-    ebb['binEdge']=(ebb['binEdge']-ebb['binEdge'].astype(int))
+    ggnullDat={}
+    for k in range(d):
+        ggnullDat[k]=ebb.iloc[minMaxB.loc[k,'start']:minMaxB.loc[k,'end']].reset_index(drop=True)
+        ggnullDat[k].loc[:,'binEdge']=(ggnullDat[k].loc[:,'binEdge']-ggnullDat[k].loc[:,'binEdge'].astype(int))
+        
     print('ebb', psutil.virtual_memory().percent,round((time.time()-t0),2))
 
-    minMaxB.to_csv('ebb/'+sigName+'/minMaxB.csv',index=False)
-    pd.Series(rhoBar,name='rhoBar').to_csv('ebb/'+sigName+'/rhoBar.csv',index=False,header=True)
-    ebb.to_csv('ebb/'+sigName+'/ebb.csv',index=False)  
-    np.savetxt('ebb/'+sigName+'/pairwise_cors.csv',pairwise_cors,delimiter=',')
-    var.to_csv('ebb/'+sigName+'/var.csv',index=False)
+    os.mkdir('../ebb/'+sigName)
+    pd.Series(rhoBar,name='rhoBar').to_csv('../ebb/'+sigName+'/rhoBar.csv',index=False,header=True)
+    for k in range(d):
+        ggnullDat[k].to_csv('../ebb/'+sigName+'/ggnullDat-'+str(k)+'.csv',index=False)  
+    np.savetxt('../ebb/'+sigName+'/pairwise_cors.csv',pairwise_cors,delimiter=',')
+    ghcDat.to_csv('../ebb/'+sigName+'/ghcDat.csv',index=False)
     
-    return(ebb,var)
+    return(ggnullDat,ghcDat)
            
 def vst(binEdges,d,rhoBar):
     z=np.abs(norm.ppf(binEdges/2))

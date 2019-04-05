@@ -6,20 +6,22 @@ from scipy.stats import norm, beta
 import pdb
 import psutil
 
-def ggnull(z,sigName,ebb):
-    Reps,N=z.shape
+def ggnull(zAll,sigName,ggnullDat):
+    Reps,N=zAll.shape
     d=int(N/2)
 
-    z=-np.sort(-np.abs(z))[:,0:d]
+    zAll=-np.sort(-np.abs(zAll))[:,0:d]
+    z={}
+    for k in range(d):
+        z[k]=zAll[:,k]
+    del zAll
     
     M=multiprocessing.cpu_count()
     
-    minMaxB=pd.read_csv('ebb/'+sigName+'/minMaxB.csv').astype(int)
-
     futures=[]
     with ProcessPoolExecutor() as executor: 
         for k in range(d):
-            futures.append(executor.submit(ggHelp,z[:,k],ebb.iloc[minMaxB.loc[k,'start']:minMaxB.loc[k,'end']],k))
+            futures.append(executor.submit(ggHelp,z[k],ggnullDat[k],k))
     
     ggnull=pd.DataFrame(dtype='float32')
     for f in wait(futures,return_when=FIRST_COMPLETED)[0]:
@@ -31,12 +33,12 @@ def ggnull(z,sigName,ebb):
     
     return(power,fail)
     
-def ggHelp(z,ebb,k):   
+def ggHelp(z,ggnullDat,k):   
     Reps=len(z)   
     p_vals=2*norm.sf(z)
     sortOrd=p_vals.argsort()
                  
-    ggnull=ebb.ebb.iloc[np.minimum(ebb.binEdge.searchsorted(p_vals[sortOrd]),len(ebb)-1)].iloc[
+    ggnull=ggnullDat.ggnull.iloc[np.minimum(ggnullDat.binEdge.searchsorted(p_vals[sortOrd]),len(ggnullDat)-1)].iloc[
         np.argsort(sortOrd)].values.astype('float32')
     
     return(k,ggnull)

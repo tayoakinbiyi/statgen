@@ -11,10 +11,10 @@ def newC(n):
     
 def mpHelp(minMaxK,N):
     cr=newC(N)
-    #pdb.set_trace()
 
-    ebb=pd.DataFrame(columns=['binEdge','ebb'],dtype='float32')
+    ebb=pd.DataFrame(np.empty([(minMaxK['maxK']-minMaxK['minK']+1).sum(),2]), columns=['binEdge','ggnull'],dtype='float32')
 
+    count=0
     for index, row in minMaxK.iterrows():
         row=row.astype('float32')
         rLam=row['binEdge']
@@ -25,7 +25,7 @@ def mpHelp(minMaxK,N):
         rLen=(rMax-rMin+1)
         rRho=(rVar-N*rLam*(1-rLam))/(N*(N-1)*rLam*(1-rLam))
         rGamma=rRho/(1-rRho)
-
+        
         if rGamma>=max(-rLam / (N-1),-(1-rLam) / (N-1)):   
             baseOne=np.append([0],np.cumsum(np.log(rLam+rGamma*np.array(range(0,rMax)))))
             baseTwo=np.cumsum(np.log(1-rLam+rGamma*np.array(range(N))))[-(rMax+1):][::-1]
@@ -33,9 +33,12 @@ def mpHelp(minMaxK,N):
             baseCr=cr[0:(int(rMax)+1)]
 
             Pr=np.exp(baseCr+baseOne+baseTwo-baseThree)
-            ebb=ebb.append(pd.DataFrame({'binEdge':rLam+np.arange(rMin,rMax+1),'ebb':1-(np.sum(Pr[0:rMin])+np.cumsum(Pr[rMin:rMax+1]))},
-                dtype='float32'))
+            ebb.iloc[count:(count+rLen)]=pd.DataFrame({'binEdge':rLam+np.arange(rMin,rMax+1),'ggnull':1-(np.sum(Pr[0:rMin])+
+                np.cumsum(Pr[rMin:rMax+1]))},index=range(count,count+rLen),dtype='float32')
         else:
-            ebb=ebb.append(pd.DataFrame({'binEdge':rLam+np.arange(rMin,rMax+1),'ebb':np.nan},dtype='float32'))
+            ebb.iloc[count:(count+rLen)]=pd.DataFrame({'binEdge':rLam+np.arange(rMin,rMax+1),'ggnull':np.nan},
+                index=range(count,count+rLen),dtype='float32')
+            
+        count+=rLen
 
     return(ebb)

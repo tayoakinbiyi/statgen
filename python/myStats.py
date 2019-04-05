@@ -1,10 +1,10 @@
 import pandas as pd
 import numpy as np
 from scipy.stats import norm, beta
-from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures import ProcessPoolExecutor, wait, FIRST_COMPLETED
 import multiprocessing
 
-from myMath import *
+from python.myMath import *
 
 def myStats(z):
     Reps,N=z.shape
@@ -14,19 +14,19 @@ def myStats(z):
     
     M=multiprocessing.cpu_count()
 
+    futures=[]
     with ProcessPoolExecutor() as executor: 
-        results=executor.map(myStatsHelp, [z[i*int(np.ceil(Reps/M)):min((i+1)*int(np.ceil(Reps/M)),Reps)].tolist()
-            for i in range(int(np.ceil(Reps/np.ceil(Reps/M))))])
+        for i in range(int(np.ceil(Reps/np.ceil(Reps/M)))):
+            futures.append(executor.submit(myStatsHelp,z[i*int(np.ceil(Reps/M)):min((i+1)*int(np.ceil(Reps/M)),Reps)]))
     
-    power=pd.DataFrame()
-    for result in results:   
+    power=pd.DataFrame(dtype='float32')
+    for f in wait(futures,return_when=FIRST_COMPLETED)[0]:
+        result=f.result()
         power=power.append(result)
 
     return(power)
 
-def myStatsHelp(dat):
-    z=np.array(dat)
-    
+def myStatsHelp(z):    
     Reps,d=z.shape
     N=int(d*2)
 
@@ -43,9 +43,9 @@ def myStatsHelp(dat):
     fdr=np.max(Fn/p_val,axis=1)
     score=np.sum(z**2,axis=1)
     
+    #pd.DataFrame({'Type':'hcFull','Value':hcFull}),
     power=pd.concat([
         pd.DataFrame({'Type':'hc','Value':hc}),
-        pd.DataFrame({'Type':'hcFull','Value':hcFull}),
         pd.DataFrame({'Type':'minP','Value':minP}),
         pd.DataFrame({'Type':'bj','Value':bj}),
         pd.DataFrame({'Type':'gnull','Value':gnull}),
