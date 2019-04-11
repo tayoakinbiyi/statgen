@@ -73,7 +73,7 @@ def heatMapPower(power,parms):
                 for y in range(len(mu)):
                     axs[Type,Plot].text(y, x, textDF[Plot][x,y], ha="center", va="center", color="black",fontsize=fontsize)              
 
-    fig.savefig('heatmap/heatmap-power-N:'+str(N)+'-H0:'+str(H0)+'-H1:'+str(H1)+'-H01:'+str(H01)+'-Sig:'+sigName+'.png',
+    fig.savefig('../heatmap/heatmap-power-N:'+str(N)+'-H0:'+str(H0)+'-H1:'+str(H1)+'-H01:'+str(H01)+'-Sig:'+sigName+'.png',
                 bbox_inches='tight')
 
     bestType=power.groupby(['mu','eps'],sort=False).apply(bestFunc,H1,H01).reset_index()
@@ -101,7 +101,7 @@ def heatMapPower(power,parms):
         for y in range(len(mu)):
             axs.text(y, x, textType[x,y], ha="center", va="center", color="black",fontsize=1.2*fontsize)              
     
-    fig.savefig('heatmap/heatmap-best-N:'+str(N)+'-H0:'+str(H0)+'-H1:'+str(H1)+'-H01:'+str(H01)+'-Sig:'+sigName+'.png')
+    fig.savefig('../heatmap/heatmap-best-N:'+str(N)+'-H0:'+str(H0)+'-H1:'+str(H1)+'-H01:'+str(H01)+'-Sig:'+sigName+'.png')
 
 def heatMapFail(fail,parms):    
     return()
