@@ -22,7 +22,8 @@ import statsmodels.formula.api as sm
 
 
 names=['pre_pca_hip_mouse','pre_str_hip_mouse','pre_pfc_str_mouse']
-loc='plots/pca_removed/'
+loc='../plots/pca_removed/'
+dataLoc='../../data/'
 N=100
 
 
@@ -36,7 +37,7 @@ sys.setrecursionlimit(12000)
 # In[ ]:
 
 
-preds=pd.read_csv('../data/preds.csv')
+preds=pd.read_csv(dataLoc+'preds.csv')
 preds.set_index('id')
 preds=preds[['sex','batch']]
 
@@ -44,8 +45,8 @@ preds=preds[['sex','batch']]
 # In[ ]:
 
 
-for name in names:
-    raw=pd.read_csv('../data/'+name+'.csv')
+for name in names[0:1]:
+    raw=pd.read_csv(dataLoc+name+'.csv')
     raw.set_index('id')
     preds_name=preds.loc[raw.index]
     raw=raw.loc[:,raw.apply(lambda x: len(np.unique(x)),axis=0)>2]
@@ -57,7 +58,7 @@ for name in names:
     hat=preds_name.dot(XtXinv).dot(preds_name.T).dot(raw)
     raw=(raw-hat)
     
-    for size in [0,5,10,25,50,75,100]:
+    for size in [0,5,10,25,50,75,95][-1:]:
         print(name,size)
         pca = PCA(n_components=100)
         Y=pca.fit_transform(raw)
