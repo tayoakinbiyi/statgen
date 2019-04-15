@@ -13,7 +13,7 @@ from python.myStats import *
 from python.ghc import *
 from python.ggnull import *
 
-def monteCarlo(L,sigName,eps,mu,Reps,ggnullDat,ghcDat):
+def monteCarlo(L,sigName,eps,mu,Reps,ebb,var):
     pairwise_cors=np.loadtxt('../ebb/'+sigName+'/pairwise_cors.csv')
    
     N=len(L)
@@ -28,11 +28,14 @@ def monteCarlo(L,sigName,eps,mu,Reps,ggnullDat,ghcDat):
         
     print(eps,mu,psutil.virtual_memory().percent)
 
-    powerGG,failGG=ggnull(z,sigName,ggnullDat)
+    powerGG,failGG=ggnull(z,sigName,ebb)
     print('ggnull',psutil.virtual_memory().percent)
     power=power.append(powerGG)
     fail=fail.append(failGG)
-    power=power.append(ghc(z,sigName,ghcDat))
+    powerGHC,failGHC=ghc(z,sigName,var)
+    power=power.append(powerGHC)
+    fail=fail.append(failGHC)
+    
     print('ghc',psutil.virtual_memory().percent)
     power=power.append(myStats(z))
     print('myStats',psutil.virtual_memory().percent)

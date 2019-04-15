@@ -30,8 +30,8 @@ def makeProb(L,parms):
     
     d=int(N/2)
 
-    #z=np.matmul(L.T,np.random.normal(0,1,size=(N,200))).T
-    pairwise_cors=np.array([0]*int(N*(N-1)/2))#np.corrcoef(z,rowvar=False)[np.triu_indices(N,1)].flatten()   
+    z=np.matmul(L.T,np.random.normal(0,1,size=(N,200))).T
+    pairwise_cors=np.corrcoef(z,rowvar=False)[np.triu_indices(N,1)].flatten()#np.array([0]*int(N*(N-1)/2))
     mkdir=False
     
     if os.path.isdir('../ebb/'+sigName):

@@ -6,7 +6,7 @@ from scipy.stats import norm,beta
 import psutil
 import pdb
 
-def ghc(z,name,ghcDat):
+def ghc(z,name,var):
     Reps,N=z.shape
     d=int(N/2)
 
@@ -18,13 +18,15 @@ def ghc(z,name,ghcDat):
     futures=[]
     with ProcessPoolExecutor() as executor: 
         for i in range(int(np.ceil(Reps/np.ceil(Reps/M)))):
-            futures.append(executor.submit(ghcHelp,z[i*int(np.ceil(Reps/M)):min((i+1)*int(np.ceil(Reps/M)),Reps)],name,ghcDat))
+            futures.append(executor.submit(ghcHelp,z[i*int(np.ceil(Reps/M)):min((i+1)*int(np.ceil(Reps/M)),Reps)],name,var))
 
     ghc=pd.DataFrame(dtype='float32')
+    fail=pd.DataFrame(dtype='float32')
     for f in wait(futures,return_when=FIRST_COMPLETED)[0]:
-        ghc=ghc.append(f.result())
+        ghc=ghc.append(f.result()[0])
+        fail=fail.append(f.result()[1])
     
-    return(ghc)
+    return(ghc,fail)
 
 def ghcHelp(z,name,var):
     Reps,d=z.shape
@@ -40,13 +42,15 @@ def ghcHelp(z,name,var):
     if(len(val.replicant.drop_duplicates())<len(z)):
         print(len(val.replicant.drop_duplicates()),len(z))
     
-    #power=val.groupby('replicant').apply(lambda df,N: pd.DataFrame({'Type':'ghcFull','Value':
-    #    np.max(((df.k+1-N*df.p)/(df['var']**.5)))},index=[0]),N=N).reset_index().sort_values(by='replicant')[['Type','Value']]
+    power=val.groupby('replicant').apply(lambda df,N: pd.DataFrame({'Type':'ghcFull','Value':
+        np.max(((df.k+1-N*df.p)/(df['var']**.5)))},index=[0]),N=N).reset_index().sort_values(by='replicant')[['Type','Value']]
 
     val=val[val.p>=1/N]
     
-    power=val.groupby('replicant').apply(lambda df,N: pd.DataFrame({'Type':'ghc','Value':
-        np.max(((df.k+1-N*df.p)/(df['var']**.5)))},index=[0]),N=N).reset_index().sort_values(by='replicant')[['Type','Value']]
+    fail=val.groupby('replicant').apply(lambda df,d: pd.DataFrame({'Type':'ghc', 'Value':sum(pd.isnull(df['var']))/d},index=[0]),
+        d=d).reset_index().sort_values(by='replicant')[['Type','Value']]
+    power=power.append(val.groupby('replicant').apply(lambda df,N: pd.DataFrame({'Type':'ghc','Value':
+        np.nanmax(((df.k+1-N*df.p)/(df['var']**.5)))},index=[0]),N=N).reset_index().sort_values(by='replicant')[['Type','Value']])
     
-    return(power)
+    return(power,fail)
 
