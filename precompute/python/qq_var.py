@@ -14,7 +14,20 @@ def var_st_mu(t,d,mu,pairwise_cors):
     cov_term = cov_term_gg + cov_term_ll + 2*cov_term_diff - d*(d-1)*prob_greater**2
 
     return(cov_term + ind_term)  
-  
+
+def getVarWithMu(t,N,mu,rho):
+    prob_greater = 1 - ( norm.cdf(t, loc=mu) - norm.cdf(-t, loc=mu) )
+    ind_term = d*prob_greater - d*prob_greater**2
+
+    cov_term_gg = N*(N-1)* (norm.sf(t-mu)**2 + norm.pdf(t-mu)**2*np.sum(getHerm(t-mu,t-mu,rho),0)) 
+    cov_term_ll = N*(N-1)* (1-2*norm.sf(-t-mu)+norm.sf(-t-mu)**2 + norm.pdf(-t-mu)**2*np.sum(getHerm(-t-mu,-t-mu,rho),0))
+    cov_term_diff = N*(N-1)* (norm.sf(t-mu) - norm.sf(t-mu)*norm.sf(-t-mu) - norm.pdf(t-mu)*norm.pdf(-t-mu)*np.sum(getHerm(t-mu,
+        -t-mu,rho),0))
+
+    cov_term = cov_term_gg + cov_term_ll + 2*cov_term_diff - d*(d-1)*prob_greater**2
+
+    return(cov_term + ind_term)  
+
 def getRhoBar(pairwise_cors):
     return([np.mean(pairwise_cors), np.mean(pairwise_cors**2), np.mean(pairwise_cors**3), np.mean(pairwise_cors**4),
         np.mean(pairwise_cors**5), np.mean(pairwise_cors**6), np.mean(pairwise_cors**7), np.mean(pairwise_cors**8),

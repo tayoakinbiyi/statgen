@@ -45,6 +45,10 @@ def makeProb(L,parms):
             
     M=multiprocessing.cpu_count()
     
+    z=np.linspace(0,5.5,1e6)
+    midZ=(z[1:]+z[:-1])/2
+    normSF=pd.DataFrame({'z':z[1:],'sf':norm.sf(midZ)}) 
+    
     numBins=int(N*binPower)
     t0=time.time()
     print('start',round((time.time()-t0),2))
@@ -75,6 +79,9 @@ def makeProb(L,parms):
     minMaxB=pd.DataFrame({'start':start,'end':end},dtype='int')
     
     rhoBar=getRhoBar(pairwise_cors)
+    
+    # var no mu
+    
     futures=[]
     with ProcessPoolExecutor() as executor:    
         for i in range(int(np.ceil(numBins/np.ceil(numBins/M)))):
@@ -87,7 +94,9 @@ def makeProb(L,parms):
     ghcDat=ghcDat.sort_values(by='binEdge').reset_index(drop=True)
     print('ghcDat', psutil.virtual_memory().percent,round((time.time()-t0),2))
 
-    minMaxK.insert(minMaxK.shape[1],'var',ghcDat['var']) # binEdge,min,max, var
+    # add two vars to minMaxK
+    
+    minMaxK.insert(minMaxK.shape[1],'var',ghcDat['var']) # binEdge,minK,maxK, var
     print('gamma', psutil.virtual_memory().percent,round((time.time()-t0),2))
 
     futures=[]
