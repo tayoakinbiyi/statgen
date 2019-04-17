@@ -29,7 +29,7 @@ def makeProb(L,parms):
     sigName=parms['sigName']
     
     d=int(N/2)
-
+    
     z=np.matmul(L.T,np.random.normal(0,1,size=(N,200))).T
     pairwise_cors=np.corrcoef(z,rowvar=False)[np.triu_indices(N,1)].flatten()#np.array([0]*int(N*(N-1)/2))
     mkdir=False
@@ -45,7 +45,7 @@ def makeProb(L,parms):
             
     M=multiprocessing.cpu_count()
     
-    z=np.linspace(0,5.5,1e6)
+    z=np.linspace(0,5.5,int(1e6))
     midZ=(z[1:]+z[:-1])/2
     normSF=pd.DataFrame({'z':z[1:],'sf':norm.sf(midZ)}) 
     
@@ -96,14 +96,14 @@ def makeProb(L,parms):
 
     # add two vars to minMaxK
     
-    minMaxK.insert(minMaxK.shape[1],'var',ghcDat['var']) # binEdge,minK,maxK, var
+    minMaxK.insert(minMaxK.shape[1],'varNoMu',ghcDat['var']) # binEdge,minK,maxK, var
     print('gamma', psutil.virtual_memory().percent,round((time.time()-t0),2))
 
     futures=[]
-    mpHelp(minMaxK,N)
+    mpHelp(minMaxK,normSF,N,rhoBar,pairwise_cors)
     with ProcessPoolExecutor() as executor: 
         for i in range(int(np.ceil(numBins/np.ceil(numBins/M)))):
-            futures.append(executor.submit(mpHelp,minMaxK[i*int(np.ceil(numBins/M)):min((i+1)*int(np.ceil(numBins/M)),numBins)],N))
+            futures.append(executor.submit(mpHelp,minMaxK[i*int(np.ceil(numBins/M)):min((i+1)*int(np.ceil(numBins/M)),numBins)],normSF,N))
                                       
     ebb=pd.DataFrame(columns=['binEdge','ggnull'],dtype='float32')
     for f in wait(futures,return_when=FIRST_COMPLETED)[0]:
