@@ -11,9 +11,8 @@ def newC(n):
     bacw=np.append([0],np.cumsum(lFac[::-1]))
     return(bacw[0:int(n/2)]-forw[0:int(n/2)])
     
-def mpHelp(minMaxK,normSF,N,rhoBar,pairwise_cors):
-    cr=newC(N)
-    
+def mpHelp(minMaxK,normSF,N,rhoBar,cr,pairwise_cors):
+    pd.Series(pairwise_cors,name='pairwise_cors').to_csv('../pairwise_cors.csv',header=True,index=False)
     ebb=pd.DataFrame(np.empty([(minMaxK['maxK']-minMaxK['minK']+1).sum(),3]), columns=['binEdge','ggnull','gbj'],dtype='float32')
     
     normSFLoc=normSF.z.searchsorted(np.abs(norm.ppf(minMaxK['binEdge']/2)))
@@ -56,27 +55,28 @@ def mpHelp(minMaxK,normSF,N,rhoBar,pairwise_cors):
             baseTwo=np.cumsum(np.log(1-lamNoMu+gammaNoMu*np.array(range(N))))[-(maxK+2):][::-1]
             baseThree=np.sum(np.log(1+gammaNoMu*np.array(range(N))))
             baseCr=cr[0:(int(maxK)+2)]
+            if not (len(baseCr)==len(baseOne)==len(baseTwo)):
+                pdb.set_trace()
             lPr=baseCr+baseOne+baseTwo-baseThree
             Pr=np.exp(lPr) # goes from 0 to maxK inclusive
             
             ggnull=1-(np.sum(Pr[0:minK])+np.cumsum(Pr[minK:maxK+1]))
             
-            pdb.set_trace()
-            gbjK=np.arange(minK,maxK+1)[(binEdge<(np.arange(minK,maxK+1)+1)/N)&(gammaWithMu>=np.maximum(-lamWithMu/(N-1),
-                -(1-lamWithMu)/(N-1)))]
-            for i_k in range(kLen):
-                baseOne=np.sum(np.log(lamWithMu[i_k]+gammaWithMu[i_k]*np.arange(gbjK[i_k]+1)))
-                baseTwo=np.sum(np.log(1-lamWithMu[i_k]+gammaWithMu[i_k]*np.arange(N-gbjK[i_k]-1)))
+            kVec=np.arange(minK,maxK+1)+1
+            check=np.arange(kLen)[(binEdge<kVec/N)&(gammaWithMu>=np.maximum(-lamWithMu/(N-1),-(1-lamWithMu)/(N-1)))]
+            for i_k in check:
+                baseOne=np.sum(np.log(lamWithMu[i_k]+gammaWithMu[i_k]*np.arange(kVec[i_k])))
+                baseTwo=np.sum(np.log(1-lamWithMu[i_k]+gammaWithMu[i_k]*np.arange(N-kVec[i_k])))
                 baseThree=np.sum(np.log(1+gammaWithMu[i_k]*np.arange(N)))
-                baseCr=cr[int(gbjK[i_k])+1]
-                gbj[i_k]=(baseCr+baseOne+baseTwo-baseThree)-lPr[gbjK[i_k]+1]
+                baseCr=cr[int(kVec[i_k])]
+                gbj[i_k]=(baseCr+baseOne+baseTwo-baseThree)-lPr[kVec[i_k]]
                 
-            ebb.iloc[count:(count+rLen)]=pd.DataFrame({'binEdge':binEdge+np.arange(rMin,rMax+1),'ggnull':ggnull,'gbj':gbj},
-                index=range(count,count+rLen),dtype='float32')
+            ebb.iloc[count:(count+kLen)]=pd.DataFrame({'binEdge':binEdge+np.arange(minK,maxK+1),'ggnull':ggnull,'gbj':gbj},
+                index=range(count,count+kLen),dtype='float32')
         else:
-            ebb.iloc[count:(count+rLen)]=pd.DataFrame({'binEdge':binEdge+np.arange(rMin,rMax+1),'ggnull':np.nan,'gbj':np.nan},
-                index=range(count,count+rLen),dtype='float32')
+            ebb.iloc[count:(count+kLen)]=pd.DataFrame({'binEdge':binEdge+np.arange(minK,maxK+1),'ggnull':np.nan,'gbj':np.nan},
+                index=range(count,count+kLen),dtype='float32')
             
-        count+=rLen
-
+        count+=kLen
+    pdb.set_trace()
     return(ebb)

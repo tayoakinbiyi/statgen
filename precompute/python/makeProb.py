@@ -4,6 +4,7 @@ import os
 import multiprocessing
 from concurrent.futures import ProcessPoolExecutor, wait, FIRST_COMPLETED
 from scipy.stats import norm, beta
+from scipy.special import comb
 import pdb
 import psutil
 import matplotlib.pylab as plt
@@ -29,6 +30,7 @@ def makeProb(L,parms):
     sigName=parms['sigName']
     
     d=int(N/2)
+    cr=np.log(comb(N,np.arange(0,d+1)))
     
     z=np.matmul(L.T,np.random.normal(0,1,size=(N,200))).T
     pairwise_cors=np.corrcoef(z,rowvar=False)[np.triu_indices(N,1)].flatten()#np.array([0]*int(N*(N-1)/2))
@@ -71,7 +73,8 @@ def makeProb(L,parms):
     maxK=pd.DataFrame({'minB':minB,'k':range(d)}).groupby(by='minB').apply(lambda df: pd.DataFrame({'minB':df.minB.iloc[0],
         'k':df.k.max()},index=[0])).reset_index(drop=True)
     minMaxK.insert(2,'maxK',maxK.k.iloc[maxK.minB.iloc[1:].searchsorted(range(numBins),side='right')].values)
-   
+    print((minMaxK.maxK-minMaxK.minK+1).mean())
+    pdb.set_trace()
     print('ends', psutil.virtual_memory().percent,round((time.time()-t0),2))
           
     end=np.cumsum(maxB-minB+1) 
@@ -100,7 +103,7 @@ def makeProb(L,parms):
     print('gamma', psutil.virtual_memory().percent,round((time.time()-t0),2))
 
     futures=[]
-    mpHelp(minMaxK,normSF,N,rhoBar,pairwise_cors)
+    mpHelp(minMaxK,normSF,N,rhoBar,cr,pairwise_cors)
     with ProcessPoolExecutor() as executor: 
         for i in range(int(np.ceil(numBins/np.ceil(numBins/M)))):
             futures.append(executor.submit(mpHelp,minMaxK[i*int(np.ceil(numBins/M)):min((i+1)*int(np.ceil(numBins/M)),numBins)],normSF,N))
