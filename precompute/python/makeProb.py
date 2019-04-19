@@ -22,7 +22,7 @@ def kMinMax(df):
     return(pd.DataFrame({'min':df.k.min(),'max':df.k.max()},index=[0]))
 
 def makeProb(L,parms):
-    eps=1e-8
+    eps=1e-10
     binPower=500
     
     N=parms['N']
@@ -30,10 +30,27 @@ def makeProb(L,parms):
     
     d=int(N/2)
 
+    fig,axs=plt.subplots(1,1)
+    fig.set_figwidth(7,forward=True)
+    fig.set_figheight(7,forward=True)
+    off_diag=parms['sig'][np.triu_indices(N,1)].flatten()  
+    axs.hist(off_diag,bins=np.linspace(-1,1,100))
+    fig.suptitle(sigName)
+    fig.savefig('../sig_hist/'+sigName+'.png',bbox_inches='tight')
+    plt.close()    
+
     z=np.matmul(L.T,np.random.normal(0,1,size=(N,200))).T
     pairwise_cors=np.corrcoef(z,rowvar=False)[np.triu_indices(N,1)].flatten()#np.array([0]*int(N*(N-1)/2))
     mkdir=False
     
+    fig,axs=plt.subplots(1,1)
+    fig.set_figwidth(7,forward=True)
+    fig.set_figheight(7,forward=True)
+    axs.hist(pairwise_cors,bins=np.linspace(-1,1,100))
+    fig.suptitle(sigName)
+    fig.savefig('../sig_hist/'+sigName+'_est.png',bbox_inches='tight')
+    plt.close()    
+
     if os.path.isdir('../ebb/'+sigName):
         ggnullDat={}
         for k in range(d):
@@ -49,12 +66,13 @@ def makeProb(L,parms):
     t0=time.time()
     print('start',round((time.time()-t0),2))
     
-    bins=np.append(np.linspace(0,.5,numBins+1)[:-1],np.linspace(.5,1,binPower))
+    bins=np.append(np.append(np.linspace(0,1/numBins,binPower),np.linspace(1/numBins,.5,numBins+1)[1:-1]),np.linspace(.5,1,binPower))
     
     kRan=np.array(range(1,d+1))
     minB=np.digitize(beta.ppf(eps,kRan,N-kRan),bins).astype(int)-1   
     maxB=np.digitize(beta.ppf(1-eps,kRan,N-kRan),bins).astype(int)-1
     maxB[0]=maxB[1]
+    pdb.set_trace()
     
     numBins=max(maxB)+1
     bins=bins[1:numBins+1]

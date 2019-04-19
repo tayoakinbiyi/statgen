@@ -57,7 +57,7 @@ def heatMapPower(power,parms):
 
         axs[Type,0].imshow(mat[Type],interpolation='nearest', cmap='seismic',vmin=0,vmax=1000)
         axs[Type,1].imshow(mat[Type],interpolation='nearest', cmap='seismic',vmin=0,vmax=1000)
-        axs[Type,2].imshow(textDF[2],interpolation='nearest', cmap='Greys',vmin=0,vmax=1000)
+        axs[Type,2].imshow(textDF[2],interpolation='nearest', cmap='seismic',vmin=0,vmax=1000)
 
         for Plot in range(len(textDF)):
             axs[Type,Plot].set_xticks(np.arange(mat[Type].shape[1]))
@@ -101,8 +101,7 @@ def heatMapPower(power,parms):
         for y in range(len(mu)):
             axs.text(y, x, textType[x,y], ha="center", va="center", color="black",fontsize=1.2*fontsize)              
     
-    fig.savefig('../heatmap/heatmap-best-N:'+str(N)+'-H0:'+str(H0)+'-H1:'+str(H1)+'-H01:'+
-                str(H01)+'-Sig:'+sigName+'.png',bbox_inches='tight')
+    fig.savefig('../heatmap/heatmap-best-N:'+str(N)+'-H0:'+str(H0)+'-H1:'+str(H1)+'-H01:'+str(H01)+'-Sig:'+sigName+'.png')
 
 def heatMapFail(fail,parms):    
     return()
@@ -123,13 +122,7 @@ def heatMapFail(fail,parms):
        
     mu=np.round(sorted(fail.mu.drop_duplicates().values.tolist()),2)
     eps=np.round(sorted(fail.eps.drop_duplicates().values.tolist()),2)
-    title=['Average over runs: % of k Approx Failed','% of runs: Approx Failed on All k']
-
-    avgFailRate=[0]*len(Types)
-    pctAllFail=[0]*len(Types)
-    for Type in range(len(Types)):
-        avgFailRate[Type]=fail[fail.Type==Types[Type]].pivot(values='avgFailRate',index='eps',columns='mu').fillna(0).astype(int).values
-        pctAllFail[Type]=fail[fail.Type==Types[Type]].pivot(values='pctAllFail',index='eps',columns='mu').fillna(0).astype(int).values
+    title=['avg % of k fail','% all fail']
     
     #pdb.set_trace()
     fig, axs = plt.subplots(len(Types),2,dpi=50)   
@@ -158,7 +151,8 @@ def heatMapFail(fail,parms):
                 for y in range(len(mu)):
                     axs[Type,Plot].text(y, x, textDF[Plot][x,y], ha="center", va="center", color="black",fontsize=fontsize)              
 
-    fig.savefig('heatmap-fail-N:'+str(N)+'-H0:'+str(H0)+'-H1:'+str(H1)+'-H01:'+str(H01)+'-Sig:'+sigName+'.png',bbox_inches='tight')
+    fig.savefig('../heatmap/heatmap-fail-N:'+str(N)+'-H0:'+str(H0)+'-H1:'+str(H1)+'-H01:'+
+                str(H01)+'-Sig:'+sigName+'.png',bbox_inches='tight')
     
 def nPlot(power,H1,sigName):
     N=power['N'].drop_duplicates().sort_values().values
@@ -182,4 +176,4 @@ def nPlot(power,H1,sigName):
 
                 
     fig.savefig('N-plot-H1:'+str(H1)+'-'+sigName+'.png',bbox_inches='tight')
-                
+    

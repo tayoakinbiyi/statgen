@@ -38,7 +38,11 @@ def ggHelp(z,ggnullDat,k):
     p_vals=2*norm.sf(z)
     sortOrd=p_vals.argsort()
                  
-    ggnull=ggnullDat.ggnull.iloc[np.minimum(ggnullDat.binEdge.searchsorted(p_vals[sortOrd]),len(ggnullDat)-1)].iloc[
+    loc=ggnullDat.binEdge.searchsorted(p_vals[sortOrd])
+    if max(loc)>=len(ggnullDat):
+        print(k,min(p_vals),max(p_vals))
+        
+    ggnull=ggnullDat.ggnull.iloc[np.minimum(loc,len(ggnullDat)-1)].iloc[
         np.argsort(sortOrd)].values.astype('float32')
     
     return(k,ggnull)

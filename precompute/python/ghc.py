@@ -14,7 +14,7 @@ def ghc(z,name,var):
     
     M=multiprocessing.cpu_count()
     i=0
-    #ghcHelp((0,z.tolist(),name))
+    #ghcHelp(z,name,var)
     futures=[]
     with ProcessPoolExecutor() as executor: 
         for i in range(int(np.ceil(Reps/np.ceil(Reps/M)))):
@@ -36,7 +36,13 @@ def ghcHelp(z,name,var):
     p_vals=2*norm.sf(z).flatten()
     sortOrd=np.argsort(p_vals)
 
-    val=pd.DataFrame({'var':var['var'].iloc[var.binEdge.searchsorted(p_vals[sortOrd]).flatten()],
+    loc=var.binEdge.searchsorted(p_vals[sortOrd]).flatten()
+    if max(xx)>=var.shape[0]:
+        sel=loc>=var.shape[0]
+        print(np.concatenate([kvec[sortOrd][sel].reshape(-1,1),p_vals[sortOrd][sel].reshape(-1,1),p_vals[sortOrd][sel].reshape(-1,1)],
+            axis=1))
+        
+    val=pd.DataFrame({'var':var['var'].iloc[loc],
         'k':kvec[sortOrd],'replicant':np.array([range(Reps)]*d).T.flatten()[sortOrd],'p':p_vals[sortOrd]})
     
     if(len(val.replicant.drop_duplicates())<len(z)):

@@ -31,6 +31,9 @@ def powerMat(dat,alpha):
     return power,fail
 
 def sim(parms):
+    maxPower=1000
+    minPower=0
+    
     N=parms['N']
     L=np.linalg.cholesky(parms['sig'])  
     
@@ -39,6 +42,7 @@ def sim(parms):
     sigName=parms['sigName']
     
     t0=time.time()
+    
     ggnullDat,ghcDat=makeProb(L,parms)
     print('makeProb',round((time.time()-t0),2))
     
@@ -66,13 +70,17 @@ def sim(parms):
             fail=fail.append(mc[1])
 
             epsMu=epsMu[1:]         
-            if mc[0].power.max()>850:
+            if mc[0].power.max()>maxPower:
                 power=power.append(pd.DataFrame([[t_eps,t_mu,Type,1000,'1-'+str(len(parms['Types']))] for (t_eps,t_mu) in epsMu 
                        for Type in parms['Types'] if (t_eps>eps and t_mu>mu)],columns=power.columns))
+                fail=fail.append(pd.DataFrame([[t_eps,t_mu,Type,np.nan,np.nan] for (t_eps,t_mu) in epsMu 
+                       for Type in parms['Types'] if (t_eps<eps and t_mu<mu)],columns=fail.columns))
                 epsMu=[(t_eps,t_mu) for (t_eps,t_mu) in epsMu if not (t_eps>eps and t_mu>mu)]
-            if mc[0].power.max()<250:
+            if mc[0].power.max()<minPower:
                 power=power.append(pd.DataFrame([[t_eps,t_mu,Type,1,'1-'+str(len(parms['Types']))] for (t_eps,t_mu) in epsMu 
                        for Type in parms['Types'] if (t_eps<eps and t_mu<mu)],columns=power.columns))
+                fail=fail.append(pd.DataFrame([[t_eps,t_mu,Type,np.nan,np.nan] for (t_eps,t_mu) in epsMu 
+                       for Type in parms['Types'] if (t_eps<eps and t_mu<mu)],columns=fail.columns))
                 epsMu=[(t_eps,t_mu) for (t_eps,t_mu) in epsMu if not (t_eps<eps and t_mu<mu)]
         
         power.reset_index(drop=True,inplace=True)

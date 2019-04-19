@@ -5,6 +5,7 @@ import matplotlib.pylab as plt
 
 from python.sim import *
 from python.fileDump import *
+from python.raw_data import *
 import re
 import time
 
@@ -15,11 +16,11 @@ import pdb
 import os  
 
 if __name__ == '__main__':
-    EXCHANGEABLE=[0]
+    EXCHANGEABLE=[]
     NORM_SIG=False
     RAT=False
-    MOUSE=False
-    CROSS_N='iid-ggnull-ghc'
+    MOUSE=True
+    CROSS_N=None#'iid-ggnull-ghc'
     
     parms={
         'Types':['hc','gnull','bj','fdr','minP','score','ggnull','ghc'],
@@ -32,7 +33,7 @@ if __name__ == '__main__':
     }
     
     if len(EXCHANGEABLE)>0:
-        for N in [200,500,1000,1500,2000,2500,3000,3500,4000,4500,5000,5500,6000,6500,7000,7500,8000,8500,9000,10000]:
+        for N in [500,1000,1500,2000,2500,3000,3500,4000,4500,5000]:
             for rho in EXCHANGEABLE:            
                 sig,_=exchangeable(N,rho)
                 sigName='iid-ggnull-ghc-'+str(N)
@@ -52,10 +53,12 @@ if __name__ == '__main__':
         fileDump(sim(N,H0,H1,sigName,sig,delta))
 
     if MOUSE:
-        N=300
-        sig,sigName=raw_data('mouse.csv','mouse',N)
-        fileDump(sim({**parms,'sigName':sigName,'N':N,'sig':sig,'muRange':np.linspace(1,3.5,10),
-                      'epsRange':np.linspace(2,8,8)},True))
+        for N in [500,1000,1500,2000,2500,3000,3500,4000,4500,5000,5500,6000,6500,7000,7500,8000,8500,9000,10000]:
+            sig=raw_data('../../data/pre_pca_hip_mouse.csv',N)
+            sigName='mouse'+str(N)
+
+            fileDump(sim({**parms,'sigName':sigName,'N':N,'sig':sig,'muRange':np.unique(np.linspace(2,3,10)).round(3),
+                          'epsRange':np.unique(np.linspace(2,N*(.008 if N>2000 else .01 if N>1000 else .017),10).round()).astype(int)}))
 
     if RAT:
         N=200
