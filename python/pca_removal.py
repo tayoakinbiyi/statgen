@@ -21,10 +21,9 @@ import statsmodels.formula.api as sm
 # In[3]:
 
 
-names=['pre_pca_hip_mouse','pre_str_hip_mouse','pre_pfc_str_mouse']
+names=['pre_pca_str_mouse','pre_pca_pfc_mouse'] #'pre_pca_hip_mouse',
 loc='../plots/pca_removed/'
 dataLoc='../../data/'
-N=100
 
 
 # In[4]:
@@ -40,13 +39,14 @@ sys.setrecursionlimit(12000)
 preds=pd.read_csv(dataLoc+'preds.csv')
 preds.set_index('id')
 preds=preds[['sex','batch']]
-
+preds.insert(0,'intercept',1)
 
 # In[ ]:
 
 
-for name in names[0:1]:
+for name in names:
     raw=pd.read_csv(dataLoc+name+'.csv')
+    N=raw.shape[1]
     raw.set_index('id')
     preds_name=preds.loc[raw.index]
     raw=raw.loc[:,raw.apply(lambda x: len(np.unique(x)),axis=0)>2]
@@ -58,19 +58,18 @@ for name in names[0:1]:
     hat=preds_name.dot(XtXinv).dot(preds_name.T).dot(raw)
     raw=(raw-hat)
     
-    for size in [0,5,10,25,50,75,95][-1:]:
+    U,D,Vt=np.linalg.svd(raw.values)
+    
+    for size in [0,5,10,25,50,75,95]:
         print(name,size)
-        pca = PCA(n_components=100)
-        Y=pca.fit_transform(raw)
-        Y[:,0:size]=0
-        data=pca.inverse_transform(Y)                
-        
-        fig,axs=plt.subplots(1,1)
-        fig.set_figwidth(10)
-        fig.set_figheight(5)
-        axs.plot(pca.explained_variance_ratio_)
-        fig.suptitle(name)
-        fig.savefig(loc+str(size)+'_'+name+'_variance_explained.png',bbox_inches='tight')
+        if size>0:
+            X=pd.DataFrame(U[:,0:size],columns=range(size),index=raw.index)
+            XtX=X.T.dot(X)
+            XtXinv=pd.DataFrame(np.linalg.pinv(XtX.values), index=X.columns,columns=X.columns)
+            hat=X.dot(XtXinv).dot(X.T).dot(raw)
+            data=raw-hat
+        else:
+            data=raw
         
         for method in ['average','complete','weighted']:
             # dendrogram
@@ -78,7 +77,7 @@ for name in names[0:1]:
             fig,axs=plt.subplots(1,1,dpi=20)
             fig.set_figwidth(N/7,forward=True)
             fig.set_figheight(5,forward=True)
-            Z=linkage(data.T, method, 'correlation')
+            Z=linkage(data.T.values, method, 'correlation')
             den=dendrogram(Z, color_threshold=0,ax=axs)
             axs.tick_params(axis='X',labelsize=20)
             fig.suptitle(name+'_'+method)
@@ -90,7 +89,7 @@ for name in names[0:1]:
             fig,axs=plt.subplots(1,1)
             fig.set_figwidth(30,forward=True)
             fig.set_figheight(30,forward=True)
-            axs.imshow(np.corrcoef(data.T[den['leaves']]),interpolation='nearest', cmap='seismic',vmin=-1,vmax=1)
+            axs.imshow(np.corrcoef(data.T.values[den['leaves']]),interpolation='nearest', cmap='seismic',vmin=-1,vmax=1)
             fig.suptitle(name+'_'+method)
             fig.savefig(loc+str(size)+'_'+name+'_'+method+'_corr.png',bbox_inches='tight')
             plt.close()    
