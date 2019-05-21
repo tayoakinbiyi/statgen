@@ -1,39 +1,29 @@
 from scipy.stats import norm
 import numpy as np
 
-def var_st_mu(t,d,mu,pairwise_cors):
-    prob_greater = 1 - ( norm.cdf(t, loc=mu) - norm.cdf(-t, loc=mu) )
-    ind_term = d*prob_greater - d*prob_greater**2
-
-    cov_term_gg = d*(d-1)* (norm.sf(t-mu)**2 + norm.pdf(t-mu)**2*np.sum(herm(t-mu,t-mu,pairwise_cors=pairwise_cors),0)) 
-    cov_term_ll = d*(d-1)* (1-2*norm.sf(-t-mu)+norm.sf(-t-mu)**2 + norm.pdf(-t-mu)**2*np.sum(herm(-t-mu,-t-mu,
-        pairwise_cors=pairwise_cors),0))
-    cov_term_diff = d*(d-1)* (norm.sf(t-mu) - norm.sf(t-mu)*norm.sf(-t-mu) - norm.pdf(t-mu)*norm.pdf(-t-mu)*np.sum(herm(t-mu,
-        -t-mu,pairwise_cors=pairwise_cors),0))
-
-    cov_term = cov_term_gg + cov_term_ll + 2*cov_term_diff - d*(d-1)*prob_greater**2
-
-    return(cov_term + ind_term)  
-
-def getVarWithMu(t,N,mu,rho):
-    prob_greater = 1 - ( norm.cdf(t, loc=mu) - norm.cdf(-t, loc=mu) )
-    ind_term = N*prob_greater - N*prob_greater**2
-
-    cov_term_gg = norm.pdf(t-mu)**2*np.sum(getHerm(t-mu,t-mu,rho),0)
-    cov_term_ll = norm.pdf(-t-mu)**2*np.sum(getHerm(-t-mu,-t-mu,rho),0)
-    cov_term_diff = norm.pdf(t-mu)*norm.pdf(-t-mu)*np.sum(getHerm(t-mu,-t-mu,rho),0)
-
-    return(N*(N-1)*(cov_term_gg + cov_term_ll - 2*cov_term_diff)+ind_term)
-
-def getRhoBar(pairwise_cors):
-    return([np.mean(pairwise_cors), np.mean(pairwise_cors**2), np.mean(pairwise_cors**3), np.mean(pairwise_cors**4),
-        np.mean(pairwise_cors**5), np.mean(pairwise_cors**6), np.mean(pairwise_cors**7), np.mean(pairwise_cors**8),
-        np.mean(pairwise_cors**9), np.mean(pairwise_cors**10)])
+def getSF(numBins):
+    z=np.linspace(0,4.6,numBins)
+    return(np.concat([z,norm.sf(z)],axis=1))
     
-def getVarNoMu(t,d,rho):
-    odds,evens=getHerm(t,t,rho)  
-    ans=d*(2*norm.sf(t)-4*norm.sf(t)**2)+4*d*(d-1)*norm.pdf(t)**2*odds
-    return(ans)
+def varWithMu(pi,kOverN,rhoBar,sf):
+    z=norm.ppf(1-pi/2)
+    pi=np.searchsorted(sf[:,0],z)
+    
+    
+    
+    cov_term_gg = (norm.pdf(z-mu)**2*np.sum(getHerm(z-mu,z-mu,rhoBar),0)) 
+    cov_term_ll = (norm.pdf(-z-mu)**2*np.sum(getHerm(-z-mu,-z-mu,rhoBar),0))
+    cov_term_diff = (norm.pdf(z-mu)*norm.pdf(-z-mu)*np.sum(getHerm(z-mu,-z-mu,rhoBar),0))
+
+    return(cov_term_gg + cov_term_ll - 2*cov_term_diff )  
+  
+def getRhoBar(pairwise_cors):
+    return([2*np.mean(pairwise_cors**i) for i in range(1,11)])
+    
+def varNoMu(pi,rhoBar):
+    z=np.abs(norm.ppf(pi/2))
+    odds,evens=getHerm(z,z,rhoBar)  
+    return(2*norm.pdf(z)**2*odds)
 
 def getHerm(t1,t2,rho):
     He1 = (t1)*(t2)
@@ -51,6 +41,20 @@ def getHerm(t1,t2,rho):
     evens = ( He0*rho[0]/1 + He2*rho[2]/6 + He4*rho[4]/120 + He6*rho[6]/5040 + He8*rho[8]/362880 )
     
     return(odds,evens)
+
+def var_st_mu(t,d,mu,pairwise_cors):
+    prob_greater = 1 - ( norm.cdf(t, loc=mu) - norm.cdf(-t, loc=mu) )
+    ind_term = d*prob_greater - d*prob_greater**2
+
+    cov_term_gg = d*(d-1)* (norm.sf(t-mu)**2 + norm.pdf(t-mu)**2*np.sum(herm(t-mu,t-mu,pairwise_cors=pairwise_cors),0)) 
+    cov_term_ll = d*(d-1)* (1-2*norm.sf(-t-mu)+norm.sf(-t-mu)**2 + norm.pdf(-t-mu)**2*np.sum(herm(-t-mu,-t-mu,
+        pairwise_cors=pairwise_cors),0))
+    cov_term_diff = d*(d-1)* (norm.sf(t-mu) - norm.sf(t-mu)*norm.sf(-t-mu) - norm.pdf(t-mu)*norm.pdf(-t-mu)*np.sum(herm(t-mu,
+        -t-mu,pairwise_cors=pairwise_cors),0))
+
+    cov_term = cov_term_gg + cov_term_ll + 2*cov_term_diff - d*(d-1)*prob_greater**2
+
+    return(cov_term + ind_term)  
 
 def var_st(t,d,pairwise_cors):
     odds,evens=herm(t,t,pairwise_cors)  
