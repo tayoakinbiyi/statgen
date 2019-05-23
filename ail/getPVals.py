@@ -19,6 +19,9 @@ numPCs=10
 dataDir=files['dataDir']
 scratchDir=files['scratchDir']
 
+genPC=False
+GRM=False
+
 # snps.txt
 print('load raw')
 snps=pd.read_csv(dataDir+'ail.genos.dosage.gwasSNPs.txt',sep='\t',header=None,index_col=None)
@@ -48,68 +51,66 @@ snpId=snps['snpId'].values.flatten()
 snps.drop(columns='chr',inplace=True)
 snps=snps[['snpId','minor','major']+exprIds]
 
-# recover sex and batch data
-print('prep covs')
-preds =preds.loc[exprIds,['sex','batch']]
-preds.insert(0,'intercept',1)
+if genPC:
+    # recover sex and batch data
+    print('prep covs')
+    preds =preds.loc[exprIds,['sex','batch']]
+    preds.insert(0,'intercept',1)
 
-# quantile normalize expr data
-print('quant normalize')
-ranks=expr.rank(axis=0,method='average')/(len(expr)+1)
-expr=ranks.apply(norm.ppf,axis=0)
+    # quantile normalize expr data
+    print('quant normalize')
+    ranks=expr.rank(axis=0,method='average')/(len(expr)+1)
+    expr=ranks.apply(norm.ppf,axis=0)
 
-# remove sex and batch
-print('remove batch, sex')
-XtX=preds.T.dot(preds)               
-XtXinv=pd.DataFrame(np.linalg.pinv(XtX.values), index=preds.columns,columns=preds.columns)
-hat=preds.dot(XtXinv).dot(preds.T).dot(expr)
-expr=(expr-hat)
- 
-# generate PCs
-print('generate PCs')
-U,D,Vt=np.linalg.svd(expr.values)
-PCs=pd.DataFrame(U[:,0:numPCs],columns=range(numPCs),index=expr.index)
-PCs.insert(0,'intercept',1)
+    # remove sex and batch
+    print('remove batch, sex')
+    XtX=preds.T.dot(preds)               
+    XtXinv=pd.DataFrame(np.linalg.pinv(XtX.values), index=preds.columns,columns=preds.columns)
+    hat=preds.dot(XtXinv).dot(preds.T).dot(expr)
+    expr=(expr-hat)
 
-# set the current directory
-os.chdir(scratchDir)
+    # generate PCs
+    print('generate PCs')
+    U,D,Vt=np.linalg.svd(expr.values)
+    PCs=pd.DataFrame(U[:,0:numPCs],columns=range(numPCs),index=expr.index)
+    PCs.insert(0,'intercept',1)
 
-# write covariate data to file
-print('write PCs to file')
-PCs.to_csv('PC.txt',header=False,index=False,sep='\t')
-expr.to_csv('pheno.txt',sep='\t',index=False,header=False)
+    # write covariate data to file
+    print('write PCs to file')
+    PCs.to_csv(scratchDir+'PC.txt',header=False,index=False,sep='\t')
+    expr.to_csv(scratchDir+'pheno.txt',sep='\t',index=False,header=False)
 
+if GRM:
+    # set the current directory
+    os.chdir(scratchDir)
+
+    print('generate grm and genome files')
+    for ch in set(snpChr):
+        snps[snpChr!=ch].to_csv('geno.txt',sep=' ',index=False,header=False)
+
+        # generate loco
+        subprocess.run([files['gemma'],'-g','geno.txt','-p','pheno.txt','-gk','2','-o','grm-'+str(ch)])
+
+        # move grm to scratch
+        os.rename('output/grm-'+str(ch)+'.sXX.txt','grm-'+str(ch)+'.sXX.txt')
+
+        # write chr gene file
+        snps[snpChr==ch].to_csv('geno-'+str(ch)+'.txt',sep=' ',index=False,header=False)
+    
 # create dataframe to hold all pvals
-traitChr=traitChr.iloc[0:5,:]
+#traitChr=traitChr.iloc[0:5,:]
 allRes=pd.DataFrame(columns=pd.MultiIndex.from_tuples(traitChr.values.tolist(),names=['trait','chr','Mbp']))
 
 # oneChrFunc('chr1',snpChr,snpId,snps,traitChr,files)
 # pdb.set_trace()
 
-for ch in set(snpChr):
-    snps[snpChr!=ch].to_csv('geno.txt',sep=' ',index=False,header=False)
-    
-    # generate loco
-    subprocess.run([files['gemma'],'-g','geno.txt','-p','pheno.txt','-gk','2','-o','grm-'+str(ch)])
-
-    # move grm to scratch
-    os.rename('output/grm-'+str(ch)+'.sXX.txt','grm-'+str(ch)+'.sXX.txt')
-
-    # write chr gene file
-    snps[snpChr==ch].to_csv('geno-'+str(ch)+'.txt',sep=' ',index=False,header=False)
-    
 # loop through traits and chromosomes
 print('future loop')
 futures=[]
-with ProcessPoolExecutor() as executor: 
+with ProcessPoolExecutor(5) as executor: 
     for ch in set(snpChr):
-        futures.append(executor.submit(lmm,ch,snpChr,snpId,traitChr,files))
+        futures.append(executor.submit(lmm,ch,snpId[snpChr==ch],traitChr,files))
 
-for f in wait(futures,return_when=FIRST_COMPLETED)[0]:
-    result=f.result()
-    allRes=allRes.append(result)
-    
-allRes.index=pd.MultiIndex.from_tuples(allRes.index,names=['chr','Mbp'])
-allRes.to_csv(dataDir+'allRes.csv')
+wait(futures,return_when=FIRST_COMPLETED):
 
         
