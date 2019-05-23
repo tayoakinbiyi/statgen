@@ -101,7 +101,7 @@ for ch in set(snpChr):
 # loop through traits and chromosomes
 print('future loop')
 futures=[]
-with ProcessPoolExecutor(5) as executor: 
+with ProcessPoolExecutor() as executor: 
     for ch in set(snpChr):
         futures.append(executor.submit(lmm,ch,snpChr,snpId,traitChr,files))
 
@@ -109,9 +109,7 @@ for f in wait(futures,return_when=FIRST_COMPLETED)[0]:
     result=f.result()
     allRes=allRes.append(result)
     
-pdb.set_trace()
 allRes.index=pd.MultiIndex.from_tuples(allRes.index,names=['chr','Mbp'])
-
 allRes.to_csv(dataDir+'allRes.csv')
 
         

@@ -24,7 +24,14 @@ allRes=pd.read_csv(dataDir+'allRes.csv',index_col=[0,1],header=[0,1,2])
 # qq plots
 # one row per snp, from chr12, maybe 20 SNPS
 # four columns
-# include cis [0,1], exclude cis [0,1], include cis [0,.01], exclude cis [0,.01]
-# 
-hist
-        
+# include cis [0,1], exclude cis [0,1]
+
+allP=np.sort(allRes.values.flatten())
+expP=np.arange(1,len(allP)+1)/len(allP)
+
+expP=expP[allP<.01]
+allP=allP[allP<.01]
+
+fig,axs=plt.subplots(1,1)
+axs.plot(expP,allP)
+axs.plot(exp,expP,col='r')
