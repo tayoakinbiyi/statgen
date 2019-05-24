@@ -7,10 +7,16 @@ from collections import Counter
 from concurrent.futures import ProcessPoolExecutor, wait, FIRST_COMPLETED
 from python.lmm import *
 
+#home='/phddata/akinbiyi/'
+home='/home/akinbiyi/'
+genPC=True
+GRM=False
+
+
 files={
-    'dataDir':'/phddata/akinbiyi/ail/data/',
-    'scratchDir':'/phddata/akinbiyi/ail/scratch/',
-    'gemma':'/phddata/akinbiyi/ail/gemma'
+    'dataDir':home+'ail/data/',
+    'scratchDir':'ail/scratch/',
+    'gemma':'ail/gemma'
 }
 numPCs=10
 
@@ -98,7 +104,7 @@ if GRM:
         snps[snpChr==ch].to_csv('geno-'+str(ch)+'.txt',sep=' ',index=False,header=False)
     
 # create dataframe to hold all pvals
-#traitChr=traitChr.iloc[0:5,:]
+traitChr=traitChr.iloc[0:3,:]
 allRes=pd.DataFrame(columns=pd.MultiIndex.from_tuples(traitChr.values.tolist(),names=['trait','chr','Mbp']))
 
 # oneChrFunc('chr1',snpChr,snpId,snps,traitChr,files)
@@ -111,6 +117,6 @@ with ProcessPoolExecutor(5) as executor:
     for ch in set(snpChr):
         futures.append(executor.submit(lmm,ch,snpId[snpChr==ch],traitChr,files))
 
-wait(futures,return_when=FIRST_COMPLETED):
+wait(futures,return_when=FIRST_COMPLETED)
 
         
