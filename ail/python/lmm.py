@@ -2,9 +2,9 @@ import pandas as pd
 import subprocess
 import pdb
 import os
-from concurrent.futures import ProcessPoolExecutor, wait, FIRST_COMPLETED
 
 def lmm(ch,snpId,traitChr,files):
+    print('here '+ch)
     gemma=files['gemma']
 
     lmm=pd.DataFrame(index=pd.MultiIndex.from_product([[ch],snpId],names=['chr','Mbp']),
@@ -18,4 +18,6 @@ def lmm(ch,snpId,traitChr,files):
         
         lmm[traitChr.trait.iloc[ph]]=pd.read_csv('output/pvals-'+str(ch)+'.assoc.txt',sep='\t')['p_score'].values.flatten()
       
-    lmm.to_csv('pvals-'+ch)
+    lmm.to_csv('pvals-final-'+ch+'.txt')
+    
+    return()

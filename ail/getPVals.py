@@ -4,19 +4,19 @@ import os
 import pdb
 from scipy.stats import norm
 from collections import Counter
-from concurrent.futures import ProcessPoolExecutor, wait, FIRST_COMPLETED
+from concurrent.futures import ProcessPoolExecutor, wait, ALL_COMPLETED, FIRST_COMPLETED
 from python.lmm import *
 
-#home='/phddata/akinbiyi/'
-home='/home/akinbiyi/'
-genPC=True
+home='/phddata/akinbiyi/'
+#home='/home/akinbiyi/'
+genPC=False
 GRM=False
 
 
 files={
     'dataDir':home+'ail/data/',
-    'scratchDir':'ail/scratch/',
-    'gemma':'ail/gemma'
+    'scratchDir':home+'ail/scratch/',
+    'gemma':home+'ail/gemma'
 }
 numPCs=10
 
@@ -27,6 +27,7 @@ scratchDir=files['scratchDir']
 
 genPC=False
 GRM=False
+doLMM=True
 
 # snps.txt
 print('load raw')
@@ -104,19 +105,21 @@ if GRM:
         snps[snpChr==ch].to_csv('geno-'+str(ch)+'.txt',sep=' ',index=False,header=False)
     
 # create dataframe to hold all pvals
-traitChr=traitChr.iloc[0:3,:]
+#traitChr=traitChr.iloc[0:3,:]
 allRes=pd.DataFrame(columns=pd.MultiIndex.from_tuples(traitChr.values.tolist(),names=['trait','chr','Mbp']))
 
 # oneChrFunc('chr1',snpChr,snpId,snps,traitChr,files)
 # pdb.set_trace()
 
 # loop through traits and chromosomes
-print('future loop')
-futures=[]
-with ProcessPoolExecutor(5) as executor: 
-    for ch in set(snpChr):
-        futures.append(executor.submit(lmm,ch,snpId[snpChr==ch],traitChr,files))
+if doLMM:
+    print('future loop')
+    os.chdir(scratchDir)
+    futures=[]
+    
+    with ProcessPoolExecutor(5) as executor: 
+        for ch in set(snpChr):
+            futures.append(executor.submit(lmm,ch,snpId[snpChr==ch],traitChr,files))
 
-wait(futures,return_when=FIRST_COMPLETED)
+    wait(futures,return_when=ALL_COMPLETED)
 
-        
