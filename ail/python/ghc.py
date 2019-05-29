@@ -37,10 +37,6 @@ def ghcHelp(z,name,var):
     sortOrd=np.argsort(p_vals)
 
     loc=var.binEdge.searchsorted(p_vals[sortOrd]).flatten()
-    if max(xx)>=var.shape[0]:
-        sel=loc>=var.shape[0]
-        print(np.concatenate([kvec[sortOrd][sel].reshape(-1,1),p_vals[sortOrd][sel].reshape(-1,1),p_vals[sortOrd][sel].reshape(-1,1)],
-            axis=1))
         
     val=pd.DataFrame({'var':var['var'].iloc[loc],
         'k':kvec[sortOrd],'replicant':np.array([range(Reps)]*d).T.flatten()[sortOrd],'p':p_vals[sortOrd]})

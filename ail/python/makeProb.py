@@ -27,38 +27,18 @@ def makeProb(L,parms):
     
     N=parms['N']
     sigName=parms['sigName']
+
+    ebbDir='ebb/'+sigName+'/'
+    pairwise_cors=np.loadtxt(ebbDir+'pairwise_cors.csv',delimiter=',').flatten()
     
     d=int(N/2)
-
-    fig,axs=plt.subplots(1,1)
-    fig.set_figwidth(7,forward=True)
-    fig.set_figheight(7,forward=True)
-    off_diag=parms['sig'][np.triu_indices(N,1)].flatten()  
-    axs.hist(off_diag,bins=np.linspace(-1,1,100))
-    fig.suptitle(sigName)
-    fig.savefig('../sig_hist/'+sigName+'.png',bbox_inches='tight')
-    plt.close()    
-
-    z=np.matmul(L.T,np.random.normal(0,1,size=(N,200))).T
-    pairwise_cors=np.corrcoef(z,rowvar=False)[np.triu_indices(N,1)].flatten()#np.array([0]*int(N*(N-1)/2))
-    mkdir=False
     
-    fig,axs=plt.subplots(1,1)
-    fig.set_figwidth(7,forward=True)
-    fig.set_figheight(7,forward=True)
-    axs.hist(pairwise_cors,bins=np.linspace(-1,1,100))
-    fig.suptitle(sigName)
-    fig.savefig('../sig_hist/'+sigName+'_est.png',bbox_inches='tight')
-    plt.close()    
-
-    if os.path.isdir('../ebb/'+sigName):
+    if not parms['new']:
         ggnullDat={}
         for k in range(d):
-            ggnullDat[k]=pd.read_csv('../ebb/'+sigName+'/ggnullDat-'+str(k)+'.csv',dtype='float32')
-        ghcDat=pd.read_csv('../ebb/'+sigName+'/ghcDat.csv',dtype='float32')
+            ggnullDat[k]=pd.read_csv(ebbDir+'ggnullDat-'+str(k)+'.csv',dtype='float32')
+        ghcDat=pd.read_csv(ebbDir+'ghcDat.csv',dtype='float32')
         return(ggnullDat,ghcDat)
-    else:
-        mkdir=True
             
     M=multiprocessing.cpu_count()
     
@@ -72,7 +52,6 @@ def makeProb(L,parms):
     minB=np.digitize(beta.ppf(eps,kRan,N-kRan),bins).astype(int)-1   
     maxB=np.digitize(beta.ppf(1-eps,kRan,N-kRan),bins).astype(int)-1
     maxB[0]=maxB[1]
-    pdb.set_trace()
     
     numBins=max(maxB)+1
     bins=bins[1:numBins+1]
@@ -94,7 +73,7 @@ def makeProb(L,parms):
     
     rhoBar=getRhoBar(pairwise_cors)
     futures=[]
-    with ProcessPoolExecutor() as executor:    
+    with ProcessPoolExecutor(3) as executor:    
         for i in range(int(np.ceil(numBins/np.ceil(numBins/M)))):
             futures.append(executor.submit(vst,bins[i*int(np.ceil(numBins/M)):min((i+1)*int(np.ceil(numBins/M)),numBins)],N,rhoBar))
         
@@ -110,7 +89,7 @@ def makeProb(L,parms):
 
     futures=[]
     mpHelp(minMaxK,N)
-    with ProcessPoolExecutor() as executor: 
+    with ProcessPoolExecutor(3) as executor: 
         for i in range(int(np.ceil(numBins/np.ceil(numBins/M)))):
             futures.append(executor.submit(mpHelp,minMaxK[i*int(np.ceil(numBins/M)):min((i+1)*int(np.ceil(numBins/M)),numBins)],N))
                                       
@@ -128,12 +107,11 @@ def makeProb(L,parms):
         
     print('ebb', psutil.virtual_memory().percent,round((time.time()-t0),2))
 
-    os.mkdir('../ebb/'+sigName)
-    pd.Series(rhoBar,name='rhoBar').to_csv('../ebb/'+sigName+'/rhoBar.csv',index=False,header=True)
+    pd.Series(rhoBar,name='rhoBar').to_csv(ebbDir+'/rhoBar.csv',index=False,header=True)
     for k in range(d):
-        ggnullDat[k].to_csv('../ebb/'+sigName+'/ggnullDat-'+str(k)+'.csv',index=False)  
-    np.savetxt('../ebb/'+sigName+'/pairwise_cors.csv',pairwise_cors,delimiter=',')
-    ghcDat.to_csv('../ebb/'+sigName+'/ghcDat.csv',index=False)
+        ggnullDat[k].to_csv(ebbDir+'/ggnullDat-'+str(k)+'.csv',index=False)  
+    np.savetxt(ebbDir+'/pairwise_cors.csv',pairwise_cors,delimiter=',')
+    ghcDat.to_csv(ebbDir+'/ghcDat.csv',index=False)
     
     return(ggnullDat,ghcDat)
            

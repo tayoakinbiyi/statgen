@@ -5,13 +5,17 @@ import pdb
 from scipy.stats import norm
 from collections import Counter
 from concurrent.futures import ProcessPoolExecutor, wait, ALL_COMPLETED, FIRST_COMPLETED
+from multiprocessing import cpu_count
+from sklearn.linear_model import LinearRegression
+from sklearn.multioutput import MultiOutputRegressor
 from python.lmm import *
+from python.grm import *
 
-home='/phddata/akinbiyi/'
-#home='/home/akinbiyi/'
+#home='/phddata/akinbiyi/'
+home='/project/abney/'
 genPC=False
 GRM=False
-
+doLMM=True
 
 files={
     'dataDir':home+'ail/data/',
@@ -25,17 +29,13 @@ numPCs=10
 dataDir=files['dataDir']
 scratchDir=files['scratchDir']
 
-genPC=False
-GRM=False
-doLMM=True
-
 # snps.txt
 print('load raw')
 snps=pd.read_csv(dataDir+'ail.genos.dosage.gwasSNPs.txt',sep='\t',header=None,index_col=None)
 preds=pd.read_csv(dataDir+'ail.phenos.final.txt',sep='\t',header=0,index_col=0)
 expr=pd.read_csv(dataDir+'hipNormCounts.expr.txt',sep='\t',index_col=0,header=0)
 
-print('traitInfo')
+print('load traitInfo')
 traitInfo=pd.read_csv(dataDir+'traitInfo.csv',header=0,index_col=None)
 tab=pd.DataFrame(Counter(traitInfo.trait.values),index=[0]).T
 tab=tab[tab[0]>1]
@@ -63,63 +63,57 @@ if genPC:
     print('prep covs')
     preds =preds.loc[exprIds,['sex','batch']]
     preds.insert(0,'intercept',1)
+    preds=preds.values
 
     # quantile normalize expr data
     print('quant normalize')
     ranks=expr.rank(axis=0,method='average')/(len(expr)+1)
-    expr=ranks.apply(norm.ppf,axis=0)
+    expr=ranks.apply(norm.ppf,axis=0).values
 
     # remove sex and batch
     print('remove batch, sex')
-    XtX=preds.T.dot(preds)               
-    XtXinv=pd.DataFrame(np.linalg.pinv(XtX.values), index=preds.columns,columns=preds.columns)
-    hat=preds.dot(XtXinv).dot(preds.T).dot(expr)
-    expr=(expr-hat)
+    reg=MultiOutputRegressor(LinearRegression(),n_jobs=-1).fit(preds,expr)
+    expr=(expr-reg.predict(preds))
 
     # generate PCs
     print('generate PCs')
-    U,D,Vt=np.linalg.svd(expr.values)
-    PCs=pd.DataFrame(U[:,0:numPCs],columns=range(numPCs),index=expr.index)
-    PCs.insert(0,'intercept',1)
+    U,D,Vt=np.linalg.svd(expr)
+    PCs=np.concatenate([np.ones([len(expr),1]),U[:,0:numPCs]],axis=1)
 
     # write covariate data to file
     print('write PCs to file')
-    PCs.to_csv(scratchDir+'PC.txt',header=False,index=False,sep='\t')
-    expr.to_csv(scratchDir+'pheno.txt',sep='\t',index=False,header=False)
+    np.savetxt(scratchDir+'PC.txt',PCs,delimiter='\t')
+    
+    print('write traits to file')
+    for trait in set(traitChr.chromosome):
+        np.savetxt(scratchDir+'pheno-'+trait+'.txt',expr[:,traitChr.chromosome==trait],delimiter='\t')
+        
+    np.savetxt(scratchDir+'dummy.txt',np.ones([len(expr),1]),delimiter='\t')
 
 if GRM:
-    # set the current directory
-    os.chdir(scratchDir)
-
     print('generate grm and genome files')
-    for ch in set(snpChr):
-        snps[snpChr!=ch].to_csv('geno.txt',sep=' ',index=False,header=False)
+    os.chdir(scratchDir)
+    #grm('chr1',snpChr,snps,files)
 
-        # generate loco
-        subprocess.run([files['gemma'],'-g','geno.txt','-p','pheno.txt','-gk','2','-o','grm-'+str(ch)])
+    futures=[]
+    with ProcessPoolExecutor() as executor: 
+        for ch in set(snpChr):
+            futures.append(executor.submit(grm,ch,snpChr,snps,files))
 
-        # move grm to scratch
-        os.rename('output/grm-'+str(ch)+'.sXX.txt','grm-'+str(ch)+'.sXX.txt')
-
-        # write chr gene file
-        snps[snpChr==ch].to_csv('geno-'+str(ch)+'.txt',sep=' ',index=False,header=False)
+    wait(futures,return_when=ALL_COMPLETED)
     
 # create dataframe to hold all pvals
-#traitChr=traitChr.iloc[0:3,:]
-allRes=pd.DataFrame(columns=pd.MultiIndex.from_tuples(traitChr.values.tolist(),names=['trait','chr','Mbp']))
-
-# oneChrFunc('chr1',snpChr,snpId,snps,traitChr,files)
-# pdb.set_trace()
 
 # loop through traits and chromosomes
 if doLMM:
     print('future loop')
     os.chdir(scratchDir)
-    futures=[]
     
-    with ProcessPoolExecutor(5) as executor: 
-        for ch in set(snpChr):
-            futures.append(executor.submit(lmm,ch,snpId[snpChr==ch],traitChr,files))
+    futures=[]
+    with ProcessPoolExecutor() as executor: 
+        for snp in set(snpChr):
+            for trait in set(traitChr.chromosome):
+                futures.append(executor.submit(lmm,snp,trait,snpId[snpChr==snp],traitChr.loc[traitChr.chromosome==trait],files))
 
     wait(futures,return_when=ALL_COMPLETED)
 

@@ -21,7 +21,7 @@ def ggnull(zAll,sigName,ggnullDat):
     futures=[]
     with ProcessPoolExecutor() as executor: 
         for k in range(d):
-            futures.append(executor.submit(ggHelp,z[k],ggnullDat[k],k))
+            futures.append(executor.submit(ggnullHelp,z[k],ggnullDat[k],k))
     
     ggnull=pd.DataFrame(dtype='float32')
     for f in wait(futures,return_when=FIRST_COMPLETED)[0]:
@@ -33,7 +33,7 @@ def ggnull(zAll,sigName,ggnullDat):
     
     return(power,fail)
     
-def ggHelp(z,ggnullDat,k):   
+def ggnullHelp(z,ggnullDat,k):   
     Reps=len(z)   
     p_vals=2*norm.sf(z)
     sortOrd=p_vals.argsort()

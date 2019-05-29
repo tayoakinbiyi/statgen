@@ -16,24 +16,24 @@ import pdb
 import os  
 
 if __name__ == '__main__':
-    EXCHANGEABLE=[]
+    EXCHANGEABLE=[0]
     NORM_SIG=False
     RAT=False
-    MOUSE=True
+    MOUSE=False
     CROSS_N=None#'iid-ggnull-ghc'
     
     parms={
         'Types':['hc','gnull','bj','fdr','minP','score','ggnull','ghc'],
         'plot':True,
-        'H0':50000,
-        'H01':30000,
-        'H1':30000,
+        'H0':50,
+        'H01':30
+        'H1':30,
         'fontsize':17,
         'new':True
     }
     
     if len(EXCHANGEABLE)>0:
-        for N in [500,1000,1500,2000,2500,3000,3500,4000,4500,5000]:
+        for N in [150]:
             for rho in EXCHANGEABLE:            
                 sig,_=exchangeable(N,rho)
                 sigName='iid-ggnull-ghc-'+str(N)
