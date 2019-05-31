@@ -6,19 +6,17 @@ from scipy.stats import norm,beta
 import psutil
 import pdb
 
-def ghc(z,name,var):
+def ghc(z,var,parms):
+    cpus=parms['cpus']
     Reps,N=z.shape
     d=int(N/2)
 
     z=-np.sort(-np.abs(z))[:,0:d]
     
-    M=multiprocessing.cpu_count()
-    i=0
-    #ghcHelp(z,name,var)
     futures=[]
-    with ProcessPoolExecutor() as executor: 
-        for i in range(int(np.ceil(Reps/np.ceil(Reps/M)))):
-            futures.append(executor.submit(ghcHelp,z[i*int(np.ceil(Reps/M)):min((i+1)*int(np.ceil(Reps/M)),Reps)],name,var))
+    with ProcessPoolExecutor(cpus) as executor: 
+        for i in range(int(np.ceil(Reps/np.ceil(Reps/cpus)))):
+            futures.append(executor.submit(ghcHelp,z[i*int(np.ceil(Reps/cpus)):min((i+1)*int(np.ceil(Reps/cpus)),Reps)],var))
 
     ghc=pd.DataFrame(dtype='float32')
     fail=pd.DataFrame(dtype='float32')
@@ -28,7 +26,7 @@ def ghc(z,name,var):
     
     return(ghc,fail)
 
-def ghcHelp(z,name,var):
+def ghcHelp(z,var):
     Reps,d=z.shape
     N=int(d*2)
     

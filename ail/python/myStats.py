@@ -2,22 +2,20 @@ import pandas as pd
 import numpy as np
 from scipy.stats import norm, beta
 from concurrent.futures import ProcessPoolExecutor, wait, FIRST_COMPLETED
-import multiprocessing
 
 from python.myMath import *
 
-def myStats(z):
+def myStats(z,parms):
+    cpus=parms['cpus']
     Reps,N=z.shape
     d=int(N/2)
     
     z=-np.sort(-np.abs(z))[:,0:d]
     
-    M=multiprocessing.cpu_count()
-
     futures=[]
-    with ProcessPoolExecutor() as executor: 
-        for i in range(int(np.ceil(Reps/np.ceil(Reps/M)))):
-            futures.append(executor.submit(myStatsHelp,z[i*int(np.ceil(Reps/M)):min((i+1)*int(np.ceil(Reps/M)),Reps)]))
+    with ProcessPoolExecutor(cpus) as executor: 
+        for i in range(int(np.ceil(Reps/np.ceil(Reps/cpus)))):
+            futures.append(executor.submit(myStatsHelp,z[i*int(np.ceil(Reps/cpus)):min((i+1)*int(np.ceil(Reps/cpus)),Reps)]))
     
     power=pd.DataFrame(dtype='float32')
     for f in wait(futures,return_when=FIRST_COMPLETED)[0]:

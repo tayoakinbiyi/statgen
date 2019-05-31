@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=ail
-#SBATCH --output=chFix.out
-#SBATCH --error=chFix.err
+#SBATCH --output=slurm/chFix.out
+#SBATCH --error=slurm/chFix.err
 #SBATCH --partition=bigmem2
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=19

@@ -6,7 +6,8 @@ from scipy.stats import norm, beta
 import pdb
 import psutil
 
-def ggnull(zAll,sigName,ggnullDat):
+def ggnull(zAll,ggnullDat,parms):
+    cpus=parms['cpus']
     Reps,N=zAll.shape
     d=int(N/2)
 
@@ -16,10 +17,8 @@ def ggnull(zAll,sigName,ggnullDat):
         z[k]=zAll[:,k]
     del zAll
     
-    M=multiprocessing.cpu_count()
-    
     futures=[]
-    with ProcessPoolExecutor() as executor: 
+    with ProcessPoolExecutor(cpus) as executor: 
         for k in range(d):
             futures.append(executor.submit(ggnullHelp,z[k],ggnullDat[k],k))
     

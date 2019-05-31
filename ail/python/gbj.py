@@ -6,18 +6,16 @@ from scipy.stats import norm, beta
 import pdb
 import psutil
 import subprocess
+import os
 
-def gbj(z,sigName):       
+def gbj(z,parms):       
+    cpus=parms['cpus']
     Reps,N=z.shape
 
-    M=multiprocessing.cpu_count()
-    
-    i=0
-    gbjHelp(z[i*int(np.ceil(Reps/M)):min((i+1)*int(np.ceil(Reps/M)),Reps)],i,sigName)
     futures=[]
-    with ProcessPoolExecutor() as executor: 
-        for i in range(int(np.ceil(Reps/np.ceil(Reps/M)))):
-            futures.append(executor.submit(gbjHelp,z[i*int(np.ceil(Reps/M)):min((i+1)*int(np.ceil(Reps/M)),Reps)],i,sigName))
+    with ProcessPoolExecutor(cpus) as executor: 
+        for i in range(int(np.ceil(Reps/np.ceil(Reps/cpus)))):
+            futures.append(executor.submit(gbjHelp,z[i*int(np.ceil(Reps/cpus)):min((i+1)*int(np.ceil(Reps/cpus)),Reps)],i))
     
     gbj=pd.DataFrame(dtype='float32')
     fail=pd.DataFrame(dtype='float32')
@@ -28,12 +26,11 @@ def gbj(z,sigName):
         
     return(gbj,fail)
     
-def gbjHelp(z,i,sigName):  
-    name='/project/abney/ail/gbj/'
-    np.savetxt(name+'z_'+str(i)+'.csv',z,delimiter=',')
-    subprocess.run(['Rscript','/home/akinbiyi/ail/ail/R/myGBJ.R',str(i),sigName])
+def gbjHelp(z,i):  
+    np.savetxt('gbj/z_'+str(i)+'.csv',z,delimiter=',')
+    subprocess.run(['Rscript','R/myGBJ.R',str(i),os.getcwd()+'/'])
     
-    result=pd.read_csv(name+'gbj_'+str(i)+'.csv')
+    result=pd.read_csv('gbj/gbj_'+str(i)+'.csv')
     gbj=pd.DataFrame({'Type':'gbj','Value':result['Value']})
     fail=pd.DataFrame({'Type':'gbj','Value':result['Fail']})
     

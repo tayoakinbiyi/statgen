@@ -24,24 +24,22 @@ def kMinMax(df):
 def makeProb(L,parms):
     eps=1e-10
     binPower=500
+    cpus=parms['cpus']
     
     N=parms['N']
     sigName=parms['sigName']
 
-    ebbDir='ebb/'+sigName+'/'
-    pairwise_cors=np.loadtxt(ebbDir+'pairwise_cors.csv',delimiter=',').flatten()
+    pairwise_cors=np.loadtxt('ebb/pairwise_cors.csv',delimiter=',').flatten()
     
     d=int(N/2)
     
-    if not parms['new']:
+    if os.path.isfile('ebb/ghcDat.csv'):
         ggnullDat={}
         for k in range(d):
-            ggnullDat[k]=pd.read_csv(ebbDir+'ggnullDat-'+str(k)+'.csv',dtype='float32')
-        ghcDat=pd.read_csv(ebbDir+'ghcDat.csv',dtype='float32')
+            ggnullDat[k]=pd.read_csv('ebb/ggnullDat-'+str(k)+'.csv',dtype='float32')
+        ghcDat=pd.read_csv('ebb/ghcDat.csv',dtype='float32')
         return(ggnullDat,ghcDat)
-            
-    M=multiprocessing.cpu_count()
-    
+                
     numBins=int(N*binPower)
     t0=time.time()
     print('start',round((time.time()-t0),2))
@@ -73,9 +71,9 @@ def makeProb(L,parms):
     
     rhoBar=getRhoBar(pairwise_cors)
     futures=[]
-    with ProcessPoolExecutor(3) as executor:    
-        for i in range(int(np.ceil(numBins/np.ceil(numBins/M)))):
-            futures.append(executor.submit(vst,bins[i*int(np.ceil(numBins/M)):min((i+1)*int(np.ceil(numBins/M)),numBins)],N,rhoBar))
+    with ProcessPoolExecutor(cpus) as executor:    
+        for i in range(int(np.ceil(numBins/np.ceil(numBins/cpus)))):
+            futures.append(executor.submit(vst,bins[i*int(np.ceil(numBins/cpus)):min((i+1)*int(np.ceil(numBins/cpus)),numBins)],N,rhoBar))
         
     ghcDat=pd.DataFrame(columns=['binEdge','var'],dtype='float32')
     for f in wait(futures,return_when=FIRST_COMPLETED)[0]:
@@ -88,10 +86,9 @@ def makeProb(L,parms):
     print('gamma', psutil.virtual_memory().percent,round((time.time()-t0),2))
 
     futures=[]
-    mpHelp(minMaxK,N)
-    with ProcessPoolExecutor(3) as executor: 
-        for i in range(int(np.ceil(numBins/np.ceil(numBins/M)))):
-            futures.append(executor.submit(mpHelp,minMaxK[i*int(np.ceil(numBins/M)):min((i+1)*int(np.ceil(numBins/M)),numBins)],N))
+    with ProcessPoolExecutor(cpus) as executor: 
+        for i in range(int(np.ceil(numBins/np.ceil(numBins/cpus)))):
+            futures.append(executor.submit(mpHelp,minMaxK[i*int(np.ceil(numBins/cpus)):min((i+1)*int(np.ceil(numBins/cpus)),numBins)],N))
                                       
     ebb=pd.DataFrame(columns=['binEdge','ggnull'],dtype='float32')
     for f in wait(futures,return_when=FIRST_COMPLETED)[0]:
@@ -107,15 +104,11 @@ def makeProb(L,parms):
         
     print('ebb', psutil.virtual_memory().percent,round((time.time()-t0),2))
 
-    pd.Series(rhoBar,name='rhoBar').to_csv(ebbDir+'/rhoBar.csv',index=False,header=True)
+    pd.Series(rhoBar,name='rhoBar').to_csv('ebb/rhoBar.csv',index=False,header=True)
     for k in range(d):
-        ggnullDat[k].to_csv(ebbDir+'/ggnullDat-'+str(k)+'.csv',index=False)  
-    np.savetxt(ebbDir+'/pairwise_cors.csv',pairwise_cors,delimiter=',')
-    ghcDat.to_csv(ebbDir+'/ghcDat.csv',index=False)
+        ggnullDat[k].to_csv('ebb/ggnullDat-'+str(k)+'.csv',index=False)  
+    np.savetxt('ebb/pairwise_cors.csv',pairwise_cors,delimiter=',')
+    ghcDat.to_csv('ebb/ghcDat.csv',index=False)
     
     return(ggnullDat,ghcDat)
-           
-def vst(binEdges,d,rhoBar):
-    z=np.abs(norm.ppf(binEdges/2))
-    return(pd.DataFrame({'binEdge':binEdges,'var':getVarNoMu(z,d,rhoBar)},dtype='float32'))                     
-    
+               
