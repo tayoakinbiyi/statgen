@@ -10,13 +10,14 @@ from sklearn.linear_model import LinearRegression
 from sklearn.multioutput import MultiOutputRegressor
 from python.lmm import *
 from python.grm import *
+from python.genPCPval import *
 
 #home='/phddata/akinbiyi/'
 home='/project/abney/'
 
-predExpr=True
+predExpr=False
+GRM=False
 genPC=True
-GRM=True
 doLMM=True
 
 files={

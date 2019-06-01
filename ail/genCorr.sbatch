@@ -2,7 +2,7 @@
 #SBATCH --job-name=genCorr
 #SBATCH --output=slurm/genCorr.out
 #SBATCH --error=slurm/genCorr.err
-#SBATCH --partition=broadwl-lc
+#SBATCH --partition=bigmem2
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=20
