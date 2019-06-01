@@ -13,12 +13,12 @@ import pandas as pd
 import pdb
 import os  
 
-home='/project/abney/'
+home='/home/ubuntu/ail/'
 
 files={
-    'dataDir':home+'ail/data/',
-    'scratchDir':home+'ail/scratch/',
-    'gemma':home+'ail/gemma'
+    'dataDir':home+'data/',
+    'scratchDir':home+'scratch/',
+    'gemma':home+'gemma'
 }
 numPCs=10
 
@@ -34,27 +34,39 @@ def corrHelp(trait1,trait2,ind,col):
     chrs=['chr'+str(x) for x in range(1,20) if (trait1!='chr'+str(x)) and (trait2!='chr'+str(x))]
     
     N=0
+    mean1=np.array([0]*len(ind))
+    mean2=np.array([0]*len(col))
+    
     for snpChr in chrs:
-        print(snpChr,trait1,trait2)
-        
         df1=pd.read_csv('pvals-final-'+snpChr+'-'+trait1+'.txt',index_col=[0,1],header=[0,1,2]).values 
         df2=pd.read_csv('pvals-final-'+snpChr+'-'+trait2+'.txt',index_col=[0,1],header=[0,1,2]).values
 
         df1=-norm.ppf(df1/2)
         df2=-norm.ppf(df2/2)
 
-        df1=df1-np.mean(df1,axis=0)
-        df2=df2-np.mean(df2,axis=0)
+        mean1+=np.sum(df1,axis=0)
+        mean2+=np.sum(df2,axis=0)
+    
+        N+=df1.shape[0]
+        
+    sum1/=N
+    sum2/=N
+    
+    for snpChr in chrs:        
+        df1=pd.read_csv('pvals-final-'+snpChr+'-'+trait1+'.txt',index_col=[0,1],header=[0,1,2]).values 
+        df2=pd.read_csv('pvals-final-'+snpChr+'-'+trait2+'.txt',index_col=[0,1],header=[0,1,2]).values
+
+        df1=-norm.ppf(df1/2)
+        df2=-norm.ppf(df2/2)
+        
+        df1=df1-mean1
+        df2=df2-mean2
     
         if N==0:
             cov=pd.DataFrame(np.matmul(df1.T,df2),index=ind,columns=col)
         else:
             cov+=pd.DataFrame(np.matmul(df1.T,df2),index=ind,columns=col)
-            
-        N+=df1.shape[0]
-        
-        print(trait1,trait2,' - ',snpChr,'done')
-        
+                            
     cov/=(N-1)
     cov.to_csv('cov-'+trait1+'-'+trait2+'.csv')
     
@@ -72,15 +84,16 @@ if __name__ == '__main__':
     traitChr=pd.DataFrame({'trait':expr.columns}).merge(traitInfo,on='trait')
     traitChr=traitChr[traitChr.chromosome.isin(['chr'+str(x) for x in range(1,M)])]
 
-    genCorr=True
+    genCorr=False
     genFinal=False
+    makeCorr=True
     
     pvals=pd.DataFrame()
     os.chdir(scratchDir)
-
+    
     if genCorr:
         futures=[]
-        with ProcessPoolExecutor(20) as executor: 
+        with ProcessPoolExecutor() as executor: 
             for i in range(1,M):
                 trait1='chr'+str(i)
                 ind=pd.MultiIndex.from_tuples(traitChr[traitChr.chromosome==trait1].values.tolist(),names=['trait','chr','Mbp'])
@@ -105,19 +118,33 @@ if __name__ == '__main__':
                 if i!=j:
                     cov.loc[(slice(None),'chr'+str(j),slice(None)),(slice(None),'chr'+str(i),slice(None))]=pd.read_csv(
                         'cov-chr'+str(i)+'-chr'+str(j)+'.csv',index_col=[0,1,2],header=[0,1,2]).T.values
-
+        
         cov.to_csv('cov.csv')
-
+        
+    if makeCorr:
+        cov=pd.read_csv('cov.csv',index_col=[0,1,2],header=[0,1,2]).values
         U,D,Vt=np.linalg.svd(cov)
 
         bias=min(D)
-        print('bias ='+str(bias))
-        D+=bias
+        if bias <0:
+            print('bias ='+str(bias))
+            D-=bias
 
-        cov=np.matmul(np.matmul(U,np.diag(D)),U.T)
+            cov=np.matmul(np.matmul(U,np.diag(D)),U.T)
 
         corr=cov2corr(cov)
 
-        np.savetxt('corr.csv',sep=',')
+        fig,ax=plt.subplots(1,2)
+        N=len(cov)        
+        
+        ax[0].hist(corr[np.triu_indices(N,1)])
+        ax[0].set_xlim([-1,1])
+        ax[0].set_title('Off Diagonal')
+        ax[1].hist(np.diag(cov))
+        ax[1].set_title('Cov Diagonal')
+        
+        fig.savefig('../corr_plot.png')
+        
+        np.savetxt('corr.csv',corr,delimiter=',')
     
             

@@ -13,8 +13,10 @@ from python.grm import *
 
 #home='/phddata/akinbiyi/'
 home='/project/abney/'
-genPC=False
-GRM=False
+
+predExpr=True
+genPC=True
+GRM=True
 doLMM=True
 
 files={
@@ -22,7 +24,7 @@ files={
     'scratchDir':home+'ail/scratch/',
     'gemma':home+'ail/gemma'
 }
-numPCs=10
+numPCs=100
 
 
 #load raw files
@@ -58,7 +60,7 @@ snpId=snps['snpId'].values.flatten()
 snps.drop(columns='chr',inplace=True)
 snps=snps[['snpId','minor','major']+exprIds]
 
-if genPC:
+if predExpr:
     # recover sex and batch data
     print('prep covs')
     preds =preds.loc[exprIds,['sex','batch']]
@@ -75,6 +77,10 @@ if genPC:
     reg=MultiOutputRegressor(LinearRegression(),n_jobs=-1).fit(preds,expr)
     expr=(expr-reg.predict(preds))
 
+    print('write traits to file')
+    for trait in set(traitChr.chromosome):
+        np.savetxt(scratchDir+'pheno-'+trait+'.txt',expr[:,traitChr.chromosome==trait],delimiter='\t')
+        
     # generate PCs
     print('generate PCs')
     U,D,Vt=np.linalg.svd(expr)
@@ -82,18 +88,13 @@ if genPC:
 
     # write covariate data to file
     print('write PCs to file')
-    np.savetxt(scratchDir+'PC.txt',PCs,delimiter='\t')
-    
-    print('write traits to file')
-    for trait in set(traitChr.chromosome):
-        np.savetxt(scratchDir+'pheno-'+trait+'.txt',expr[:,traitChr.chromosome==trait],delimiter='\t')
-        
-    np.savetxt(scratchDir+'dummy.txt',np.ones([len(expr),1]),delimiter='\t')
+    np.savetxt(scratchDir+'PCAll.txt',PCs,delimiter='\t')
 
 if GRM:
+    np.savetxt(scratchDir+'dummy.txt',np.ones([len(expr),1]),delimiter='\t')
+
     print('generate grm and genome files')
     os.chdir(scratchDir)
-    #grm('chr1',snpChr,snps,files)
 
     futures=[]
     with ProcessPoolExecutor() as executor: 
@@ -102,7 +103,25 @@ if GRM:
 
     wait(futures,return_when=ALL_COMPLETED)
     
-# create dataframe to hold all pvals
+if genPC:
+    print('Find PCs')
+    os.chdir(scratchDir)
+    
+    futures=[]
+    with ProcessPoolExecutor() as executor: 
+        for snp in set(snpChr):
+            futures.append(executor.submit(genPCPval,snp,numPCs,files))
+
+    wait(futures,return_when=ALL_COMPLETED)    
+    
+    PCPval=pd.DataFrame()
+    for snp in set(snpChr):
+        PCPval=PCPval.append(pd.read_csv('pvals-PC-'+snp+'.csv',index_col=[0,1]))
+        
+    whichPCs=np.arange(numPCs)[np.min(PCPval,axis=0)>9.01e-6]
+    print('PCs ',whichPCs)
+    
+    PCs=np.savetxt(scratchDir+'PC.txt',np.loadtxt('PCAll.txt',delimiter='\t')[:,whichPCs],delimiter='\t')
 
 # loop through traits and chromosomes
 if doLMM:

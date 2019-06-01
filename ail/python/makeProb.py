@@ -87,12 +87,15 @@ def makeProb(L,parms):
 
     futures=[]
     with ProcessPoolExecutor(cpus) as executor: 
-        for i in range(int(np.ceil(numBins/np.ceil(numBins/cpus)))):
+        for i in np.arange(int(np.ceil(numBins/np.ceil(numBins/cpus))))[0:3]:
             futures.append(executor.submit(mpHelp,minMaxK[i*int(np.ceil(numBins/cpus)):min((i+1)*int(np.ceil(numBins/cpus)),numBins)],N))
                                       
     ebb=pd.DataFrame(columns=['binEdge','ggnull'],dtype='float32')
-    for f in wait(futures,return_when=FIRST_COMPLETED)[0]:
-        ebb=ebb.append(f.result())
+    try:
+        for f in wait(futures,return_when=FIRST_COMPLETED)[0]:
+            ebb=ebb.append(f.result())
+    except concurrent.futures.process.BrokenProcessPool as ex:
+        pdb.set_trace()
 
     print('mp', psutil.virtual_memory().percent,round((time.time()-t0),2))
 
