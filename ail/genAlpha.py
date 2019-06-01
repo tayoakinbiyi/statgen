@@ -42,6 +42,9 @@ def genAlpha():
     parms['path']=home
     parms['Rpath']=home+'ail/R'
     parms['cpus']=cpu_count()
+    parms['binPower']=500
+    parms['eps']=1e-10
+    parms['delta']=.1
 
     print('L')
     L=makeL(parms,sig)

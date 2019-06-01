@@ -21,7 +21,7 @@
 #' @examples
 #' GBJ_objective(t_vec=1:5, d=5, k_vec=NULL, pairwise_cors=rep(0.2,10), offset=0)
 
-GBJ_objective <- function(t_vec, d, k_vec=NULL, pairwise_cors, offset=0) {
+GBJ_objective <- function(t_vec, d, k_vec=NULL, pairwise_cors, delta,offset=0) {
 
 	# Ensure that the thresholds are sorted in descending order, largest first.
 	t_vec <- sort(abs(t_vec), decreasing=TRUE)
@@ -35,7 +35,7 @@ GBJ_objective <- function(t_vec, d, k_vec=NULL, pairwise_cors, offset=0) {
 	# and also that we are only considering 'first half' p-values
 	p_values <- 1-pchisq(t_vec^2, df=1)
 	GBJ_indicator <- which( p_values < k_vec/d )
-	first_half <- which(k_vec <= ceiling(d/2))
+	first_half <- which(k_vec <= ceiling(d*delta))
 	non_zero <- intersect(GBJ_indicator, first_half)
 
 	# If no indicies qualified, stop

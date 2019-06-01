@@ -15,7 +15,7 @@ def gbj(z,parms):
     futures=[]
     with ProcessPoolExecutor(cpus) as executor: 
         for i in range(int(np.ceil(Reps/np.ceil(Reps/cpus)))):
-            futures.append(executor.submit(gbjHelp,z[i*int(np.ceil(Reps/cpus)):min((i+1)*int(np.ceil(Reps/cpus)),Reps)],i))
+            futures.append(executor.submit(gbjHelp,z[i*int(np.ceil(Reps/cpus)):min((i+1)*int(np.ceil(Reps/cpus)),Reps)],i,parms))
     
     gbj=pd.DataFrame(dtype='float32')
     fail=pd.DataFrame(dtype='float32')
@@ -26,9 +26,11 @@ def gbj(z,parms):
         
     return(gbj,fail)
     
-def gbjHelp(z,i):  
+def gbjHelp(z,i,parms):
+    delta=parms['delta']
+    
     np.savetxt('gbj/z_'+str(i)+'.csv',z,delimiter=',')
-    subprocess.run(['Rscript','R/myGBJ.R',str(i),os.getcwd()+'/'])
+    subprocess.run(['Rscript','R/myGBJ.R',str(i),os.getcwd()+'/',delta])
     
     result=pd.read_csv('gbj/gbj_'+str(i)+'.csv')
     gbj=pd.DataFrame({'Type':'gbj','Value':result['Value']})

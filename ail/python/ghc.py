@@ -9,14 +9,16 @@ import pdb
 def ghc(z,var,parms):
     cpus=parms['cpus']
     Reps,N=z.shape
-    d=int(N/2)
+    delta=parms['delta']
+    
+    d=int(np.ceiling(N*delta))
 
     z=-np.sort(-np.abs(z))[:,0:d]
     
     futures=[]
     with ProcessPoolExecutor(cpus) as executor: 
         for i in range(int(np.ceil(Reps/np.ceil(Reps/cpus)))):
-            futures.append(executor.submit(ghcHelp,z[i*int(np.ceil(Reps/cpus)):min((i+1)*int(np.ceil(Reps/cpus)),Reps)],var))
+            futures.append(executor.submit(ghcHelp,z[i*int(np.ceil(Reps/cpus)):min((i+1)*int(np.ceil(Reps/cpus)),Reps)],var,parms))
 
     ghc=pd.DataFrame(dtype='float32')
     fail=pd.DataFrame(dtype='float32')
@@ -26,9 +28,9 @@ def ghc(z,var,parms):
     
     return(ghc,fail)
 
-def ghcHelp(z,var):
+def ghcHelp(z,var,parms):
     Reps,d=z.shape
-    N=int(d*2)
+    N=parms['N']
     
     kvec=np.array([range(d)]*Reps).flatten()
     p_vals=2*norm.sf(z).flatten()

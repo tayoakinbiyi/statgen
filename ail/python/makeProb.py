@@ -22,16 +22,17 @@ def kMinMax(df):
     return(pd.DataFrame({'min':df.k.min(),'max':df.k.max()},index=[0]))
 
 def makeProb(L,parms):
-    eps=1e-10
-    binPower=500
+    eps=parms['eps']
+    binPower=parms['binPower']
     cpus=parms['cpus']
+    delta=parms['delta']
     
     N=parms['N']
     sigName=parms['sigName']
 
     pairwise_cors=np.loadtxt('ebb/pairwise_cors.csv',delimiter=',').flatten()
     
-    d=int(N/2)
+    d=int(np.ceiling(N*delta))
     
     if os.path.isfile('ebb/ghcDat.csv'):
         ggnullDat={}
@@ -40,11 +41,11 @@ def makeProb(L,parms):
         ghcDat=pd.read_csv('ebb/ghcDat.csv',dtype='float32')
         return(ggnullDat,ghcDat)
                 
-    numBins=int(N*binPower)
+    numBins=int(d*binPower)
     t0=time.time()
     print('start',round((time.time()-t0),2))
     
-    bins=np.append(np.append(np.linspace(0,1/numBins,binPower),np.linspace(1/numBins,.5,numBins+1)[1:-1]),np.linspace(.5,1,binPower))
+    bins=np.append(np.append(np.linspace(0,1/numBins,binPower),np.linspace(1/numBins,delta,numBins+1)[1:-1]),np.linspace(delta,1,binPower))
     
     kRan=np.array(range(1,d+1))
     minB=np.digitize(beta.ppf(eps,kRan,N-kRan),bins).astype(int)-1   
@@ -87,7 +88,7 @@ def makeProb(L,parms):
 
     futures=[]
     with ProcessPoolExecutor(cpus) as executor: 
-        for i in np.arange(int(np.ceil(numBins/np.ceil(numBins/cpus))))[0:3]:
+        for i in np.arange(int(np.ceil(numBins/np.ceil(numBins/cpus)))):
             futures.append(executor.submit(mpHelp,minMaxK[i*int(np.ceil(numBins/cpus)):min((i+1)*int(np.ceil(numBins/cpus)),numBins)],N))
                                       
     ebb=pd.DataFrame(columns=['binEdge','ggnull'],dtype='float32')
@@ -107,10 +108,8 @@ def makeProb(L,parms):
         
     print('ebb', psutil.virtual_memory().percent,round((time.time()-t0),2))
 
-    pd.Series(rhoBar,name='rhoBar').to_csv('ebb/rhoBar.csv',index=False,header=True)
     for k in range(d):
         ggnullDat[k].to_csv('ebb/ggnullDat-'+str(k)+'.csv',index=False)  
-    np.savetxt('ebb/pairwise_cors.csv',pairwise_cors,delimiter=',')
     ghcDat.to_csv('ebb/ghcDat.csv',index=False)
     
     return(ggnullDat,ghcDat)

@@ -112,11 +112,15 @@ if genPC:
         for snp in set(snpChr):
             futures.append(executor.submit(genPCPval,snp,numPCs,files))
 
-    wait(futures,return_when=ALL_COMPLETED)    
+    wait(futures,return_when=ALL_COMPLETED)
+    print('finished genPCPval')
     
-    PCPval=pd.DataFrame()
+    PCPval=[]
+    count=0
     for snp in set(snpChr):
-        PCPval=PCPval.append(pd.read_csv('pvals-PC-'+snp+'.csv',index_col=[0,1]))
+        PCPval[count]=np.loadtxt('pvals-PC-'+snp+'.txt',delimiter='\t')
+        
+    PCPval=np.concatenate(PCPval,axis=0)
         
     whichPCs=np.arange(numPCs)[np.min(PCPval,axis=0)>9.01e-6]
     print('PCs ',whichPCs)

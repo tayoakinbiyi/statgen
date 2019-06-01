@@ -9,7 +9,8 @@ import psutil
 def ggnull(zAll,ggnullDat,parms):
     cpus=parms['cpus']
     Reps,N=zAll.shape
-    d=int(N/2)
+    delta=parms['delta']
+    d=int(np.ceiling(N*delta))
 
     zAll=-np.sort(-np.abs(zAll))[:,0:d]
     z={}
