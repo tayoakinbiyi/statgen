@@ -1,2 +1,0 @@
-/tmp/slurmd/job60554727/slurm_script: line 11: 35702 Killed                  python /home/akinbiyi/ail/ail/qqPlotsAll.py
-slurmstepd-midway2-bigmem01: error: Detected 1 oom-kill event(s) in step 60554727.batch cgroup. Some of your processes may have been killed by the cgroup out-of-memory handler.
