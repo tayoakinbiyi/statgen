@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=ail
-#SBATCH --output=slurm/getPVals.out
-#SBATCH --error=slurm/getPVals.err
+#SBATCH --output=getPVals.out
+#SBATCH --error=getPVals.err
 #SBATCH --partition=bigmem2
 #SBATCH --nodes=1
 #SBATCH --ntasks=1

@@ -5,13 +5,13 @@ import pdb
 import subprocess
 
 def grm(snp,snpChr,snps,files):
-    snps[snpChr!=snp].to_csv('geno-'+snp+'.txt',sep=' ',index=False,header=False)
+    snps[snpChr!=snp].to_csv('geno-grm'+snp+'.txt',sep='\t',index=False,header=False)
 
     # generate loco
-    subprocess.run([files['gemma'],'-g','geno-'+snp+'.txt','-p','dummy.txt','-gk','2','-o','grm-'+snp])
+    subprocess.run([files['gemma'],'-g','geno-grm'+snp+'.txt','-p','dummy.txt','-gk','1','-o','grm-'+snp])
 
     # move grm to scratch
-    os.rename('output/grm-'+snp+'.sXX.txt','grm-'+snp+'.sXX.txt')
+    os.rename('output/grm-'+snp+'.cXX.txt','grm-'+snp+'.txt')
 
-    # write chr gene file
-    snps[snpChr==snp].to_csv('geno-'+snp+'.txt',sep=' ',index=False,header=False)
+    os.remove('geno-grm'+snp+'.txt')
+    os.remove('output/geno-grm'+snp+'.log.txt')
