@@ -10,7 +10,7 @@ def ggnull(zAll,ggnullDat,parms):
     cpus=parms['cpus']
     Reps,N=zAll.shape
     delta=parms['delta']
-    d=int(np.ceiling(N*delta))
+    d=int(np.ceil(N*delta))
 
     zAll=-np.sort(-np.abs(zAll))[:,0:d]
     z={}

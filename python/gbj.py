@@ -28,11 +28,12 @@ def gbj(z,parms):
     
 def gbjHelp(z,i,parms):
     delta=parms['delta']
+    path=parms['path']+parms['sigName']+'/'
     
-    np.savetxt('gbj/z_'+str(i)+'.csv',z,delimiter=',')
-    subprocess.run(['Rscript','R/myGBJ.R',str(i),os.getcwd()+'/',delta])
+    np.savetxt(path+'gbj/z_'+str(i)+'.csv',z,delimiter=',')
+    subprocess.run(['Rscript',path+'R/myGBJ.R',str(i),path,str(delta)])
     
-    result=pd.read_csv('gbj/gbj_'+str(i)+'.csv')
+    result=pd.read_csv(path+'gbj/gbj_'+str(i)+'.csv')
     gbj=pd.DataFrame({'Type':'gbj','Value':result['Value']})
     fail=pd.DataFrame({'Type':'gbj','Value':result['Fail']})
     

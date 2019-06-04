@@ -11,7 +11,7 @@ def ghc(z,var,parms):
     Reps,N=z.shape
     delta=parms['delta']
     
-    d=int(np.ceiling(N*delta))
+    d=int(np.ceil(N*delta))
 
     z=-np.sort(-np.abs(z))[:,0:d]
     

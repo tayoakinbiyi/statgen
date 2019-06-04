@@ -26,19 +26,20 @@ def makeProb(L,parms):
     binPower=parms['binPower']
     cpus=parms['cpus']
     delta=parms['delta']
+    path=parms['path']+parms['sigName']+'/'
     
     N=parms['N']
     sigName=parms['sigName']
 
-    pairwise_cors=np.loadtxt('ebb/pairwise_cors.csv',delimiter=',').flatten()
+    pairwise_cors=np.loadtxt(path+'ebb/pairwise_cors.csv',delimiter=',').flatten()
     
-    d=int(np.ceiling(N*delta))
+    d=int(np.ceil(N*delta))
     
-    if os.path.isfile('ebb/ghcDat.csv'):
+    if os.path.isfile(path+'ebb/ghcDat.csv'):
         ggnullDat={}
         for k in range(d):
-            ggnullDat[k]=pd.read_csv('ebb/ggnullDat-'+str(k)+'.csv',dtype='float32')
-        ghcDat=pd.read_csv('ebb/ghcDat.csv',dtype='float32')
+            ggnullDat[k]=pd.read_csv(path+'ebb/ggnullDat-'+str(k)+'.csv',dtype='float32')
+        ghcDat=pd.read_csv(path+'ebb/ghcDat.csv',dtype='float32')
         return(ggnullDat,ghcDat)
                 
     numBins=int(d*binPower)
@@ -109,8 +110,8 @@ def makeProb(L,parms):
     print('ebb', psutil.virtual_memory().percent,round((time.time()-t0),2))
 
     for k in range(d):
-        ggnullDat[k].to_csv('ebb/ggnullDat-'+str(k)+'.csv',index=False)  
-    ghcDat.to_csv('ebb/ghcDat.csv',index=False)
+        ggnullDat[k].to_csv(path+'ebb/ggnullDat-'+str(k)+'.csv',index=False)  
+    ghcDat.to_csv(path+'ebb/ghcDat.csv',index=False)
     
     return(ggnullDat,ghcDat)
                
