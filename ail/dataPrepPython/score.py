@@ -74,7 +74,7 @@ def genScoresHelp(snp,trait,numSnps,numTraits,parms):
 def gemma(snp,trait,k,pval,path,wald):
     subprocess.run(['./gemma','-g',path+'process/geno-'+snp+'.txt','-p',path+'process/pheno-'+trait+'.txt',
         '-lmm',pval,'-o','z-'+snp+'-'+trait+'-'+str(k+1),'-k',path+'process/grm-'+snp+'.txt','-n',str(k+1),
-        '-no-check','-silence','-notsnp','-c',local+name+'process/preds.txt']) 
+        '-no-check','-silence','-notsnp','-c',path+'process/preds.txt']) 
 
     df=pd.read_csv('output/z-'+snp+'-'+trait+'-'+str(k+1)+'.assoc.txt',sep='\t')
     os.remove('output/z-'+snp+'-'+trait+'-'+str(k+1)+'.assoc.txt')
