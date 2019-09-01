@@ -9,4 +9,4 @@
 #SBATCH --mem=150000
 
 module load python/3.7.0
-python /home/akinbiyi/ail/ail/ail.py
+python /home/akinbiyi/ail/runGemma.py

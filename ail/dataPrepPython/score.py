@@ -15,6 +15,7 @@ def score(parms):
     traitChr=parms['traitChr']
     
     DBSyncLocal(name+'process',parms)
+    DBSyncLocal('data',parms)
 
     snpData=DBLocalRead(name+'process/snpData',parms)
     traitData=DBLocalRead(name+'process/traitData',parms)
@@ -83,4 +84,4 @@ def gemma(snp,trait,k,preds,pval,path,wald):
     if wald:
         return(k,(df['beta']/df['se']).values.flatten(),snp,trait)
     else:
-        return(k,df['p-lrt'].values.flatten(),snp,trait)
+        return(k,df['p_lrt'].values.flatten(),snp,trait)
