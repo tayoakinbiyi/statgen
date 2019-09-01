@@ -77,7 +77,7 @@ def gemma(snp,trait,k,preds,pval,path,wald):
         '-lmm',pval,'-o','z-'+snp+'-'+trait+'-'+str(k+1),'-k',path+'process/grm-'+snp+'.txt','-n',str(k+1),
         '-no-check','-silence','-notsnp']+preds) 
 
-    df=pd.read-csv('output/z-'+snp+'-'+trait+'-'+str(k+1)+'.assoc.txt',sep='\t')
+    df=pd.read_csv('output/z-'+snp+'-'+trait+'-'+str(k+1)+'.assoc.txt',sep='\t')
     os.remove('output/z-'+snp+'-'+trait+'-'+str(k+1)+'.assoc.txt')
     
     if wald:
