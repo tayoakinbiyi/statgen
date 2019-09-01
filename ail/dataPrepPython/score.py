@@ -15,7 +15,6 @@ def score(parms):
     traitChr=parms['traitChr']
     
     DBSyncLocal(name+'process',parms)
-    DBSyncLocal(name+'score',parms)
 
     snpData=DBLocalRead(name+'process/snpData',parms)
     traitData=DBLocalRead(name+'process/traitData',parms)
