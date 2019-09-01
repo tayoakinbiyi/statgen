@@ -71,7 +71,7 @@ def process(parms):
     for snp in parms['snpChr']:
         genGRMHelp(snp,snps[snpData['chr']!=snp],parms)
 
-    print('grm finished '+snp,flush=True)
+    print('grm finished',flush=True)
     U,D,Vt=np.linalg.svd(traits)
     PCs=np.concatenate([np.ones([len(traits),1]),U[:,0:numPCs]],axis=1)
 
