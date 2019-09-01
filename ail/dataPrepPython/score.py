@@ -19,12 +19,12 @@ def score(parms):
     snpData=DBLocalRead(name+'process/snpData',parms)
     traitData=DBLocalRead(name+'process/traitData',parms)
 
-    pre=('z-' if parms['wald'] else 'p-')
+    pre=('z' if parms['wald'] else 'p')
      
     for trait in traitChr:
         for snp in snpChr:
-            if DBIsFile(name+'score',pre+snp+'-'+trait,parms):
-                print('found ',snp,trait,flush=True)
+            if DBIsFile(name+'score',pre+'-'+snp+'-'+trait,parms):
+                print('found ',pre+'-'+snp+'-'+trait,flush=True)
                 continue
             genScoresHelp(snp,trait,sum(snpData['chr']==snp),sum(traitData['chr']==trait),parms)
         
@@ -35,11 +35,11 @@ def genScoresHelp(snp,trait,numSnps,numTraits,parms):
     local=parms['local']
     name=parms['name']
     
-    pre=('z-' if parms['wald'] else 'p-')
+    pre=('z' if parms['wald'] else 'p')
     preds=['-c',local+name+'process/preds.txt']
     pval='1' if parms['wald'] else '2'
     
-    DBWrite(np.array([]),name+'score/'+pre+snp+'-'+trait,parms)
+    DBWrite(np.array([]),name+'score/'+pre+'-'+snp+'-'+trait,parms)
     
     print('starting ',snp,trait,flush=True)
 
@@ -47,7 +47,7 @@ def genScoresHelp(snp,trait,numSnps,numTraits,parms):
     
     futures=[]
     #ans=gemma('chr1','chr1',1,preds,pval,local+name,parms['wald'])
-    #pdb.set_trace()
+    #pdb.set-trace()
     with ProcessPoolExecutor(parms['cpu']) as executor: 
         for k in range(numTraits):
             futures.append(executor.submit(gemma,snp,trait,k,preds,pval,local+name,parms['wald']))
@@ -67,7 +67,7 @@ def genScoresHelp(snp,trait,numSnps,numTraits,parms):
             mat[:,k]=val.astype('float16')
 
     print('writing ',snp,trait,flush=True)
-    pdb.set_trace()
+    pdb.set-trace()
     DBWrite(mat,name+'score/'+pre+snp+'-'+trait,parms)
     
     return()
@@ -77,10 +77,10 @@ def gemma(snp,trait,k,preds,pval,path,wald):
         '-lmm',pval,'-o','z-'+snp+'-'+trait+'-'+str(k+1),'-k',path+'process/grm-'+snp+'.txt','-n',str(k+1),
         '-no-check','-silence','-notsnp']+preds) 
 
-    df=pd.read_csv('output/z-'+snp+'-'+trait+'-'+str(k+1)+'.assoc.txt',sep='\t')
+    df=pd.read-csv('output/z-'+snp+'-'+trait+'-'+str(k+1)+'.assoc.txt',sep='\t')
     os.remove('output/z-'+snp+'-'+trait+'-'+str(k+1)+'.assoc.txt')
     
     if wald:
         return(k,(df['beta']/df['se']).values.flatten(),snp,trait)
     else:
-        return(k,df['p_lrt'].values.flatten(),snp,trait)
+        return(k,df['p-lrt'].values.flatten(),snp,trait)

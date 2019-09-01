@@ -31,10 +31,11 @@ def DBUpload(file,parms,toPickle):
 def DBIsFile(path,file,parms):
     path=('/' if len(path)>0 else '')+path
     try:
-        res=parms['dbx'].files_search(path,file).matches
+        res=parms['dbx'].files_search(path,file,max_results=1,mode=dropbox.files.SearchMode('filename')).matches
     except dropbox.exceptions.ApiError as err:
+        print(file,'error',flush=True)
         return(False)
-
+    
     return(len(res)>0)
 
 def DBSyncLocal(folder,parms):

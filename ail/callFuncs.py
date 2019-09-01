@@ -35,12 +35,6 @@ def callFuncs(parms):
     if not os.path.exists(local+name+'process'):
         os.mkdir(local+name+'process')
 
-    if not os.path.exists(local+name+'score'):
-        os.mkdir(local+name+'score')
-
-    if not os.path.exists(local+name+'plots'):
-        os.mkdir(local+name+'plots')
-
     if parms['process']:
         print('process')
         process(parms)
