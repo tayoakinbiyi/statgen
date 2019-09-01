@@ -22,7 +22,8 @@ def score(parms):
     pre=('z-' if parms['wald'] else 'p-')
     pdb.set_trace()
     for file in os.listdir(local+name+'score'):
-        DBUpload(name+'score/'+file,parms)
+        data=np.readtxt(local+name+file,delimiter=',')
+        DBWrite(data,name+'score/'+file[:-4],parms)
     pdb.set_trace()
      
     for trait in traitChr:
