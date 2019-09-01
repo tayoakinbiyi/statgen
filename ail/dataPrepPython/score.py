@@ -20,7 +20,7 @@ def score(parms):
     traitData=DBLocalRead(name+'process/traitData',parms)
 
     pre=('z-' if parms['wald'] else 'p-')
-    
+    pdb.set_trace()
     for file in os.listdir(local+name+'score'):
         DBUpload(name+'score/'+file,parms)
     pdb.set_trace()
