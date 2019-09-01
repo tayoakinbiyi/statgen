@@ -65,7 +65,7 @@ def process(parms):
         traits=(traits-reg.predict(covariates))    
     
     np.savetxt(local+name+'process/dummy.txt',np.ones([len(mouseIds),1]),delimiter='\t')
-    DBUpload(name+'process/dummy.txt',parms)
+    DBUpload(name+'process/dummy.txt',parms,toPickle=False)
         
     print('start grm creation',flush=True)
     for snp in parms['snpChr']:
@@ -106,19 +106,19 @@ def process(parms):
         np.savetxt(local+name+'process/preds.txt',covariates,delimiter='\t')
     else:
         np.savetxt(local+name+'process/preds.txt',np.ones([len(mouseIds),1]),delimiter='\t')       
-    DBUpload(name+'process/preds.txt',parms)
+    DBUpload(name+'process/preds.txt',parms,toPickle=False)
 
     DBWrite(traitData,name+'process/traitData',parms)
 
     for trait in parms['traitChr']:
         np.savetxt(local+name+'process/pheno-'+trait+'.txt',traits[:,traitData['chr']==trait],delimiter='\t')      
-        DBUpload(name+'process/pheno-'+trait+'.txt',parms)
+        DBUpload(name+'process/pheno-'+trait+'.txt',parms,toPickle=False)
                     
     DBWrite(snpData,name+'process/snpData',parms)
     
     for snp in parms['snpChr']:
         snps[snpData['chr']==snp].to_csv(local+name+'process/geno-'+snp+'.txt',sep='\t',index=False,header=False)        
-        DBUpload(name+'process/geno-'+snp+'.txt',parms)
+        DBUpload(name+'process/geno-'+snp+'.txt',parms,toPickle=False)
         
     return()
 
@@ -141,5 +141,5 @@ def genGRMHelp(snp,snps,parms):
     os.rename('output/grm-'+snp+'.'+grmParm+'XX.txt',local+name+'process/grm-'+snp+'.txt')
 
     os.remove('geno-grm-'+snp+'.txt')
-    DBUpload(name+'process/grm-'+snp+'.txt',parms)
+    DBUpload(name+'process/grm-'+snp+'.txt',parms,toPickle=False)
     #os.remove('output/grm-'+snp+'.log.txt')    

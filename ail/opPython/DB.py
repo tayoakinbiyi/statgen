@@ -6,9 +6,10 @@ import pdb
 import datetime
 import time
 
-def DBWrite(data,path,parms):   
+def DBWrite(data,path,parms,toPickle=True):   
     path=('/' if len(path)>0 else '')+path
-    data=pickle.dumps(data)
+    if toPickle:
+        data=pickle.dumps(data)
     
     try:
         res = parms['dbx'].files_upload(data, path, dropbox.files.WriteMode.overwrite,mute=True)
@@ -18,13 +19,13 @@ def DBWrite(data,path,parms):
         
     return()
 
-def DBUpload(file,parms):
+def DBUpload(file,parms,toPickle):
     local=parms['local']
     
     with open(local+file, 'rb') as f:
         data = f.read()
     
-    DBWrite(data,file,parms)
+    DBWrite(data,file,parms,toPickle)
     return()
         
 def DBIsFile(path,file,parms):
