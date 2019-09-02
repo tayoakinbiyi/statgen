@@ -57,10 +57,18 @@ def DBSyncLocal(folder,parms):
             
     return()
 
-def DBLocalRead(folder,parms):
+def DBLocalRead(file,parms):
     local=parms['local']
     
-    with open(local+folder,'rb') as f:
+    with open(local+file,'rb') as f:
         data=pickle.loads(f.read())
 
     return(data)
+
+def DBLocalWrite(data,file,parms):
+    local=parms['local']
+    
+    with open(local+file,'wb') as f:
+        f.write(pickle.dumps(data))
+
+    return()
