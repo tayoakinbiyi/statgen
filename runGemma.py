@@ -103,5 +103,5 @@ parms={
 with open(local+'op','w') as f:
     f.write(json.dumps(parms))
 
-callFuncs({**parms,'dbx':dbx})
+callFuncs(parms)
 
