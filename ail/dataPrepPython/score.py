@@ -66,7 +66,7 @@ def genScoresHelp(snp,trait,numSnps,numTraits,parms):
             mat[:,k]=val.astype('float16')
 
     print('writing ',snp,trait,flush=True)
-    
+    np.savetxt(local+name+'score/'+pre+'-'+snp+'-'+trait,mat,delimiter=',')
     DBWrite(mat,name+'score/'+pre+'-'+snp+'-'+trait,parms)
     
     return()
