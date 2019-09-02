@@ -31,7 +31,6 @@ def DBUpload(file,parms,toPickle):
         
 def DBIsFile(folder,file,parms):
     isFile=0
-    pdb.set_trace()
     try:
         res=parms['dbx'].files_list_folder(folder)
         repeat=True
