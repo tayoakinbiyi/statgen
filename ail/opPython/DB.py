@@ -37,7 +37,7 @@ def DBIsFile(folder,file,parms):
         repeat=False
         while repeat:
             repeat=res.has_more
-            isFile+=np.sum([(1 if x.name==file else 0) for x in res.entries]
+            isFile+=np.sum([(1 if x.name==file else 0) for x in res.entries])
             if repeat:
                 res=parms['dbx'].fildes_list_folder_continue(res.cursor)
     except dropbox.exceptions.ApiError as err:
