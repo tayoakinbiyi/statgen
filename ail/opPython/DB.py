@@ -5,6 +5,7 @@ import sys
 import pdb
 import datetime
 import time
+import numpy as np
 
 def DBWrite(data,path,parms,toPickle=True):   
     path=('/' if len(path)>0 else '')+path
@@ -29,12 +30,11 @@ def DBUpload(file,parms,toPickle):
     return()
         
 def DBIsFile(folder,file,parms):
-    path=('/' if len(path)>0 else '')+path
     isFile=0
     pdb.set_trace()
     try:
         res=parms['dbx'].files_list_folder(folder)
-        repeat=False
+        repeat=True
         while repeat:
             repeat=res.has_more
             isFile+=np.sum([(1 if x.name==file else 0) for x in res.entries])

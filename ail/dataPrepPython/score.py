@@ -23,7 +23,7 @@ def score(parms):
      
     for trait in traitChr:
         for snp in snpChr:
-            if DBIsFile(name+'score',pre+'-'+snp+'-'+trait,parms):
+            if DBIsFile('/'+name+'score',pre+'-'+snp+'-'+trait,parms):
                 print('found ',pre+'-'+snp+'-'+trait,flush=True)
                 continue
             genScoresHelp(snp,trait,sum(snpData['chr']==snp),sum(traitData['chr']==trait),parms)
