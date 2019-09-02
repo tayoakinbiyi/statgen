@@ -28,13 +28,17 @@ def callFuncs(parms):
     local=parms['local']
     name=parms['name']
     dbx=parms['dbx']
-    DBSyncLocal('data',parms)
 
     if not DBIsFile('',name[:-1],parms):
         dbx.files_create_folder('/'+name[:-1])
 
     if not os.path.exists(local+name+'process'):
         os.mkdir(local+name+'process')
+
+    if not os.path.exists(local+'data'):
+        os.mkdir(local+'data')
+
+    DBSyncLocal('data',parms)
 
     if parms['process']:
         print('process')
