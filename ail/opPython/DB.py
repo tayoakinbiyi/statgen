@@ -7,8 +7,12 @@ import datetime
 import time
 import numpy as np
 
+def DBCreateFolder(folder,parms):
+    dropbox.Dropbox(parms['dbToken']).files_create_folder(folder)
+    return()
+    
 def DBWrite(data,path,parms,toPickle=True):   
-    dbx=dropbox.Dropbox(parms['dbToken']).users_get_current_account()
+    dbx=dropbox.Dropbox(parms['dbToken'])
 
     path=('/' if len(path)>0 else '')+path
     if toPickle:
@@ -32,7 +36,7 @@ def DBUpload(file,parms,toPickle):
     return()
         
 def DBIsFile(folder,file,parms):
-    dbx=dropbox.Dropbox(parms['dbToken']).users_get_current_account()
+    dbx=dropbox.Dropbox(parms['dbToken'])
     isFile=0
     try:
         res=dbx.files_list_folder(folder)
@@ -49,7 +53,7 @@ def DBIsFile(folder,file,parms):
     return(isFile>0)
 
 def DBSyncLocal(folder,parms):
-    dbx=dropbox.Dropbox(parms['dbToken']).users_get_current_account()
+    dbx=dropbox.Dropbox(parms['dbToken'])
     local=parms['local']
     
     if not os.path.exists(local+folder):

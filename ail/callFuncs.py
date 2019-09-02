@@ -30,7 +30,7 @@ def callFuncs(parms):
     dbToken=parms['dbToken']
 
     if not DBIsFile('',name[:-1],parms):
-        dropbox.Dropbox(dbToken).users_get_current_account().files_create_folder('/'+name[:-1])
+        DBCreateFolder(folder,parms)
 
     if not os.path.exists(local+name+'process'):
         os.mkdir(local+name+'process')
