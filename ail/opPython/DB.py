@@ -28,15 +28,23 @@ def DBUpload(file,parms,toPickle):
     DBWrite(data,file,parms,toPickle)
     return()
         
-def DBIsFile(path,file,parms):
+def DBIsFile(folder,file,parms):
     path=('/' if len(path)>0 else '')+path
+    isFile=0
+    pdb.set_trace()
     try:
-        res=parms['dbx'].files_search(path,file,max_results=1,mode=dropbox.files.SearchMode('filename')).matches
+        res=parms['dbx'].files_list_folder(folder)
+        repeat=False
+        while repeat:
+            repeat=res.has_more
+            isFile+=np.sum([(1 if x.name==file else 0) for x in res.entries]
+            if repeat:
+                res=parms['dbx'].fildes_list_folder_continue(res.cursor)
     except dropbox.exceptions.ApiError as err:
         print(file,'error',flush=True)
         return(False)
     
-    return(len(res)>0)
+    return(isFile>0)
 
 def DBSyncLocal(folder,parms):
     local=parms['local']
