@@ -27,10 +27,10 @@ from ail.plotPython.zSquaredHists import *
 def callFuncs(parms):
     local=parms['local']
     name=parms['name']
-    dbx=parms['dbx']
+    dbToken=parms['dbToken']
 
     if not DBIsFile('',name[:-1],parms):
-        dbx.files_create_folder('/'+name[:-1])
+        dropbox.Dropbox(dbToken).users_get_current_account().files_create_folder('/'+name[:-1])
 
     if not os.path.exists(local+name+'process'):
         os.mkdir(local+name+'process')

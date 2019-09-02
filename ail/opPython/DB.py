@@ -8,12 +8,14 @@ import time
 import numpy as np
 
 def DBWrite(data,path,parms,toPickle=True):   
+    dbx=dropbox.Dropbox(parms['dbToken']).users_get_current_account()
+
     path=('/' if len(path)>0 else '')+path
     if toPickle:
         data=pickle.dumps(data)
     
     try:
-        res = parms['dbx'].files_upload(data, path, dropbox.files.WriteMode.overwrite,mute=True)
+        res = dbx.files_upload(data, path, dropbox.files.WriteMode.overwrite,mute=False)
     except dropbox.exceptions.ApiError as err:
         print('*** API error', err.user_message_text)
         sys.exit(1)
@@ -30,9 +32,10 @@ def DBUpload(file,parms,toPickle):
     return()
         
 def DBIsFile(folder,file,parms):
+    dbx=dropbox.Dropbox(parms['dbToken']).users_get_current_account()
     isFile=0
     try:
-        res=parms['dbx'].files_list_folder(folder)
+        res=dbx.files_list_folder(folder)
         repeat=True
         while repeat:
             repeat=res.has_more
@@ -46,8 +49,8 @@ def DBIsFile(folder,file,parms):
     return(isFile>0)
 
 def DBSyncLocal(folder,parms):
+    dbx=dropbox.Dropbox(parms['dbToken']).users_get_current_account()
     local=parms['local']
-    dbx=parms['dbx']
     
     if not os.path.exists(local+folder):
         os.mkdir(local+folder)

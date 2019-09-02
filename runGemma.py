@@ -41,9 +41,6 @@ print(name,np.array(opArgs)[args],flush=True)
 if not os.path.exists(local+name):
     os.mkdir(local+name)
 
-dbx = dropbox.Dropbox('YIjLc0Jkc2QAAAAAAAAELhNPLYwqK53qaNPZqrkPIgHhe6n--GwXZbmgkQwbOQMo')
-dbx.users_get_current_account()
-
 for arg in args:
     ops[opArgs[arg]]=True
 
@@ -99,6 +96,7 @@ parms={
     'traitChr':['chr'+str(x) for x in range(1,21)],
     'snpFile':'ail.genos.dosage.gwasSNPs.txt',
     'numDecScore':3,
+    'dbToken':'YIjLc0Jkc2QAAAAAAAAELhNPLYwqK53qaNPZqrkPIgHhe6n--GwXZbmgkQwbOQMo',
     **parmsAll[name]
 }
 
