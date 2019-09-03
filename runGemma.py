@@ -14,7 +14,6 @@ import argparse
 import dropbox
 
 from ail.callFuncs import *
-from ail.opPython.DB import *
 
 import json
     

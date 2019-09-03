@@ -30,7 +30,7 @@ def callFuncs(parms):
     dbToken=parms['dbToken']
 
     if not DBIsFile('',name[:-1],parms):
-        DBCreateFolder(folder,parms)
+        DBCreateFolder(name[:-1],parms)
 
     if not os.path.exists(local+name+'process'):
         os.mkdir(local+name+'process')
