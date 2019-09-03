@@ -7,64 +7,80 @@ import datetime
 import time
 import numpy as np
 
-def DBCreateFolder(folder,parms):
-    dropbox.Dropbox(parms['dbToken']).files_create_folder(folder)
+def DBCreateFolder(path,parms):
+    dropbox.Dropbox(parms['dbToken']).files_create_folder(path)
     return()
     
 def DBWrite(data,path,parms,toPickle=True):   
     dbx=dropbox.Dropbox(parms['dbToken'])
+    if path='/'+path
 
-    path=('/' if len(path)>0 else '')+path
     if toPickle:
         data=pickle.dumps(data)
     
+    size = len(data)
+
+    chunkSize = 1024 * 1024
+
     try:
-        res = dbx.files_upload(data, path, dropbox.files.WriteMode.overwrite,mute=False)
+        if size <= chunkSize:
+            dbx.files_upload(data, path, dropbox.files.WriteMode.overwrite,mute=False)
+        else:
+            upload_session_start_result = dbx.files_upload_session_start(data[:chunkSize])
+            
+            cursor = dropbox.files.UploadSessionCursor(session_id=upload_session_start_result.session_id,offset=chunkSize)
+            commit = dropbox.files.CommitInfo(path=path)
+
+            while ((size - cursor.offset) < chunkSize):
+                dbx.files_upload_session_append_v2(data[cursor.offset:cursor.offSet+chunkSize], cursor)
+                cursor.offset += chunkSize
+                
+            dbx.files_upload_session_finish(data[cursor.offset:],cursor,commit)
     except dropbox.exceptions.ApiError as err:
         print('*** API error', err.user_message_text)
         sys.exit(1)
         
     return()
 
-def DBUpload(file,parms,toPickle):
+def DBUpload(path,parms,toPickle):
     local=parms['local']
     
-    with open(local+file, 'rb') as f:
+    with open(local+path, 'rb') as f:
         data = f.read()
     
-    DBWrite(data,file,parms,toPickle)
+    DBWrite(data,path,parms,toPickle)
     return()
         
-def DBIsFile(folder,file,parms):
+def DBIsFile(path,file,parms):
     dbx=dropbox.Dropbox(parms['dbToken'])
     isFile=0
     try:
-        res=dbx.files_list_folder(folder)
+        res=dbx.files_list_folder(path)
         repeat=True
         while repeat:
             repeat=res.has_more
             isFile+=np.sum([(1 if x.name==file else 0) for x in res.entries])
             if repeat:
-                res=parms['dbx'].fildes_list_folder_continue(res.cursor)
+                res=parms['dbx'].files_list_folder_continue(res.cursor)
     except dropbox.exceptions.ApiError as err:
         print(file,'error',flush=True)
         return(False)
     
     return(isFile>0)
 
-def DBSyncLocal(folder,parms):
+def DBSyncLocal(path,parms):
     dbx=dropbox.Dropbox(parms['dbToken'])
     local=parms['local']
     
-    if not os.path.exists(local+folder):
-        os.mkdir(local+folder)
+    if not os.path.exists(local+path):
+        os.mkdir(local+path)
     
-    for file in [x.name for x in dbx.files_list_folder('/'+folder).entries]:
-        if os.path.isfile(local+folder+'/'+file):
+    for file in [x.name for x in dbx.files_list_folder(path).entries]:
+        if os.path.isfile(local+path+'/'+file):
             continue
-        print('syncing /'+folder+'/'+file,flush=True)
+        print('syncing /'+path+'/'+file,flush=True)
         try:
-            dbx.files_download_to_file(local+folder+'/'+file,'/'+folder+'/'+file)
+            dbx.files_download_to_file(local+path+'/'+file,'/'+path+'/'+file)
         except dropbox.exceptions.ApiError as err:
             print('*** API error', err.user_message_text)
             sys.exit(1)
