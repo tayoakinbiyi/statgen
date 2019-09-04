@@ -30,15 +30,9 @@ ops={
 }
 opArgs=list(ops.keys())
 
-names=['natalia/','remPCExprAndSnp/','remPCJustTrait/']
 parmsAll={}
 
-name=names[int(input(str(names)+' : '))]
 args=[int(x) for x in input(str(opArgs)+': ').split(' ')]
-
-print(name,np.array(opArgs)[args],flush=True)
-if not os.path.exists(local+name):
-    os.mkdir(local+name)
 
 for arg in args:
     ops[opArgs[arg]]=True
@@ -53,7 +47,24 @@ parmsAll['natalia/']={
     'CovIsPreds':True,
     'remCovFromTraits':False,
     'grmParm':'c',
-    'wald':False
+    'wald':False,
+    'subsetFirstGRM':True,
+    'traitChr':['chr'+str(x) for x in range(1,2)]
+}
+
+parmsAll['nataliaFullGRM/']={
+    'response':'hipExp',
+    'quantNormalizeExpr':False,
+    'remPCFromSnp':False,
+    'remPCFromTraits':False,
+    'remPCCorrSnp':False,
+    'PCIsPreds':False,
+    'CovIsPreds':True,
+    'remCovFromTraits':False,
+    'grmParm':'c',
+    'wald':False,
+    'subsetFirstGRM':False,
+    'traitChr':['chr'+str(x) for x in range(1,2)]
 }
 
 parmsAll['remPCExprAndSnp/']={
@@ -66,7 +77,8 @@ parmsAll['remPCExprAndSnp/']={
     'CovIsPreds':False,
     'remCovFromTraits':True,
     'grmParm':'s',
-    'wald':False
+    'wald':True,
+    'subsetFirstGRM':False
 }
 
 parmsAll['remPCJustTrait/']={
@@ -79,10 +91,16 @@ parmsAll['remPCJustTrait/']={
     'CovIsPreds':False,
     'remCovFromTraits':True,
     'grmParm':'s',
-    'wald':False
+    'wald':True,
+    'subsetFirstGRM':False
 }
 
 #########################################################################################33
+
+names=list(parmsAll.keys())
+name=names[int(input(str(names)+' : '))]
+
+print(name,np.array(opArgs)[args],flush=True)
 
 parms={
     **ops,

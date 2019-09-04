@@ -15,6 +15,10 @@ def process(parms):
     response=parms['response']
     name=parms['name']
     local=parms['local']
+    subsetFirstGRM=parms['subsetFirstGRM']
+    
+    snpChr=parms['snpChr']
+    traitData=parms['traitChr']
     
     DBSyncLocal('data',parms)
 
@@ -42,8 +46,21 @@ def process(parms):
     snps.columns=np.append(['chr','Mbp','minor','major'],allIds)
     snpData=snps[['chr','Mbp']]
     snps.loc[:,'Mbp']=range(len(snps))
+    snpsFull=snps.drop(columns='chr')
     snps=snps[np.append(['Mbp','minor','major'],mouseIds)]
-    
+        
+    for snp in snpChr:
+        if subsetFirstGRM:
+            np.savetxt(local+name+'process/dummy.txt',np.ones([len(mouseIds),1]),delimiter='\t')
+            DBUpload(name+'process/dummy.txt',parms,toPickle=False)
+            genGRMHelp(snp,snps[snpData['chr']!=snp],parms)
+        else:
+            mouseLoc=pd.DataFrame({'mouseIds':mouseIds}).merge(pd.DataFrame({'mouseIds':allIds,'loc':range(len(allIds))}),
+                on='mouseIds')['loc'].values.reshape(-1,1)
+            np.savetxt(local+name+'process/dummy.txt',np.ones([len(allIds),1]),delimiter='\t')
+            DBUpload(name+'process/dummy.txt',parms,toPickle=False)
+            genGRMHelp(snp,snpsFull[snpData['chr']!=snp],parms,mouseLoc=mouseLoc)            
+
     traitData=pd.DataFrame({'trait':mouseGenes['gene_name'],'chr':'chr'+mouseGenes['chrom'].astype(str),
         'Mbp':(mouseGenes['cds_start']+mouseGenes['cds_end'])/2})
     
@@ -63,14 +80,7 @@ def process(parms):
     if remCovFromTraits:
         reg=MultiOutputRegressor(LinearRegression(fit_intercept=False),n_jobs=-1).fit(covariates,traits)
         traits=(traits-reg.predict(covariates))    
-    
-    np.savetxt(local+name+'process/dummy.txt',np.ones([len(mouseIds),1]),delimiter='\t')
-    DBUpload(name+'process/dummy.txt',parms,toPickle=False)
-        
-    print('start grm creation',flush=True)
-    for snp in parms['snpChr']:
-        genGRMHelp(snp,snps[snpData['chr']!=snp],parms)
-
+            
     print('grm finished',flush=True)
     U,D,Vt=np.linalg.svd(traits)
     PCs=np.concatenate([np.ones([len(traits),1]),U[:,0:numPCs]],axis=1)
@@ -110,7 +120,7 @@ def process(parms):
 
     DBWrite(traitData,name+'process/traitData',parms)
 
-    for trait in parms['traitChr']:
+    for trait in traitChr:
         np.savetxt(local+name+'process/pheno-'+trait+'.txt',traits[:,traitData['chr']==trait],delimiter='\t')      
         DBUpload(name+'process/pheno-'+trait+'.txt',parms,toPickle=False)
                     
@@ -122,7 +132,7 @@ def process(parms):
         
     return()
 
-def genGRMHelp(snp,snps,parms):
+def genGRMHelp(snp,snps,parms,mouseLoc=None):
     local=parms['local']
     name=parms['name']
     grmParm=parms['grmParm']
@@ -138,8 +148,14 @@ def genGRMHelp(snp,snps,parms):
         '-o','grm-'+snp,'-p',local+name+'process/dummy.txt'])
 
     # move grm to scratch
-    os.rename('output/grm-'+snp+'.'+grmParm+'XX.txt',local+name+'process/grm-'+snp+'.txt')
-
     os.remove('geno-grm-'+snp+'.txt')
+    
+    os.rename('output/grm-'+snp+'.'+grmParm+'XX.txt',local+name+'process/grm-'+snp+'.txt')
+    if mouseLoc is not None:
+        np.savetxt(local+name+'process/grm-'+snp+'.txt',np.loadtxt(local+name+'process/grm-'+snp+'.txt',
+            delimiter='\t')[mouseLoc,mouseLoc.T],delimiter='\t')
+        
     DBUpload(name+'process/grm-'+snp+'.txt',parms,toPickle=False)
-    #os.remove('output/grm-'+snp+'.log.txt')    
+    os.remove(local+name+'process/grm-'+snp+'.txt')
+
+    return()

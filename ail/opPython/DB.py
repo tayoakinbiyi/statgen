@@ -8,8 +8,20 @@ import time
 import numpy as np
 
 def DBCreateFolder(path,parms):
-    dropbox.Dropbox(parms['dbToken']).files_create_folder(path)
+    dropbox.Dropbox(parms['dbToken']).files_create_folder('/'+path)
     return()
+
+def DBRead(path,parms,toPickle=True):
+    path=('/'+path if len(path)>0 else path)
+    dbx=dropbox.Dropbox(parms['dbToken'])
+    
+    md, data=dbx.files_download(path)
+    
+    if toPickle:
+        data=pickle.loads(data.content)
+    
+    return(data)
+        
     
 def DBWrite(data,path,parms,toPickle=True): 
     path=('/'+path if len(path)>0 else path)
@@ -22,23 +34,19 @@ def DBWrite(data,path,parms,toPickle=True):
 
     chunkSize = 50*1024 * 1024
 
-    try:
-        if size <= chunkSize:
-            dbx.files_upload(data, path, mode=dropbox.files.WriteMode.overwrite,mute=False)
-        else:
-            upload_session_start_result = dbx.files_upload_session_start(data[:chunkSize])
-            
-            cursor = dropbox.files.UploadSessionCursor(session_id=upload_session_start_result.session_id,offset=chunkSize)
-            commit = dropbox.files.CommitInfo(path=path,mode=dropbox.files.WriteMode.overwrite)
+    if size <= chunkSize:
+        dbx.files_upload(data, path, mode=dropbox.files.WriteMode.overwrite,mute=False)
+    else:
+        upload_session_start_result = dbx.files_upload_session_start(data[:chunkSize])
 
-            while ((size - cursor.offset) > chunkSize):
-                dbx.files_upload_session_append_v2(data[cursor.offset:cursor.offset+chunkSize], cursor)
-                cursor.offset += chunkSize
-                
-            dbx.files_upload_session_finish(data[cursor.offset:],cursor,commit)
-    except dropbox.exceptions.ApiError as err:
-        print('*** API error', err.user_message_text)
-        sys.exit(1)
+        cursor = dropbox.files.UploadSessionCursor(session_id=upload_session_start_result.session_id,offset=chunkSize)
+        commit = dropbox.files.CommitInfo(path=path,mode=dropbox.files.WriteMode.overwrite)
+
+        while ((size - cursor.offset) > chunkSize):
+            dbx.files_upload_session_append_v2(data[cursor.offset:cursor.offset+chunkSize], cursor)
+            cursor.offset += chunkSize
+
+        dbx.files_upload_session_finish(data[cursor.offset:],cursor,commit)
         
     return()
 
@@ -55,11 +63,7 @@ def DBIsFile(path,file,parms):
     path=('/'+path if len(path)>0 else path)
     dbx=dropbox.Dropbox(parms['dbToken'])
 
-    try:
-        res=(file in [x.name for x in dbx.files_list_folder(path).entries])
-    except dropbox.exceptions.ApiError as err:
-        print(file,'error',flush=True)
-        return(False)
+    res=(file in [x.name for x in dbx.files_list_folder(path).entries])
     
     return(res)
 
@@ -74,11 +78,7 @@ def DBSyncLocal(path,parms):
         if os.path.isfile(local+path+'/'+file):
             continue
         print('syncing /'+path+'/'+file,flush=True)
-        try:
-            dbx.files_download_to_file(local+path+'/'+file,'/'+path+'/'+file)
-        except dropbox.exceptions.ApiError as err:
-            print('*** API error', err.user_message_text)
-            sys.exit(1)
+        dbx.files_download_to_file(local+path+'/'+file,'/'+path+'/'+file)
             
     return()
 

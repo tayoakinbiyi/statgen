@@ -18,13 +18,11 @@ def score(parms):
 
     snpData=DBLocalRead(name+'process/snpData',parms)
     traitData=DBLocalRead(name+'process/traitData',parms)
-
-    pre=('z' if parms['wald'] else 'p')
      
     for trait in traitChr:
         for snp in snpChr:
-            if DBIsFile(name+'score',pre+'-'+snp+'-'+trait,parms):
-                print('found ',pre+'-'+snp+'-'+trait,flush=True)
+            if DBIsFile(name+'score','p-'+snp+'-'+trait,parms):
+                print('found ','p-'+snp+'-'+trait,flush=True)
                 continue
             genScoresHelp(snp,trait,sum(snpData['chr']==snp),sum(traitData['chr']==trait),parms)
         
@@ -35,10 +33,9 @@ def genScoresHelp(snp,trait,numSnps,numTraits,parms):
     local=parms['local']
     name=parms['name']
     
-    pre=('z' if parms['wald'] else 'p')
     pval='1' if parms['wald'] else '2'
     
-    DBWrite(np.array([]),name+'score/'+pre+'-'+snp+'-'+trait,parms)
+    DBWrite(np.array([]),name+'score/p-'+snp+'-'+trait,parms)
     
     print('starting ',snp,trait,flush=True)
 
@@ -67,8 +64,7 @@ def genScoresHelp(snp,trait,numSnps,numTraits,parms):
 
     print('writing ',snp,trait,flush=True)
     
-    DBLocalWrite(mat,name+'score/'+pre+'-'+snp+'-'+trait,parms)
-    DBWrite(mat,name+'score/'+pre+'-'+snp+'-'+trait,parms)
+    DBWrite(mat,name+'score/p-'+snp+'-'+trait,parms)
     
     return()
     
