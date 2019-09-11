@@ -1,83 +1,125 @@
 import pandas as pd
 import numpy as np
+import os
+import pdb
 from scipy.stats import norm
+from collections import Counter
+from concurrent.futures import ProcessPoolExecutor, wait, ALL_COMPLETED, FIRST_COMPLETED
+from python.lmm import *
 
-# this function estimates the pval for each test stat for each snp
-def getPVals(L,sigma,zeta,ggnullDat,ghcDat,parms):
-    H0=parms['H0']
-    mu=parms['mu']
-    eps=parms['eps']
-    eqtlFreq=parms['eqtlFreq']
-    maxH0Block=float(parms['maxH0Block'])
-    statNames=parms['statNames']
-    pvalMax=parms['pvalMax']
-    snpChr=parms['snpChr']
-    cpus=parms['cpus']
-    scratchDir=parms['scratchDir']
-    
-    stats.to_csv(scratchDir+'stats-'+str(mu)+'-'+str(eps)+'-'+freq+'.csv',index=False)
-    fail.to_csv(scratchDir+'fail-'+str(mu)+'-'+str(eps)+'-'+freq+'.csv',index=False)    
-    
-    for snp in snpChr:
-        z=pd.DataFrame(index=pd.MultiIndex.from_tuples(snpData[snpData['chr']==snp].values.tolist(),
-            names=['chr','Mbp']),columns=pd.MultiIndex.from_tuples(traitData.values.tolist(),
-            names=['trait','chr','Mbp']),dtype='float16')
-        
-        for trait in traitChr:
-            z.loc[:,snpData['chr']==trait]=pd.read_csv(scratchDir+'null-z-'+snp+'-'+trait+'.csv',index_col=[0,1],header=[0,1,2])
-        
-        t_statsH1,t_failH1=fitStats(ggnullDat,ghcDat,sigmaHat,z,parms) # snpLen X |X|
-        
-        with ProcessPoolExecutor(cpus) as executor: 
-            for stat in statNames:
-                futures.append(executor.submit(
-                    lambda statsH0,statsH1,stat: (statsH0.searchsorted(statsH1).values.flatten()/float(H0),stat,True),
-                    statsH0[stat],statsH1Eqtl[stat],stat))                          
+home='/phddata/akinbiyi/'
+#home='/home/akinbiyi/'
+genPC=False
+GRM=False
 
-                futures.append(executor.submit(
-                    lambda statsH0,statsH1,stat: (statsH0.searchsorted(statsH1).values.flatten()/float(H0),stat,False),
-                    statsH0[stat],statsH1NoEqtl[stat],stat))                          
 
-            for f in as_completed(futures):
-                ans=f.result()
+files={
+    'dataDir':home+'ail/data/',
+    'scratchDir':home+'ail/scratch/',
+    'gemma':home+'ail/gemma'
+}
+numPCs=10
 
-                j=0
-                pval=ans[j];j+=1
-                stat=ans[j];j+=1
-                eqtl=ans[j];j+=1
 
-                pvalsEqtl[stat]=pval
+#load raw files
+dataDir=files['dataDir']
+scratchDir=files['scratchDir']
+
+genPC=False
+GRM=False
+doLMM=True
+
+# snps.txt
+print('load raw')
+snps=pd.read_csv(dataDir+'ail.genos.dosage.gwasSNPs.txt',sep='\t',header=None,index_col=None)
+preds=pd.read_csv(dataDir+'ail.phenos.final.txt',sep='\t',header=0,index_col=0)
+expr=pd.read_csv(dataDir+'hipNormCounts.expr.txt',sep='\t',index_col=0,header=0)
+
+print('traitInfo')
+traitInfo=pd.read_csv(dataDir+'traitInfo.csv',header=0,index_col=None)
+tab=pd.DataFrame(Counter(traitInfo.trait.values),index=[0]).T
+tab=tab[tab[0]>1]
+dups=tab.index.values.flatten()
+traitInfo=traitInfo[~traitInfo.trait.isin(dups)]
+
+print('get ids')
+# get chromosome of each trait
+traitChr=pd.DataFrame({'trait':expr.columns}).merge(traitInfo,on='trait')
+expr=expr[traitChr.trait]
+
+# get list of person IDs
+allIds=preds.index.values.flatten().tolist()
+exprIds=expr.index.values.flatten().tolist()
+
+# format SNP file
+snps.columns=['chr','snpId','minor','major']+allIds
+snpChr=snps['chr'].values.flatten()
+snpId=snps['snpId'].values.flatten()
+snps.drop(columns='chr',inplace=True)
+snps=snps[['snpId','minor','major']+exprIds]
+
+if genPC:
+    # recover sex and batch data
+    print('prep covs')
+    preds =preds.loc[exprIds,['sex','batch']]
+    preds.insert(0,'intercept',1)
+
+    # quantile normalize expr data
+    print('quant normalize')
+    ranks=expr.rank(axis=0,method='average')/(len(expr)+1)
+    expr=ranks.apply(norm.ppf,axis=0)
+
+    # remove sex and batch
+    print('remove batch, sex')
+    XtX=preds.T.dot(preds)               
+    XtXinv=pd.DataFrame(np.linalg.pinv(XtX.values), index=preds.columns,columns=preds.columns)
+    hat=preds.dot(XtXinv).dot(preds.T).dot(expr)
+    expr=(expr-hat)
+
+    # generate PCs
+    print('generate PCs')
+    U,D,Vt=np.linalg.svd(expr.values)
+    PCs=pd.DataFrame(U[:,0:numPCs],columns=range(numPCs),index=expr.index)
+    PCs.insert(0,'intercept',1)
+
+    # write covariate data to file
+    print('write PCs to file')
+    PCs.to_csv(scratchDir+'PC.txt',header=False,index=False,sep='\t')
+    expr.to_csv(scratchDir+'pheno.txt',sep='\t',index=False,header=False)
+
+if GRM:
+    # set the current directory
+    os.chdir(scratchDir)
+
+    print('generate grm and genome files')
+    for ch in set(snpChr):
+        snps[snpChr!=ch].to_csv('geno.txt',sep=' ',index=False,header=False)
+
+        # generate loco
+        subprocess.run([files['gemma'],'-g','geno.txt','-p','pheno.txt','-gk','2','-o','grm-'+str(ch)])
+
+        # move grm to scratch
+        os.rename('output/grm-'+str(ch)+'.sXX.txt','grm-'+str(ch)+'.sXX.txt')
+
+        # write chr gene file
+        snps[snpChr==ch].to_csv('geno-'+str(ch)+'.txt',sep=' ',index=False,header=False)
     
-def getPValsHelp(statsH0,statsH1,stat:
-    val=statsH0.searchsorted(statsH1)
-    val[val==len(statsH0)-1]=H0
-    val=val.values.flatten()/float(H0)
-    
-    return(val,
-                 ,stat,True),
-                    statsH0[stat],statsH1Eqtl[stat],stat)        
-    statsH1Eqtl=stats[zeta==1].apply(lambda x: x.sort_values(),axis=0).reset_index()
-    statsH1NoEqtl=stats[zeta==0].apply(lambda x: x.sort_values(),axis=0).reset_index()
-    
+# create dataframe to hold all pvals
+#traitChr=traitChr.iloc[0:3,:]
+allRes=pd.DataFrame(columns=pd.MultiIndex.from_tuples(traitChr.values.tolist(),names=['trait','chr','Mbp']))
+
+# oneChrFunc('chr1',snpChr,snpId,snps,traitChr,files)
+# pdb.set_trace()
+
+# loop through traits and chromosomes
+if doLMM:
+    print('future loop')
+    os.chdir(scratchDir)
     futures=[]
-    pvalsEqtl=pd.DataFrame(columns=statNames,index=range(len(statsH1Eqtl)))
-    pvalsNoEqtl=pd.DataFrame(columns=statNames,index=range(len(statsH1NoEqtl)))
-        
-            
-    pvalsEqtl.index=0
-    pvalsEqtl=pd.DataFrame({'mu':mu,'eps':eps,'freq':freq},index=[0]).merge(pvalsEqtl,left_index=True,
-        right_index=True).reset_index()
-
-    pvalsNoEqtl.index=0
-    pvalsNoEqtl=pd.DataFrame({'mu':mu,'eps':eps,'freq':freq},index=[0]).merge(pvalsNoEqtl,left_index=True,
-        right_index=True).reset_index()
-
-    fail=pd.concat(
-        pd.DataFrame({'mu':mu,'eps':eps,'freq':freq,'H0',True,'type':'avg',**failH0.mean(axis=0).to_dict()},index=[0]),
-        pd.DataFrame({'mu':mu,'eps':eps,'freq':freq,'H0',True,'type':'all',**(failH0==0).mean(axis=0).to_dict()},index=[0]),
-        pd.DataFrame({'mu':mu,'eps':eps,'freq':freq,'H0',False,'type':'avg',**failH1.mean(axis=0).to_dict()},index=[0]),
-        pd.DataFrame({'mu':mu,'eps':eps,'freq':freq,'H0',False,'type':'all',**(failH1==0).mean(axis=0).to_dict()},index=[0]),
-        axis=0).reset_index()
     
-    return(pvalsEqtl,pvalsNoEqtl,failH0,failH1)
+    with ProcessPoolExecutor(5) as executor: 
+        for ch in set(snpChr):
+            futures.append(executor.submit(lmm,ch,snpId[snpChr==ch],traitChr,files))
+
+    wait(futures,return_when=ALL_COMPLETED)
 

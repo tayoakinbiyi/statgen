@@ -11,7 +11,7 @@ def DBCreateFolder(path,parms):
     dropbox.Dropbox(parms['dbToken']).files_create_folder('/'+path)
     return()
 
-def DBRead(path,parms,toPickle=True):
+def DBRead(path,parms,toPickle):
     path=('/'+path if len(path)>0 else path)
     dbx=dropbox.Dropbox(parms['dbToken'])
     
@@ -23,7 +23,7 @@ def DBRead(path,parms,toPickle=True):
     return(data)
         
     
-def DBWrite(data,path,parms,toPickle=True): 
+def DBWrite(data,path,parms,toPickle): 
     path=('/'+path if len(path)>0 else path)
     dbx=dropbox.Dropbox(parms['dbToken'])
 

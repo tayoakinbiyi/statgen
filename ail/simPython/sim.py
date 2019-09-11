@@ -28,88 +28,6 @@ def powerMat(dat,alpha):
             fail=fail.drop(labels=fail.columns[fail.columns.str.contains('level')],axis=1)
         
     return power,fail
-'''
-,globals:
-muList=sequence from 1 to 2 with 5 increments, which is the list of mu to evaluate the power
-epsilonList= sequence from 20/16000 to 500/16000 in 5 increments
-pList=sequence from .0001 to .001 with 5 increments
-
-C_power  = .01 # pval cutoff for power calculations
-C_genome = 5*10-6 # pval cutoff genome wide
-
-expr_n = vector of original expression levels of gene g across mice
-snp_k is genotype vector for snp k across all mice
-
-X = {gbj, ELL,...,GHC,...,FDR, minP}
-f_x(Z,sigma) = function that returns test statistic x in X for the z scores for a given snp Z
-
-J=50,000 # the number of null distribution reps used in power simulations
-N=16,000
-K=523,000
-
-
-
-
-
-# this function estimates the power of each test stat x in X
-findPower({zeta_k : k=1,...,K}, {P_kx : k=1,...,K  x in X}, C)
-{
-# power_x is the power of stat x 
-power_x = (1/|{k : \zeta_k=1}|)\sum_{k : \zeta_k=1}I[P_kx<=C , x in X
-
-# Type1_x is the type 1 error rate of stat x 
-Type1_x = (1/|{k : \zeta_k=0}|)\sum_{k : \zeta_k=0}I[P_kx<=C] , x in X
-
-return {power_x : x in X} , {Type1_x : x in X}
-
-    fail=pd.concat(
-        pd.DataFrame({'mu':mu,'eps':eps,'freq':freq,'H0',True,'type':'avg',**failH0.mean(axis=0).to_dict()},index=[0]),
-        pd.DataFrame({'mu':mu,'eps':eps,'freq':freq,'H0',True,'type':'all',**(failH0==0).mean(axis=0).to_dict()},index=[0]),
-        pd.DataFrame({'mu':mu,'eps':eps,'freq':freq,'H0',False,'type':'avg',**failH1.mean(axis=0).to_dict()},index=[0]),
-        pd.DataFrame({'mu':mu,'eps':eps,'freq':freq,'H0',False,'type':'all',**(failH1==0).mean(axis=0).to_dict()},index=[0]),
-        axis=0).reset_index()
-    
-}
-
-# generate z scores from original AIL data and estimate correlation across genes
-sigmaOrig, {Z_k : k=1,...,K}=genZScore({expr_n : n=1,...,N}, {snp_k : k =1,...,K})
-
-# estimate pval for each stat for each snp k
-{P_kx : k=1,...,K , x in X}=calcPval(sigmaOrig, {Z_k : k=1,...,K})
-
-# eqtl_k=1 if snp k is deemed an eqtl for some gene, and 0 otherwise
-eqtl_k=I[ min{P_kx : x in X} <= C_genome], k=1,...,K
-
-# create power and type 1 error estimates
-for mu, epsilon, p in muList x epsilonList x pList:
-{
-# generate the simulated Dataset, i.e. simulating the Z-scores from ail mouse data
-{zeta_k: k=1,..,K}, hat{sigma}, {Z_k: k=1,...,K} = genDataSet(sigmaOrig, epsilon, p, mu)
-
-# estimate pval for each stat for each snp k
-{P_kx : k=1,...,K , x in X}=calcPval(sigma, {Z_k : k=1,...,K})
-
- # estimate the power and type 1 error for 
-{power_x : x in X}, {Type1_x : x in X}=findPower({zeta_k : k=1,...,K}, {P_kx : k=1,...,K  x in X}, C_power)
-
-{power_mu,epsilon,p,x : x in X}={power_x : x in X}
-{Type1_mu,epsilon,p,x : x in X}={Type1_x : x in X}
-}
-'''
-
-# this function generates a simulated origin dataset (i.e simulating the observed Z scores from 
-# AIL dataset)
-# as well as generating the estimated Var of z scores across traits for a given snp (i.e. sigma)
-# sigma is sigma of z scores across traits for a given snp
-# epsilon is percentage of traits snp is an eqtl for
-# p is prob a snp is an eqtl for any trait
-# mu is the mean of z scores for traits where the snp is an eqtl
-
-
-    sigmaHat=genCorr('',{**files,'scratchDir':scratchDir+'null-'})
-    ggnullDat,ghcDat=makeProb(L,files)
-    
-
                                                      
 def sim(parms):
     maxPower=1000
@@ -124,7 +42,7 @@ def sim(parms):
     
     t0=time.time()
     
-    ggnullDat,ghcDat=makeProb(L,parms)
+    ggnullDat=makeProb(L,parms)
     print('makeProb',round((time.time()-t0),2))
     
     if parms['new']:

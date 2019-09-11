@@ -6,23 +6,21 @@ import sys
 import matplotlib.pyplot as plt
 from concurrent.futures import ProcessPoolExecutor, wait, ALL_COMPLETED, FIRST_COMPLETED
 import numpy as np
+
 from ail.genPython.makePSD import *
+from ail.opPython.DB import *
 
 def genCorr(trait,parms):
-    scratchDir=parms['scratchDir']
+    name=parms['name']
     traitChr=parms['traitChr']
     
-    traitData=pd.read_csv(scratchDir+'traitData.csv')
+    traitData=DBRead(name+'process/traitData',parms,toPickle=True)
     traitData=traitData[traitData['chr']!=trait]    
 
-    if os.path.isfile(scratchDir+'corr-'+trait+'.csv'):
-        corr=np.loadtxt(scratchDir+'corr-'+trait+'.csv',delimiter=',')
-        return(corr)
+    if DBIsFile(name+name+'process/','LZCorr-'+trait,parms):
+        return()
     
     corr=np.empty([traitData.shape[0],traitData.shape[0]])
-
-    if os.path.isfile(scratchDir+'corr-'+trait+'.csv'):
-        return()
 
     for i in range(len(traitChr)):
         for j in range(i,len(traitChr)):
@@ -34,8 +32,7 @@ def genCorr(trait,parms):
             xLoc=np.arange(len(traitData))[(traitData['chr']==traitChr[i]).values.flatten()]
             yLoc=np.arange(len(traitData))[(traitData['chr']==traitChr[j]).values.flatten()]
 
-            df=np.loadtxt(scratchDir+'corr-'+traitChr[i]+'-'+traitChr[j]+'.csv',delimiter=',')
-            #pdb.set_trace()
+            df=DBRead(name+'process/corr-'+traitChr[i]+'-'+traitChr[j],parms,toPickle=True)
             corr[xLoc.reshape(-1,1),yLoc]=df
 
             if i!=j:
@@ -43,9 +40,8 @@ def genCorr(trait,parms):
     
         np.fill_diagonal(corr, 1)
         
-    L=makePSD(corr)
-    corr=np.matmul(L,L.T)  
+    LZCorr=makePSD(corr)
     
-    np.savetxt(scratchDir+'corr-'+trait+'.csv',corr,delimiter=',')
-    print('return')
-    return(corr)
+    DBWrite(LZCorr,name+'process/LZCorr-'+trait,toPickle=True)
+
+    return()

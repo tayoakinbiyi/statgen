@@ -18,12 +18,13 @@ def score(parms):
 
     snpData=DBLocalRead(name+'process/snpData',parms)
     traitData=DBLocalRead(name+'process/traitData',parms)
-     
+    genScoresHelp('chr18','chr1',sum(snpData['chr']=='chr18'),sum(traitData['chr']=='chr1'),parms)
+    pdb.set_trace()
     for trait in traitChr:
         for snp in snpChr:
             if DBIsFile(name+'score','p-'+snp+'-'+trait,parms):
                 print('found ','p-'+snp+'-'+trait,flush=True)
-                continue
+                #continue
             genScoresHelp(snp,trait,sum(snpData['chr']==snp),sum(traitData['chr']==trait),parms)
         
     return()
@@ -42,11 +43,11 @@ def genScoresHelp(snp,trait,numSnps,numTraits,parms):
     mat=np.empty([numSnps,numTraits])
     
     futures=[]
-    #ans=gemma('chr1','chr1',1,preds,pval,local+name,parms['wald'])
-    #pdb.set-trace()
+    ans=gemma('chr18','chr1',19,pval,local,name,parms['wald'])
+    pdb.set_trace()
     with ProcessPoolExecutor(parms['cpu']) as executor: 
         for k in range(numTraits):
-            futures.append(executor.submit(gemma,snp,trait,k,pval,local+name,parms['wald']))
+            futures.append(executor.submit(gemma,snp,trait,k,pval,local,name,parms['wald']))
 
         for f in as_completed(futures):
             ans=f.result()
@@ -68,13 +69,18 @@ def genScoresHelp(snp,trait,numSnps,numTraits,parms):
     
     return()
     
-def gemma(snp,trait,k,pval,path,wald):
-    subprocess.run(['./gemma','-g',path+'process/geno-'+snp+'.txt','-p',path+'process/pheno-'+trait+'.txt',
-        '-lmm',pval,'-o','z-'+snp+'-'+trait+'-'+str(k+1),'-k',path+'process/grm-'+snp+'.txt','-n',str(k+1),
-        '-no-check','-silence','-notsnp','-c',path+'process/preds.txt']) 
+def gemma(snp,trait,k,pval,local,name,wald):
+    path=local+name
+    if name=='natalia/':
+        snp='chr1'
+    cmd=['./gemma','-g',path+'process/geno-'+snp+'.txt','-p',path+'process/pheno-'+trait+'.txt',
+        '-lmm',pval,'-o',name[:-1]+'-'+snp+'-'+trait+'-'+str(k+1),'-k',path+'process/grm-'+snp+'.txt','-n',str(k+1),
+        '-c',path+'process/preds.txt']
+    print(' '.join(cmd),flush=True)
+    subprocess.run(cmd) 
 
-    df=pd.read_csv('output/z-'+snp+'-'+trait+'-'+str(k+1)+'.assoc.txt',sep='\t')
-    os.remove('output/z-'+snp+'-'+trait+'-'+str(k+1)+'.assoc.txt')
+    df=pd.read_csv('output/'+name[:-1]+'-'+snp+'-'+trait+'-'+str(k+1)+'.assoc.txt',sep='\t')
+    os.remove('output/'+name[:-1]+'-'+snp+'-'+trait+'-'+str(k+1)+'.assoc.txt')
     
     if wald:
         return(k,(df['beta']/df['se']).values.flatten(),snp,trait)

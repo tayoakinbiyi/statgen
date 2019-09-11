@@ -1,32 +1,51 @@
-import pandas as pd
 import numpy as np
+import pandas as pd
+import gc
+from multiprocessing import Pool, cpu_count, freeze_support, set_start_method
+import random
+import pdb
 from scipy.stats import norm, beta
-from concurrent.futures import ProcessPoolExecutor, wait, FIRST_COMPLETED
+import psutil
+import time
 
-from python.myMath import *
+from python.myStats import *
+from python.ghc import *
+from python.ggnull import *
+from python.gbj import *
 
-def myStats(z,parms):
+def fitMCMCStats(z,N,parms):
     cpus=parms['cpus']
-    Reps,N=z.shape
-    d=int(N/2)
-    
-    z=-np.sort(-np.abs(z))[:,0:d]
-    
+
+    stat=pd.DataFrame()
+        
+    statELL=ELL(z,parms) # load ggNullDat from parms
+    stat.insert(stat.shape[1],'ELL',statELL)
+    print('ELL',psutil.virtual_memory().percent)
+
+    statCPMA=cpma(z,parms)
+    stat.insert(stat.shape[1],'cpma',statCPMA)
+    print('cpma',psutil.virtual_memory().percent)
+
+    Reps,d=z.shape
+        
     futures=[]
     with ProcessPoolExecutor(cpus) as executor: 
         for i in range(int(np.ceil(Reps/np.ceil(Reps/cpus)))):
-            futures.append(executor.submit(myStatsHelp,z[i*int(np.ceil(Reps/cpus)):min((i+1)*int(np.ceil(Reps/cpus)),Reps)]))
+            futures.append(executor.submit(fitMCMCStatsHelp,z[i*int(np.ceil(Reps/cpus)):min((i+1)*int(np.ceil(Reps/cpus)),Reps)],N))
     
     power=pd.DataFrame(dtype='float32')
     for f in wait(futures,return_when=FIRST_COMPLETED)[0]:
         result=f.result()
         power=power.append(result)
+        
+    stat=pd.concat([stat,statS],axis=1)
+    print('myStats',psutil.virtual_memory().percent)
+    
+    # no return just write it to DB
+    return(stat)
 
-    return(power)
-
-def myStatsHelp(z):    
+def fitMCMCStatsHelp(z,N):    
     Reps,d=z.shape
-    N=int(d*2)
 
     p_val=2*norm.sf(z)
 
@@ -38,7 +57,6 @@ def myStatsHelp(z):
     hcFull=np.sqrt(N)*np.max((Fn-p_val)/np.sqrt(p_val*(1-p_val)),axis=1)
     bj=np.max(N*D(Fn,p_val),axis=1)
     gnull=np.max(-beta.cdf(p_val,np.array([range(1,d+1)]*Reps),N-np.array([range(1,d+1)]*Reps)),axis=1)
-    fdr=np.max(Fn/p_val,axis=1)
     score=np.sum(z**2,axis=1)
     
     #pd.DataFrame({'Type':'hcFull','Value':hcFull}),
@@ -47,9 +65,7 @@ def myStatsHelp(z):
         pd.DataFrame({'Type':'minP','Value':minP}),
         pd.DataFrame({'Type':'bj','Value':bj}),
         pd.DataFrame({'Type':'gnull','Value':gnull}),
-        pd.DataFrame({'Type':'fdr','Value':fdr}),
         pd.DataFrame({'Type':'score','Value':score})
     ],axis=0).reset_index(drop=True)
 
     return(power)
-

@@ -4,17 +4,12 @@ import os
 import subprocess
 import pdb
 
-def makeL(parms,sig):
-    N=parms['N']
-    Rpath=parms['Rpath']
-    scratchDir=parms['scratchDir']
-    
-    if not os.path.isdir(scratchDir):
-        os.mkdir(scratchDir)
-        os.mkdir(path+sigName+'/ebb')
-        os.mkdir(path+sigName+'/gbj')
-        subprocess.run(['ln','-s',Rpath,path+sigName+'/R'])
+from ail.opPython.DB import *
 
+def makeL(parms,sig):
+    name=parms['name']
+    N=parms['N']
+    
     U,D,Vt=np.linalg.svd(sig)
     L=np.matmul(U,np.diag(np.sqrt(D)))
     
@@ -26,7 +21,7 @@ def makeL(parms,sig):
     fig.savefig(plotsDir+'off_diag_hist.png',bbox_inches='tight')
     plt.close()    
     
-    np.savetxt(scratchDir+'ebb/pairwise_cors.csv',off_diag,delimiter=',')   
+    DBWrite(off_diag,name+'process/pairwise_cors',parms,toPickle=true)   
     
     print('Finished MakeL')
 

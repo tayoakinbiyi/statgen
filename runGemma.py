@@ -6,14 +6,9 @@ import pandas as pd
 import numpy as np
 import os
 import pdb
-from concurrent.futures import ProcessPoolExecutor, wait, ALL_COMPLETED, FIRST_COMPLETED
 from multiprocessing import cpu_count
-import warnings
-#warnings.simplefilter("error")
-import argparse
-import dropbox
 
-from ail.callFuncs import *
+from ail.opPython.callFuncs import *
 
 import json
     
@@ -114,6 +109,7 @@ parms={
     'snpFile':'ail.genos.dosage.gwasSNPs.txt',
     'numDecScore':3,
     'dbToken':'YIjLc0Jkc2QAAAAAAAAELhNPLYwqK53qaNPZqrkPIgHhe6n--GwXZbmgkQwbOQMo',
+    'allChrGRM':False
     **parmsAll[name]
 }
 

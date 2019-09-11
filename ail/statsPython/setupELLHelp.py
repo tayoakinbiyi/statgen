@@ -9,7 +9,7 @@ def newC(n):
     bacw=np.append([0],np.cumsum(lFac[::-1]))
     return(bacw[0:int(n/2)]-forw[0:int(n/2)])
     
-def mpHelp(minMaxK,N):
+def setupELLHelp(minMaxK,N):
     cr=newC(N)
 
     ebb=pd.DataFrame(np.empty([(minMaxK['maxK']-minMaxK['minK']+1).sum(),2]), columns=['binEdge','ggnull'],dtype='float32')
@@ -32,7 +32,7 @@ def mpHelp(minMaxK,N):
         baseCr=cr[0:(int(rMax)+1)]
 
         Pr=np.exp(baseCr+baseOne+baseTwo-baseThree)
-        ebb.iloc[count:(count+rLen)]=pd.DataFrame({'binEdge':rLam+np.arange(rMin,rMax+1),'ggnull':1-(np.sum(Pr[0:rMin])+
+        ebb.iloc[count:(count+rLen)]=pd.DataFrame({'binEdge':rLam+np.arange(rMin,rMax+1),'ell':1-(np.sum(Pr[0:rMin])+
             np.cumsum(Pr[rMin:rMax+1]))},index=range(count,count+rLen),dtype='float32')
             
         count+=rLen

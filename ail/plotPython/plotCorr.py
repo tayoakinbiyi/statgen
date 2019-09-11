@@ -8,41 +8,31 @@ import re
 
 from ail.dataPrepPython.genCorr import *
    
-def plotCorr(parms):
-    plotsDir=parms['plotsDir']
-    response=parms['response']
-    scratchDir=parms['scratchDir']
-    traitChr=parms['traitChr']
+def plotCorr(source,plotName,parms):
+    local=parms['local']
+    name=parms['name']
     
-    corr=genCorr('',parms)    
+    keys=list(source.keys())
+    offDiag={}
+            
+    fig,axs=plt.subplots(3,1)
+    fig.set_figwidth(7,forward=True)
+    fig.set_figheight(21,forward=True)
     
-    print('make response corr',flush=True)
-    if not os.path.exists(scratchDir+'corr-response.csv'):
-        expr=np.loadtxt(scratchDir+'trait.csv',delimiter=',')
-        obsCorr=np.corrcoef(expr,rowvar=False)
-        np.savetxt(scratchDir+'corr-response.csv',obsCorr,delimiter=',')
-    else:
-        obsCorr=np.loadtxt(scratchDir+'corr-response.csv',delimiter=',')
-        
-    fig,axs=plt.subplots(1,3)
-    fig.set_figwidth(21,forward=True)
-    fig.set_figheight(7,forward=True)
+    for key in [0,1]:
+        LCorr=DBRead(name+source[keys[key]],parms,toPickle=True)
+        corr=np.matmul(LCorr,LCorr.T)
+        offDiag[keys[key]]=corr[np.triu_indices(len(corr),1)].flatten()
+        axs[key].hist(off_diag[keys[key]],bins=np.linspace(-1,1,1000),log=True)
+        axs[key].set_title(keys[key])
     
-    print('from z scores hist', flush=True)
-    off_diag=corr[np.triu_indices(len(corr),1)].flatten()  
-    axs[0].hist(off_diag,bins=np.linspace(-1,1,1000),log=True)
-    axs[0].set_title('from z scores')
-    
-    print('from response hist',flush=True)
-    obs_off_diag=obsCorr[np.triu_indices(len(obsCorr),1)].flatten()  
-    axs[1].hist(obs_off_diag,bins=np.linspace(-1,1,1000),log=True)
-    axs[1].set_title('from response parms')
-    
-    print('z scores vs response',flush=True)
-    axs[2].scatter(obs_off_diag,off_diag)
-    axs[2].set_title('from z score vs from response file')
-    axs[2].set_xlabel('from response file')
-    axs[2].set_ylabel('from z score')
+    axs[2].scatter(offDiag[keys[0]],offDiag[keys[1]])
+    axs[2].set_xlabel(keys[0])
+    axs[2].set_ylabel(keys[1])
 
-    fig.savefig(plotsDir+'full_corr.png',bbox_inches='tight')
+    fig.savefig(local+name+'plots/'+plotName+'.png',bbox_inches='tight')
     plt.close('all')        
+    
+    DBUpload(name+'plots/'+plotName+'.png',parms,toPickle=False)
+
+    return(offDiag[keys[0]],offDiag[keys[1]])
