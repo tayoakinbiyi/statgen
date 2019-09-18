@@ -2,30 +2,25 @@ import pdb
 import numpy as np
 import pandas as pd
 import matplotlib.pylab as plt
-import gc
+
+from ail.opPython.DB import *
+from ail.simPython.makePower import *
 
 def bestFunc(df,H1,H01):
-    mpPool=(df.power.max()+df.power)/2000
-    mmPool=(df.power.max()+df.power.min())/2000
-    Types=df.Type[((df.power.max()-df.power)/1000-1.96*np.sqrt(2*mpPool*(1-mpPool)/H1)<=0)&(
-        (df.power/1000-0.05)-1.96*np.sqrt(2*.05*(1-.05)/H1)>0)]
-    return(pd.DataFrame({'Type':'\n'.join(Types)+'\n'+str(df.power.max().astype(int)) if len(Types)<len(df) else
-        str(df.power.max().astype(int)),'len':len(Types)+1 if len(Types)<len(df) else 1},index=[0]))  
+    mpPool=(df['Value'].max()+df['Value'])/2000
+    mmPool=(df['Value'].max()+df['Value'])/2000
+    Types=df.Type[((df['Value'].max()-df['Value'])/1000-1.96*np.sqrt(2*mpPool*(1-mpPool)/H1)<=0)&(
+        (df['Value']/1000-0.05)-1.96*np.sqrt(2*.05*(1-.05)/H1)>0)]
+    return(pd.DataFrame({'Type':'\n'.join(Types)+'\n'+str(df['Value'].max().astype(int)) if len(Types)<len(df) else
+        str(df['Value'].max().astype(int)),'len':len(Types)+1 if len(Types)<len(df) else 1},index=[0]))  
 
-def plotPower(dat):
-    heatMapPower(dat[0],dat[2]) 
-    heatMapFail(dat[1],dat[2]) 
-
-def heatMapPower(power,parms):
-    if not parms['plot']:
-        return()
-
+def plotPower(parms):
+    heatMapPower(parms) 
+    heatMapFail(parms) 
+    
+def heatMapPower(parms):
     N=parms['N']
-    H0=parms['H0']
-    H1=parms['H1']
-    H01=parms['H01']
-    sigName=parms['sigName']  
-    fontsize=parms['fontsize']
+    fontsize=parms['fontsize']    
     
     Types=np.sort(power.Type.drop_duplicates().sort_values().values.flatten())
                     
@@ -35,7 +30,7 @@ def heatMapPower(power,parms):
 
     mat=[0]*len(Types)
     for Type in range(len(Types)):
-        mat[Type]=power[power.Type==Types[Type]].pivot(values='power',index='eps',columns='mu').fillna(500).astype(int).values
+        mat[Type]=power[power.Type==Types[Type]].pivot(values='Value',index='eps',columns='mu').astype(int).values
     
     mMax=power.groupby(['eps','mu'],sort=False)['power'].max().reset_index().pivot(
         values='power',index='eps',columns='mu').fillna(500).astype(int).values

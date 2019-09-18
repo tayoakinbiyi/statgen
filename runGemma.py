@@ -23,16 +23,12 @@ ops={
     'man':False,
     'usThem':False,
 }
-opArgs=list(ops.keys())
+opsList=list(ops.keys())
+opArgs={loc:opsList[loc] for loc in range(len(opsList))}
 
 parmsAll={}
 
-args=[int(x) for x in input(str(opArgs)+': ').split(' ')]
-
-for arg in args:
-    ops[opArgs[arg]]=True
-
-parmsAll['natalia/']={
+parmsAll['comparison/']={
     'response':'hipExp',
     'quantNormalizeExpr':False,
     'remPCFromSnp':False,
@@ -43,59 +39,36 @@ parmsAll['natalia/']={
     'remCovFromTraits':False,
     'grmParm':'c',
     'wald':False,
-    'subsetFirstGRM':True,
-    'traitChr':['chr'+str(x) for x in range(1,2)]
+    'linBatch':True,
+    'traitChr':['chr1']
 }
 
-parmsAll['nataliaFullGRM/']={
-    'response':'hipExp',
-    'quantNormalizeExpr':False,
+parmsAll['remPredPCInGemma/']={
+    'response':'hipRaw',
+    'quantNormalizeExpr':True,
     'remPCFromSnp':False,
     'remPCFromTraits':False,
     'remPCCorrSnp':False,
-    'PCIsPreds':False,
-    'CovIsPreds':True,
-    'remCovFromTraits':False,
-    'grmParm':'c',
-    'wald':False,
-    'subsetFirstGRM':False,
-    'traitChr':['chr'+str(x) for x in range(1,2)]
-}
-
-parmsAll['remPCExprAndSnp/']={
-    'response':'hipRaw',
-    'quantNormalizeExpr':False,
-    'remPCFromSnp':True,
-    'remPCFromTraits':True,
-    'remPCCorrSnp':True,
-    'PCIsPreds':False,
+    'PCIsPreds':True,
     'CovIsPreds':False,
     'remCovFromTraits':True,
     'grmParm':'s',
-    'wald':True,
-    'subsetFirstGRM':False
-}
-
-parmsAll['remPCJustTrait/']={
-    'response':'hipRaw',
-    'quantNormalizeExpr':False,
-    'remPCFromSnp':False,
-    'remPCFromTraits':True,
-    'remPCCorrSnp':True,
-    'PCIsPreds':False,
-    'CovIsPreds':False,
-    'remCovFromTraits':True,
-    'grmParm':'s',
-    'wald':True,
-    'subsetFirstGRM':False
+    'linBatch':False,
+    'wald':True
 }
 
 #########################################################################################33
 
 names=list(parmsAll.keys())
-name=names[int(input(str(names)+' : '))]
+names={loc:names[loc] for loc in range(len(names))}
+opArgs={loc:opsList[loc] for loc in range(len(opsList))}
 
-print(name,np.array(opArgs)[args],flush=True)
+args=[int(x) for x in input(str(opArgs)+': ').split(' ')]
+name=names[int(input(str(names)+' : '))]
+print(name,np.array(opsList)[args],flush=True)
+
+for arg in args:
+    ops[opArgs[arg]]=True
 
 parms={
     **ops,
@@ -109,11 +82,12 @@ parms={
     'snpFile':'ail.genos.dosage.gwasSNPs.txt',
     'numDecScore':3,
     'dbToken':'YIjLc0Jkc2QAAAAAAAAELhNPLYwqK53qaNPZqrkPIgHhe6n--GwXZbmgkQwbOQMo',
-    'allChrGRM':False
+    'allChrGRM':False,
+    'cisMean':False,
     **parmsAll[name]
 }
 
-with open(local+'op','w') as f:
+with open(local+name+'op','w') as f:
     f.write(json.dumps(parms))
 
 callFuncs(parms)

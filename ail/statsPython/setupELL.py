@@ -10,8 +10,8 @@ import psutil
 import matplotlib.pylab as plt
 import time
 
-from statsPython.qq_var import *
-from statsPython.mpHelp import *
+from ail.statsPython.qq_var import *
+from ail.statsPython.setupELLHelp import *
 
 def binsMinMax(df,B,N):
     bins=np.array(range(int(max(0,df.bins.min()-N)),int(min(B-1,df.bins.max()+N))+1)).reshape(-1,1)
@@ -21,21 +21,18 @@ def binsMinMax(df,B,N):
 def kMinMax(df):
     return(pd.DataFrame({'min':df.k.min(),'max':df.k.max()},index=[0]))
 
-def setupELL(N,parms):
+def setupELL(dParm,parms):
     ellEps=parms['ellEps']
-    ellDelta=parms['ellDelta']
     
     binPower=parms['binPower']
     name=parms['name']
-    local=parms['local']
-    
+    local=parms['local']    
     cpu=parms['cpu']
 
-    N=DBRead(name+'process/traitData',parms,toPickle=True).shape[0]
+    N=DBRead(name+'process/N',parms,toPickle=False)
+    d=int(N*dParm)
     H0ZPairWiseCors=DBRead(name+'sim/H0ZPairwiseCors',toPickle=True)    
-    
-    d=int(N*ellDelta)
-    
+        
     if DBIsFile(name+'sim/','ELL',parms):
         return()
                 
@@ -108,8 +105,7 @@ def setupELL(N,parms):
         
     print('ebb', psutil.virtual_memory().percent,round((time.time()-t0),2))
 
-    for k in range(d):
-        DBWrite(ELL[k],name+'sim/ELL-'+str(k),parms,toPickle=True)  
+    DBWrite(ELL,name+'sim/ELL-'+str(dParam),parms,toPickle=True)  
     
     return()
                

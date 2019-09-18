@@ -17,7 +17,7 @@ def genCorr(trait,parms):
     traitData=DBRead(name+'process/traitData',parms,toPickle=True)
     traitData=traitData[traitData['chr']!=trait]    
 
-    if DBIsFile(name+name+'process/','LZCorr-'+trait,parms):
+    if DBIsFile(name+'corr/','LZCorr-'+trait,parms):
         return()
     
     corr=np.empty([traitData.shape[0],traitData.shape[0]])
@@ -27,12 +27,12 @@ def genCorr(trait,parms):
             if traitChr[i]==trait or traitChr[j]==trait:
                 continue
 
-            print('loading '+traitChr[i]+'-'+traitChr[j],flush=True)               
+            print('loading cor mats'+traitChr[i]+'-'+traitChr[j],flush=True)               
 
             xLoc=np.arange(len(traitData))[(traitData['chr']==traitChr[i]).values.flatten()]
             yLoc=np.arange(len(traitData))[(traitData['chr']==traitChr[j]).values.flatten()]
 
-            df=DBRead(name+'process/corr-'+traitChr[i]+'-'+traitChr[j],parms,toPickle=True)
+            df=DBRead(name+'corr/corr-'+traitChr[i]+'-'+traitChr[j],parms,toPickle=True)
             corr[xLoc.reshape(-1,1),yLoc]=df
 
             if i!=j:
@@ -42,6 +42,7 @@ def genCorr(trait,parms):
         
     LZCorr=makePSD(corr)
     
-    DBWrite(LZCorr,name+'process/LZCorr-'+trait,toPickle=True)
+    print('writing corr',flush=True)
+    DBWrite(LZCorr,name+'corr/LZCorr-'+trait,parms,toPickle=True)
 
     return()

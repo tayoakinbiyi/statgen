@@ -19,8 +19,9 @@ def DBRead(path,parms,toPickle):
     
     if toPickle:
         data=pickle.loads(data.content)
-    
-    return(data)
+        return(data)
+    else:
+        return(data.content)
         
     
 def DBWrite(data,path,parms,toPickle): 
@@ -60,12 +61,13 @@ def DBUpload(path,parms,toPickle):
     return()
         
 def DBIsFile(path,file,parms):
+    return(file in DBListFolder(path,parms))
+
+def DBListFolder(path,parms):
     path=('/'+path if len(path)>0 else path)
     dbx=dropbox.Dropbox(parms['dbToken'])
-
-    res=(file in [x.name for x in dbx.files_list_folder(path).entries])
     
-    return(res)
+    return([x.name for x in dbx.files_list_folder(path).entries])
 
 def DBSyncLocal(path,parms):
     dbx=dropbox.Dropbox(parms['dbToken'])
@@ -90,10 +92,13 @@ def DBLocalRead(path,parms):
 
     return(data)
 
-def DBLocalWrite(data,path,parms):
+def DBLocalWrite(data,path,parms,toPickle):
     local=parms['local']
     
     with open(local+path,'wb') as f:
-        f.write(pickle.dumps(data))
+        if toPickle:
+            f.write(pickle.dumps(data))
+        else:
+            f.write(data)
 
     return()

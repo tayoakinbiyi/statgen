@@ -8,11 +8,12 @@ import re
 
 from ail.dataPrepPython.genCorr import *
    
-def plotCorr(source,plotName,parms):
+def plotCorr(source,parms):
     local=parms['local']
     name=parms['name']
     
     keys=list(source.keys())
+    plotName=keys[1]+' vs '+keys[0]
     offDiag={}
             
     fig,axs=plt.subplots(3,1)
@@ -23,7 +24,7 @@ def plotCorr(source,plotName,parms):
         LCorr=DBRead(name+source[keys[key]],parms,toPickle=True)
         corr=np.matmul(LCorr,LCorr.T)
         offDiag[keys[key]]=corr[np.triu_indices(len(corr),1)].flatten()
-        axs[key].hist(off_diag[keys[key]],bins=np.linspace(-1,1,1000),log=True)
+        axs[key].hist(offDiag[keys[key]],bins=np.linspace(-1,1,1000),log=True)
         axs[key].set_title(keys[key])
     
     axs[2].scatter(offDiag[keys[0]],offDiag[keys[1]])

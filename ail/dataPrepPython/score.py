@@ -16,15 +16,14 @@ def score(parms):
     
     DBSyncLocal(name+'process',parms)
 
-    snpData=DBLocalRead(name+'process/snpData',parms)
-    traitData=DBLocalRead(name+'process/traitData',parms)
-    genScoresHelp('chr18','chr1',sum(snpData['chr']=='chr18'),sum(traitData['chr']=='chr1'),parms)
-    pdb.set_trace()
+    snpData=DBRead(name+'process/snpData',parms,toPickle=True)
+    traitData=DBRead(name+'process/traitData',parms,toPickle=True)
     for trait in traitChr:
         for snp in snpChr:
             if DBIsFile(name+'score','p-'+snp+'-'+trait,parms):
                 print('found ','p-'+snp+'-'+trait,flush=True)
-                #continue
+                continue
+            
             genScoresHelp(snp,trait,sum(snpData['chr']==snp),sum(traitData['chr']==trait),parms)
         
     return()
@@ -33,21 +32,20 @@ def genScoresHelp(snp,trait,numSnps,numTraits,parms):
     numDecScore=parms['numDecScore']
     local=parms['local']
     name=parms['name']
+    wald=parms['wald']
     
     pval='1' if parms['wald'] else '2'
     
-    DBWrite(np.array([]),name+'score/p-'+snp+'-'+trait,parms)
+    DBWrite(np.array([]),name+'score/p-'+snp+'-'+trait,parms,toPickle=True)
     
     print('starting ',snp,trait,flush=True)
 
     mat=np.empty([numSnps,numTraits])
     
     futures=[]
-    ans=gemma('chr18','chr1',19,pval,local,name,parms['wald'])
-    pdb.set_trace()
     with ProcessPoolExecutor(parms['cpu']) as executor: 
         for k in range(numTraits):
-            futures.append(executor.submit(gemma,snp,trait,k,pval,local,name,parms['wald']))
+            futures.append(executor.submit(gemma,snp,trait,k,pval,local,name,wald))
 
         for f in as_completed(futures):
             ans=f.result()
@@ -56,33 +54,29 @@ def genScoresHelp(snp,trait,numSnps,numTraits,parms):
             val=ans[j];j+=1
             snp=ans[j];j+=1
             trait=ans[j];j+=1
-
-            if len(val)!=numSnps:
-                print(snp,trait,k,'not shaped',len(val),numSnps,flush=True)
-                sys.exit(1)
             
-            mat[:,k]=val.astype('float16')
+            mat[:,k]=val
 
     print('writing ',snp,trait,flush=True)
     
-    DBWrite(mat,name+'score/p-'+snp+'-'+trait,parms)
+    DBWrite(mat,name+'score/p-'+snp+'-'+trait,parms,toPickle=True)
     
     return()
     
 def gemma(snp,trait,k,pval,local,name,wald):
     path=local+name
-    if name=='natalia/':
-        snp='chr1'
     cmd=['./gemma','-g',path+'process/geno-'+snp+'.txt','-p',path+'process/pheno-'+trait+'.txt',
         '-lmm',pval,'-o',name[:-1]+'-'+snp+'-'+trait+'-'+str(k+1),'-k',path+'process/grm-'+snp+'.txt','-n',str(k+1),
-        '-c',path+'process/preds.txt']
-    print(' '.join(cmd),flush=True)
+        '-c',path+'process/preds.txt','-silence']
     subprocess.run(cmd) 
 
     df=pd.read_csv('output/'+name[:-1]+'-'+snp+'-'+trait+'-'+str(k+1)+'.assoc.txt',sep='\t')
     os.remove('output/'+name[:-1]+'-'+snp+'-'+trait+'-'+str(k+1)+'.assoc.txt')
+    os.remove('output/'+name[:-1]+'-'+snp+'-'+trait+'-'+str(k+1)+'.log.txt')
     
     if wald:
-        return(k,(df['beta']/df['se']).values.flatten(),snp,trait)
+        val=(df['beta']/df['se']).values.flatten()
     else:
-        return(k,df['p_lrt'].values.flatten(),snp,trait)
+        val=df['p_lrt'].values.flatten()
+    
+    return(k,val,snp,trait)

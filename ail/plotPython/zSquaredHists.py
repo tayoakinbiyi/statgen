@@ -6,7 +6,6 @@ import os
 import sys
 import matplotlib.pyplot as plt
 from concurrent.futures import ProcessPoolExecutor, wait, ALL_COMPLETED, FIRST_COMPLETED
-from scipy.stats import chi2
 
 def snpR2HistsHelp(snp,parms): 
     scratchDir=parms['scratchDir']
