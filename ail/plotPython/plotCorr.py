@@ -30,6 +30,8 @@ def plotCorr(source,parms):
     axs[2].scatter(offDiag[keys[0]],offDiag[keys[1]])
     axs[2].set_xlabel(keys[0])
     axs[2].set_ylabel(keys[1])
+    axs[2].set_xlim([-1,1])
+    axs[2].set_ylim([-1,1])
 
     fig.savefig(local+name+'plots/'+plotName+'.png',bbox_inches='tight')
     plt.close('all')        

@@ -14,7 +14,7 @@ def genMeans(parms):
     traitChr=parms['traitChr']
     smallCpu=parms['smallCpu']
         
-    genMeansHelp('chr1',parms)
+    #genMeansHelp('chr1',parms)
     futures=[]
     with ProcessPoolExecutor(smallCpu) as executor: 
         for trait in traitChr:
@@ -26,7 +26,6 @@ def genMeans(parms):
         wait(futures,return_when=ALL_COMPLETED)
         
 def genMeansHelp(trait,parms): 
-    pdb.set_trace()
     name=parms['name']
     snpChr=parms['snpChr']
     cisMean=parms['cisMean']

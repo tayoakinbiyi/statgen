@@ -14,40 +14,57 @@ def plotNullZ(parms):
     snpChr=parms['snpChr']
     traitChr=parms['traitChr']
     smallCpu=parms['smallCpu']
+    numQSnps=parms['numQSnps']
 
     mean=np.array([])
     mean2=np.array([])
     mean4=np.array([])
     
-    fig,axs=plt.subplots(len(traitChr),4,dpi=50)
-    fig.set_figwidth(80,forward=True)
-    fig.set_figheight(20*len(traitChr),forward=True)
-    fig.tight_layout()
+    for trait in traitChr:
+        fig,axs=plt.subplots(4,1,dpi=150)
+        fig.set_figwidth(20,forward=True)
+        fig.set_figheight(80,forward=True)
+        fig.tight_layout()
 
-    for trait in range(len(traitChr)):
-        mean=DBRead(name+'corr/mean-'+traitChr[trait],parms,toPickle=True).flatten()
-        mean2=DBRead(name+'corr/mean2-'+traitChr[trait],parms,toPickle=True).flatten()
-        mean4=DBRead(name+'corr/mean4-'+traitChr[trait],parms,toPickle=True).flatten()
+        mean=DBRead(name+'corr/mean-'+trait,parms,toPickle=True).flatten()
+        mean2=DBRead(name+'corr/mean2-'+trait,parms,toPickle=True).flatten()
+        mean4=DBRead(name+'corr/mean4-'+trait,parms,toPickle=True).flatten()
         
         z=[]
         for snp in snpChr:
-            print('for plotNullZ reading z scores '+snp+' '+traitChr[trait],flush=True)
-            z+=[DBRead(name+'score/p-'+snp+'-'+traitChr[trait],parms,toPickle=True).flatten()]
+            print('for plotNullZ reading z scores '+snp+' '+trait,flush=True)
+            z+=[DBRead(name+'score/p-'+snp+'-'+trait,parms,toPickle=True).astype('float16').flatten()]
             
-        z=np.sort(np.concatenate(z))
-        
-        exp=norm.ppf(np.arange(1,len(z)+1)/(len(z)+1))   
-        
-        axs[trait,0].scatter(exp,z,s=.01)
-        axs[trait,0].set_title('qq vs N(0,1)')
-        axs[trait,1].hist(mean,bins=100)
-        axs[trait,2].hist(mean2,bins=100)
-        axs[trait,3].hist(mean4,bins=100)
+        val=np.concatenate(z).astype('float16')
+        if len(val)>numQSnps:
+            qMesh=np.linspace(0,1,numQSnps+2)[1:-1]
+            obsQ=np.sort(val)[np.round(qMesh*len(val)).astype(int)-1]
+        else:
+            qMesh=np.linspace(0,1,len(val)+2)[1:-1]
+            obsQ=np.sort(val)
 
-    fig.savefig(local+name+'plots/plotNullZ.png',bbox_inches='tight')
+        expQ=norm.ppf(qMesh)             
+        
+        minQ=np.min([np.mininimum(expQ),np.minimum(obsQ)])
+        maxQ=np.max([np.maximum(expQ),np.maximum(obsQ)])
+        
+        axs[0].scatter(expQ,obsQ,s=.01)
+        axs[0].set_xlim([minQ,maxQ])
+        axs[0].set_ylim([minQ,maxQ])
+        axs[0].tick_params(axis='both', which='major', labelsize=20)
+        axs[0].set_xlabel('expected')
+        axs[0].set_ylabel('actual')
+        axs[1].hist(mean,bins=100)
+        axs[1].tick_params(axis='both', which='major', labelsize=20)
+        axs[2].hist(mean2,bins=100)
+        axs[2].tick_params(axis='both', which='major', labelsize=20)
+        axs[3].hist(mean4,bins=100)
+        axs[3].tick_params(axis='both', which='major', labelsize=20)
 
-    plt.close('all')
-    DBUpload(name+'plots/plotNullZ.png',parms,toPickle=False)
+        fig.savefig(local+name+'plots/plotNullZ-'+trait+'.png',bbox_inches='tight')
+
+        plt.close('all')
+        DBUpload(name+'plots/plotNullZ-'+trait+'.png',parms,toPickle=False)
     
     return()
     

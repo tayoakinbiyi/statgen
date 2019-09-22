@@ -37,12 +37,20 @@ def usThem(parms):
 
     df=[]
     for trait in traitChr:
-        df+=[DBRead(name+'usThem/'+trait,parms)]
+        df+=[DBRead(name+'usThem/'+trait,parms,toPickle=True)]
        
     df=pd.DataFrame(np.concatenate(df,axis=0),columns=['eqtl_pvalue','pval'])
     
+    q=10*np.arange(0,11)
+    val=(df['eqtl_pvalue']-df['pval']).abs().values.flatten()
+    pct=((df['eqtl_pvalue']-df['pval']).abs()/df['eqtl_pvalue']).values.flatten()
+    pd.DataFrame({'Percentile':q,'Difference':np.percentile(val,q),'% error':np.round(100*np.percentile(pct,q),3)}).to_csv(
+        local+name+'plots/usThemDiff.csv',index=False)
+    DBUpload(name+'plots/usThemDiff.csv',parms,toPickle=False)
+    
     df['eqtl_pvalue']=-np.log10(df['eqtl_pvalue'])
     df['pval']=-np.log10(df['pval'])
+    
     df.plot.scatter(x='eqtl_pvalue',y='pval',ax=axs)
     
     maxP=max(df['pval'].max(),df['eqtl_pvalue'].max())
@@ -84,7 +92,7 @@ def usThemHelp(trait,parms):
     for snp in snpChr:
         snpChrom=int(snp[3:])
         print('loading pvals from snp '+snp+' trait '+trait)
-        pval[snpChrom]=DBRead(name+'score/p-'+snp+'-'+trait,parms)[:,traitList]
+        pval[snpChrom]=DBRead(name+'score/p-'+snp+'-'+trait,parms,toPickle=True)[:,traitList]
         if wald:
             pval[snpChrom]=2*norm.sf(np.abs(pval[snpChrom]))
     
@@ -97,5 +105,5 @@ def usThemHelp(trait,parms):
             (t_snpData['Mbp']>eqtl['eqtl_pos_bp']-1e6),ind].flatten())]]
     
     ans=np.array(ans)
-    DBWrite(ans,name+'usThem/'+trait,parms)
+    DBWrite(ans,name+'usThem/'+trait,parms,toPickle=True)
     

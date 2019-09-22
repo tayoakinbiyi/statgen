@@ -19,6 +19,7 @@ def setupFolders(parms):
         DBCreateFolder(name+'plots',parms)
         DBCreateFolder(name+'H0',parms)
         DBCreateFolder(name+'H1',parms)
+        DBCreateFolder(name+'geneDrop',parms)
 
     if not os.path.exists(local+name):
         os.mkdir(local+name)
@@ -33,5 +34,6 @@ def setupFolders(parms):
         os.mkdir(local+name+'plots')
         os.mkdir(local+name+'H0')
         os.mkdir(local+name+'H1')
+        os.mkdir(local+name+'geneDrop')
 
     DBSyncLocal('data',parms)

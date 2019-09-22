@@ -6,6 +6,7 @@ from multiprocessing import cpu_count
 from ail.opPython.setupFolders import *
 
 from ail.simPython.genNullY import *
+from ail.simPython.genSnps import *
 from ail.dataPrepPython.score import *
 from ail.simPython.genNullZCorr import *
 from ail.plotPython.plotNullZ import *
@@ -21,6 +22,7 @@ local=os.getcwd()+'/'
 ops={
     'process':False,
     'genNullY':False,
+    'genSnps':False,
     'genNullZScores':False,
     'genNullZCorr':False,
     'plotNullZ':False,
@@ -43,8 +45,8 @@ for arg in args:
 
 parms={
     'H1Chr':H1Chr,
-    'etaGRM':.4,
-    'etaError':.6,
+    'etaGRM':.5,
+    'etaError':.5,
     'ellEps':1e-6,
     'delta':.1,
     'ellDSet':[.5,.1],
@@ -56,13 +58,15 @@ parms={
     'maxZReps':1000,
     'minPower':250,
     'maxPower':750,
-    'snpChr':['chr'+str(x) for x in range(1,6) if 'chr'+str(x)!=H1Chr],
-    'traitChr':['chr'+str(x) for x in range(1,3) if 'chr'+str(x)!=H1Chr],
+    'snpChr':['chr'+str(x) for x in range(1,20) if 'chr'+str(x)!=H1Chr],
+    'traitChr':['chr'+str(x) for x in range(1,2) if 'chr'+str(x)!=H1Chr],
     'snpFile':'ail.genos.dosage.gwasSNPs.txt',
     'numDecScore':3,
     'pvalCutOff':.01,
+    'numQSnps':100000,
     'maxZReps':100,
     'treeHeights':[.005,.01,.03,.04,.05,.1,.2,.3,.4,.5,.6,.7],
+    'simSnpSize':50000,
     'grmParm':'s',
     'wald':True,
     'allChrGRM':True,
@@ -87,6 +91,9 @@ if ops['process']:
 
 if ops['genNullY']:
     genNullY(parms)
+
+if ops['genSnps']:
+    genSnps(parms)
 
 if ops['genNullZScores']:
     score(parms)

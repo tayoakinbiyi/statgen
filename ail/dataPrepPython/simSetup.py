@@ -11,33 +11,18 @@ from sklearn.metrics import r2_score
 
 from ail.opPython.DB import *
 from ail.genPython.makePSD import *
-from ail.dataPrepPython.genGRM import *
 
-def process(parms):
+def simSetup(parms):
     response=parms['response']
     name=parms['name']
     local=parms['local']
-    allChrGRM=parms['allChrGRM']
-    
-    snpChr=parms['snpChr']
+    linBatch=parms['linBatch']
     traitChr=parms['traitChr']
     
+    snpChr=['chr1']
+    
     DBSyncLocal('data',parms)
-
-    numPCs=parms['numPCs']
-    
-    remPCFromTraits=parms['remPCFromTraits']
-    remCovFromTraits=parms['remCovFromTraits']
-
-    remPCFromSnp=parms['remPCFromSnp']
-    remPCCorrSnp=parms['remPCCorrSnp']
-
-    PCIsPreds=parms['PCIsPreds']
-    CovIsPreds=parms['CovIsPreds']
-    quantNormalizeExpr=parms['quantNormalizeExpr']
-
-    linBatch=parms['linBatch']
-    
+        
     traits=pd.read_csv(local+'data/'+response+'.txt',sep='\t',index_col=0,header=0)
     mouseIds=traits.index.values.flatten().astype(int).tolist()
 
@@ -58,10 +43,7 @@ def process(parms):
     np.savetxt(local+name+'process/dummy.txt',np.ones([len(mouseIds),1]),delimiter='\t')
     DBUpload(name+'process/dummy.txt',parms,toPickle=False)
     
-    for snp in snpChr:
-        genGRM(snp,snps.loc[snpData['chr'].values.flatten()!=snp,:],parms)            
-    if allChrGRM:
-        genGRM('all',snps,parms)
+    genGRM('all',snps,parms)
 
     print('grm finished',flush=True)
 
@@ -81,46 +63,10 @@ def process(parms):
     DBWrite(mouseIds,name+'process/mouseIds',parms,toPickle=True)
     DBWrite(allIds,name+'process/allIds',parms,toPickle=True)
     
-    if remCovFromTraits:
-        reg=MultiOutputRegressor(LinearRegression(fit_intercept=False),n_jobs=-1).fit(covariates,traits)
-        traits=(traits-reg.predict(covariates))    
+    reg=MultiOutputRegressor(LinearRegression(fit_intercept=False),n_jobs=-1).fit(covariates,traits)
+    traits=(traits-reg.predict(covariates))    
     
-    if remPCFromTraits or remPCCorrSnp or PCIsPreds:
-        U,D,Vt=np.linalg.svd(traits)
-        PCs=np.concatenate([np.ones([len(traits),1]),U[:,0:numPCs]],axis=1)
-
-        if remPCFromTraits:
-            reg=MultiOutputRegressor(LinearRegression(fit_intercept=False),n_jobs=-1).fit(PCs,traits)
-            traits=(traits-reg.predict(PCs))    
-
-        header=snps.T.iloc[0:3,:]
-        snpY=snps.T.values[3:,:]
-
-        reg=MultiOutputRegressor(LinearRegression(fit_intercept=False),n_jobs=parms['cpu']).fit(PCs,snpY)
-        snpYHat=reg.predict(PCs)
-        R2=r2_score(snpY,snpYHat,multioutput='raw_values').flatten()
-        print('r2 calculated',flush=True)
-
-        toKeep=(R2<.9)
-        print(len(toKeep)-sum(toKeep),' snps removed')
-
-        if remPCFromSnp:
-            snps=pd.concat([header,pd.DataFrame(snpY-snpYHat)],axis=0).T
-
-        if remPCCorrSnp:
-            snps=snps.loc[toKeep,:]
-            R2=R2[toKeep]
-            snpData=snpData[toKeep]
-
-        DBWrite(R2.flatten(),name+'process/snpR2',parms,toPickle=True)
-        
-    if PCIsPreds:
-        np.savetxt(local+name+'process/preds.txt',PCs,delimiter='\t')
-    elif CovIsPreds:
-        np.savetxt(local+name+'process/preds.txt',covariates,delimiter='\t')
-    else:
-        np.savetxt(local+name+'process/preds.txt',np.ones([len(mouseIds),1]),delimiter='\t')    
-        
+    np.savetxt(local+name+'process/preds.txt',np.ones([len(mouseIds),1]),delimiter='\t')            
     DBUpload(name+'process/preds.txt',parms,toPickle=False)
 
     DBWrite(traitData,name+'process/traitData',parms,toPickle=True)
@@ -130,16 +76,8 @@ def process(parms):
     LTraitCorr=makePSD(traitCorr)
     DBWrite(LTraitCorr,name+'process/LTraitCorr',parms,toPickle=True)
     
-    DBWrite(traits,name+'process/traits',parms,toPickle=True)
     for trait in traitChr:
         np.savetxt(local+name+'process/pheno-'+trait+'.txt',traits[:,traitData['chr'].values.flatten()==trait],delimiter='\t')      
         DBUpload(name+'process/pheno-'+trait+'.txt',parms,toPickle=False)
-                    
-    DBWrite(snpData,name+'process/snpData',parms,toPickle=True)
-    
-    for snp in parms['snpChr']:
-        snps.loc[snpData['chr'].values.flatten()==snp,:].to_csv(local+name+'process/geno-'+snp+'.txt',sep='\t',
-            index=False,header=False)        
-        DBUpload(name+'process/geno-'+snp+'.txt',parms,toPickle=False)
         
     return()
