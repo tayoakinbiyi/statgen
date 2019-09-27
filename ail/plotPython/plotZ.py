@@ -7,7 +7,9 @@ import matplotlib.pyplot as plt
 from scipy.stats import norm
 from ail.opPython.DB import *
 
-def plotNullZ(parms):
+def plotZ(parms):
+    plt.rcParams.update({'font.size': 20})
+    
     name=parms['name']
     local=parms['local']
     
@@ -24,7 +26,6 @@ def plotNullZ(parms):
         fig,axs=plt.subplots(4,1,dpi=150)
         fig.set_figwidth(20,forward=True)
         fig.set_figheight(80,forward=True)
-        fig.tight_layout()
 
         mean=DBRead(name+'corr/mean-'+trait,parms,toPickle=True).flatten()
         mean2=DBRead(name+'corr/mean2-'+trait,parms,toPickle=True).flatten()
@@ -32,7 +33,7 @@ def plotNullZ(parms):
         
         z=[]
         for snp in snpChr:
-            print('for plotNullZ reading z scores '+snp+' '+trait,flush=True)
+            print('for plotZ reading z scores '+snp+' '+trait,flush=True)
             z+=[DBRead(name+'score/p-'+snp+'-'+trait,parms,toPickle=True).astype('float16').flatten()]
             
         val=np.concatenate(z).astype('float16')
@@ -45,26 +46,33 @@ def plotNullZ(parms):
 
         expQ=norm.ppf(qMesh)             
         
-        minQ=np.min([np.mininimum(expQ),np.minimum(obsQ)])
-        maxQ=np.max([np.maximum(expQ),np.maximum(obsQ)])
+        allQ=expQ.tolist()+obsQ.tolist()
+        minQ=np.min(allQ)
+        maxQ=np.max(allQ)
         
-        axs[0].scatter(expQ,obsQ,s=.01)
+        del allQ
+        
+        axs[0].scatter(expQ,obsQ,s=.3,color='red')
         axs[0].set_xlim([minQ,maxQ])
         axs[0].set_ylim([minQ,maxQ])
-        axs[0].tick_params(axis='both', which='major', labelsize=20)
         axs[0].set_xlabel('expected')
         axs[0].set_ylabel('actual')
-        axs[1].hist(mean,bins=100)
-        axs[1].tick_params(axis='both', which='major', labelsize=20)
-        axs[2].hist(mean2,bins=100)
-        axs[2].tick_params(axis='both', which='major', labelsize=20)
-        axs[3].hist(mean4,bins=100)
-        axs[3].tick_params(axis='both', which='major', labelsize=20)
+        axs[0].set_title('qq plot vs N(0,1)')
+        axs[0].plot(axs[0].get_xlim(), axs[0].get_ylim(), ls="--", c='k')
 
-        fig.savefig(local+name+'plots/plotNullZ-'+trait+'.png',bbox_inches='tight')
+        axs[1].hist(mean,bins=100)
+        axs[1].set_title('first moment plot')
+
+        axs[2].hist(mean2,bins=100)
+        axs[2].set_title('second moment plot')
+
+        axs[3].hist(mean4,bins=100)
+        axs[3].set_title('fourth moment plot')
+
+        fig.savefig(local+name+'plots/H0-Z-Scores-trait:'+trait+'.png')
 
         plt.close('all')
-        DBUpload(name+'plots/plotNullZ-'+trait+'.png',parms,toPickle=False)
+        DBUpload(name+'plots/H0-Z-Scores-trait:'+trait+'.png',parms,toPickle=False)
     
     return()
     

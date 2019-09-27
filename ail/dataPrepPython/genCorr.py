@@ -27,7 +27,7 @@ def genCorr(trait,parms):
             if traitChr[i]==trait or traitChr[j]==trait:
                 continue
 
-            print('loading cor mats'+traitChr[i]+'-'+traitChr[j],flush=True)               
+            print('loading cor mats '+traitChr[i]+' - '+traitChr[j],flush=True)               
 
             xLoc=np.arange(len(traitData))[(traitData['chr']==traitChr[i]).values.flatten()]
             yLoc=np.arange(len(traitData))[(traitData['chr']==traitChr[j]).values.flatten()]

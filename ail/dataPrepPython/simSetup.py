@@ -1,26 +1,30 @@
 import pandas as pd
 import numpy as np
 import pdb
-from collections import Counter
 from scipy.stats import norm
 from sklearn.linear_model import LinearRegression
 from sklearn.multioutput import MultiOutputRegressor
 import pyreadr
 import subprocess
-from sklearn.metrics import r2_score
+import shutil
 
 from ail.opPython.DB import *
 from ail.genPython.makePSD import *
+from ail.dataPrepPython.genGRM import *
 
 def simSetup(parms):
+    print('simSetup')
+    
     response=parms['response']
     name=parms['name']
     local=parms['local']
     linBatch=parms['linBatch']
     traitChr=parms['traitChr']
-    
-    snpChr=['chr1']
-    
+    grmSnpChr=parms['grmSnpChr']
+    quantNormalizeExpr=parms['quantNormalizeExpr']
+    H0SnpSize=parms['H0SnpSize']
+    H1SnpSize=parms['H1SnpSize']
+        
     DBSyncLocal('data',parms)
         
     traits=pd.read_csv(local+'data/'+response+'.txt',sep='\t',index_col=0,header=0)
@@ -37,13 +41,16 @@ def simSetup(parms):
 
     snps=pd.read_csv(local+'data/'+parms['snpFile'],sep='\t',header=None,index_col=None)
     snps.columns=['chr','Mbp','minor','major']+allIds
-    snpData=snps.loc[snps['chr'].isin(snpChr),['chr','Mbp']]    
-    snps=snps.loc[snps['chr'].isin(snpChr),['Mbp','minor','major']+mouseIds]
-            
+    snps=snps.loc[snps['chr'].isin(grmSnpChr),['Mbp','minor','major']+mouseIds]
+    
     np.savetxt(local+name+'process/dummy.txt',np.ones([len(mouseIds),1]),delimiter='\t')
     DBUpload(name+'process/dummy.txt',parms,toPickle=False)
     
     genGRM('all',snps,parms)
+    shutil.copy2(local+name+'process/grm-all.txt',local+name+'process/grm-chr0.txt')
+    shutil.copy2(local+name+'process/grm-all.txt',local+name+'process/grm-chr1.txt')
+    DBUpload(name+'process/grm-chr0.txt',parms,toPickle=False)
+    DBUpload(name+'process/grm-chr1.txt',parms,toPickle=False)
 
     print('grm finished',flush=True)
 
@@ -77,7 +84,7 @@ def simSetup(parms):
     DBWrite(LTraitCorr,name+'process/LTraitCorr',parms,toPickle=True)
     
     for trait in traitChr:
-        np.savetxt(local+name+'process/pheno-'+trait+'.txt',traits[:,traitData['chr'].values.flatten()==trait],delimiter='\t')      
+        np.savetxt(local+name+'process/pheno-'+trait+'.txt',traits[:,traitData['chr']==trait],delimiter='\t')      
         DBUpload(name+'process/pheno-'+trait+'.txt',parms,toPickle=False)
         
     return()
