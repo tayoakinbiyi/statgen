@@ -9,8 +9,6 @@ import pdb
 from multiprocessing import cpu_count
 
 from ail.opPython.callFuncs import *
-
-import json
     
 local=os.getcwd()+'/'
 
@@ -86,9 +84,6 @@ parms={
     'cisMean':False,
     **parmsAll[name]
 }
-
-with open(local+name+'op','w') as f:
-    f.write(json.dumps(parms))
 
 callFuncs(parms)
 
