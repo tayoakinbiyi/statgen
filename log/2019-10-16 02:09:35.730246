@@ -1,0 +1,2114 @@
+
+{
+   "process": false,
+   "score": false,
+   "corr": false,
+   "qq": false,
+   "z2": false,
+   "man": false,
+   "minP": false,
+   "usThem": false,
+   "genOffDiag": false,
+   "setupELL": false,
+   "genIIDStats": true,
+   "genSimStats": false,
+   "makePVals": false,
+   "plotPVals": false,
+   "local": "/scratch/akinbiyi/dp/",
+   "name": "comparison/",
+   "numCores": 16,
+   "numPCs": 10,
+   "smallNumCores": 3,
+   "snpChr": [
+      "chr1",
+      "chr2",
+      "chr3",
+      "chr4",
+      "chr5",
+      "chr6",
+      "chr7",
+      "chr8",
+      "chr9",
+      "chr10",
+      "chr11",
+      "chr12",
+      "chr13",
+      "chr14",
+      "chr15",
+      "chr16",
+      "chr17",
+      "chr18",
+      "chr19"
+   ],
+   "snpFile": "ail.genos.dosage.gwasSNPs.txt",
+   "numDecScore": 3,
+   "dbToken": "YIjLc0Jkc2QAAAAAAAAELhNPLYwqK53qaNPZqrkPIgHhe6n--GwXZbmgkQwbOQMo",
+   "allChrGRM": false,
+   "cisMean": false,
+   "numQSnps": 3000000000.0,
+   "ellEps": 1e-09,
+   "ellDSet": [
+      0.1
+   ],
+   "binsPerIndex": 500,
+   "grmSnpChr": [
+      "chr1",
+      "chr2",
+      "chr3",
+      "chr4",
+      "chr5",
+      "chr6",
+      "chr7",
+      "chr8",
+      "chr9",
+      "chr10",
+      "chr11",
+      "chr12",
+      "chr13",
+      "chr14",
+      "chr15",
+      "chr16",
+      "chr17",
+      "chr18",
+      "chr19"
+   ],
+   "IIDReps": 50000000,
+   "Types": [
+      "ell-0.1"
+   ],
+   "firstEntry": true,
+   "logName": "ga/log/2019-10-16 02:09:35.730246",
+   "muEpsRange": [],
+   "response": "hipExp",
+   "quantNormalizeExpr": false,
+   "remPCFromSnp": false,
+   "remPCFromTraits": false,
+   "remPCCorrSnp": false,
+   "PCIsPreds": false,
+   "CovIsPreds": true,
+   "remCovFromTraits": false,
+   "grmParm": "c",
+   "wald": false,
+   "linBatch": true,
+   "traitChr": [
+      "chr1"
+   ],
+   "numIIDSegments": 1000,
+   "numSimStatSegments": 10
+}
+ELL-0.1 all-4	len:min:max 	50000 : -0.99329334 : -7.571622e-07
+# indices >=1 off : 77 of 91		% indices off : 0.03
+ELL-0.1 all-1	len:min:max 	50000 : -0.9964947 : -8.998586e-07
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-10	len:min:max 	50000 : -0.9990703 : -7.404351e-08
+# indices >=1 off : 79 of 91		% indices off : 0.03
+ELL-0.1 all-9	len:min:max 	50000 : -0.99827516 : -5.475421e-08
+# indices >=1 off : 80 of 91		% indices off : 0.03
+ELL-0.1 all-14	len:min:max 	50000 : -0.9957746 : -1.6016843e-07
+# indices >=1 off : 75 of 91		% indices off : 0.03
+ELL-0.1 all-6	len:min:max 	50000 : -0.9973376 : -2.7298722e-07
+# indices >=1 off : 82 of 91		% indices off : 0.03
+ELL-0.1 all-5	len:min:max 	50000 : -0.9929604 : -2.8647804e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-7	len:min:max 	50000 : -0.9945843 : -2.7298722e-07
+# indices >=1 off : 76 of 91		% indices off : 0.03
+ELL-0.1 all-13	len:min:max 	50000 : -0.9952441 : -5.4234033e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-8	len:min:max 	50000 : -0.9962538 : -2.3753132e-06
+# indices >=1 off : 74 of 91		% indices off : 0.02
+ELL-0.1 all-16	len:min:max 	50000 : -0.99477965 : -6.5260963e-07
+# indices >=1 off : 74 of 91		% indices off : 0.02
+ELL-0.1 all-12	len:min:max 	50000 : -0.99867934 : -5.475421e-08
+# indices >=1 off : 86 of 91		% indices off : 0.03
+ELL-0.1 all-15	len:min:max 	50000 : -0.99605304 : -1.8887131e-07
+# indices >=1 off : 78 of 91		% indices off : 0.03
+ELL-0.1 all-2	len:min:max 	50000 : -0.9978525 : -5.4234033e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-3	len:min:max 	50000 : -0.99639493 : -1.8887131e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-11	len:min:max 	50000 : -0.9901485 : -5.197832e-07
+# indices >=1 off : 73 of 91		% indices off : 0.02
+ELL-0.1 all-24	len:min:max 	50000 : -0.99225974 : -1.3379528e-07
+# indices >=1 off : 84 of 91		% indices off : 0.02
+ELL-0.1 all-31	len:min:max 	50000 : -0.99652964 : -1.3379528e-07
+# indices >=1 off : 85 of 91		% indices off : 0.03
+ELL-0.1 all-21	len:min:max 	50000 : -0.99549234 : -2.7923993e-06
+# indices >=1 off : 74 of 91		% indices off : 0.02
+ELL-0.1 all-29	len:min:max 	50000 : -0.9976869 : -5.475421e-08
+# indices >=1 off : 87 of 91		% indices off : 0.03
+ELL-0.1 all-26	len:min:max 	50000 : -0.9977817 : -5.475421e-08
+# indices >=1 off : 88 of 91		% indices off : 0.04
+ELL-0.1 all-32	len:min:max 	50000 : -0.99672914 : -3.878458e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-18	len:min:max 	50000 : -0.9885704 : -1.7121364e-08
+# indices >=1 off : 89 of 91		% indices off : 0.03
+ELL-0.1 all-23	len:min:max 	50000 : -0.9905295 : -7.404351e-08
+# indices >=1 off : 86 of 91		% indices off : 0.02
+ELL-0.1 all-20	len:min:max 	50000 : -0.9954737 : -3.6726766e-07
+# indices >=1 off : 78 of 91		% indices off : 0.03
+ELL-0.1 all-27	len:min:max 	50000 : -0.9932411 : -7.404351e-08
+# indices >=1 off : 86 of 91		% indices off : 0.02
+ELL-0.1 all-30	len:min:max 	50000 : -0.991401 : -1.0018622e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-28	len:min:max 	50000 : -0.9899909 : -3.6290407e-07
+# indices >=1 off : 78 of 91		% indices off : 0.03
+ELL-0.1 all-25	len:min:max 	50000 : -0.9974024 : -7.090816e-07
+# indices >=1 off : 74 of 91		% indices off : 0.02
+ELL-0.1 all-22	len:min:max 	50000 : -0.9955423 : -2.8237355e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-19	len:min:max 	50000 : -0.9967224 : -8.759318e-08
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-17	len:min:max 	50000 : -0.99373436 : -1.3379528e-07
+# indices >=1 off : 85 of 91		% indices off : 0.02
+ELL-0.1 all-33	len:min:max 	50000 : -0.99344605 : -1.2045906e-06
+# indices >=1 off : 78 of 91		% indices off : 0.03
+ELL-0.1 all-40	len:min:max 	50000 : -0.99048066 : -3.6290407e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-45	len:min:max 	50000 : -0.99454194 : -2.4387776e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-46	len:min:max 	50000 : -0.99719006 : -3.6290407e-07
+# indices >=1 off : 82 of 91		% indices off : 0.03
+ELL-0.1 all-44	len:min:max 	50000 : -0.9971261 : -5.779606e-08
+# indices >=1 off : 85 of 91		% indices off : 0.02
+ELL-0.1 all-39	len:min:max 	50000 : -0.99274284 : -1.3339799e-07
+# indices >=1 off : 85 of 91		% indices off : 0.01
+ELL-0.1 all-47	len:min:max 	50000 : -0.9937534 : -4.6021262e-07
+# indices >=1 off : 74 of 91		% indices off : 0.02
+ELL-0.1 all-42	len:min:max 	50000 : -0.9976724 : -6.2855474e-07
+# indices >=1 off : 70 of 91		% indices off : 0.02
+ELL-0.1 all-37	len:min:max 	50000 : -0.9959271 : -1.8887131e-07
+# indices >=1 off : 84 of 91		% indices off : 0.02
+ELL-0.1 all-35	len:min:max 	50000 : -0.9970794 : -3.6290407e-07
+# indices >=1 off : 82 of 91		% indices off : 0.03
+ELL-0.1 all-34	len:min:max 	50000 : -0.99771017 : -5.4234033e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-43	len:min:max 	50000 : -0.99318445 : -1.2768035e-07
+# indices >=1 off : 85 of 91		% indices off : 0.02
+ELL-0.1 all-41	len:min:max 	50000 : -0.9991693 : -5.475421e-08
+# indices >=1 off : 87 of 91		% indices off : 0.01
+ELL-0.1 all-36	len:min:max 	50000 : -0.9975238 : -6.3252133e-07
+# indices >=1 off : 76 of 91		% indices off : 0.03
+ELL-0.1 all-38	len:min:max 	50000 : -0.992711 : -7.404351e-08
+# indices >=1 off : 86 of 91		% indices off : 0.03
+ELL-0.1 all-48	len:min:max 	50000 : -0.9983901 : -4.2699202e-07
+# indices >=1 off : 73 of 91		% indices off : 0.02
+ELL-0.1 all-57	len:min:max 	50000 : -0.99311745 : -3.355858e-07
+# indices >=1 off : 80 of 91		% indices off : 0.03
+ELL-0.1 all-63	len:min:max 	50000 : -0.9924687 : -1.3379528e-07
+# indices >=1 off : 85 of 91		% indices off : 0.02
+ELL-0.1 all-64	len:min:max 	50000 : -0.99973613 : -3.4414128e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-54	len:min:max 	50000 : -0.9992935 : -7.571622e-07
+# indices >=1 off : 67 of 91		% indices off : 0.01
+ELL-0.1 all-50	len:min:max 	50000 : -0.99884456 : -7.404351e-08
+# indices >=1 off : 85 of 91		% indices off : 0.01
+ELL-0.1 all-61	len:min:max 	50000 : -0.98463 : -1.3339799e-07
+# indices >=1 off : 85 of 91		% indices off : 0.03
+ELL-0.1 all-56	len:min:max 	50000 : -0.994998 : -1.2702485e-06
+# indices >=1 off : 75 of 91		% indices off : 0.01
+ELL-0.1 all-49	len:min:max 	50000 : -0.9936114 : -1.0419778e-06
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-52	len:min:max 	50000 : -0.9915369 : -4.802819e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-59	len:min:max 	50000 : -0.99601984 : -4.4360402e-07
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-62	len:min:max 	50000 : -0.99169564 : -1.2069661e-06
+# indices >=1 off : 74 of 91		% indices off : 0.02
+ELL-0.1 all-55	len:min:max 	50000 : -0.9967038 : -3.6290407e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-60	len:min:max 	50000 : -0.98682916 : -1.7506079e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-53	len:min:max 	50000 : -0.9978472 : -3.6290407e-07
+# indices >=1 off : 79 of 91		% indices off : 0.03
+ELL-0.1 all-51	len:min:max 	50000 : -0.99833333 : -5.475421e-08
+# indices >=1 off : 86 of 91		% indices off : 0.02
+ELL-0.1 all-58	len:min:max 	50000 : -0.9957933 : -5.4234033e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-66	len:min:max 	50000 : -0.99706995 : -2.4156742e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-72	len:min:max 	50000 : -0.99667144 : -3.9895372e-07
+# indices >=1 off : 80 of 91		% indices off : 0.03
+ELL-0.1 all-70	len:min:max 	50000 : -0.9979025 : -5.9375473e-08
+# indices >=1 off : 73 of 91		% indices off : 0.02
+ELL-0.1 all-78	len:min:max 	50000 : -0.9965922 : -2.5231271e-08
+# indices >=1 off : 84 of 91		% indices off : 0.02
+ELL-0.1 all-76	len:min:max 	50000 : -0.9913303 : -5.9375473e-08
+# indices >=1 off : 87 of 91		% indices off : 0.02
+ELL-0.1 all-80	len:min:max 	50000 : -0.9915207 : -4.6021262e-07
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-71	len:min:max 	50000 : -0.99701315 : -3.355858e-07
+# indices >=1 off : 75 of 91		% indices off : 0.02
+ELL-0.1 all-74	len:min:max 	50000 : -0.9957448 : -2.7298722e-07
+# indices >=1 off : 83 of 91		% indices off : 0.03
+ELL-0.1 all-68	len:min:max 	50000 : -0.99743134 : -1.7121364e-08
+# indices >=1 off : 85 of 91		% indices off : 0.02
+ELL-0.1 all-79	len:min:max 	50000 : -0.99387383 : -1.0797278e-06
+# indices >=1 off : 74 of 91		% indices off : 0.03
+ELL-0.1 all-75	len:min:max 	50000 : -0.9955021 : -1.3207103e-06
+# indices >=1 off : 71 of 91		% indices off : 0.01
+ELL-0.1 all-69	len:min:max 	50000 : -0.9965039 : -1.1444358e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-65	len:min:max 	50000 : -0.9964993 : -7.090816e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-73	len:min:max 	50000 : -0.98937935 : -1.3379528e-07
+# indices >=1 off : 85 of 91		% indices off : 0.02
+ELL-0.1 all-77	len:min:max 	50000 : -0.9950367 : -2.7298722e-07
+# indices >=1 off : 83 of 91		% indices off : 0.02
+ELL-0.1 all-67	len:min:max 	50000 : -0.9948092 : -1.3379528e-07
+# indices >=1 off : 85 of 91		% indices off : 0.02
+ELL-0.1 all-86	len:min:max 	50000 : -0.9996039 : -2.7298722e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-95	len:min:max 	50000 : -0.99580353 : -5.475421e-08
+# indices >=1 off : 84 of 91		% indices off : 0.03
+ELL-0.1 all-90	len:min:max 	50000 : -0.998098 : -5.4234033e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-92	len:min:max 	50000 : -0.9932038 : -4.802819e-07
+# indices >=1 off : 73 of 91		% indices off : 0.02
+ELL-0.1 all-93	len:min:max 	50000 : -0.9964355 : -1.3379528e-07
+# indices >=1 off : 85 of 91		% indices off : 0.03
+ELL-0.1 all-89	len:min:max 	50000 : -0.9975652 : -1.8887131e-07
+# indices >=1 off : 84 of 91		% indices off : 0.02
+ELL-0.1 all-85	len:min:max 	50000 : -0.9972075 : -1.8887131e-07
+# indices >=1 off : 83 of 91		% indices off : 0.02
+ELL-0.1 all-91	len:min:max 	50000 : -0.99334574 : -2.7298722e-07
+# indices >=1 off : 83 of 91		% indices off : 0.02
+ELL-0.1 all-81	len:min:max 	50000 : -0.9938088 : -1.3379528e-07
+# indices >=1 off : 84 of 91		% indices off : 0.02
+ELL-0.1 all-88	len:min:max 	50000 : -0.9943158 : -5.475421e-08
+# indices >=1 off : 87 of 91		% indices off : 0.02
+ELL-0.1 all-82	len:min:max 	50000 : -0.99635816 : -1.0536918e-06
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-83	len:min:max 	50000 : -0.9970917 : -7.917526e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-96	len:min:max 	50000 : -0.9987549 : -5.4234033e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-87	len:min:max 	50000 : -0.996804 : -1.8887131e-07
+# indices >=1 off : 84 of 91		% indices off : 0.02
+ELL-0.1 all-94	len:min:max 	50000 : -0.999329 : -1.3379528e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-84	len:min:max 	50000 : -0.99277204 : -6.5260963e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-109	len:min:max 	50000 : -0.9927819 : -1.649201e-08
+# indices >=1 off : 87 of 91		% indices off : 0.02
+ELL-0.1 all-98	len:min:max 	50000 : -0.99154925 : -5.7532355e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-101	len:min:max 	50000 : -0.998154 : -7.3524893e-07
+# indices >=1 off : 77 of 91		% indices off : 0.03
+ELL-0.1 all-107	len:min:max 	50000 : -0.99370426 : -5.713486e-07
+# indices >=1 off : 79 of 91		% indices off : 0.03
+ELL-0.1 all-97	len:min:max 	50000 : -0.9961209 : -4.6777586e-08
+# indices >=1 off : 82 of 91		% indices off : 0.03
+ELL-0.1 all-99	len:min:max 	50000 : -0.99435705 : -5.475421e-08
+# indices >=1 off : 87 of 91		% indices off : 0.03
+ELL-0.1 all-110	len:min:max 	50000 : -0.9935302 : -1.1349689e-06
+# indices >=1 off : 69 of 91		% indices off : 0.02
+ELL-0.1 all-111	len:min:max 	50000 : -0.99474555 : -5.475421e-08
+# indices >=1 off : 88 of 91		% indices off : 0.02
+ELL-0.1 all-112	len:min:max 	50000 : -0.99534994 : -1.8887131e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-106	len:min:max 	50000 : -0.9922298 : -1.8887131e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-103	len:min:max 	50000 : -0.9985696 : -6.5260963e-07
+# indices >=1 off : 77 of 91		% indices off : 0.03
+ELL-0.1 all-102	len:min:max 	50000 : -0.99336267 : -3.6290407e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-100	len:min:max 	50000 : -0.9967735 : -8.998586e-07
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-105	len:min:max 	50000 : -0.9941248 : -1.3379528e-07
+# indices >=1 off : 85 of 91		% indices off : 0.03
+ELL-0.1 all-108	len:min:max 	50000 : -0.9989983 : -1.3379528e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-104	len:min:max 	50000 : -0.99539435 : -9.071395e-07
+# indices >=1 off : 79 of 91		% indices off : 0.03
+ELL-0.1 all-118	len:min:max 	50000 : -0.99481 : -1.787049e-06
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-121	len:min:max 	50000 : -0.99599403 : -5.9375473e-08
+# indices >=1 off : 86 of 91		% indices off : 0.03
+ELL-0.1 all-128	len:min:max 	50000 : -0.99052936 : -1.0018622e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-120	len:min:max 	50000 : -0.9944548 : -1.8887131e-07
+# indices >=1 off : 83 of 91		% indices off : 0.02
+ELL-0.1 all-122	len:min:max 	50000 : -0.9961183 : -2.9376693e-07
+# indices >=1 off : 82 of 91		% indices off : 0.03
+ELL-0.1 all-116	len:min:max 	50000 : -0.99829197 : -7.090816e-07
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-127	len:min:max 	50000 : -0.99315584 : -5.0591035e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-123	len:min:max 	50000 : -0.9976213 : -6.859166e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-125	len:min:max 	50000 : -0.99186635 : -2.7298722e-07
+# indices >=1 off : 83 of 91		% indices off : 0.02
+ELL-0.1 all-124	len:min:max 	50000 : -0.99818254 : -9.071395e-07
+# indices >=1 off : 77 of 91		% indices off : 0.03
+ELL-0.1 all-126	len:min:max 	50000 : -0.99798465 : -2.8647804e-07
+# indices >=1 off : 80 of 91		% indices off : 0.03
+ELL-0.1 all-114	len:min:max 	50000 : -0.9972542 : -5.475421e-08
+# indices >=1 off : 87 of 91		% indices off : 0.02
+ELL-0.1 all-115	len:min:max 	50000 : -0.9949809 : -5.475421e-08
+# indices >=1 off : 87 of 91		% indices off : 0.03
+ELL-0.1 all-117	len:min:max 	50000 : -0.9951527 : -1.3379528e-07
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-113	len:min:max 	50000 : -0.9956723 : -8.900426e-07
+# indices >=1 off : 74 of 91		% indices off : 0.02
+ELL-0.1 all-119	len:min:max 	50000 : -0.99229914 : -1.9924369e-07
+# indices >=1 off : 73 of 91		% indices off : 0.02
+ELL-0.1 all-140	len:min:max 	50000 : -0.9979891 : -1.9924369e-07
+# indices >=1 off : 81 of 91		% indices off : 0.03
+ELL-0.1 all-135	len:min:max 	50000 : -0.9969882 : -1.7506079e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-141	len:min:max 	50000 : -0.98884416 : -5.475421e-08
+# indices >=1 off : 83 of 91		% indices off : 0.02
+ELL-0.1 all-143	len:min:max 	50000 : -0.99808276 : -9.071395e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-139	len:min:max 	50000 : -0.9968519 : -4.4360402e-07
+# indices >=1 off : 67 of 91		% indices off : 0.01
+ELL-0.1 all-142	len:min:max 	50000 : -0.9974076 : -1.8887131e-07
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-131	len:min:max 	50000 : -0.9940269 : -2.7298722e-07
+# indices >=1 off : 72 of 91		% indices off : 0.02
+ELL-0.1 all-138	len:min:max 	50000 : -0.99349815 : -7.404351e-08
+# indices >=1 off : 86 of 91		% indices off : 0.02
+ELL-0.1 all-144	len:min:max 	50000 : -0.99134064 : -1.8887131e-07
+# indices >=1 off : 83 of 91		% indices off : 0.02
+ELL-0.1 all-132	len:min:max 	50000 : -0.99687654 : -1.3339799e-07
+# indices >=1 off : 71 of 91		% indices off : 0.02
+ELL-0.1 all-129	len:min:max 	50000 : -0.99666303 : -8.998586e-07
+# indices >=1 off : 68 of 91		% indices off : 0.02
+ELL-0.1 all-137	len:min:max 	50000 : -0.99495924 : -4.2699202e-07
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-130	len:min:max 	50000 : -0.9931075 : -3.6290407e-07
+# indices >=1 off : 78 of 91		% indices off : 0.03
+ELL-0.1 all-133	len:min:max 	50000 : -0.9973111 : -3.1961278e-08
+# indices >=1 off : 87 of 91		% indices off : 0.03
+ELL-0.1 all-134	len:min:max 	50000 : -0.99715155 : -1.0018622e-07
+# indices >=1 off : 85 of 91		% indices off : 0.03
+ELL-0.1 all-136	len:min:max 	50000 : -0.9904868 : -5.753664e-07
+# indices >=1 off : 78 of 91		% indices off : 0.03
+ELL-0.1 all-155	len:min:max 	50000 : -0.9985874 : -3.6290407e-07
+# indices >=1 off : 82 of 91		% indices off : 0.03
+ELL-0.1 all-150	len:min:max 	50000 : -0.99267393 : -5.475421e-08
+# indices >=1 off : 83 of 91		% indices off : 0.03
+ELL-0.1 all-145	len:min:max 	50000 : -0.991473 : -1.6382903e-07
+# indices >=1 off : 84 of 91		% indices off : 0.02
+ELL-0.1 all-157	len:min:max 	50000 : -0.9940447 : -6.8223176e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-156	len:min:max 	50000 : -0.99976534 : -7.476707e-07
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-147	len:min:max 	50000 : -0.9957753 : -8.51931e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-151	len:min:max 	50000 : -0.99622774 : -7.090816e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-154	len:min:max 	50000 : -0.9947139 : -6.0226057e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-159	len:min:max 	50000 : -0.9941731 : -1.8887131e-07
+# indices >=1 off : 83 of 91		% indices off : 0.02
+ELL-0.1 all-146	len:min:max 	50000 : -0.99094635 : -2.2673302e-07
+# indices >=1 off : 78 of 91		% indices off : 0.03
+ELL-0.1 all-152	len:min:max 	50000 : -0.9929983 : -1.0018622e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-153	len:min:max 	50000 : -0.9952265 : -5.475421e-08
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-148	len:min:max 	50000 : -0.9911354 : -3.4414128e-07
+# indices >=1 off : 76 of 91		% indices off : 0.01
+ELL-0.1 all-149	len:min:max 	50000 : -0.99607885 : -3.6290407e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-160	len:min:max 	50000 : -0.9958942 : -2.1960574e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-158	len:min:max 	50000 : -0.9972098 : -6.584882e-07
+# indices >=1 off : 80 of 91		% indices off : 0.03
+ELL-0.1 all-176	len:min:max 	50000 : -0.9942804 : -1.6382903e-07
+# indices >=1 off : 84 of 91		% indices off : 0.01
+ELL-0.1 all-167	len:min:max 	50000 : -0.9938525 : -5.475421e-08
+# indices >=1 off : 84 of 91		% indices off : 0.03
+ELL-0.1 all-166	len:min:max 	50000 : -0.99285305 : -5.4234033e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-161	len:min:max 	50000 : -0.9990155 : -7.404351e-08
+# indices >=1 off : 85 of 91		% indices off : 0.02
+ELL-0.1 all-163	len:min:max 	50000 : -0.9918396 : -3.6290407e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-162	len:min:max 	50000 : -0.9967183 : -2.7298722e-07
+# indices >=1 off : 83 of 91		% indices off : 0.02
+ELL-0.1 all-170	len:min:max 	50000 : -0.99390316 : -7.476707e-07
+# indices >=1 off : 74 of 91		% indices off : 0.02
+ELL-0.1 all-174	len:min:max 	50000 : -0.98968035 : -3.6290407e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-171	len:min:max 	50000 : -0.99357545 : -1.0536918e-06
+# indices >=1 off : 69 of 91		% indices off : 0.02
+ELL-0.1 all-173	len:min:max 	50000 : -0.98861843 : -1.8887131e-07
+# indices >=1 off : 84 of 91		% indices off : 0.03
+ELL-0.1 all-169	len:min:max 	50000 : -0.9962003 : -1.8695957e-06
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-175	len:min:max 	50000 : -0.9987646 : -1.0155508e-06
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-165	len:min:max 	50000 : -0.9980157 : -6.0226057e-07
+# indices >=1 off : 70 of 91		% indices off : 0.02
+ELL-0.1 all-168	len:min:max 	50000 : -0.98759794 : -1.5391696e-07
+# indices >=1 off : 80 of 91		% indices off : 0.03
+ELL-0.1 all-172	len:min:max 	50000 : -0.9999358 : -4.4360402e-07
+# indices >=1 off : 74 of 91		% indices off : 0.02
+ELL-0.1 all-164	len:min:max 	50000 : -0.9955465 : -6.584882e-07
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-186	len:min:max 	50000 : -0.9913356 : -5.475421e-08
+# indices >=1 off : 87 of 91		% indices off : 0.02
+ELL-0.1 all-187	len:min:max 	50000 : -0.99893594 : -7.404351e-08
+# indices >=1 off : 86 of 91		% indices off : 0.03
+ELL-0.1 all-177	len:min:max 	50000 : -0.994981 : -5.735772e-08
+# indices >=1 off : 84 of 91		% indices off : 0.03
+ELL-0.1 all-192	len:min:max 	50000 : -0.99269533 : -5.4234033e-07
+# indices >=1 off : 81 of 91		% indices off : 0.03
+ELL-0.1 all-191	len:min:max 	50000 : -0.999179 : -2.8237355e-07
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-189	len:min:max 	50000 : -0.99736995 : -8.587592e-07
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-181	len:min:max 	50000 : -0.99781585 : -5.475421e-08
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-183	len:min:max 	50000 : -0.99347466 : -6.68381e-07
+# indices >=1 off : 77 of 91		% indices off : 0.03
+ELL-0.1 all-178	len:min:max 	50000 : -0.99809486 : -7.090816e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-185	len:min:max 	50000 : -0.99655026 : -9.071395e-07
+# indices >=1 off : 79 of 91		% indices off : 0.03
+ELL-0.1 all-182	len:min:max 	50000 : -0.9961059 : -7.090816e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-179	len:min:max 	50000 : -0.99454397 : -5.259777e-07
+# indices >=1 off : 77 of 91		% indices off : 0.03
+ELL-0.1 all-180	len:min:max 	50000 : -0.99827266 : -2.7298722e-07
+# indices >=1 off : 83 of 91		% indices off : 0.03
+ELL-0.1 all-190	len:min:max 	50000 : -0.9910804 : -3.1860992e-08
+# indices >=1 off : 84 of 91		% indices off : 0.03
+ELL-0.1 all-184	len:min:max 	50000 : -0.99576503 : -1.8887131e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-188	len:min:max 	50000 : -0.99563134 : -1.8887131e-07
+# indices >=1 off : 84 of 91		% indices off : 0.03
+ELL-0.1 all-204	len:min:max 	50000 : -0.9942726 : -6.99389e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-207	len:min:max 	50000 : -0.9914079 : -8.51931e-07
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-202	len:min:max 	50000 : -0.99607015 : -6.99389e-07
+# indices >=1 off : 71 of 91		% indices off : 0.03
+ELL-0.1 all-206	len:min:max 	50000 : -0.9951262 : -1.3379528e-07
+# indices >=1 off : 85 of 91		% indices off : 0.02
+ELL-0.1 all-197	len:min:max 	50000 : -0.9896065 : -2.5443e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-198	len:min:max 	50000 : -0.98976326 : -3.0682222e-07
+# indices >=1 off : 75 of 91		% indices off : 0.02
+ELL-0.1 all-203	len:min:max 	50000 : -0.993282 : -3.1860992e-08
+# indices >=1 off : 86 of 91		% indices off : 0.03
+ELL-0.1 all-201	len:min:max 	50000 : -0.99146575 : -5.5042455e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-195	len:min:max 	50000 : -0.9971536 : -2.4077016e-07
+# indices >=1 off : 83 of 91		% indices off : 0.03
+ELL-0.1 all-200	len:min:max 	50000 : -0.99800277 : -1.3339799e-07
+# indices >=1 off : 81 of 91		% indices off : 0.03
+ELL-0.1 all-194	len:min:max 	50000 : -0.9988061 : -5.713486e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-199	len:min:max 	50000 : -0.9996606 : -1.7121364e-08
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-193	len:min:max 	50000 : -0.9932819 : -2.7298722e-07
+# indices >=1 off : 82 of 91		% indices off : 0.03
+ELL-0.1 all-205	len:min:max 	50000 : -0.9962913 : -4.4360402e-07
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-208	len:min:max 	50000 : -0.9934221 : -4.7994854e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-196	len:min:max 	50000 : -0.9933783 : -5.259777e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-209	len:min:max 	50000 : -0.9986411 : -1.8887131e-07
+# indices >=1 off : 84 of 91		% indices off : 0.02
+ELL-0.1 all-218	len:min:max 	50000 : -0.9903017 : -2.7298722e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-221	len:min:max 	50000 : -0.99176216 : -3.4414128e-07
+# indices >=1 off : 74 of 91		% indices off : 0.02
+ELL-0.1 all-224	len:min:max 	50000 : -0.99830073 : -7.404351e-08
+# indices >=1 off : 85 of 91		% indices off : 0.02
+ELL-0.1 all-216	len:min:max 	50000 : -0.99345493 : -8.900426e-07
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-219	len:min:max 	50000 : -0.99506533 : -1.6382903e-07
+# indices >=1 off : 84 of 91		% indices off : 0.02
+ELL-0.1 all-217	len:min:max 	50000 : -0.9972832 : -1.7121364e-08
+# indices >=1 off : 87 of 91		% indices off : 0.02
+ELL-0.1 all-223	len:min:max 	50000 : -0.9917777 : -3.0682222e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-222	len:min:max 	50000 : -0.99630344 : -1.9924369e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-215	len:min:max 	50000 : -0.9971035 : -5.475421e-08
+# indices >=1 off : 86 of 91		% indices off : 0.02
+ELL-0.1 all-220	len:min:max 	50000 : -0.99060196 : -1.2045906e-06
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-211	len:min:max 	50000 : -0.99823815 : -2.325521e-06
+# indices >=1 off : 72 of 91		% indices off : 0.02
+ELL-0.1 all-212	len:min:max 	50000 : -0.99477196 : -9.071395e-07
+# indices >=1 off : 75 of 91		% indices off : 0.03
+ELL-0.1 all-214	len:min:max 	50000 : -0.9976465 : -5.4234033e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-210	len:min:max 	50000 : -0.9928605 : -5.475421e-08
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-213	len:min:max 	50000 : -0.98575866 : -2.7298722e-07
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-230	len:min:max 	50000 : -0.99437344 : -1.8887131e-07
+# indices >=1 off : 84 of 91		% indices off : 0.02
+ELL-0.1 all-238	len:min:max 	50000 : -0.9945613 : -2.7298722e-07
+# indices >=1 off : 83 of 91		% indices off : 0.03
+ELL-0.1 all-237	len:min:max 	50000 : -0.99618083 : -2.7298722e-07
+# indices >=1 off : 82 of 91		% indices off : 0.03
+ELL-0.1 all-232	len:min:max 	50000 : -0.99443686 : -9.071395e-07
+# indices >=1 off : 72 of 91		% indices off : 0.02
+ELL-0.1 all-226	len:min:max 	50000 : -0.9961918 : -5.475421e-08
+# indices >=1 off : 83 of 91		% indices off : 0.02
+ELL-0.1 all-234	len:min:max 	50000 : -0.9906521 : -1.0018622e-07
+# indices >=1 off : 83 of 91		% indices off : 0.02
+ELL-0.1 all-235	len:min:max 	50000 : -0.99572694 : -1.7121364e-08
+# indices >=1 off : 89 of 91		% indices off : 0.03
+ELL-0.1 all-236	len:min:max 	50000 : -0.9962374 : -2.7298722e-07
+# indices >=1 off : 83 of 91		% indices off : 0.02
+ELL-0.1 all-240	len:min:max 	50000 : -0.9971226 : -1.2223701e-08
+# indices >=1 off : 90 of 91		% indices off : 0.03
+ELL-0.1 all-239	len:min:max 	50000 : -0.9983438 : -3.355858e-07
+# indices >=1 off : 79 of 91		% indices off : 0.03
+ELL-0.1 all-227	len:min:max 	50000 : -0.99328816 : -7.476707e-07
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-225	len:min:max 	50000 : -0.992842 : -4.4360402e-07
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-228	len:min:max 	50000 : -0.99709004 : -2.4156742e-07
+# indices >=1 off : 74 of 91		% indices off : 0.01
+ELL-0.1 all-233	len:min:max 	50000 : -0.9941102 : -1.3441715e-07
+# indices >=1 off : 79 of 91		% indices off : 0.03
+ELL-0.1 all-231	len:min:max 	50000 : -0.99315584 : -7.476707e-07
+# indices >=1 off : 73 of 91		% indices off : 0.02
+ELL-0.1 all-229	len:min:max 	50000 : -0.99652785 : -1.2768035e-07
+# indices >=1 off : 84 of 91		% indices off : 0.03
+ELL-0.1 all-249	len:min:max 	50000 : -0.9919556 : -7.090816e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-248	len:min:max 	50000 : -0.9954257 : -5.475421e-08
+# indices >=1 off : 83 of 91		% indices off : 0.02
+ELL-0.1 all-251	len:min:max 	50000 : -0.9971708 : -1.3441715e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-256	len:min:max 	50000 : -0.9930787 : -1.3379528e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-242	len:min:max 	50000 : -0.99476266 : -7.397303e-07
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-252	len:min:max 	50000 : -0.9950045 : -1.2150194e-06
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-246	len:min:max 	50000 : -0.9962543 : -4.802819e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-243	len:min:max 	50000 : -0.99913335 : -1.0018622e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-245	len:min:max 	50000 : -0.9997823 : -5.475421e-08
+# indices >=1 off : 75 of 91		% indices off : 0.02
+ELL-0.1 all-253	len:min:max 	50000 : -0.99468255 : -1.3339799e-07
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-250	len:min:max 	50000 : -0.99673754 : -9.05181e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-241	len:min:max 	50000 : -0.9875095 : -5.9375473e-08
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-244	len:min:max 	50000 : -0.9927121 : -5.9375473e-08
+# indices >=1 off : 86 of 91		% indices off : 0.02
+ELL-0.1 all-254	len:min:max 	50000 : -0.99764615 : -1.7121364e-08
+# indices >=1 off : 88 of 91		% indices off : 0.02
+ELL-0.1 all-255	len:min:max 	50000 : -0.99753183 : -5.475421e-08
+# indices >=1 off : 88 of 91		% indices off : 0.03
+ELL-0.1 all-247	len:min:max 	50000 : -0.99085844 : -3.0682222e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-271	len:min:max 	50000 : -0.99319816 : -1.8887131e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-272	len:min:max 	50000 : -0.9979363 : -3.355858e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-259	len:min:max 	50000 : -0.99514407 : -7.404351e-08
+# indices >=1 off : 85 of 91		% indices off : 0.02
+ELL-0.1 all-262	len:min:max 	50000 : -0.99753386 : -1.0867541e-06
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-263	len:min:max 	50000 : -0.9978981 : -1.2223701e-08
+# indices >=1 off : 90 of 91		% indices off : 0.02
+ELL-0.1 all-266	len:min:max 	50000 : -0.99869645 : -7.090816e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-258	len:min:max 	50000 : -0.992493 : -3.355858e-07
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-264	len:min:max 	50000 : -0.9962496 : -2.4387776e-07
+# indices >=1 off : 80 of 91		% indices off : 0.03
+ELL-0.1 all-265	len:min:max 	50000 : -0.99429685 : -2.7298722e-07
+# indices >=1 off : 82 of 91		% indices off : 0.03
+ELL-0.1 all-260	len:min:max 	50000 : -0.9951234 : -1.4986631e-06
+# indices >=1 off : 74 of 91		% indices off : 0.02
+ELL-0.1 all-269	len:min:max 	50000 : -0.9952963 : -5.475421e-08
+# indices >=1 off : 87 of 91		% indices off : 0.03
+ELL-0.1 all-261	len:min:max 	50000 : -0.9981524 : -2.7298722e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-268	len:min:max 	50000 : -0.9965296 : -3.7342403e-08
+# indices >=1 off : 88 of 91		% indices off : 0.03
+ELL-0.1 all-270	len:min:max 	50000 : -0.99672264 : -2.7298722e-07
+# indices >=1 off : 82 of 91		% indices off : 0.03
+ELL-0.1 all-257	len:min:max 	50000 : -0.9883704 : -7.404351e-08
+# indices >=1 off : 86 of 91		% indices off : 0.02
+ELL-0.1 all-267	len:min:max 	50000 : -0.98904276 : -1.3379528e-07
+# indices >=1 off : 83 of 91		% indices off : 0.02
+ELL-0.1 all-285	len:min:max 	50000 : -0.99025077 : -2.5231271e-08
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-286	len:min:max 	50000 : -0.9970497 : -2.4387776e-07
+# indices >=1 off : 82 of 91		% indices off : 0.03
+ELL-0.1 all-275	len:min:max 	50000 : -0.9857553 : -1.8887131e-07
+# indices >=1 off : 84 of 91		% indices off : 0.02
+ELL-0.1 all-280	len:min:max 	50000 : -0.9917552 : -1.4906793e-06
+# indices >=1 off : 75 of 91		% indices off : 0.02
+ELL-0.1 all-278	len:min:max 	50000 : -0.99083394 : -1.2223701e-08
+# indices >=1 off : 90 of 91		% indices off : 0.02
+ELL-0.1 all-273	len:min:max 	50000 : -0.99789864 : -3.6290407e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-281	len:min:max 	50000 : -0.9936651 : -1.3339799e-07
+# indices >=1 off : 85 of 91		% indices off : 0.02
+ELL-0.1 all-276	len:min:max 	50000 : -0.9913103 : -1.2045906e-06
+# indices >=1 off : 78 of 91		% indices off : 0.03
+ELL-0.1 all-277	len:min:max 	50000 : -0.9966911 : -5.4234033e-07
+# indices >=1 off : 81 of 91		% indices off : 0.01
+ELL-0.1 all-282	len:min:max 	50000 : -0.9955688 : -4.3801197e-07
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-288	len:min:max 	50000 : -0.99410754 : -7.571622e-07
+# indices >=1 off : 73 of 91		% indices off : 0.02
+ELL-0.1 all-284	len:min:max 	50000 : -0.99972874 : -1.3379528e-07
+# indices >=1 off : 73 of 91		% indices off : 0.02
+ELL-0.1 all-287	len:min:max 	50000 : -0.9929618 : -2.1960574e-07
+# indices >=1 off : 75 of 91		% indices off : 0.01
+ELL-0.1 all-279	len:min:max 	50000 : -0.9989921 : -5.4234033e-07
+# indices >=1 off : 80 of 91		% indices off : 0.03
+ELL-0.1 all-274	len:min:max 	50000 : -0.99153364 : -5.4234033e-07
+# indices >=1 off : 81 of 91		% indices off : 0.03
+ELL-0.1 all-283	len:min:max 	50000 : -0.9920387 : -1.8887131e-07
+# indices >=1 off : 84 of 91		% indices off : 0.02
+ELL-0.1 all-293	len:min:max 	50000 : -0.99399424 : -1.0409094e-06
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-294	len:min:max 	50000 : -0.9993491 : -2.7298722e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-302	len:min:max 	50000 : -0.99806046 : -1.0018622e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-290	len:min:max 	50000 : -0.99759847 : -1.2768035e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-295	len:min:max 	50000 : -0.9962084 : -4.6021262e-07
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-304	len:min:max 	50000 : -0.9884337 : -4.7994854e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-289	len:min:max 	50000 : -0.993379 : -1.7121364e-08
+# indices >=1 off : 87 of 91		% indices off : 0.02
+ELL-0.1 all-299	len:min:max 	50000 : -0.9961916 : -1.3379528e-07
+# indices >=1 off : 85 of 91		% indices off : 0.02
+ELL-0.1 all-297	len:min:max 	50000 : -0.99427164 : -5.475421e-08
+# indices >=1 off : 86 of 91		% indices off : 0.04
+ELL-0.1 all-301	len:min:max 	50000 : -0.9892338 : -7.3524893e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-296	len:min:max 	50000 : -0.9999358 : -1.8887131e-07
+# indices >=1 off : 83 of 91		% indices off : 0.03
+ELL-0.1 all-298	len:min:max 	50000 : -0.99316597 : -8.759318e-08
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-300	len:min:max 	50000 : -0.9937541 : -2.7298722e-07
+# indices >=1 off : 83 of 91		% indices off : 0.02
+ELL-0.1 all-291	len:min:max 	50000 : -0.99265635 : -3.4414128e-07
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-303	len:min:max 	50000 : -0.9970434 : -5.475421e-08
+# indices >=1 off : 87 of 91		% indices off : 0.02
+ELL-0.1 all-292	len:min:max 	50000 : -0.99888164 : -1.8887131e-07
+# indices >=1 off : 74 of 91		% indices off : 0.02
+ELL-0.1 all-307	len:min:max 	50000 : -0.9956744 : -5.475421e-08
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-305	len:min:max 	50000 : -0.9912877 : -7.090816e-07
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-314	len:min:max 	50000 : -0.99568534 : -7.404351e-08
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-316	len:min:max 	50000 : -0.99358654 : -2.7298722e-07
+# indices >=1 off : 82 of 91		% indices off : 0.03
+ELL-0.1 all-312	len:min:max 	50000 : -0.9948863 : -6.13867e-08
+# indices >=1 off : 84 of 91		% indices off : 0.03
+ELL-0.1 all-319	len:min:max 	50000 : -0.99910945 : -1.0018622e-07
+# indices >=1 off : 85 of 91		% indices off : 0.02
+ELL-0.1 all-317	len:min:max 	50000 : -0.99107844 : -1.2702485e-06
+# indices >=1 off : 75 of 91		% indices off : 0.02
+ELL-0.1 all-309	len:min:max 	50000 : -0.99733853 : -1.6382903e-07
+# indices >=1 off : 84 of 91		% indices off : 0.02
+ELL-0.1 all-306	len:min:max 	50000 : -0.9961232 : -1.7121364e-08
+# indices >=1 off : 89 of 91		% indices off : 0.02
+ELL-0.1 all-315	len:min:max 	50000 : -0.9981563 : -8.617947e-07
+# indices >=1 off : 74 of 91		% indices off : 0.02
+ELL-0.1 all-313	len:min:max 	50000 : -0.9997008 : -3.6726766e-07
+# indices >=1 off : 76 of 91		% indices off : 0.01
+ELL-0.1 all-311	len:min:max 	50000 : -0.9913325 : -2.892095e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-308	len:min:max 	50000 : -0.99586135 : -1.2768035e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-320	len:min:max 	50000 : -0.9962193 : -7.090816e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-310	len:min:max 	50000 : -0.9962557 : -2.2673302e-07
+# indices >=1 off : 61 of 91		% indices off : 0.01
+ELL-0.1 all-318	len:min:max 	50000 : -0.99568224 : -7.397303e-07
+# indices >=1 off : 75 of 91		% indices off : 0.02
+ELL-0.1 all-336	len:min:max 	50000 : -0.9902955 : -5.5042455e-07
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-331	len:min:max 	50000 : -0.99711597 : -1.3379528e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-329	len:min:max 	50000 : -0.9988901 : -5.475421e-08
+# indices >=1 off : 83 of 91		% indices off : 0.02
+ELL-0.1 all-330	len:min:max 	50000 : -0.9930221 : -2.7298722e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-325	len:min:max 	50000 : -0.9930266 : -4.2699202e-07
+# indices >=1 off : 79 of 91		% indices off : 0.03
+ELL-0.1 all-327	len:min:max 	50000 : -0.99675804 : -5.259777e-07
+# indices >=1 off : 77 of 91		% indices off : 0.03
+ELL-0.1 all-333	len:min:max 	50000 : -0.99357545 : -1.3379528e-07
+# indices >=1 off : 84 of 91		% indices off : 0.02
+ELL-0.1 all-334	len:min:max 	50000 : -0.9948359 : -1.8887131e-07
+# indices >=1 off : 83 of 91		% indices off : 0.02
+ELL-0.1 all-328	len:min:max 	50000 : -0.99472636 : -3.8523e-07
+# indices >=1 off : 79 of 91		% indices off : 0.03
+ELL-0.1 all-332	len:min:max 	50000 : -0.99605775 : -9.071395e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-324	len:min:max 	50000 : -0.99755484 : -2.0326604e-06
+# indices >=1 off : 69 of 91		% indices off : 0.01
+ELL-0.1 all-321	len:min:max 	50000 : -0.9973095 : -8.998586e-07
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-322	len:min:max 	50000 : -0.9948772 : -3.6290407e-07
+# indices >=1 off : 82 of 91		% indices off : 0.03
+ELL-0.1 all-323	len:min:max 	50000 : -0.9899909 : -9.071395e-07
+# indices >=1 off : 79 of 91		% indices off : 0.03
+ELL-0.1 all-335	len:min:max 	50000 : -0.9945778 : -4.3039216e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-326	len:min:max 	50000 : -0.9893558 : -5.3424e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-340	len:min:max 	50000 : -0.9954073 : -8.998586e-07
+# indices >=1 off : 67 of 91		% indices off : 0.02
+ELL-0.1 all-352	len:min:max 	50000 : -0.99215496 : -2.8647804e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-341	len:min:max 	50000 : -0.99850154 : -7.404351e-08
+# indices >=1 off : 83 of 91		% indices off : 0.02
+ELL-0.1 all-345	len:min:max 	50000 : -0.9956336 : -7.404351e-08
+# indices >=1 off : 86 of 91		% indices off : 0.02
+ELL-0.1 all-351	len:min:max 	50000 : -0.9943294 : -5.9375473e-08
+# indices >=1 off : 83 of 91		% indices off : 0.03
+ELL-0.1 all-344	len:min:max 	50000 : -0.98925877 : -1.0023823e-06
+# indices >=1 off : 70 of 91		% indices off : 0.02
+ELL-0.1 all-346	len:min:max 	50000 : -0.9976633 : -7.404351e-08
+# indices >=1 off : 86 of 91		% indices off : 0.02
+ELL-0.1 all-350	len:min:max 	50000 : -0.99384093 : -5.475421e-08
+# indices >=1 off : 86 of 91		% indices off : 0.03
+ELL-0.1 all-343	len:min:max 	50000 : -0.99668497 : -4.6870247e-07
+# indices >=1 off : 73 of 91		% indices off : 0.02
+ELL-0.1 all-338	len:min:max 	50000 : -0.99833846 : -5.4234033e-07
+# indices >=1 off : 75 of 91		% indices off : 0.02
+ELL-0.1 all-348	len:min:max 	50000 : -0.99419415 : -2.7298722e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-339	len:min:max 	50000 : -0.9918 : -3.6290407e-07
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-342	len:min:max 	50000 : -0.99798083 : -6.75242e-07
+# indices >=1 off : 67 of 91		% indices off : 0.02
+ELL-0.1 all-337	len:min:max 	50000 : -0.9981366 : -5.9375473e-08
+# indices >=1 off : 87 of 91		% indices off : 0.02
+ELL-0.1 all-347	len:min:max 	50000 : -0.99859256 : -3.6290407e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-349	len:min:max 	50000 : -0.99338883 : -5.3424e-07
+# indices >=1 off : 79 of 91		% indices off : 0.03
+ELL-0.1 all-355	len:min:max 	50000 : -0.99288595 : -1.8887131e-07
+# indices >=1 off : 84 of 91		% indices off : 0.02
+ELL-0.1 all-353	len:min:max 	50000 : -0.99433833 : -5.475421e-08
+# indices >=1 off : 87 of 91		% indices off : 0.02
+ELL-0.1 all-356	len:min:max 	50000 : -0.9888167 : -5.713486e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-354	len:min:max 	50000 : -0.9922688 : -1.0409094e-06
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-365	len:min:max 	50000 : -0.99775195 : -1.9646913e-08
+# indices >=1 off : 85 of 91		% indices off : 0.02
+ELL-0.1 all-366	len:min:max 	50000 : -0.99367255 : -7.404351e-08
+# indices >=1 off : 83 of 91		% indices off : 0.02
+ELL-0.1 all-367	len:min:max 	50000 : -0.99564534 : -5.475421e-08
+# indices >=1 off : 87 of 91		% indices off : 0.02
+ELL-0.1 all-361	len:min:max 	50000 : -0.99430245 : -2.7298722e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-359	len:min:max 	50000 : -0.9960024 : -7.090816e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-362	len:min:max 	50000 : -0.994233 : -1.7121364e-08
+# indices >=1 off : 89 of 91		% indices off : 0.03
+ELL-0.1 all-360	len:min:max 	50000 : -0.9949264 : -3.6290407e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-357	len:min:max 	50000 : -0.99165815 : -3.6290407e-07
+# indices >=1 off : 82 of 91		% indices off : 0.03
+ELL-0.1 all-368	len:min:max 	50000 : -0.9958244 : -1.3379528e-07
+# indices >=1 off : 85 of 91		% indices off : 0.03
+ELL-0.1 all-364	len:min:max 	50000 : -0.99668324 : -2.5443e-07
+# indices >=1 off : 71 of 91		% indices off : 0.02
+ELL-0.1 all-363	len:min:max 	50000 : -0.9942326 : -1.3379528e-07
+# indices >=1 off : 85 of 91		% indices off : 0.02
+ELL-0.1 all-358	len:min:max 	50000 : -0.9981592 : -2.7298722e-07
+# indices >=1 off : 82 of 91		% indices off : 0.03
+ELL-0.1 all-378	len:min:max 	50000 : -0.9896065 : -1.8887131e-07
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-373	len:min:max 	50000 : -0.9943779 : -3.6290407e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-370	len:min:max 	50000 : -0.9980565 : -1.8887131e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-374	len:min:max 	50000 : -0.9914141 : -2.7298722e-07
+# indices >=1 off : 83 of 91		% indices off : 0.01
+ELL-0.1 all-376	len:min:max 	50000 : -0.99718225 : -3.1860992e-08
+# indices >=1 off : 88 of 91		% indices off : 0.03
+ELL-0.1 all-372	len:min:max 	50000 : -0.99789387 : -9.600244e-07
+# indices >=1 off : 73 of 91		% indices off : 0.02
+ELL-0.1 all-375	len:min:max 	50000 : -0.9901788 : -2.892095e-07
+# indices >=1 off : 79 of 91		% indices off : 0.03
+ELL-0.1 all-381	len:min:max 	50000 : -0.99692196 : -2.9015604e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-379	len:min:max 	50000 : -0.99960613 : -2.7298722e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-380	len:min:max 	50000 : -0.99931604 : -3.6290407e-07
+# indices >=1 off : 82 of 91		% indices off : 0.03
+ELL-0.1 all-383	len:min:max 	50000 : -0.9953184 : -9.786272e-07
+# indices >=1 off : 74 of 91		% indices off : 0.02
+ELL-0.1 all-369	len:min:max 	50000 : -0.9911867 : -1.1444358e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-371	len:min:max 	50000 : -0.9906756 : -5.475421e-08
+# indices >=1 off : 88 of 91		% indices off : 0.02
+ELL-0.1 all-384	len:min:max 	50000 : -0.9926044 : -3.6290407e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-377	len:min:max 	50000 : -0.9965682 : -1.3379528e-07
+# indices >=1 off : 85 of 91		% indices off : 0.02
+ELL-0.1 all-382	len:min:max 	50000 : -0.9919086 : -7.7940905e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-390	len:min:max 	50000 : -0.99630743 : -5.259777e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-388	len:min:max 	50000 : -0.99730176 : -2.7298722e-07
+# indices >=1 off : 83 of 91		% indices off : 0.02
+ELL-0.1 all-392	len:min:max 	50000 : -0.9902955 : -1.6382903e-07
+# indices >=1 off : 84 of 91		% indices off : 0.02
+ELL-0.1 all-397	len:min:max 	50000 : -0.995527 : -7.03258e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-395	len:min:max 	50000 : -0.99559444 : -5.4234033e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-398	len:min:max 	50000 : -0.996964 : -2.4387776e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-385	len:min:max 	50000 : -0.9964252 : -1.3379528e-07
+# indices >=1 off : 85 of 91		% indices off : 0.03
+ELL-0.1 all-396	len:min:max 	50000 : -0.9955793 : -1.8887131e-07
+# indices >=1 off : 84 of 91		% indices off : 0.02
+ELL-0.1 all-393	len:min:max 	50000 : -0.9975836 : -3.6290407e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-399	len:min:max 	50000 : -0.99755627 : -7.404351e-08
+# indices >=1 off : 86 of 91		% indices off : 0.03
+ELL-0.1 all-389	len:min:max 	50000 : -0.9982384 : -1.3339799e-07
+# indices >=1 off : 82 of 91		% indices off : 0.03
+ELL-0.1 all-391	len:min:max 	50000 : -0.9954905 : -4.2750347e-08
+# indices >=1 off : 87 of 91		% indices off : 0.02
+ELL-0.1 all-387	len:min:max 	50000 : -0.9948384 : -2.8032254e-08
+# indices >=1 off : 84 of 91		% indices off : 0.02
+ELL-0.1 all-400	len:min:max 	50000 : -0.99650866 : -4.7994854e-07
+# indices >=1 off : 78 of 91		% indices off : 0.01
+ELL-0.1 all-386	len:min:max 	50000 : -0.9930741 : -3.6290407e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-394	len:min:max 	50000 : -0.9981933 : -1.991808e-07
+# indices >=1 off : 67 of 91		% indices off : 0.03
+ELL-0.1 all-410	len:min:max 	50000 : -0.99549234 : -1.8179475e-06
+# indices >=1 off : 75 of 91		% indices off : 0.02
+ELL-0.1 all-416	len:min:max 	50000 : -0.99381727 : -1.2045906e-06
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-412	len:min:max 	50000 : -0.9991002 : -1.2768035e-07
+# indices >=1 off : 85 of 91		% indices off : 0.02
+ELL-0.1 all-407	len:min:max 	50000 : -0.997571 : -2.5443e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-402	len:min:max 	50000 : -0.9933854 : -1.8887131e-07
+# indices >=1 off : 84 of 91		% indices off : 0.03
+ELL-0.1 all-409	len:min:max 	50000 : -0.99459445 : -1.0018622e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-415	len:min:max 	50000 : -0.99688274 : -7.090816e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-413	len:min:max 	50000 : -0.9982153 : -8.759318e-08
+# indices >=1 off : 84 of 91		% indices off : 0.03
+ELL-0.1 all-408	len:min:max 	50000 : -0.99556804 : -3.355858e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-404	len:min:max 	50000 : -0.9950611 : -7.090816e-07
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-414	len:min:max 	50000 : -0.99541473 : -1.6382903e-07
+# indices >=1 off : 73 of 91		% indices off : 0.02
+ELL-0.1 all-411	len:min:max 	50000 : -0.9963363 : -1.3379528e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-403	len:min:max 	50000 : -0.9960948 : -5.475421e-08
+# indices >=1 off : 87 of 91		% indices off : 0.02
+ELL-0.1 all-405	len:min:max 	50000 : -0.99546874 : -5.475421e-08
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-401	len:min:max 	50000 : -0.99350727 : -1.7121364e-08
+# indices >=1 off : 87 of 91		% indices off : 0.02
+ELL-0.1 all-406	len:min:max 	50000 : -0.996725 : -1.6382903e-07
+# indices >=1 off : 81 of 91		% indices off : 0.03
+ELL-0.1 all-419	len:min:max 	50000 : -0.99757147 : -8.759318e-08
+# indices >=1 off : 85 of 91		% indices off : 0.03
+ELL-0.1 all-418	len:min:max 	50000 : -0.9917777 : -5.7532355e-07
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-422	len:min:max 	50000 : -0.9916315 : -1.895459e-06
+# indices >=1 off : 74 of 91		% indices off : 0.03
+ELL-0.1 all-420	len:min:max 	50000 : -0.997888 : -2.5957083e-06
+# indices >=1 off : 69 of 91		% indices off : 0.02
+ELL-0.1 all-421	len:min:max 	50000 : -0.99654007 : -5.0591035e-07
+# indices >=1 off : 75 of 91		% indices off : 0.03
+ELL-0.1 all-423	len:min:max 	50000 : -0.9911742 : -9.071395e-07
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-431	len:min:max 	50000 : -0.99611914 : -5.9375473e-08
+# indices >=1 off : 87 of 91		% indices off : 0.03
+ELL-0.1 all-425	len:min:max 	50000 : -0.99644166 : -3.4414128e-07
+# indices >=1 off : 81 of 91		% indices off : 0.03
+ELL-0.1 all-430	len:min:max 	50000 : -0.9969478 : -1.3379528e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-426	len:min:max 	50000 : -0.99590397 : -5.0591035e-07
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-428	len:min:max 	50000 : -0.99525774 : -5.9375473e-08
+# indices >=1 off : 86 of 91		% indices off : 0.02
+ELL-0.1 all-429	len:min:max 	50000 : -0.99900115 : -7.404351e-08
+# indices >=1 off : 86 of 91		% indices off : 0.03
+ELL-0.1 all-417	len:min:max 	50000 : -0.99230355 : -5.707122e-07
+# indices >=1 off : 74 of 91		% indices off : 0.02
+ELL-0.1 all-427	len:min:max 	50000 : -0.9984818 : -1.8887131e-07
+# indices >=1 off : 84 of 91		% indices off : 0.02
+ELL-0.1 all-432	len:min:max 	50000 : -0.98975086 : -2.4387776e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-424	len:min:max 	50000 : -0.99863386 : -1.3934127e-06
+# indices >=1 off : 74 of 91		% indices off : 0.02
+ELL-0.1 all-441	len:min:max 	50000 : -0.9980061 : -1.3862415e-06
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-438	len:min:max 	50000 : -0.99275917 : -1.8887131e-07
+# indices >=1 off : 84 of 91		% indices off : 0.02
+ELL-0.1 all-448	len:min:max 	50000 : -0.99446535 : -2.7923993e-06
+# indices >=1 off : 74 of 91		% indices off : 0.02
+ELL-0.1 all-439	len:min:max 	50000 : -0.99440694 : -1.8887131e-07
+# indices >=1 off : 84 of 91		% indices off : 0.02
+ELL-0.1 all-443	len:min:max 	50000 : -0.9948019 : -1.5699934e-06
+# indices >=1 off : 75 of 91		% indices off : 0.02
+ELL-0.1 all-446	len:min:max 	50000 : -0.9904931 : -1.3379528e-07
+# indices >=1 off : 85 of 91		% indices off : 0.02
+ELL-0.1 all-442	len:min:max 	50000 : -0.99939686 : -1.3339799e-07
+# indices >=1 off : 84 of 91		% indices off : 0.02
+ELL-0.1 all-435	len:min:max 	50000 : -0.9923881 : -5.9375473e-08
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-434	len:min:max 	50000 : -0.98957384 : -5.475421e-08
+# indices >=1 off : 85 of 91		% indices off : 0.03
+ELL-0.1 all-440	len:min:max 	50000 : -0.9936169 : -5.4234033e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-436	len:min:max 	50000 : -0.99666965 : -7.090816e-07
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-433	len:min:max 	50000 : -0.990216 : -1.3379528e-07
+# indices >=1 off : 84 of 91		% indices off : 0.02
+ELL-0.1 all-447	len:min:max 	50000 : -0.9979615 : -1.8887131e-07
+# indices >=1 off : 83 of 91		% indices off : 0.03
+ELL-0.1 all-437	len:min:max 	50000 : -0.997306 : -5.475421e-08
+# indices >=1 off : 87 of 91		% indices off : 0.03
+ELL-0.1 all-445	len:min:max 	50000 : -0.99507546 : -7.090816e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-444	len:min:max 	50000 : -0.9944548 : -2.892095e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-457	len:min:max 	50000 : -0.99334157 : -3.8523e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-450	len:min:max 	50000 : -0.9973358 : -1.8887131e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-463	len:min:max 	50000 : -0.9968841 : -1.2768035e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-458	len:min:max 	50000 : -0.9983377 : -7.404351e-08
+# indices >=1 off : 86 of 91		% indices off : 0.02
+ELL-0.1 all-451	len:min:max 	50000 : -0.9986758 : -1.3441715e-07
+# indices >=1 off : 84 of 91		% indices off : 0.03
+ELL-0.1 all-464	len:min:max 	50000 : -0.9953747 : -2.477548e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-455	len:min:max 	50000 : -0.9975269 : -5.475421e-08
+# indices >=1 off : 81 of 91		% indices off : 0.03
+ELL-0.1 all-454	len:min:max 	50000 : -0.9974508 : -7.404351e-08
+# indices >=1 off : 84 of 91		% indices off : 0.03
+ELL-0.1 all-456	len:min:max 	50000 : -0.99751484 : -1.3441715e-07
+# indices >=1 off : 82 of 91		% indices off : 0.03
+ELL-0.1 all-461	len:min:max 	50000 : -0.9949288 : -6.99389e-07
+# indices >=1 off : 79 of 91		% indices off : 0.03
+ELL-0.1 all-449	len:min:max 	50000 : -0.9975334 : -7.090816e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-460	len:min:max 	50000 : -0.99075955 : -4.384437e-07
+# indices >=1 off : 74 of 91		% indices off : 0.02
+ELL-0.1 all-452	len:min:max 	50000 : -0.9917487 : -3.6290407e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-459	len:min:max 	50000 : -0.998498 : -2.7298722e-07
+# indices >=1 off : 83 of 91		% indices off : 0.02
+ELL-0.1 all-462	len:min:max 	50000 : -0.997405 : -2.7298722e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-453	len:min:max 	50000 : -0.996911 : -7.404351e-08
+# indices >=1 off : 85 of 91		% indices off : 0.03
+ELL-0.1 all-476	len:min:max 	50000 : -0.9905295 : -1.8887131e-07
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-473	len:min:max 	50000 : -0.9961219 : -2.3566873e-08
+# indices >=1 off : 87 of 91		% indices off : 0.03
+ELL-0.1 all-472	len:min:max 	50000 : -0.9963586 : -5.8594617e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-475	len:min:max 	50000 : -0.9977615 : -7.404351e-08
+# indices >=1 off : 86 of 91		% indices off : 0.03
+ELL-0.1 all-478	len:min:max 	50000 : -0.9941004 : -7.404351e-08
+# indices >=1 off : 84 of 91		% indices off : 0.02
+ELL-0.1 all-471	len:min:max 	50000 : -0.99801636 : -1.3339799e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-474	len:min:max 	50000 : -0.99864316 : -1.2768035e-07
+# indices >=1 off : 78 of 91		% indices off : 0.03
+ELL-0.1 all-465	len:min:max 	50000 : -0.9987881 : -1.0018622e-07
+# indices >=1 off : 85 of 91		% indices off : 0.03
+ELL-0.1 all-470	len:min:max 	50000 : -0.99147046 : -1.2069661e-06
+# indices >=1 off : 77 of 91		% indices off : 0.03
+ELL-0.1 all-479	len:min:max 	50000 : -0.9975442 : -1.7893925e-06
+# indices >=1 off : 76 of 91		% indices off : 0.03
+ELL-0.1 all-467	len:min:max 	50000 : -0.98435503 : -5.475421e-08
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-468	len:min:max 	50000 : -0.9968843 : -7.404351e-08
+# indices >=1 off : 86 of 91		% indices off : 0.02
+ELL-0.1 all-477	len:min:max 	50000 : -0.99724674 : -1.8887131e-07
+# indices >=1 off : 84 of 91		% indices off : 0.03
+ELL-0.1 all-480	len:min:max 	50000 : -0.99253577 : -2.7298722e-07
+# indices >=1 off : 83 of 91		% indices off : 0.02
+ELL-0.1 all-469	len:min:max 	50000 : -0.99710536 : -9.071395e-07
+# indices >=1 off : 79 of 91		% indices off : 0.03
+ELL-0.1 all-466	len:min:max 	50000 : -0.9963745 : -3.6290407e-07
+# indices >=1 off : 72 of 91		% indices off : 0.02
+ELL-0.1 all-489	len:min:max 	50000 : -0.99508923 : -2.7298722e-07
+# indices >=1 off : 83 of 91		% indices off : 0.02
+ELL-0.1 all-492	len:min:max 	50000 : -0.9915416 : -2.2068573e-06
+# indices >=1 off : 72 of 91		% indices off : 0.02
+ELL-0.1 all-491	len:min:max 	50000 : -0.9981695 : -5.4234033e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-495	len:min:max 	50000 : -0.99504673 : -2.7298722e-07
+# indices >=1 off : 79 of 91		% indices off : 0.03
+ELL-0.1 all-494	len:min:max 	50000 : -0.9980638 : -2.7298722e-07
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-496	len:min:max 	50000 : -0.99689466 : -9.071395e-07
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-488	len:min:max 	50000 : -0.9965316 : -1.3379528e-07
+# indices >=1 off : 85 of 91		% indices off : 0.02
+ELL-0.1 all-485	len:min:max 	50000 : -0.9957331 : -1.0018622e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-490	len:min:max 	50000 : -0.9952963 : -5.8594617e-07
+# indices >=1 off : 78 of 91		% indices off : 0.03
+ELL-0.1 all-487	len:min:max 	50000 : -0.99470514 : -1.8887131e-07
+# indices >=1 off : 84 of 91		% indices off : 0.02
+ELL-0.1 all-486	len:min:max 	50000 : -0.9909833 : -6.99389e-07
+# indices >=1 off : 71 of 91		% indices off : 0.02
+ELL-0.1 all-493	len:min:max 	50000 : -0.9969352 : -1.3379528e-07
+# indices >=1 off : 81 of 91		% indices off : 0.03
+ELL-0.1 all-481	len:min:max 	50000 : -0.9964958 : -1.3379528e-07
+# indices >=1 off : 84 of 91		% indices off : 0.03
+ELL-0.1 all-484	len:min:max 	50000 : -0.99339235 : -7.090816e-07
+# indices >=1 off : 74 of 91		% indices off : 0.03
+ELL-0.1 all-483	len:min:max 	50000 : -0.99751484 : -5.475421e-08
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-482	len:min:max 	50000 : -0.99693495 : -3.0682222e-07
+# indices >=1 off : 77 of 91		% indices off : 0.03
+ELL-0.1 all-498	len:min:max 	50000 : -0.994829 : -1.8887131e-07
+# indices >=1 off : 84 of 91		% indices off : 0.04
+ELL-0.1 all-502	len:min:max 	50000 : -0.998634 : -5.4234033e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-505	len:min:max 	50000 : -0.99080473 : -4.802819e-07
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-504	len:min:max 	50000 : -0.9933919 : -1.0018622e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-510	len:min:max 	50000 : -0.99695534 : -8.332187e-07
+# indices >=1 off : 72 of 91		% indices off : 0.02
+ELL-0.1 all-506	len:min:max 	50000 : -0.9923529 : -4.7994854e-07
+# indices >=1 off : 77 of 91		% indices off : 0.03
+ELL-0.1 all-509	len:min:max 	50000 : -0.99694777 : -5.713486e-07
+# indices >=1 off : 74 of 91		% indices off : 0.02
+ELL-0.1 all-503	len:min:max 	50000 : -0.9930199 : -3.6290407e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-500	len:min:max 	50000 : -0.9915862 : -1.6382903e-07
+# indices >=1 off : 76 of 91		% indices off : 0.03
+ELL-0.1 all-512	len:min:max 	50000 : -0.9972378 : -5.475421e-08
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-501	len:min:max 	50000 : -0.99700886 : -5.475421e-08
+# indices >=1 off : 85 of 91		% indices off : 0.03
+ELL-0.1 all-508	len:min:max 	50000 : -0.99166054 : -5.475421e-08
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-497	len:min:max 	50000 : -0.9916658 : -1.3016107e-06
+# indices >=1 off : 59 of 91		% indices off : 0.01
+ELL-0.1 all-507	len:min:max 	50000 : -0.9956517 : -2.4387776e-07
+# indices >=1 off : 75 of 91		% indices off : 0.02
+ELL-0.1 all-511	len:min:max 	50000 : -0.99780107 : -2.7298722e-07
+# indices >=1 off : 83 of 91		% indices off : 0.02
+ELL-0.1 all-499	len:min:max 	50000 : -0.9977325 : -1.8887131e-07
+# indices >=1 off : 83 of 91		% indices off : 0.03
+ELL-0.1 all-515	len:min:max 	50000 : -0.9851538 : -2.7298722e-07
+# indices >=1 off : 83 of 91		% indices off : 0.02
+ELL-0.1 all-517	len:min:max 	50000 : -0.99447805 : -1.2768035e-07
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-521	len:min:max 	50000 : -0.99852335 : -3.6290407e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-513	len:min:max 	50000 : -0.991373 : -2.7298722e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-519	len:min:max 	50000 : -0.99314797 : -2.1960574e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-514	len:min:max 	50000 : -0.9979624 : -3.6290407e-07
+# indices >=1 off : 74 of 91		% indices off : 0.02
+ELL-0.1 all-525	len:min:max 	50000 : -0.9965706 : -4.4360402e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-526	len:min:max 	50000 : -0.99751127 : -1.3339799e-07
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-527	len:min:max 	50000 : -0.9938818 : -3.578247e-06
+# indices >=1 off : 71 of 91		% indices off : 0.03
+ELL-0.1 all-518	len:min:max 	50000 : -0.99218166 : -1.4143428e-06
+# indices >=1 off : 75 of 91		% indices off : 0.02
+ELL-0.1 all-528	len:min:max 	50000 : -0.99594134 : -1.3339799e-07
+# indices >=1 off : 85 of 91		% indices off : 0.03
+ELL-0.1 all-520	len:min:max 	50000 : -0.99418306 : -5.4234033e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-523	len:min:max 	50000 : -0.99573725 : -3.4543427e-07
+# indices >=1 off : 76 of 91		% indices off : 0.03
+ELL-0.1 all-524	len:min:max 	50000 : -0.99566346 : -5.475421e-08
+# indices >=1 off : 87 of 91		% indices off : 0.03
+ELL-0.1 all-522	len:min:max 	50000 : -0.9906809 : -3.6726766e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-516	len:min:max 	50000 : -0.99448574 : -2.1960574e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-536	len:min:max 	50000 : -0.9967956 : -5.707122e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-540	len:min:max 	50000 : -0.9944791 : -3.6290407e-07
+# indices >=1 off : 70 of 91		% indices off : 0.02
+ELL-0.1 all-535	len:min:max 	50000 : -0.99636513 : -1.16962894e-07
+# indices >=1 off : 83 of 91		% indices off : 0.03
+ELL-0.1 all-534	len:min:max 	50000 : -0.9943906 : -2.7298722e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-543	len:min:max 	50000 : -0.9972818 : -4.2699202e-07
+# indices >=1 off : 73 of 91		% indices off : 0.03
+ELL-0.1 all-529	len:min:max 	50000 : -0.99894357 : -1.4906793e-06
+# indices >=1 off : 76 of 91		% indices off : 0.03
+ELL-0.1 all-544	len:min:max 	50000 : -0.9985581 : -1.8887131e-07
+# indices >=1 off : 84 of 91		% indices off : 0.02
+ELL-0.1 all-541	len:min:max 	50000 : -0.9960643 : -5.475421e-08
+# indices >=1 off : 86 of 91		% indices off : 0.02
+ELL-0.1 all-532	len:min:max 	50000 : -0.9929572 : -5.259777e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-539	len:min:max 	50000 : -0.99756366 : -1.3951852e-06
+# indices >=1 off : 72 of 91		% indices off : 0.02
+ELL-0.1 all-531	len:min:max 	50000 : -0.99786186 : -1.8887131e-07
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-537	len:min:max 	50000 : -0.9974402 : -1.3379528e-07
+# indices >=1 off : 85 of 91		% indices off : 0.03
+ELL-0.1 all-538	len:min:max 	50000 : -0.9936759 : -7.292264e-07
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-542	len:min:max 	50000 : -0.9947263 : -3.4543427e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-533	len:min:max 	50000 : -0.9932915 : -2.7298722e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-530	len:min:max 	50000 : -0.9959827 : -5.4234033e-07
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-549	len:min:max 	50000 : -0.99839485 : -5.4234033e-07
+# indices >=1 off : 79 of 91		% indices off : 0.03
+ELL-0.1 all-555	len:min:max 	50000 : -0.99592507 : -1.3379528e-07
+# indices >=1 off : 80 of 91		% indices off : 0.03
+ELL-0.1 all-556	len:min:max 	50000 : -0.99778205 : -1.3339799e-07
+# indices >=1 off : 80 of 91		% indices off : 0.01
+ELL-0.1 all-557	len:min:max 	50000 : -0.9868804 : -1.068343e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-560	len:min:max 	50000 : -0.9916249 : -1.7121364e-08
+# indices >=1 off : 88 of 91		% indices off : 0.03
+ELL-0.1 all-545	len:min:max 	50000 : -0.9948709 : -2.3799844e-08
+# indices >=1 off : 88 of 91		% indices off : 0.02
+ELL-0.1 all-548	len:min:max 	50000 : -0.99382704 : -2.4077016e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-552	len:min:max 	50000 : -0.9897326 : -8.080224e-07
+# indices >=1 off : 79 of 91		% indices off : 0.03
+ELL-0.1 all-559	len:min:max 	50000 : -0.99706244 : -1.5391696e-07
+# indices >=1 off : 69 of 91		% indices off : 0.02
+ELL-0.1 all-551	len:min:max 	50000 : -0.9992582 : -1.3379528e-07
+# indices >=1 off : 85 of 91		% indices off : 0.03
+ELL-0.1 all-547	len:min:max 	50000 : -0.99498606 : -2.7298722e-07
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-546	len:min:max 	50000 : -0.9950063 : -7.404351e-08
+# indices >=1 off : 86 of 91		% indices off : 0.02
+ELL-0.1 all-553	len:min:max 	50000 : -0.9969918 : -5.259777e-07
+# indices >=1 off : 78 of 91		% indices off : 0.03
+ELL-0.1 all-558	len:min:max 	50000 : -0.99594724 : -1.2768035e-07
+# indices >=1 off : 85 of 91		% indices off : 0.03
+ELL-0.1 all-550	len:min:max 	50000 : -0.9903953 : -1.3379528e-07
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-554	len:min:max 	50000 : -0.99377626 : -1.7121364e-08
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-570	len:min:max 	50000 : -0.99523985 : -1.5029202e-06
+# indices >=1 off : 69 of 91		% indices off : 0.02
+ELL-0.1 all-564	len:min:max 	50000 : -0.99596727 : -5.4234033e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-575	len:min:max 	50000 : -0.9904629 : -3.6290407e-07
+# indices >=1 off : 82 of 91		% indices off : 0.03
+ELL-0.1 all-574	len:min:max 	50000 : -0.9923509 : -3.6290407e-07
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-569	len:min:max 	50000 : -0.9969882 : -2.7298722e-07
+# indices >=1 off : 83 of 91		% indices off : 0.02
+ELL-0.1 all-576	len:min:max 	50000 : -0.99262804 : -1.5029202e-06
+# indices >=1 off : 74 of 91		% indices off : 0.02
+ELL-0.1 all-573	len:min:max 	50000 : -0.9917777 : -7.404351e-08
+# indices >=1 off : 77 of 91		% indices off : 0.01
+ELL-0.1 all-568	len:min:max 	50000 : -0.99531734 : -2.7298722e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-565	len:min:max 	50000 : -0.9936624 : -2.0837376e-07
+# indices >=1 off : 76 of 91		% indices off : 0.03
+ELL-0.1 all-563	len:min:max 	50000 : -0.99968463 : -1.7121364e-08
+# indices >=1 off : 85 of 91		% indices off : 0.03
+ELL-0.1 all-567	len:min:max 	50000 : -0.9915416 : -6.0226057e-07
+# indices >=1 off : 77 of 91		% indices off : 0.03
+ELL-0.1 all-572	len:min:max 	50000 : -0.9967107 : -5.4234033e-07
+# indices >=1 off : 74 of 91		% indices off : 0.02
+ELL-0.1 all-561	len:min:max 	50000 : -0.9984864 : -5.475421e-08
+# indices >=1 off : 86 of 91		% indices off : 0.03
+ELL-0.1 all-566	len:min:max 	50000 : -0.9960287 : -4.7994854e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-571	len:min:max 	50000 : -0.99329364 : -5.475421e-08
+# indices >=1 off : 88 of 91		% indices off : 0.03
+ELL-0.1 all-562	len:min:max 	50000 : -0.99010074 : -3.6290407e-07
+# indices >=1 off : 82 of 91		% indices off : 0.03
+ELL-0.1 all-587	len:min:max 	50000 : -0.99631816 : -5.9375473e-08
+# indices >=1 off : 84 of 91		% indices off : 0.03
+ELL-0.1 all-581	len:min:max 	50000 : -0.99595267 : -8.759318e-08
+# indices >=1 off : 76 of 91		% indices off : 0.03
+ELL-0.1 all-577	len:min:max 	50000 : -0.99922067 : -7.090816e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-591	len:min:max 	50000 : -0.9981863 : -1.3379528e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-583	len:min:max 	50000 : -0.9929572 : -9.071395e-07
+# indices >=1 off : 79 of 91		% indices off : 0.03
+ELL-0.1 all-590	len:min:max 	50000 : -0.9956141 : -2.0837376e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-586	len:min:max 	50000 : -0.9973361 : -1.0018622e-07
+# indices >=1 off : 85 of 91		% indices off : 0.02
+ELL-0.1 all-592	len:min:max 	50000 : -0.9938449 : -1.0018622e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-584	len:min:max 	50000 : -0.99546796 : -5.753664e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-588	len:min:max 	50000 : -0.9955125 : -1.4878499e-06
+# indices >=1 off : 75 of 91		% indices off : 0.02
+ELL-0.1 all-580	len:min:max 	50000 : -0.997652 : -7.090816e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-582	len:min:max 	50000 : -0.9914209 : -9.071395e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-585	len:min:max 	50000 : -0.9943514 : -9.071395e-07
+# indices >=1 off : 78 of 91		% indices off : 0.03
+ELL-0.1 all-589	len:min:max 	50000 : -0.99739945 : -9.600244e-07
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-578	len:min:max 	50000 : -0.99788153 : -3.355858e-07
+# indices >=1 off : 72 of 91		% indices off : 0.02
+ELL-0.1 all-579	len:min:max 	50000 : -0.99497706 : -5.9362696e-07
+# indices >=1 off : 73 of 91		% indices off : 0.02
+ELL-0.1 all-604	len:min:max 	50000 : -0.98855823 : -1.2045906e-06
+# indices >=1 off : 73 of 91		% indices off : 0.02
+ELL-0.1 all-600	len:min:max 	50000 : -0.9977862 : -5.259777e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-602	len:min:max 	50000 : -0.99270797 : -5.9375473e-08
+# indices >=1 off : 83 of 91		% indices off : 0.03
+ELL-0.1 all-599	len:min:max 	50000 : -0.99918556 : -5.475421e-08
+# indices >=1 off : 84 of 91		% indices off : 0.03
+ELL-0.1 all-607	len:min:max 	50000 : -0.99595565 : -1.3379528e-07
+# indices >=1 off : 85 of 91		% indices off : 0.03
+ELL-0.1 all-596	len:min:max 	50000 : -0.99666023 : -7.404351e-08
+# indices >=1 off : 86 of 91		% indices off : 0.03
+ELL-0.1 all-603	len:min:max 	50000 : -0.997375 : -1.3379528e-07
+# indices >=1 off : 84 of 91		% indices off : 0.02
+ELL-0.1 all-595	len:min:max 	50000 : -0.99325144 : -2.9376693e-07
+# indices >=1 off : 78 of 91		% indices off : 0.03
+ELL-0.1 all-598	len:min:max 	50000 : -0.99344134 : -7.404351e-08
+# indices >=1 off : 86 of 91		% indices off : 0.03
+ELL-0.1 all-605	len:min:max 	50000 : -0.9953424 : -9.071395e-07
+# indices >=1 off : 79 of 91		% indices off : 0.03
+ELL-0.1 all-593	len:min:max 	50000 : -0.9980298 : -2.7298722e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-601	len:min:max 	50000 : -0.9894046 : -3.6290407e-07
+# indices >=1 off : 82 of 91		% indices off : 0.01
+ELL-0.1 all-608	len:min:max 	50000 : -0.9974806 : -6.99389e-07
+# indices >=1 off : 67 of 91		% indices off : 0.03
+ELL-0.1 all-594	len:min:max 	50000 : -0.9924575 : -1.3379528e-07
+# indices >=1 off : 79 of 91		% indices off : 0.03
+ELL-0.1 all-597	len:min:max 	50000 : -0.99420065 : -3.465028e-06
+# indices >=1 off : 70 of 91		% indices off : 0.02
+ELL-0.1 all-606	len:min:max 	50000 : -0.9964242 : -1.8887131e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-617	len:min:max 	50000 : -0.9948522 : -1.3379528e-07
+# indices >=1 off : 85 of 91		% indices off : 0.03
+ELL-0.1 all-611	len:min:max 	50000 : -0.9954541 : -2.7298722e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-624	len:min:max 	50000 : -0.9934273 : -1.3339799e-07
+# indices >=1 off : 83 of 91		% indices off : 0.02
+ELL-0.1 all-614	len:min:max 	50000 : -0.9921206 : -4.6021262e-07
+# indices >=1 off : 75 of 91		% indices off : 0.02
+ELL-0.1 all-616	len:min:max 	50000 : -0.9965594 : -1.3379528e-07
+# indices >=1 off : 85 of 91		% indices off : 0.03
+ELL-0.1 all-619	len:min:max 	50000 : -0.9951609 : -2.857825e-08
+# indices >=1 off : 73 of 91		% indices off : 0.02
+ELL-0.1 all-621	len:min:max 	50000 : -0.99663854 : -1.3951852e-06
+# indices >=1 off : 76 of 91		% indices off : 0.03
+ELL-0.1 all-620	len:min:max 	50000 : -0.99460316 : -1.8887131e-07
+# indices >=1 off : 83 of 91		% indices off : 0.02
+ELL-0.1 all-623	len:min:max 	50000 : -0.99927574 : -7.090816e-07
+# indices >=1 off : 80 of 91		% indices off : 0.03
+ELL-0.1 all-610	len:min:max 	50000 : -0.99770576 : -2.5443e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-618	len:min:max 	50000 : -0.99608463 : -1.2045906e-06
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-613	len:min:max 	50000 : -0.9981856 : -1.9924369e-07
+# indices >=1 off : 82 of 91		% indices off : 0.03
+ELL-0.1 all-612	len:min:max 	50000 : -0.99284667 : -1.3272811e-06
+# indices >=1 off : 69 of 91		% indices off : 0.02
+ELL-0.1 all-622	len:min:max 	50000 : -0.99682283 : -5.713486e-07
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-609	len:min:max 	50000 : -0.99320257 : -1.7121364e-08
+# indices >=1 off : 86 of 91		% indices off : 0.03
+ELL-0.1 all-615	len:min:max 	50000 : -0.994077 : -7.397303e-07
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-631	len:min:max 	50000 : -0.9993829 : -1.8887131e-07
+# indices >=1 off : 83 of 91		% indices off : 0.02
+ELL-0.1 all-636	len:min:max 	50000 : -0.99725604 : -5.475421e-08
+# indices >=1 off : 88 of 91		% indices off : 0.02
+ELL-0.1 all-630	len:min:max 	50000 : -0.9952659 : -5.475421e-08
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-625	len:min:max 	50000 : -0.99644595 : -1.8887131e-07
+# indices >=1 off : 75 of 91		% indices off : 0.03
+ELL-0.1 all-640	len:min:max 	50000 : -0.98644435 : -1.8887131e-07
+# indices >=1 off : 84 of 91		% indices off : 0.02
+ELL-0.1 all-629	len:min:max 	50000 : -0.98500496 : -1.3862415e-06
+# indices >=1 off : 66 of 91		% indices off : 0.02
+ELL-0.1 all-626	len:min:max 	50000 : -0.9904873 : -1.3379528e-07
+# indices >=1 off : 84 of 91		% indices off : 0.03
+ELL-0.1 all-633	len:min:max 	50000 : -0.9942106 : -5.4234033e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-634	len:min:max 	50000 : -0.99600863 : -7.404351e-08
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-637	len:min:max 	50000 : -0.99563855 : -1.7121364e-08
+# indices >=1 off : 87 of 91		% indices off : 0.02
+ELL-0.1 all-638	len:min:max 	50000 : -0.99618655 : -2.7298722e-07
+# indices >=1 off : 83 of 91		% indices off : 0.03
+ELL-0.1 all-627	len:min:max 	50000 : -0.9940269 : -8.587592e-07
+# indices >=1 off : 75 of 91		% indices off : 0.02
+ELL-0.1 all-635	len:min:max 	50000 : -0.99473226 : -2.892095e-07
+# indices >=1 off : 82 of 91		% indices off : 0.03
+ELL-0.1 all-628	len:min:max 	50000 : -0.98899615 : -5.475421e-08
+# indices >=1 off : 87 of 91		% indices off : 0.03
+ELL-0.1 all-632	len:min:max 	50000 : -0.9963574 : -5.4234033e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-639	len:min:max 	50000 : -0.9982398 : -5.4234033e-07
+# indices >=1 off : 81 of 91		% indices off : 0.03
+ELL-0.1 all-650	len:min:max 	50000 : -0.99014485 : -4.6870247e-07
+# indices >=1 off : 74 of 91		% indices off : 0.02
+ELL-0.1 all-654	len:min:max 	50000 : -0.99575806 : -4.0157127e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-646	len:min:max 	50000 : -0.99927753 : -5.4234033e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-649	len:min:max 	50000 : -0.9931459 : -1.1864563e-06
+# indices >=1 off : 75 of 91		% indices off : 0.02
+ELL-0.1 all-643	len:min:max 	50000 : -0.9999192 : -3.9895372e-07
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-645	len:min:max 	50000 : -0.9960024 : -8.759318e-08
+# indices >=1 off : 82 of 91		% indices off : 0.03
+ELL-0.1 all-641	len:min:max 	50000 : -0.9973674 : -2.024995e-06
+# indices >=1 off : 70 of 91		% indices off : 0.02
+ELL-0.1 all-656	len:min:max 	50000 : -0.99644595 : -1.1444358e-07
+# indices >=1 off : 74 of 91		% indices off : 0.02
+ELL-0.1 all-642	len:min:max 	50000 : -0.99626577 : -2.8647804e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-644	len:min:max 	50000 : -0.99009615 : -5.4234033e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-655	len:min:max 	50000 : -0.99882746 : -5.4234033e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-652	len:min:max 	50000 : -0.99939156 : -1.4906793e-06
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-653	len:min:max 	50000 : -0.9992582 : -5.475421e-08
+# indices >=1 off : 86 of 91		% indices off : 0.02
+ELL-0.1 all-648	len:min:max 	50000 : -0.99359715 : -3.8523e-07
+# indices >=1 off : 73 of 91		% indices off : 0.02
+ELL-0.1 all-651	len:min:max 	50000 : -0.9931075 : -3.4414128e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-647	len:min:max 	50000 : -0.9974871 : -5.475421e-08
+# indices >=1 off : 87 of 91		% indices off : 0.02
+ELL-0.1 all-671	len:min:max 	50000 : -0.9993734 : -8.759318e-08
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-663	len:min:max 	50000 : -0.998925 : -3.4543427e-07
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-658	len:min:max 	50000 : -0.99073666 : -1.8887131e-07
+# indices >=1 off : 84 of 91		% indices off : 0.03
+ELL-0.1 all-670	len:min:max 	50000 : -0.9977155 : -1.3379528e-07
+# indices >=1 off : 85 of 91		% indices off : 0.02
+ELL-0.1 all-659	len:min:max 	50000 : -0.99097705 : -7.404351e-08
+# indices >=1 off : 81 of 91		% indices off : 0.03
+ELL-0.1 all-664	len:min:max 	50000 : -0.99632114 : -1.5029202e-06
+# indices >=1 off : 75 of 91		% indices off : 0.02
+ELL-0.1 all-662	len:min:max 	50000 : -0.9908601 : -1.7506079e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-666	len:min:max 	50000 : -0.9970525 : -5.9375473e-08
+# indices >=1 off : 86 of 91		% indices off : 0.02
+ELL-0.1 all-672	len:min:max 	50000 : -0.9978819 : -1.7121364e-08
+# indices >=1 off : 87 of 91		% indices off : 0.02
+ELL-0.1 all-665	len:min:max 	50000 : -0.9917777 : -1.2223701e-08
+# indices >=1 off : 90 of 91		% indices off : 0.02
+ELL-0.1 all-667	len:min:max 	50000 : -0.99690616 : -2.7298722e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-668	len:min:max 	50000 : -0.9949795 : -5.5042455e-07
+# indices >=1 off : 73 of 91		% indices off : 0.02
+ELL-0.1 all-660	len:min:max 	50000 : -0.98922867 : -1.8887131e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-657	len:min:max 	50000 : -0.9965354 : -1.3339799e-07
+# indices >=1 off : 85 of 91		% indices off : 0.02
+ELL-0.1 all-661	len:min:max 	50000 : -0.99173373 : -7.090816e-07
+# indices >=1 off : 80 of 91		% indices off : 0.03
+ELL-0.1 all-669	len:min:max 	50000 : -0.9975387 : -1.2768035e-07
+# indices >=1 off : 74 of 91		% indices off : 0.01
+ELL-0.1 all-679	len:min:max 	50000 : -0.9996904 : -1.3379528e-07
+# indices >=1 off : 84 of 91		% indices off : 0.03
+ELL-0.1 all-676	len:min:max 	50000 : -0.998492 : -7.571622e-07
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-688	len:min:max 	50000 : -0.99799204 : -3.1501008e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-675	len:min:max 	50000 : -0.9977942 : -2.0620607e-06
+# indices >=1 off : 74 of 91		% indices off : 0.02
+ELL-0.1 all-678	len:min:max 	50000 : -0.9928351 : -1.0867541e-06
+# indices >=1 off : 75 of 91		% indices off : 0.02
+ELL-0.1 all-686	len:min:max 	50000 : -0.99565524 : -4.6021262e-07
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-674	len:min:max 	50000 : -0.99833393 : -7.404351e-08
+# indices >=1 off : 86 of 91		% indices off : 0.03
+ELL-0.1 all-673	len:min:max 	50000 : -0.9971432 : -4.2750347e-08
+# indices >=1 off : 87 of 91		% indices off : 0.02
+ELL-0.1 all-687	len:min:max 	50000 : -0.99643755 : -8.998586e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-685	len:min:max 	50000 : -0.9954286 : -2.7298722e-07
+# indices >=1 off : 78 of 91		% indices off : 0.03
+ELL-0.1 all-682	len:min:max 	50000 : -0.9933527 : -6.5260963e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-683	len:min:max 	50000 : -0.9958696 : -5.475421e-08
+# indices >=1 off : 83 of 91		% indices off : 0.02
+ELL-0.1 all-680	len:min:max 	50000 : -0.99544597 : -1.3379528e-07
+# indices >=1 off : 85 of 91		% indices off : 0.03
+ELL-0.1 all-684	len:min:max 	50000 : -0.99623096 : -5.5042455e-07
+# indices >=1 off : 69 of 91		% indices off : 0.03
+ELL-0.1 all-677	len:min:max 	50000 : -0.9950064 : -1.8887131e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-681	len:min:max 	50000 : -0.9967753 : -5.4234033e-07
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-697	len:min:max 	50000 : -0.99285305 : -5.4234033e-07
+# indices >=1 off : 70 of 91		% indices off : 0.02
+ELL-0.1 all-691	len:min:max 	50000 : -0.9952256 : -1.3379528e-07
+# indices >=1 off : 85 of 91		% indices off : 0.02
+ELL-0.1 all-694	len:min:max 	50000 : -0.99702305 : -3.6290407e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-692	len:min:max 	50000 : -0.99834865 : -7.404351e-08
+# indices >=1 off : 85 of 91		% indices off : 0.03
+ELL-0.1 all-700	len:min:max 	50000 : -0.9971564 : -5.4234033e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-698	len:min:max 	50000 : -0.997345 : -5.4234033e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-702	len:min:max 	50000 : -0.99390686 : -4.0496542e-07
+# indices >=1 off : 78 of 91		% indices off : 0.03
+ELL-0.1 all-703	len:min:max 	50000 : -0.9973528 : -9.071395e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-696	len:min:max 	50000 : -0.9978325 : -5.9375473e-08
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-695	len:min:max 	50000 : -0.9974941 : -4.8511623e-07
+# indices >=1 off : 72 of 91		% indices off : 0.02
+ELL-0.1 all-704	len:min:max 	50000 : -0.9898985 : -1.3339799e-07
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-689	len:min:max 	50000 : -0.9952969 : -1.055554e-06
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-693	len:min:max 	50000 : -0.9913452 : -1.8887131e-07
+# indices >=1 off : 83 of 91		% indices off : 0.02
+ELL-0.1 all-699	len:min:max 	50000 : -0.994943 : -4.0496542e-07
+# indices >=1 off : 74 of 91		% indices off : 0.02
+ELL-0.1 all-701	len:min:max 	50000 : -0.99617046 : -7.03258e-07
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-690	len:min:max 	50000 : -0.9941763 : -1.3339799e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-715	len:min:max 	50000 : -0.99862254 : -1.2768035e-07
+# indices >=1 off : 78 of 91		% indices off : 0.03
+ELL-0.1 all-711	len:min:max 	50000 : -0.9963192 : -8.080224e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-717	len:min:max 	50000 : -0.9979175 : -1.7121364e-08
+# indices >=1 off : 89 of 91		% indices off : 0.02
+ELL-0.1 all-716	len:min:max 	50000 : -0.9998403 : -2.7298722e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-713	len:min:max 	50000 : -0.99019116 : -1.8887131e-07
+# indices >=1 off : 84 of 91		% indices off : 0.02
+ELL-0.1 all-709	len:min:max 	50000 : -0.991955 : -1.8887131e-07
+# indices >=1 off : 84 of 91		% indices off : 0.03
+ELL-0.1 all-706	len:min:max 	50000 : -0.9946997 : -1.8887131e-07
+# indices >=1 off : 84 of 91		% indices off : 0.02
+ELL-0.1 all-707	len:min:max 	50000 : -0.9940621 : -5.475421e-08
+# indices >=1 off : 72 of 91		% indices off : 0.02
+ELL-0.1 all-710	len:min:max 	50000 : -0.9940116 : -7.404351e-08
+# indices >=1 off : 83 of 91		% indices off : 0.02
+ELL-0.1 all-708	len:min:max 	50000 : -0.99800277 : -4.1696893e-08
+# indices >=1 off : 73 of 91		% indices off : 0.02
+ELL-0.1 all-714	len:min:max 	50000 : -0.9930098 : -1.2768035e-07
+# indices >=1 off : 82 of 91		% indices off : 0.03
+ELL-0.1 all-705	len:min:max 	50000 : -0.99216217 : -1.3379528e-07
+# indices >=1 off : 85 of 91		% indices off : 0.03
+ELL-0.1 all-719	len:min:max 	50000 : -0.99418914 : -1.1864563e-06
+# indices >=1 off : 75 of 91		% indices off : 0.02
+ELL-0.1 all-720	len:min:max 	50000 : -0.9946077 : -9.600244e-07
+# indices >=1 off : 74 of 91		% indices off : 0.01
+ELL-0.1 all-718	len:min:max 	50000 : -0.9929866 : -1.8887131e-07
+# indices >=1 off : 84 of 91		% indices off : 0.03
+ELL-0.1 all-712	len:min:max 	50000 : -0.99756515 : -3.6290407e-07
+# indices >=1 off : 82 of 91		% indices off : 0.03
+ELL-0.1 all-732	len:min:max 	50000 : -0.99793303 : -5.9375473e-08
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-734	len:min:max 	50000 : -0.99438554 : -7.571622e-07
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-728	len:min:max 	50000 : -0.99640334 : -2.1326738e-08
+# indices >=1 off : 71 of 91		% indices off : 0.01
+ELL-0.1 all-727	len:min:max 	50000 : -0.99741864 : -4.6021262e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-722	len:min:max 	50000 : -0.99382365 : -7.404351e-08
+# indices >=1 off : 86 of 91		% indices off : 0.03
+ELL-0.1 all-731	len:min:max 	50000 : -0.9930528 : -1.3379528e-07
+# indices >=1 off : 84 of 91		% indices off : 0.03
+ELL-0.1 all-736	len:min:max 	50000 : -0.9959665 : -5.4234033e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-725	len:min:max 	50000 : -0.98655814 : -5.475421e-08
+# indices >=1 off : 86 of 91		% indices off : 0.03
+ELL-0.1 all-721	len:min:max 	50000 : -0.9923339 : -3.6290407e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-726	len:min:max 	50000 : -0.986933 : -3.7342403e-08
+# indices >=1 off : 88 of 91		% indices off : 0.02
+ELL-0.1 all-723	len:min:max 	50000 : -0.9942904 : -5.5042455e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-724	len:min:max 	50000 : -0.9906407 : -6.8223176e-07
+# indices >=1 off : 78 of 91		% indices off : 0.03
+ELL-0.1 all-729	len:min:max 	50000 : -0.99851465 : -2.7298722e-07
+# indices >=1 off : 82 of 91		% indices off : 0.03
+ELL-0.1 all-730	len:min:max 	50000 : -0.9941354 : -2.7298722e-07
+# indices >=1 off : 83 of 91		% indices off : 0.03
+ELL-0.1 all-733	len:min:max 	50000 : -0.99391884 : -1.3023168e-06
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-735	len:min:max 	50000 : -0.9929988 : -5.4234033e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-741	len:min:max 	50000 : -0.99832904 : -7.090816e-07
+# indices >=1 off : 79 of 91		% indices off : 0.03
+ELL-0.1 all-744	len:min:max 	50000 : -0.9908555 : -5.3424e-07
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-746	len:min:max 	50000 : -0.9979435 : -7.404351e-08
+# indices >=1 off : 86 of 91		% indices off : 0.02
+ELL-0.1 all-745	len:min:max 	50000 : -0.9939018 : -2.7298722e-07
+# indices >=1 off : 83 of 91		% indices off : 0.02
+ELL-0.1 all-738	len:min:max 	50000 : -0.9972756 : -5.197832e-07
+# indices >=1 off : 74 of 91		% indices off : 0.02
+ELL-0.1 all-737	len:min:max 	50000 : -0.9925717 : -2.3566873e-08
+# indices >=1 off : 87 of 91		% indices off : 0.02
+ELL-0.1 all-739	len:min:max 	50000 : -0.99838895 : -8.332187e-07
+# indices >=1 off : 70 of 91		% indices off : 0.02
+ELL-0.1 all-740	len:min:max 	50000 : -0.9975015 : -1.0018622e-07
+# indices >=1 off : 85 of 91		% indices off : 0.02
+ELL-0.1 all-748	len:min:max 	50000 : -0.9997942 : -5.475421e-08
+# indices >=1 off : 87 of 91		% indices off : 0.03
+ELL-0.1 all-749	len:min:max 	50000 : -0.9918835 : -1.3379528e-07
+# indices >=1 off : 73 of 91		% indices off : 0.02
+ELL-0.1 all-747	len:min:max 	50000 : -0.99957424 : -1.3379528e-07
+# indices >=1 off : 85 of 91		% indices off : 0.02
+ELL-0.1 all-750	len:min:max 	50000 : -0.99716544 : -7.898183e-08
+# indices >=1 off : 73 of 91		% indices off : 0.02
+ELL-0.1 all-742	len:min:max 	50000 : -0.9936589 : -5.475421e-08
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-752	len:min:max 	50000 : -0.99319375 : -1.8887131e-07
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-751	len:min:max 	50000 : -0.99562496 : -1.3379528e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-743	len:min:max 	50000 : -0.9957144 : -1.8887131e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-755	len:min:max 	50000 : -0.9948165 : -1.1990911e-06
+# indices >=1 off : 70 of 91		% indices off : 0.01
+ELL-0.1 all-767	len:min:max 	50000 : -0.99538153 : -3.6202985e-06
+# indices >=1 off : 72 of 91		% indices off : 0.02
+ELL-0.1 all-768	len:min:max 	50000 : -0.9932277 : -1.8887131e-07
+# indices >=1 off : 68 of 91		% indices off : 0.01
+ELL-0.1 all-765	len:min:max 	50000 : -0.9968456 : -8.0626205e-07
+# indices >=1 off : 78 of 91		% indices off : 0.03
+ELL-0.1 all-759	len:min:max 	50000 : -0.9953195 : -6.8223176e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-763	len:min:max 	50000 : -0.9911114 : -3.6290407e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-756	len:min:max 	50000 : -0.998618 : -1.2768035e-07
+# indices >=1 off : 80 of 91		% indices off : 0.03
+ELL-0.1 all-754	len:min:max 	50000 : -0.99639463 : -3.6290407e-07
+# indices >=1 off : 79 of 91		% indices off : 0.03
+ELL-0.1 all-757	len:min:max 	50000 : -0.98929524 : -7.404351e-08
+# indices >=1 off : 83 of 91		% indices off : 0.03
+ELL-0.1 all-761	len:min:max 	50000 : -0.9954369 : -1.3339799e-07
+# indices >=1 off : 84 of 91		% indices off : 0.02
+ELL-0.1 all-766	len:min:max 	50000 : -0.9961054 : -1.2045906e-06
+# indices >=1 off : 78 of 91		% indices off : 0.03
+ELL-0.1 all-760	len:min:max 	50000 : -0.9979052 : -1.5029202e-06
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-753	len:min:max 	50000 : -0.9944082 : -3.391918e-08
+# indices >=1 off : 88 of 91		% indices off : 0.03
+ELL-0.1 all-764	len:min:max 	50000 : -0.9911805 : -8.759318e-08
+# indices >=1 off : 84 of 91		% indices off : 0.03
+ELL-0.1 all-762	len:min:max 	50000 : -0.9987779 : -5.475421e-08
+# indices >=1 off : 83 of 91		% indices off : 0.02
+ELL-0.1 all-758	len:min:max 	50000 : -0.9993794 : -9.05181e-07
+# indices >=1 off : 75 of 91		% indices off : 0.02
+ELL-0.1 all-776	len:min:max 	50000 : -0.99481976 : -1.4642627e-06
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-778	len:min:max 	50000 : -0.99965096 : -7.090816e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-784	len:min:max 	50000 : -0.99431545 : -1.3339799e-07
+# indices >=1 off : 85 of 91		% indices off : 0.02
+ELL-0.1 all-774	len:min:max 	50000 : -0.99348456 : -4.0157127e-07
+# indices >=1 off : 75 of 91		% indices off : 0.02
+ELL-0.1 all-781	len:min:max 	50000 : -0.996519 : -1.2045906e-06
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-783	len:min:max 	50000 : -0.99507546 : -8.759318e-08
+# indices >=1 off : 84 of 91		% indices off : 0.02
+ELL-0.1 all-782	len:min:max 	50000 : -0.9929951 : -1.8887131e-07
+# indices >=1 off : 72 of 91		% indices off : 0.01
+ELL-0.1 all-771	len:min:max 	50000 : -0.99874496 : -5.259777e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-779	len:min:max 	50000 : -0.9916013 : -2.7298722e-07
+# indices >=1 off : 83 of 91		% indices off : 0.03
+ELL-0.1 all-770	len:min:max 	50000 : -0.99349815 : -2.4156742e-07
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-769	len:min:max 	50000 : -0.9963854 : -1.3339799e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-777	len:min:max 	50000 : -0.9900642 : -1.7506079e-07
+# indices >=1 off : 82 of 91		% indices off : 0.03
+ELL-0.1 all-773	len:min:max 	50000 : -0.9917732 : -4.3801197e-07
+# indices >=1 off : 81 of 91		% indices off : 0.03
+ELL-0.1 all-775	len:min:max 	50000 : -0.99315804 : -6.584882e-07
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-772	len:min:max 	50000 : -0.99652845 : -1.3339799e-07
+# indices >=1 off : 82 of 91		% indices off : 0.03
+ELL-0.1 all-780	len:min:max 	50000 : -0.99487096 : -1.9924369e-07
+# indices >=1 off : 81 of 91		% indices off : 0.03
+ELL-0.1 all-788	len:min:max 	50000 : -0.99569136 : -1.7121364e-08
+# indices >=1 off : 87 of 91		% indices off : 0.02
+ELL-0.1 all-791	len:min:max 	50000 : -0.9977363 : -1.3379528e-07
+# indices >=1 off : 84 of 91		% indices off : 0.02
+ELL-0.1 all-792	len:min:max 	50000 : -0.99846077 : -1.0018622e-07
+# indices >=1 off : 84 of 91		% indices off : 0.03
+ELL-0.1 all-799	len:min:max 	50000 : -0.9964912 : -5.475421e-08
+# indices >=1 off : 88 of 91		% indices off : 0.02
+ELL-0.1 all-797	len:min:max 	50000 : -0.9951573 : -5.475421e-08
+# indices >=1 off : 88 of 91		% indices off : 0.03
+ELL-0.1 all-794	len:min:max 	50000 : -0.99405736 : -3.355858e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-793	len:min:max 	50000 : -0.992047 : -4.3801197e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-795	len:min:max 	50000 : -0.99206483 : -5.475421e-08
+# indices >=1 off : 88 of 91		% indices off : 0.02
+ELL-0.1 all-796	len:min:max 	50000 : -0.9906882 : -2.7298722e-07
+# indices >=1 off : 83 of 91		% indices off : 0.02
+ELL-0.1 all-800	len:min:max 	50000 : -0.9942941 : -1.7506079e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-786	len:min:max 	50000 : -0.98945725 : -1.8887131e-07
+# indices >=1 off : 84 of 91		% indices off : 0.03
+ELL-0.1 all-790	len:min:max 	50000 : -0.9950956 : -1.2045906e-06
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-798	len:min:max 	50000 : -0.99271655 : -4.802819e-07
+# indices >=1 off : 79 of 91		% indices off : 0.03
+ELL-0.1 all-787	len:min:max 	50000 : -0.9969711 : -3.6290407e-07
+# indices >=1 off : 74 of 91		% indices off : 0.03
+ELL-0.1 all-789	len:min:max 	50000 : -0.9988353 : -3.8523e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-785	len:min:max 	50000 : -0.9923667 : -5.475421e-08
+# indices >=1 off : 87 of 91		% indices off : 0.03
+ELL-0.1 all-810	len:min:max 	50000 : -0.9947121 : -8.998586e-07
+# indices >=1 off : 78 of 91		% indices off : 0.03
+ELL-0.1 all-809	len:min:max 	50000 : -0.99800676 : -2.2673302e-07
+# indices >=1 off : 75 of 91		% indices off : 0.02
+ELL-0.1 all-811	len:min:max 	50000 : -0.9963715 : -2.7298722e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-803	len:min:max 	50000 : -0.9978553 : -7.090816e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-815	len:min:max 	50000 : -0.99294 : -1.3379528e-07
+# indices >=1 off : 84 of 91		% indices off : 0.02
+ELL-0.1 all-807	len:min:max 	50000 : -0.99871004 : -1.6382903e-07
+# indices >=1 off : 82 of 91		% indices off : 0.03
+ELL-0.1 all-814	len:min:max 	50000 : -0.99318707 : -5.4234033e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-813	len:min:max 	50000 : -0.9966092 : -5.4234033e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-802	len:min:max 	50000 : -0.9934377 : -5.475421e-08
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-812	len:min:max 	50000 : -0.9960677 : -3.6290407e-07
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-801	len:min:max 	50000 : -0.99542063 : -3.6290407e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-816	len:min:max 	50000 : -0.9972841 : -1.7121364e-08
+# indices >=1 off : 89 of 91		% indices off : 0.02
+ELL-0.1 all-806	len:min:max 	50000 : -0.9923787 : -3.4414128e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-808	len:min:max 	50000 : -0.9951218 : -4.3039216e-07
+# indices >=1 off : 74 of 91		% indices off : 0.02
+ELL-0.1 all-804	len:min:max 	50000 : -0.99471956 : -5.475421e-08
+# indices >=1 off : 83 of 91		% indices off : 0.02
+ELL-0.1 all-805	len:min:max 	50000 : -0.9921181 : -5.475421e-08
+# indices >=1 off : 87 of 91		% indices off : 0.02
+ELL-0.1 all-829	len:min:max 	50000 : -0.9882311 : -9.380719e-07
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-818	len:min:max 	50000 : -0.99815327 : -5.475421e-08
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-827	len:min:max 	50000 : -0.99530196 : -1.8887131e-07
+# indices >=1 off : 84 of 91		% indices off : 0.02
+ELL-0.1 all-826	len:min:max 	50000 : -0.99756414 : -5.4234033e-07
+# indices >=1 off : 80 of 91		% indices off : 0.03
+ELL-0.1 all-817	len:min:max 	50000 : -0.9986739 : -5.475421e-08
+# indices >=1 off : 86 of 91		% indices off : 0.02
+ELL-0.1 all-825	len:min:max 	50000 : -0.99836326 : -1.5029202e-06
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-831	len:min:max 	50000 : -0.99950504 : -9.071395e-07
+# indices >=1 off : 77 of 91		% indices off : 0.03
+ELL-0.1 all-820	len:min:max 	50000 : -0.9944159 : -2.9376693e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-830	len:min:max 	50000 : -0.99295336 : -1.3379528e-07
+# indices >=1 off : 85 of 91		% indices off : 0.03
+ELL-0.1 all-821	len:min:max 	50000 : -0.99767035 : -2.7298722e-07
+# indices >=1 off : 80 of 91		% indices off : 0.03
+ELL-0.1 all-822	len:min:max 	50000 : -0.9973982 : -1.3441715e-07
+# indices >=1 off : 75 of 91		% indices off : 0.03
+ELL-0.1 all-824	len:min:max 	50000 : -0.99592775 : -7.404351e-08
+# indices >=1 off : 83 of 91		% indices off : 0.03
+ELL-0.1 all-823	len:min:max 	50000 : -0.99464446 : -1.8887131e-07
+# indices >=1 off : 84 of 91		% indices off : 0.03
+ELL-0.1 all-828	len:min:max 	50000 : -0.99639666 : -9.186147e-07
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-819	len:min:max 	50000 : -0.99616593 : -1.0018622e-07
+# indices >=1 off : 85 of 91		% indices off : 0.02
+ELL-0.1 all-832	len:min:max 	50000 : -0.9860528 : -3.9895372e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-840	len:min:max 	50000 : -0.99781185 : -5.475421e-08
+# indices >=1 off : 86 of 91		% indices off : 0.03
+ELL-0.1 all-834	len:min:max 	50000 : -0.995007 : -3.6290407e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-843	len:min:max 	50000 : -0.9915577 : -7.404351e-08
+# indices >=1 off : 86 of 91		% indices off : 0.02
+ELL-0.1 all-844	len:min:max 	50000 : -0.9911114 : -9.071395e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-842	len:min:max 	50000 : -0.9965913 : -5.475421e-08
+# indices >=1 off : 87 of 91		% indices off : 0.03
+ELL-0.1 all-835	len:min:max 	50000 : -0.99397 : -1.8695957e-06
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-846	len:min:max 	50000 : -0.9975453 : -1.3441715e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-848	len:min:max 	50000 : -0.99712974 : -2.7298722e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-847	len:min:max 	50000 : -0.99961066 : -2.7298722e-07
+# indices >=1 off : 83 of 91		% indices off : 0.03
+ELL-0.1 all-836	len:min:max 	50000 : -0.9938015 : -1.8887131e-07
+# indices >=1 off : 84 of 91		% indices off : 0.03
+ELL-0.1 all-837	len:min:max 	50000 : -0.9914935 : -3.0682222e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-841	len:min:max 	50000 : -0.99885374 : -6.99389e-07
+# indices >=1 off : 79 of 91		% indices off : 0.03
+ELL-0.1 all-838	len:min:max 	50000 : -0.9936436 : -1.8887131e-07
+# indices >=1 off : 84 of 91		% indices off : 0.02
+ELL-0.1 all-833	len:min:max 	50000 : -0.9954702 : -1.1444358e-07
+# indices >=1 off : 74 of 91		% indices off : 0.03
+ELL-0.1 all-839	len:min:max 	50000 : -0.9933243 : -2.7298722e-07
+# indices >=1 off : 75 of 91		% indices off : 0.02
+ELL-0.1 all-845	len:min:max 	50000 : -0.9914815 : -5.475421e-08
+# indices >=1 off : 88 of 91		% indices off : 0.02
+ELL-0.1 all-850	len:min:max 	50000 : -0.99850476 : -1.073828e-06
+# indices >=1 off : 74 of 91		% indices off : 0.02
+ELL-0.1 all-856	len:min:max 	50000 : -0.9958321 : -7.404351e-08
+# indices >=1 off : 86 of 91		% indices off : 0.03
+ELL-0.1 all-863	len:min:max 	50000 : -0.9971997 : -1.3379528e-07
+# indices >=1 off : 84 of 91		% indices off : 0.02
+ELL-0.1 all-849	len:min:max 	50000 : -0.9966507 : -7.090816e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-858	len:min:max 	50000 : -0.99829817 : -1.2045906e-06
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-861	len:min:max 	50000 : -0.9975464 : -1.2768035e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-857	len:min:max 	50000 : -0.9993208 : -3.6290407e-07
+# indices >=1 off : 76 of 91		% indices off : 0.03
+ELL-0.1 all-859	len:min:max 	50000 : -0.9953098 : -3.2439804e-08
+# indices >=1 off : 85 of 91		% indices off : 0.02
+ELL-0.1 all-864	len:min:max 	50000 : -0.99711215 : -1.3379528e-07
+# indices >=1 off : 79 of 91		% indices off : 0.03
+ELL-0.1 all-860	len:min:max 	50000 : -0.995042 : -1.3379528e-07
+# indices >=1 off : 85 of 91		% indices off : 0.02
+ELL-0.1 all-852	len:min:max 	50000 : -0.99205047 : -7.090816e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-853	len:min:max 	50000 : -0.9986375 : -2.7298722e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-862	len:min:max 	50000 : -0.9948721 : -2.4077016e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-855	len:min:max 	50000 : -0.99858826 : -7.404351e-08
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-854	len:min:max 	50000 : -0.99683553 : -7.404351e-08
+# indices >=1 off : 84 of 91		% indices off : 0.03
+ELL-0.1 all-851	len:min:max 	50000 : -0.9944159 : -5.4234033e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-867	len:min:max 	50000 : -0.9973191 : -1.3379528e-07
+# indices >=1 off : 83 of 91		% indices off : 0.03
+ELL-0.1 all-868	len:min:max 	50000 : -0.99360454 : -5.475421e-08
+# indices >=1 off : 83 of 91		% indices off : 0.02
+ELL-0.1 all-880	len:min:max 	50000 : -0.99694645 : -6.2855474e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-879	len:min:max 	50000 : -0.99655575 : -7.1823614e-08
+# indices >=1 off : 83 of 91		% indices off : 0.03
+ELL-0.1 all-872	len:min:max 	50000 : -0.9925784 : -5.475421e-08
+# indices >=1 off : 85 of 91		% indices off : 0.03
+ELL-0.1 all-878	len:min:max 	50000 : -0.99219 : -1.0018622e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-877	len:min:max 	50000 : -0.9976277 : -1.6382903e-07
+# indices >=1 off : 82 of 91		% indices off : 0.03
+ELL-0.1 all-873	len:min:max 	50000 : -0.9975523 : -5.475421e-08
+# indices >=1 off : 86 of 91		% indices off : 0.02
+ELL-0.1 all-866	len:min:max 	50000 : -0.9976823 : -1.9359406e-06
+# indices >=1 off : 75 of 91		% indices off : 0.02
+ELL-0.1 all-874	len:min:max 	50000 : -0.9946654 : -7.404351e-08
+# indices >=1 off : 86 of 91		% indices off : 0.03
+ELL-0.1 all-875	len:min:max 	50000 : -0.99497837 : -2.892095e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-865	len:min:max 	50000 : -0.99381965 : -9.600244e-07
+# indices >=1 off : 74 of 91		% indices off : 0.02
+ELL-0.1 all-876	len:min:max 	50000 : -0.9964248 : -4.7543995e-06
+# indices >=1 off : 71 of 91		% indices off : 0.03
+ELL-0.1 all-870	len:min:max 	50000 : -0.988265 : -1.0155508e-06
+# indices >=1 off : 77 of 91		% indices off : 0.03
+ELL-0.1 all-869	len:min:max 	50000 : -0.993623 : -1.3379528e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-871	len:min:max 	50000 : -0.9963495 : -1.3379528e-07
+# indices >=1 off : 85 of 91		% indices off : 0.02
+ELL-0.1 all-885	len:min:max 	50000 : -0.99949896 : -7.397303e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-882	len:min:max 	50000 : -0.99455833 : -7.404351e-08
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-893	len:min:max 	50000 : -0.99353015 : -3.6290407e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-883	len:min:max 	50000 : -0.99677086 : -2.7923993e-06
+# indices >=1 off : 71 of 91		% indices off : 0.02
+ELL-0.1 all-886	len:min:max 	50000 : -0.9980555 : -2.7298722e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-888	len:min:max 	50000 : -0.9964234 : -2.7298722e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-892	len:min:max 	50000 : -0.99446636 : -9.071395e-07
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-889	len:min:max 	50000 : -0.99588054 : -6.3252133e-07
+# indices >=1 off : 79 of 91		% indices off : 0.03
+ELL-0.1 all-895	len:min:max 	50000 : -0.99841475 : -9.071395e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-887	len:min:max 	50000 : -0.99691963 : -7.404351e-08
+# indices >=1 off : 86 of 91		% indices off : 0.02
+ELL-0.1 all-890	len:min:max 	50000 : -0.9943953 : -5.707122e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-881	len:min:max 	50000 : -0.99211925 : -2.7298722e-07
+# indices >=1 off : 80 of 91		% indices off : 0.03
+ELL-0.1 all-891	len:min:max 	50000 : -0.9972191 : -5.475421e-08
+# indices >=1 off : 83 of 91		% indices off : 0.03
+ELL-0.1 all-896	len:min:max 	50000 : -0.9962003 : -1.9924369e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-884	len:min:max 	50000 : -0.9923279 : -2.4156742e-07
+# indices >=1 off : 74 of 91		% indices off : 0.02
+ELL-0.1 all-894	len:min:max 	50000 : -0.99567354 : -7.404351e-08
+# indices >=1 off : 83 of 91		% indices off : 0.03
+ELL-0.1 all-908	len:min:max 	50000 : -0.99437517 : -5.259777e-07
+# indices >=1 off : 80 of 91		% indices off : 0.01
+ELL-0.1 all-907	len:min:max 	50000 : -0.9945318 : -1.5622475e-06
+# indices >=1 off : 68 of 91		% indices off : 0.03
+ELL-0.1 all-910	len:min:max 	50000 : -0.9942355 : -1.3441715e-07
+# indices >=1 off : 78 of 91		% indices off : 0.03
+ELL-0.1 all-912	len:min:max 	50000 : -0.9939262 : -1.8695957e-06
+# indices >=1 off : 76 of 91		% indices off : 0.01
+ELL-0.1 all-900	len:min:max 	50000 : -0.9916807 : -1.1990911e-06
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-905	len:min:max 	50000 : -0.9945482 : -6.99389e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-898	len:min:max 	50000 : -0.99574494 : -1.3339799e-07
+# indices >=1 off : 85 of 91		% indices off : 0.03
+ELL-0.1 all-901	len:min:max 	50000 : -0.9937622 : -5.475421e-08
+# indices >=1 off : 84 of 91		% indices off : 0.02
+ELL-0.1 all-904	len:min:max 	50000 : -0.99211925 : -5.259777e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-906	len:min:max 	50000 : -0.9988434 : -7.090816e-07
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-897	len:min:max 	50000 : -0.99713767 : -1.2768035e-07
+# indices >=1 off : 82 of 91		% indices off : 0.01
+ELL-0.1 all-903	len:min:max 	50000 : -0.996268 : -2.7298722e-07
+# indices >=1 off : 81 of 91		% indices off : 0.03
+ELL-0.1 all-902	len:min:max 	50000 : -0.9959288 : -4.2699202e-07
+# indices >=1 off : 81 of 91		% indices off : 0.03
+ELL-0.1 all-909	len:min:max 	50000 : -0.9959466 : -9.84094e-07
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-911	len:min:max 	50000 : -0.99601835 : -3.3353479e-06
+# indices >=1 off : 71 of 91		% indices off : 0.02
+ELL-0.1 all-899	len:min:max 	50000 : -0.9979075 : -3.6290407e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-917	len:min:max 	50000 : -0.99211925 : -5.475421e-08
+# indices >=1 off : 88 of 91		% indices off : 0.03
+ELL-0.1 all-926	len:min:max 	50000 : -0.99726063 : -1.0867541e-06
+# indices >=1 off : 76 of 91		% indices off : 0.03
+ELL-0.1 all-925	len:min:max 	50000 : -0.9994074 : -1.0018622e-07
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-920	len:min:max 	50000 : -0.9961385 : -3.6290407e-07
+# indices >=1 off : 77 of 91		% indices off : 0.01
+ELL-0.1 all-918	len:min:max 	50000 : -0.9914641 : -1.6382903e-07
+# indices >=1 off : 84 of 91		% indices off : 0.02
+ELL-0.1 all-919	len:min:max 	50000 : -0.99873805 : -2.8032254e-08
+# indices >=1 off : 84 of 91		% indices off : 0.03
+ELL-0.1 all-923	len:min:max 	50000 : -0.99079037 : -9.769336e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-922	len:min:max 	50000 : -0.99320275 : -5.3424e-07
+# indices >=1 off : 81 of 91		% indices off : 0.03
+ELL-0.1 all-924	len:min:max 	50000 : -0.9977105 : -2.5443e-07
+# indices >=1 off : 83 of 91		% indices off : 0.03
+ELL-0.1 all-916	len:min:max 	50000 : -0.99916494 : -2.7298722e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-927	len:min:max 	50000 : -0.9947563 : -2.7298722e-07
+# indices >=1 off : 83 of 91		% indices off : 0.03
+ELL-0.1 all-921	len:min:max 	50000 : -0.9976099 : -3.6726766e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-914	len:min:max 	50000 : -0.9974532 : -1.2768035e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-915	len:min:max 	50000 : -0.9945857 : -7.404351e-08
+# indices >=1 off : 85 of 91		% indices off : 0.03
+ELL-0.1 all-913	len:min:max 	50000 : -0.9923927 : -3.6726766e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-928	len:min:max 	50000 : -0.9973887 : -1.7506079e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-934	len:min:max 	50000 : -0.99261236 : -5.259777e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-935	len:min:max 	50000 : -0.9906965 : -1.5029202e-06
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-930	len:min:max 	50000 : -0.99371374 : -7.404351e-08
+# indices >=1 off : 80 of 91		% indices off : 0.03
+ELL-0.1 all-938	len:min:max 	50000 : -0.99630225 : -7.571622e-07
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-929	len:min:max 	50000 : -0.9985572 : -1.9924369e-07
+# indices >=1 off : 77 of 91		% indices off : 0.02
+ELL-0.1 all-931	len:min:max 	50000 : -0.998215 : -1.7121364e-08
+# indices >=1 off : 83 of 91		% indices off : 0.03
+ELL-0.1 all-943	len:min:max 	50000 : -0.99589026 : -2.0594384e-06
+# indices >=1 off : 72 of 91		% indices off : 0.02
+ELL-0.1 all-939	len:min:max 	50000 : -0.99780583 : -2.4077016e-07
+# indices >=1 off : 83 of 91		% indices off : 0.03
+ELL-0.1 all-940	len:min:max 	50000 : -0.9960927 : -7.03258e-07
+# indices >=1 off : 75 of 91		% indices off : 0.02
+ELL-0.1 all-933	len:min:max 	50000 : -0.9988565 : -2.9015604e-07
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-936	len:min:max 	50000 : -0.9933878 : -3.6290407e-07
+# indices >=1 off : 79 of 91		% indices off : 0.03
+ELL-0.1 all-941	len:min:max 	50000 : -0.9928822 : -1.3339799e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-942	len:min:max 	50000 : -0.9935302 : -1.0797278e-06
+# indices >=1 off : 74 of 91		% indices off : 0.02
+ELL-0.1 all-932	len:min:max 	50000 : -0.9997419 : -5.4234033e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-944	len:min:max 	50000 : -0.99363697 : -1.8887131e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-937	len:min:max 	50000 : -0.9958395 : -1.0018622e-07
+# indices >=1 off : 85 of 91		% indices off : 0.03
+ELL-0.1 all-948	len:min:max 	50000 : -0.9976633 : -2.1960574e-07
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-955	len:min:max 	50000 : -0.9947482 : -5.4234033e-07
+# indices >=1 off : 80 of 91		% indices off : 0.03
+ELL-0.1 all-959	len:min:max 	50000 : -0.9936575 : -1.3379528e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-954	len:min:max 	50000 : -0.99496144 : -1.3379528e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-945	len:min:max 	50000 : -0.98584855 : -3.6726766e-07
+# indices >=1 off : 73 of 91		% indices off : 0.02
+ELL-0.1 all-953	len:min:max 	50000 : -0.99013764 : -2.5544489e-06
+# indices >=1 off : 72 of 91		% indices off : 0.02
+ELL-0.1 all-957	len:min:max 	50000 : -0.993519 : -1.3339799e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-949	len:min:max 	50000 : -0.99580353 : -3.3807623e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-950	len:min:max 	50000 : -0.99622774 : -2.7298722e-07
+# indices >=1 off : 74 of 91		% indices off : 0.02
+ELL-0.1 all-958	len:min:max 	50000 : -0.99632555 : -1.8887131e-07
+# indices >=1 off : 84 of 91		% indices off : 0.01
+ELL-0.1 all-956	len:min:max 	50000 : -0.99446154 : -1.2223701e-08
+# indices >=1 off : 87 of 91		% indices off : 0.02
+ELL-0.1 all-947	len:min:max 	50000 : -0.9946619 : -1.3339799e-07
+# indices >=1 off : 84 of 91		% indices off : 0.03
+ELL-0.1 all-946	len:min:max 	50000 : -0.9947027 : -8.587592e-07
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-951	len:min:max 	50000 : -0.98662776 : -9.071395e-07
+# indices >=1 off : 74 of 91		% indices off : 0.02
+ELL-0.1 all-960	len:min:max 	50000 : -0.9963501 : -1.8887131e-07
+# indices >=1 off : 84 of 91		% indices off : 0.02
+ELL-0.1 all-952	len:min:max 	50000 : -0.99760616 : -7.571622e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-973	len:min:max 	50000 : -0.99803144 : -2.8647804e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-961	len:min:max 	50000 : -0.99184465 : -6.584882e-07
+# indices >=1 off : 73 of 91		% indices off : 0.03
+ELL-0.1 all-969	len:min:max 	50000 : -0.9997673 : -1.8887131e-07
+# indices >=1 off : 83 of 91		% indices off : 0.02
+ELL-0.1 all-970	len:min:max 	50000 : -0.9926927 : -7.090816e-07
+# indices >=1 off : 73 of 91		% indices off : 0.01
+ELL-0.1 all-971	len:min:max 	50000 : -0.9973568 : -6.584882e-07
+# indices >=1 off : 75 of 91		% indices off : 0.02
+ELL-0.1 all-963	len:min:max 	50000 : -0.99673826 : -1.8887131e-07
+# indices >=1 off : 84 of 91		% indices off : 0.04
+ELL-0.1 all-965	len:min:max 	50000 : -0.99336886 : -1.2768035e-07
+# indices >=1 off : 73 of 91		% indices off : 0.03
+ELL-0.1 all-972	len:min:max 	50000 : -0.99890685 : -1.8887131e-07
+# indices >=1 off : 84 of 91		% indices off : 0.02
+ELL-0.1 all-968	len:min:max 	50000 : -0.9930147 : -5.475421e-08
+# indices >=1 off : 87 of 91		% indices off : 0.02
+ELL-0.1 all-964	len:min:max 	50000 : -0.99588466 : -3.355858e-07
+# indices >=1 off : 80 of 91		% indices off : 0.03
+ELL-0.1 all-974	len:min:max 	50000 : -0.99281603 : -3.6290407e-07
+# indices >=1 off : 82 of 91		% indices off : 0.03
+ELL-0.1 all-967	len:min:max 	50000 : -0.9949007 : -8.332187e-07
+# indices >=1 off : 77 of 91		% indices off : 0.03
+ELL-0.1 all-962	len:min:max 	50000 : -0.9864165 : -2.7298722e-07
+# indices >=1 off : 80 of 91		% indices off : 0.03
+ELL-0.1 all-966	len:min:max 	50000 : -0.99639666 : -3.6290407e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-976	len:min:max 	50000 : -0.9938835 : -1.2663161e-06
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-975	len:min:max 	50000 : -0.99561524 : -1.2768035e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-982	len:min:max 	50000 : -0.9961597 : -2.7923993e-06
+# indices >=1 off : 71 of 91		% indices off : 0.02
+ELL-0.1 all-983	len:min:max 	50000 : -0.99809617 : -5.0591035e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-977	len:min:max 	50000 : -0.9929802 : -7.404351e-08
+# indices >=1 off : 86 of 91		% indices off : 0.03
+ELL-0.1 all-986	len:min:max 	50000 : -0.9965944 : -2.7298722e-07
+# indices >=1 off : 83 of 91		% indices off : 0.02
+ELL-0.1 all-990	len:min:max 	50000 : -0.99949884 : -2.322383e-06
+# indices >=1 off : 68 of 91		% indices off : 0.02
+ELL-0.1 all-989	len:min:max 	50000 : -0.9894644 : -2.2673302e-07
+# indices >=1 off : 83 of 91		% indices off : 0.02
+ELL-0.1 all-981	len:min:max 	50000 : -0.9915416 : -5.9375473e-08
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-992	len:min:max 	50000 : -0.9962925 : -4.7994854e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-984	len:min:max 	50000 : -0.9928735 : -1.3379528e-07
+# indices >=1 off : 85 of 91		% indices off : 0.02
+ELL-0.1 all-980	len:min:max 	50000 : -0.992696 : -4.2750347e-08
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-988	len:min:max 	50000 : -0.987897 : -1.6382903e-07
+# indices >=1 off : 82 of 91		% indices off : 0.03
+ELL-0.1 all-979	len:min:max 	50000 : -0.99464685 : -7.090816e-07
+# indices >=1 off : 78 of 91		% indices off : 0.03
+ELL-0.1 all-985	len:min:max 	50000 : -0.9958423 : -7.03258e-07
+# indices >=1 off : 80 of 91		% indices off : 0.02
+ELL-0.1 all-978	len:min:max 	50000 : -0.99418193 : -2.4387776e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-987	len:min:max 	50000 : -0.9923776 : -2.7298722e-07
+# indices >=1 off : 83 of 91		% indices off : 0.02
+ELL-0.1 all-991	len:min:max 	50000 : -0.99366844 : -5.4234033e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-996	len:min:max 	50000 : -0.9944394 : -5.475421e-08
+# indices >=1 off : 85 of 91		% indices off : 0.03
+ELL-0.1 all-1001	len:min:max 	50000 : -0.99766153 : -1.0867541e-06
+# indices >=1 off : 76 of 91		% indices off : 0.02
+ELL-0.1 all-1000	len:min:max 	50000 : -0.9990738 : -1.649201e-08
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-995	len:min:max 	50000 : -0.9978017 : -1.3339799e-07
+# indices >=1 off : 81 of 91		% indices off : 0.03
+ELL-0.1 all-1007	len:min:max 	50000 : -0.9965497 : -3.6290407e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-994	len:min:max 	50000 : -0.9989579 : -3.6290407e-07
+# indices >=1 off : 82 of 91		% indices off : 0.02
+ELL-0.1 all-1005	len:min:max 	50000 : -0.99348253 : -5.9375473e-08
+# indices >=1 off : 86 of 91		% indices off : 0.03
+ELL-0.1 all-993	len:min:max 	50000 : -0.9965944 : -6.3252133e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-997	len:min:max 	50000 : -0.9965294 : -1.3379528e-07
+# indices >=1 off : 79 of 91		% indices off : 0.02
+ELL-0.1 all-1004	len:min:max 	50000 : -0.9962668 : -1.8887131e-07
+# indices >=1 off : 84 of 91		% indices off : 0.03
+ELL-0.1 all-1006	len:min:max 	50000 : -0.9979013 : -3.6290407e-07
+# indices >=1 off : 73 of 91		% indices off : 0.02
+ELL-0.1 all-999	len:min:max 	50000 : -0.9959271 : -3.6290407e-07
+# indices >=1 off : 82 of 91		% indices off : 0.03
+ELL-0.1 all-1003	len:min:max 	50000 : -0.9975633 : -1.8887131e-07
+# indices >=1 off : 81 of 91		% indices off : 0.02
+ELL-0.1 all-1002	len:min:max 	50000 : -0.99133533 : -1.2768035e-07
+# indices >=1 off : 78 of 91		% indices off : 0.02
+ELL-0.1 all-998	len:min:max 	50000 : -0.99550134 : -5.9375473e-08
+# indices >=1 off : 85 of 91		% indices off : 0.02
+ELL-0.1 all-1008	len:min:max 	50000 : -0.99286175 : -2.7298722e-07
+# indices >=1 off : 83 of 91		% indices off : 0.02

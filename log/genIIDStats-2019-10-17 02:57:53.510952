@@ -1,0 +1,2691 @@
+
+{
+   "setup": false,
+   "genY": false,
+   "genSnps": false,
+   "genSimZScores": false,
+   "genNullZCorr": false,
+   "plotZ": false,
+   "genOffDiag": false,
+   "setupELL": false,
+   "genIIDStats": true,
+   "genSimStats": false,
+   "makePVals": false,
+   "plotPower": false,
+   "etaGRM": 0.5,
+   "etaError": 0.5,
+   "ellEps": 1e-09,
+   "ellDSet": [
+      0.1
+   ],
+   "binsPerIndex": 500,
+   "local": "/deeplearning/akinbiyi/",
+   "name": "sim/",
+   "numCores": 24,
+   "numPCs": 10,
+   "smallNumCores": 3,
+   "grmSnpChr": [
+      "chr1",
+      "chr2",
+      "chr3",
+      "chr4",
+      "chr5",
+      "chr6",
+      "chr7",
+      "chr8",
+      "chr9",
+      "chr10",
+      "chr11",
+      "chr12",
+      "chr13",
+      "chr14",
+      "chr15",
+      "chr16",
+      "chr17",
+      "chr18",
+      "chr19"
+   ],
+   "snpChr": [
+      "chr0",
+      "chr1"
+   ],
+   "traitChr": [
+      "chr1"
+   ],
+   "muEpsRange": [
+      [
+         0.3,
+         10
+      ],
+      [
+         0.3,
+         8
+      ],
+      [
+         0.3,
+         6
+      ],
+      [
+         0.3,
+         12
+      ],
+      [
+         0.4,
+         10
+      ],
+      [
+         0.4,
+         8
+      ],
+      [
+         0.4,
+         6
+      ],
+      [
+         0.4,
+         12
+      ],
+      [
+         0.5,
+         10
+      ],
+      [
+         0.5,
+         8
+      ],
+      [
+         0.5,
+         6
+      ],
+      [
+         0.5,
+         12
+      ]
+   ],
+   "snpFile": "ail.genos.dosage.gwasSNPs.txt",
+   "numDecScore": 3,
+   "numQSnps": 3000000000.0,
+   "H0SnpSize": 40001,
+   "H1SnpSize": 1000,
+   "numH1Segments": 100,
+   "grmParm": "s",
+   "wald": true,
+   "allChrGRM": true,
+   "RPath": "ga/ail/R/",
+   "dbToken": "YIjLc0Jkc2QAAAAAAAAELhNPLYwqK53qaNPZqrkPIgHhe6n--GwXZbmgkQwbOQMo",
+   "response": "hipRaw",
+   "quantNormalizeExpr": true,
+   "remPCFromSnp": false,
+   "remPCFromTraits": false,
+   "remPCCorrSnp": false,
+   "PCIsPreds": false,
+   "CovIsPreds": false,
+   "remCovFromTraits": true,
+   "linBatch": false,
+   "cisMean": true,
+   "Types": [
+      "hc",
+      "bj",
+      "gnull",
+      "score",
+      "cpma",
+      "ell-0.1"
+   ],
+   "colors": [
+      [
+         0,
+         0,
+         0
+      ],
+      [
+         1,
+         0,
+         0
+      ],
+      [
+         0,
+         1,
+         0
+      ],
+      [
+         0,
+         0,
+         1
+      ],
+      [
+         1,
+         1,
+         0
+      ],
+      [
+         1,
+         0,
+         1
+      ]
+   ],
+   "firstEntry": true,
+   "logName": "ga/log/genIIDStats-2019-10-17 02:57:53.510952",
+   "numIIDSegments": 1000,
+   "IIDReps": 500000,
+   "numSimStatSegments": 10
+}
+cpma all-1	len:min:max 	500 : 5.144318492966704e-06 : 128.61987386376313
+cpma all-2	len:min:max 	500 : 6.4994310378097e-07 : 109.31351272099164
+cpma all-4	len:min:max 	500 : 7.225124136311933e-06 : 94.58426422961384
+cpma all-3	len:min:max 	500 : 9.168820361082908e-05 : 143.69304598571398
+cpma all-6	len:min:max 	500 : 1.7829734133556485e-08 : 84.24155701498967
+cpma all-5	len:min:max 	500 : 0.0003158430463372497 : 98.42034058032914
+cpma all-7	len:min:max 	500 : 9.244104148820043e-09 : 152.30298619770838
+cpma all-8	len:min:max 	500 : 0.0001180379567813361 : 69.36325210391988
+cpma all-9	len:min:max 	500 : 6.071088137105107e-06 : 113.99962594214776
+cpma all-10	len:min:max 	500 : 1.2870073987869546e-05 : 122.3558105658667
+cpma all-11	len:min:max 	500 : 8.830860315356404e-05 : 131.2296247965969
+cpma all-13	len:min:max 	500 : 1.4066104995436035e-05 : 98.08023010863326
+cpma all-12	len:min:max 	500 : 0.000531236795723089 : 96.50648277523942
+cpma all-14	len:min:max 	500 : 1.2460895959520712e-06 : 93.14724481656776
+cpma all-15	len:min:max 	500 : 2.7280504582449794e-05 : 128.43945428390725
+cpma all-16	len:min:max 	500 : 0.00015112784967641346 : 88.75290699800098
+cpma all-17	len:min:max 	500 : 0.00012815575246349908 : 79.79240618553376
+cpma all-18	len:min:max 	500 : 5.766196409240365e-10 : 133.4651289916128
+cpma all-19	len:min:max 	500 : 0.0004456747974472819 : 107.7733465917554
+cpma all-20	len:min:max 	500 : 0.001194216798467096 : 124.87302702512534
+cpma all-21	len:min:max 	500 : 2.0829598724958487e-05 : 85.22276714833788
+cpma all-23	len:min:max 	500 : 0.0001715306188998511 : 107.70148063916713
+cpma all-24	len:min:max 	500 : 3.187460788467433e-05 : 97.73641742531254
+cpma all-22	len:min:max 	500 : 0.000592322643569787 : 94.97880487866314
+noCorrStats all-17
+noCorrStats score len:min:max 		500 : 580.9368225996487 : 1270.302773661153
+noCorrStats bj len:min:max 			500 : 0.4557350952175991 : 30.776315509249574
+noCorrStats gnull len:min:max 		500 : -0.9999947563354468 : -6.830570015905739e-13
+noCorrStats hc len:min:max 			500 : -3.210964457014517 : 8.917120253639233
+ELL-0.1 all-17	len:min:max 	500 : -0.99028397 : -0.0006811752
+# indices >=1 off : 57 of 91		% indices off : 0.18
+noCorrStats all-10
+noCorrStats score len:min:max 		500 : 524.3110500779904 : 1480.6285227860615
+noCorrStats bj len:min:max 			500 : 0.5126937214743938 : 45.13258021662922
+noCorrStats gnull len:min:max 		500 : -0.9999999974520687 : -1.0391562390373345e-19
+noCorrStats hc len:min:max 			500 : -4.246696762625147 : 13.008779759226965
+ELL-0.1 all-10	len:min:max 	500 : -0.99028397 : -1.8339395e-05
+# indices >=1 off : 83 of 91		% indices off : 0.72
+noCorrStats all-5
+noCorrStats score len:min:max 		500 : 578.247228977169 : 1411.7380653134978
+noCorrStats bj len:min:max 			500 : 0.40578159029385297 : 41.115918768223494
+noCorrStats gnull len:min:max 		500 : -0.9996877057458222 : -1.1142203492448682e-19
+noCorrStats hc len:min:max 			500 : -2.9570302844962684 : 15.97619083806359
+ELL-0.1 all-5	len:min:max 	500 : -0.9717935 : -3.8393177e-06
+# indices >=1 off : 86 of 91		% indices off : 0.68
+noCorrStats all-12
+noCorrStats score len:min:max 		500 : 584.5669842536236 : 1395.619565111787
+noCorrStats bj len:min:max 			500 : 0.42026695441797934 : 38.63274191813858
+noCorrStats gnull len:min:max 		500 : -0.9999997282177027 : -8.118712706453937e-19
+noCorrStats hc len:min:max 			500 : -4.197785815085333 : 10.579750008418895
+ELL-0.1 all-12	len:min:max 	500 : -0.9900388 : -0.0006756991
+# indices >=1 off : 62 of 91		% indices off : 0.38
+noCorrStats all-3
+noCorrStats score len:min:max 		500 : 571.5251754328457 : 1535.2118608824917
+noCorrStats bj len:min:max 			500 : 0.4265967269188401 : 62.012163198297486
+noCorrStats gnull len:min:max 		500 : -0.9999706053711257 : -5.294849030608897e-29
+noCorrStats hc len:min:max 			500 : -3.0740109833497526 : 14.816865576887889
+ELL-0.1 all-3	len:min:max 	500 : -0.9747688 : -0.0004352797
+# indices >=1 off : 72 of 91		% indices off : 0.64
+noCorrStats all-24
+noCorrStats score len:min:max 		500 : 570.0354923302125 : 1409.8356977363835
+noCorrStats bj len:min:max 			500 : 0.27945839347526974 : 39.197838565574735
+noCorrStats gnull len:min:max 		500 : -0.9999585564660448 : -5.318326553659548e-19
+noCorrStats hc len:min:max 			500 : -3.247579731781926 : 10.61845565861193
+ELL-0.1 all-24	len:min:max 	500 : -0.9727713 : -4.8297985e-05
+# indices >=1 off : 74 of 91		% indices off : 0.7
+noCorrStats all-15
+noCorrStats score len:min:max 		500 : 566.5949223586113 : 1489.556216123276
+noCorrStats bj len:min:max 			500 : 0.3456590532602916 : 50.34139094124196
+noCorrStats gnull len:min:max 		500 : -0.9999617753392466 : -6.657466196633506e-24
+noCorrStats hc len:min:max 			500 : -3.641836434850397 : 12.264458788087385
+ELL-0.1 all-15	len:min:max 	500 : -0.99028397 : -0.00022462057
+# indices >=1 off : 70 of 91		% indices off : 0.48
+noCorrStats all-14
+noCorrStats score len:min:max 		500 : 583.9867963319714 : 1389.1593478178818
+noCorrStats bj len:min:max 			500 : 0.48909807272209743 : 40.995220069986225
+noCorrStats gnull len:min:max 		500 : -0.9999897516873472 : -8.496114654563769e-20
+noCorrStats hc len:min:max 			500 : -3.6973249563276327 : 10.624438920736795
+noCorrStats all-7
+noCorrStats score len:min:max 		500 : 488.56044156777637 : 1551.1817273483878
+noCorrStats bj len:min:max 			500 : 0.39625917520836207 : 64.04456111438786
+noCorrStats gnull len:min:max 		500 : -0.9999572123080956 : -6.850136710573673e-30
+noCorrStats hc len:min:max 			500 : -3.1562413549208532 : 13.348358619105024
+ELL-0.1 all-14	len:min:max 	500 : -0.9895612 : -0.00029571258
+# indices >=1 off : 57 of 91		% indices off : 0.5
+ELL-0.1 all-7	len:min:max 	500 : -0.98706764 : -0.00056542805
+# indices >=1 off : 74 of 91		% indices off : 0.37
+noCorrStats all-1
+noCorrStats score len:min:max 		500 : 593.9984678015924 : 1496.4664013360043
+noCorrStats bj len:min:max 			500 : 0.28969220984458954 : 51.85408988669005
+noCorrStats gnull len:min:max 		500 : -0.9999371741525576 : -1.5075864622393995e-24
+noCorrStats hc len:min:max 			500 : -3.4050979564212955 : 12.536621218378732
+ELL-0.1 all-1	len:min:max 	500 : -0.97810614 : -0.00077065197
+# indices >=1 off : 70 of 91		% indices off : 0.61
+noCorrStats all-13
+noCorrStats score len:min:max 		500 : 547.6217453565514 : 1398.0144304121216
+noCorrStats bj len:min:max 			500 : 0.5196995722144243 : 35.24202349841332
+noCorrStats gnull len:min:max 		500 : -0.9999999445365907 : -2.9316289472408892e-15
+noCorrStats hc len:min:max 			500 : -3.860632528649527 : 9.43504418405016
+ELL-0.1 all-13	len:min:max 	500 : -0.99028397 : -8.0357946e-05
+# indices >=1 off : 65 of 91		% indices off : 0.53
+noCorrStats all-11
+noCorrStats score len:min:max 		500 : 569.6678611211245 : 1504.76153413093
+noCorrStats bj len:min:max 			500 : 0.47792001388298816 : 48.258273585125465
+noCorrStats gnull len:min:max 		500 : -0.9994665854147634 : -5.2524757989652723e-23
+noCorrStats hc len:min:max 			500 : -2.511239506179657 : 12.345554162073912
+ELL-0.1 all-11	len:min:max 	500 : -0.97573745 : -8.0357946e-05
+# indices >=1 off : 78 of 91		% indices off : 1.25
+noCorrStats all-9
+noCorrStats score len:min:max 		500 : 540.8198480900044 : 1460.039559824681
+noCorrStats bj len:min:max 			500 : 0.49916102530943846 : 47.30712890095072
+noCorrStats gnull len:min:max 		500 : -0.999999997608765 : -1.4732171120549487e-22
+noCorrStats hc len:min:max 			500 : -4.513707278320705 : 11.393272968837243
+noCorrStats all-20
+noCorrStats score len:min:max 		500 : 548.2917657839594 : 1484.7884712752432
+noCorrStats bj len:min:max 			500 : 0.48853618607778887 : 50.31012348641184
+noCorrStats gnull len:min:max 		500 : -0.9999921347884122 : -6.796383234221641e-24
+noCorrStats hc len:min:max 			500 : -3.5419320321712635 : 11.976607634231435
+ELL-0.1 all-9	len:min:max 	500 : -0.99028397 : -9.684246e-05
+# indices >=1 off : 75 of 91		% indices off : 0.69
+ELL-0.1 all-20	len:min:max 	500 : -0.9828181 : -2.942438e-05
+# indices >=1 off : 78 of 91		% indices off : 0.61
+noCorrStats all-18
+noCorrStats score len:min:max 		500 : 516.0576151394787 : 1499.7691281846894
+noCorrStats bj len:min:max 			500 : 0.25962489418118984 : 52.10114926209499
+noCorrStats gnull len:min:max 		500 : -0.9999994542472013 : -1.0927139528107212e-24
+noCorrStats hc len:min:max 			500 : -3.6992619209455695 : 12.58465858450637
+ELL-0.1 all-18	len:min:max 	500 : -0.99028397 : -8.0357946e-05
+# indices >=1 off : 77 of 91		% indices off : 1.2
+noCorrStats all-2
+noCorrStats score len:min:max 		500 : 616.7499809987095 : 1439.1849397551441
+noCorrStats bj len:min:max 			500 : 0.4621551214222777 : 40.96442979434428
+noCorrStats gnull len:min:max 		500 : -0.9997371780130204 : -8.936582082634712e-20
+noCorrStats hc len:min:max 			500 : -2.528862858153874 : 10.628028145412015
+ELL-0.1 all-2	len:min:max 	500 : -0.98261505 : -5.7314457e-05
+# indices >=1 off : 70 of 91		% indices off : 0.44
+noCorrStats all-16
+noCorrStats score len:min:max 		500 : 582.3715143931581 : 1372.1079288359654
+noCorrStats bj len:min:max 			500 : 0.43562273583487904 : 36.33314871082199
+noCorrStats gnull len:min:max 		500 : -0.9999639671231997 : -8.508525647940542e-17
+noCorrStats hc len:min:max 			500 : -3.5471329693567655 : 9.697246080017473
+ELL-0.1 all-16	len:min:max 	500 : -0.96638936 : -0.00031589574
+# indices >=1 off : 66 of 91		% indices off : 0.52
+noCorrStats all-8
+noCorrStats score len:min:max 		500 : 598.0685815126847 : 1318.7077159111316
+noCorrStats bj len:min:max 			500 : 0.5268828649553947 : 29.07216804573767
+noCorrStats gnull len:min:max 		500 : -0.9998469769139527 : -1.4439139424384167e-14
+noCorrStats hc len:min:max 			500 : -2.8564828170138634 : 8.80202257765695
+ELL-0.1 all-8	len:min:max 	500 : -0.97266424 : -0.0012398309
+# indices >=1 off : 48 of 91		% indices off : 0.11
+noCorrStats all-22
+noCorrStats score len:min:max 		500 : 571.7732056559877 : 1402.5945878793536
+noCorrStats bj len:min:max 			500 : 0.43668782584311705 : 43.316659541006345
+noCorrStats gnull len:min:max 		500 : -0.9999427251782604 : -7.6557872828066e-21
+noCorrStats hc len:min:max 			500 : -3.589335562404903 : 11.153352657982277
+ELL-0.1 all-22	len:min:max 	500 : -0.9835884 : -1.7643393e-05
+# indices >=1 off : 77 of 91		% indices off : 1.0
+noCorrStats all-19
+noCorrStats score len:min:max 		500 : 574.941806989766 : 1434.5114217711819
+noCorrStats bj len:min:max 			500 : 0.3930184622930103 : 42.54595739744826
+noCorrStats gnull len:min:max 		500 : -0.9999853957066869 : -1.748775461026525e-20
+noCorrStats hc len:min:max 			500 : -3.0465599915708204 : 10.860608551170092
+ELL-0.1 all-19	len:min:max 	500 : -0.99028397 : -0.00025357283
+# indices >=1 off : 64 of 91		% indices off : 0.53
+noCorrStats all-6
+noCorrStats score len:min:max 		500 : 578.0504648255759 : 1350.5753257312522
+noCorrStats bj len:min:max 			500 : 0.47781991228709914 : 36.86694317963957
+noCorrStats gnull len:min:max 		500 : -0.9997433327854113 : -1.5122628869961864e-15
+noCorrStats hc len:min:max 			500 : -3.220428264925424 : 9.13993795946882
+ELL-0.1 all-6	len:min:max 	500 : -0.98054034 : -0.0004411699
+# indices >=1 off : 54 of 91		% indices off : 0.26
+noCorrStats all-21
+noCorrStats score len:min:max 		500 : 590.9967845510266 : 1360.319160616414
+noCorrStats bj len:min:max 			500 : 0.5286819063276451 : 33.64215713575745
+noCorrStats gnull len:min:max 		500 : -0.9999938657799521 : -1.3564373556280422e-16
+noCorrStats hc len:min:max 			500 : -3.4670038312232005 : 10.704324129598692
+noCorrStats all-23
+noCorrStats score len:min:max 		500 : 536.2799349882264 : 1302.746721814244
+noCorrStats bj len:min:max 			500 : 0.349784861156054 : 45.936906554528704
+noCorrStats gnull len:min:max 		500 : -0.9999719978671199 : -3.16172955662213e-14
+noCorrStats hc len:min:max 			500 : -4.0479128626268714 : 9.951902061518968
+ELL-0.1 all-21	len:min:max 	500 : -0.98928124 : -0.00025960334
+# indices >=1 off : 61 of 91		% indices off : 0.46
+ELL-0.1 all-23	len:min:max 	500 : -0.99028397 : -0.00025357283
+# indices >=1 off : 67 of 91		% indices off : 0.26
+noCorrStats all-4
+noCorrStats score len:min:max 		500 : 551.3455767031784 : 1343.2539187372572
+noCorrStats bj len:min:max 			500 : 0.3766768008077139 : 43.766208351504
+noCorrStats gnull len:min:max 		500 : -0.9997763908625162 : -4.0851690442606435e-15
+noCorrStats hc len:min:max 			500 : -2.966731654223588 : 9.28712975869565
+ELL-0.1 all-4	len:min:max 	500 : -0.9562066 : -4.0191266e-05
+# indices >=1 off : 63 of 91		% indices off : 0.6
+cpma all-25	len:min:max 	500 : 4.3722320697270334e-07 : 142.85125585780042
+cpma all-26	len:min:max 	500 : 8.771150532993488e-06 : 123.79436021368383
+cpma all-27	len:min:max 	500 : 7.382742842310108e-05 : 84.44449077438003
+cpma all-29	len:min:max 	500 : 6.02546424488537e-06 : 95.41115392417669
+cpma all-28	len:min:max 	500 : 2.490378392394632e-08 : 85.73012170552465
+cpma all-30	len:min:max 	500 : 2.2148607968119904e-05 : 89.57154516177252
+cpma all-31	len:min:max 	500 : 2.6376437745057046e-07 : 124.16571247369393
+cpma all-33	len:min:max 	500 : 0.0002956074913527118 : 88.32553048518093
+cpma all-32	len:min:max 	500 : 5.91290881857276e-06 : 158.17255998200562
+cpma all-34	len:min:max 	500 : 3.2309850212186575e-05 : 125.19461436149322
+cpma all-35	len:min:max 	500 : 1.241345853486564e-05 : 106.69697308881041
+cpma all-37	len:min:max 	500 : 1.9527833501342684e-06 : 85.88343780219839
+cpma all-36	len:min:max 	500 : 0.0001900540719361743 : 125.95038121260222
+cpma all-38	len:min:max 	500 : 1.0462463251315057e-07 : 146.0953520114399
+cpma all-39	len:min:max 	500 : 3.755643774638884e-05 : 96.73514248963329
+cpma all-40	len:min:max 	500 : 1.04952650872292e-05 : 144.42953800674513
+cpma all-41	len:min:max 	500 : 0.00017461386778450105 : 75.30716870423021
+cpma all-42	len:min:max 	500 : 0.0005954757434665225 : 96.66055239098387
+cpma all-43	len:min:max 	500 : 8.888540833140723e-05 : 80.32906779024415
+cpma all-44	len:min:max 	500 : 1.0106032277690247e-06 : 93.96515540064502
+cpma all-45	len:min:max 	500 : 2.1172945707803592e-05 : 129.37928138220923
+cpma all-46	len:min:max 	500 : 4.48912032879889e-07 : 138.50106991648863
+cpma all-47	len:min:max 	500 : 8.188449828594457e-05 : 138.73174414470668
+cpma all-48	len:min:max 	500 : 2.279978980368469e-05 : 102.48289181713335
+noCorrStats all-28
+noCorrStats score len:min:max 		500 : 569.5835092786372 : 1269.5868635066138
+noCorrStats bj len:min:max 			500 : 0.5091288208261744 : 37.66236427627383
+noCorrStats gnull len:min:max 		500 : -0.9999830525548283 : -1.5880414077863047e-14
+noCorrStats hc len:min:max 			500 : -3.1350636798068425 : 9.237928418464627
+ELL-0.1 all-28	len:min:max 	500 : -0.9814959 : -0.0003054202
+# indices >=1 off : 28 of 91		% indices off : 0.11
+noCorrStats all-32
+noCorrStats score len:min:max 		500 : 566.723783516367 : 1563.297077119021
+noCorrStats bj len:min:max 			500 : 0.37949263905210445 : 55.38884965230472
+noCorrStats gnull len:min:max 		500 : -0.9997283653584952 : -4.406768738017235e-26
+noCorrStats hc len:min:max 			500 : -3.0568391666414048 : 15.40516789691427
+ELL-0.1 all-32	len:min:max 	500 : -0.9608612 : -0.00022214105
+# indices >=1 off : 78 of 91		% indices off : 0.96
+noCorrStats all-34
+noCorrStats score len:min:max 		500 : 509.28480585198236 : 1393.4557484409024
+noCorrStats bj len:min:max 			500 : 0.4951260767987037 : 52.997009764247984
+noCorrStats gnull len:min:max 		500 : -0.9999997524887551 : -3.729835642959999e-18
+noCorrStats hc len:min:max 			500 : -3.6592200629471052 : 11.966590311881685
+ELL-0.1 all-34	len:min:max 	500 : -0.99028397 : -0.00016063677
+# indices >=1 off : 75 of 91		% indices off : 1.07
+noCorrStats all-33
+noCorrStats score len:min:max 		500 : 564.9378541238054 : 1309.4787421575409
+noCorrStats bj len:min:max 			500 : 0.48912078933922454 : 37.65365440838071
+noCorrStats gnull len:min:max 		500 : -0.9998753111194757 : -7.482046248607177e-15
+noCorrStats hc len:min:max 			500 : -2.9662016433543696 : 8.363640751046985
+noCorrStats all-42
+noCorrStats score len:min:max 		500 : 568.4158914680964 : 1412.04181185005
+noCorrStats bj len:min:max 			500 : 0.4762552923781487 : 42.02465909274272
+noCorrStats gnull len:min:max 		500 : -0.9999967297071172 : -2.982345503319619e-20
+noCorrStats hc len:min:max 			500 : -3.683633148442906 : 12.223329698543106
+ELL-0.1 all-33	len:min:max 	500 : -0.9897016 : -0.0010803952
+# indices >=1 off : 24 of 91		% indices off : 0.06
+ELL-0.1 all-42	len:min:max 	500 : -0.99028397 : -0.00024799464
+# indices >=1 off : 76 of 91		% indices off : 0.64
+noCorrStats all-25
+noCorrStats score len:min:max 		500 : 588.2787120944213 : 1521.313974138387
+noCorrStats bj len:min:max 			500 : 0.30546494286310605 : 55.250837908564
+noCorrStats gnull len:min:max 		500 : -0.9999409611647245 : -4.415811785299012e-26
+noCorrStats hc len:min:max 			500 : -3.708824296889862 : 12.61034993881494
+ELL-0.1 all-25	len:min:max 	500 : -0.98457813 : -0.00020368239
+# indices >=1 off : 78 of 91		% indices off : 0.7
+noCorrStats all-27
+noCorrStats score len:min:max 		500 : 572.9609510087064 : 1325.9832132965005
+noCorrStats bj len:min:max 			500 : 0.4243853661731492 : 31.944099040803838
+noCorrStats gnull len:min:max 		500 : -0.9999984367017404 : -7.793692122564934e-14
+noCorrStats hc len:min:max 			500 : -3.395407256816312 : 10.488558975786525
+ELL-0.1 all-27	len:min:max 	500 : -0.99028397 : -0.00036537886
+# indices >=1 off : 70 of 91		% indices off : 0.42
+noCorrStats all-37
+noCorrStats score len:min:max 		500 : 618.0594003744068 : 1375.2547170238956
+noCorrStats bj len:min:max 			500 : 0.6593462754293881 : 30.720067103908995
+noCorrStats gnull len:min:max 		500 : -0.9999985741237688 : -2.9203976266682423e-15
+noCorrStats hc len:min:max 			500 : -4.024237750353722 : 10.700839217720105
+ELL-0.1 all-37	len:min:max 	500 : -0.9785606 : -5.0349743e-05
+# indices >=1 off : 73 of 91		% indices off : 0.72
+noCorrStats all-29
+noCorrStats score len:min:max 		500 : 554.5786453661254 : 1398.9895352203891
+noCorrStats bj len:min:max 			500 : 0.6031810426087602 : 42.80609081318979
+noCorrStats gnull len:min:max 		500 : -0.9999880331383787 : -2.4070429168307114e-17
+noCorrStats hc len:min:max 			500 : -3.0791838333856174 : 10.473393407824437
+ELL-0.1 all-29	len:min:max 	500 : -0.9729278 : -6.5732e-05
+# indices >=1 off : 76 of 91		% indices off : 0.47
+noCorrStats all-43
+noCorrStats score len:min:max 		500 : 617.1658383505597 : 1336.2709034091322
+noCorrStats bj len:min:max 			500 : 0.4994056839792857 : 37.84201426472554
+noCorrStats gnull len:min:max 		500 : -0.9999815704069658 : -1.9414949593353657e-18
+noCorrStats hc len:min:max 			500 : -3.0080276714149803 : 9.577624589846481
+ELL-0.1 all-43	len:min:max 	500 : -0.97903603 : -0.0015583001
+# indices >=1 off : 40 of 91		% indices off : 0.2
+noCorrStats all-45
+noCorrStats score len:min:max 		500 : 503.5286231639336 : 1352.8664828044066
+noCorrStats bj len:min:max 			500 : 0.5892295466731093 : 53.91667375712795
+noCorrStats gnull len:min:max 		500 : -0.9999999999301057 : -1.2042622042805375e-17
+noCorrStats hc len:min:max 			500 : -4.7160913340221535 : 9.789308921408272
+ELL-0.1 all-45	len:min:max 	500 : -0.99028397 : -6.925025e-05
+# indices >=1 off : 42 of 91		% indices off : 0.23
+noCorrStats all-48
+noCorrStats score len:min:max 		500 : 548.7164946453639 : 1412.5538147089414
+noCorrStats bj len:min:max 			500 : 0.3905158963703703 : 42.44380672637476
+noCorrStats gnull len:min:max 		500 : -0.9999998386056076 : -5.226557808320421e-19
+noCorrStats hc len:min:max 			500 : -4.424362619687525 : 10.357254502302618
+ELL-0.1 all-48	len:min:max 	500 : -0.99028397 : -0.0010673052
+# indices >=1 off : 55 of 91		% indices off : 0.4
+noCorrStats all-40
+noCorrStats score len:min:max 		500 : 580.62550219234 : 1532.86257296615
+noCorrStats bj len:min:max 			500 : 0.42080536312664185 : 59.052590760077805
+noCorrStats gnull len:min:max 		500 : -0.9999404215970167 : -1.1968963946939418e-27
+noCorrStats hc len:min:max 			500 : -2.9491906859059047 : 14.229801799299677
+ELL-0.1 all-40	len:min:max 	500 : -0.9826823 : -4.656949e-05
+# indices >=1 off : 78 of 91		% indices off : 0.59
+noCorrStats all-41
+noCorrStats score len:min:max 		500 : 594.7707112210718 : 1316.76445922431
+noCorrStats bj len:min:max 			500 : 0.4027784327943145 : 28.364950261517393
+noCorrStats gnull len:min:max 		500 : -0.9992448101237111 : -3.190435927649512e-14
+noCorrStats hc len:min:max 			500 : -2.9794273062555368 : 8.493291292558613
+ELL-0.1 all-41	len:min:max 	500 : -0.9691394 : -0.00080104
+# indices >=1 off : 49 of 91		% indices off : 0.34
+noCorrStats all-35
+noCorrStats score len:min:max 		500 : 544.8729610954632 : 1441.4209297255584
+noCorrStats bj len:min:max 			500 : 0.34067564484242213 : 45.91093625095595
+noCorrStats gnull len:min:max 		500 : -0.9999098872799539 : -5.660458938620571e-22
+noCorrStats hc len:min:max 			500 : -2.8735404942181226 : 11.028303619363516
+noCorrStats all-36
+noCorrStats score len:min:max 		500 : 561.8813994295325 : 1490.5292697114603
+noCorrStats bj len:min:max 			500 : 0.487625384542059 : 40.82946936624261
+noCorrStats gnull len:min:max 		500 : -0.9998390046670214 : -1.2229876105081182e-19
+noCorrStats hc len:min:max 			500 : -2.983763113114588 : 15.94926619031379
+ELL-0.1 all-35	len:min:max 	500 : -0.98920494 : -0.00010034193
+# indices >=1 off : 73 of 91		% indices off : 0.56
+ELL-0.1 all-36	len:min:max 	500 : -0.9856037 : -5.156676e-05
+# indices >=1 off : 82 of 91		% indices off : 0.38
+noCorrStats all-30
+noCorrStats score len:min:max 		500 : 556.4551546336139 : 1377.785722381111
+noCorrStats bj len:min:max 			500 : 0.3972362913094863 : 39.18588162867351
+noCorrStats gnull len:min:max 		500 : -0.9999974375581538 : -2.9462153122665665e-17
+noCorrStats hc len:min:max 			500 : -3.583862376986755 : 9.4063265002481
+ELL-0.1 all-30	len:min:max 	500 : -0.99028397 : -0.00043366756
+# indices >=1 off : 56 of 91		% indices off : 0.39
+noCorrStats all-38
+noCorrStats score len:min:max 		500 : 486.3836500582519 : 1292.1923559274562
+noCorrStats bj len:min:max 			500 : 0.32721051812102875 : 66.78872552889634
+noCorrStats gnull len:min:max 		500 : -0.9999999664523787 : -3.219433618194144e-16
+noCorrStats hc len:min:max 			500 : -4.079462314387001 : 9.586682513429292
+ELL-0.1 all-38	len:min:max 	500 : -0.99028397 : -0.0003282983
+# indices >=1 off : 39 of 91		% indices off : 0.18
+noCorrStats all-46
+noCorrStats score len:min:max 		500 : 576.0740908352778 : 1523.60991522629
+noCorrStats bj len:min:max 			500 : 0.5313186879387182 : 55.57630586084545
+noCorrStats gnull len:min:max 		500 : -0.9998316964900067 : -3.6192638559726916e-26
+noCorrStats hc len:min:max 			500 : -2.8480026632122506 : 12.862260526076767
+ELL-0.1 all-46	len:min:max 	500 : -0.98224187 : -5.425714e-05
+# indices >=1 off : 78 of 91		% indices off : 0.62
+noCorrStats all-47
+noCorrStats score len:min:max 		500 : 489.51946794064276 : 1510.496189455383
+noCorrStats bj len:min:max 			500 : 0.4607912806444247 : 53.67275181200965
+noCorrStats gnull len:min:max 		500 : -0.9999909786121727 : -3.411848595834231e-24
+noCorrStats hc len:min:max 			500 : -3.6298585810679094 : 12.845467563132235
+noCorrStats all-44
+noCorrStats score len:min:max 		500 : 608.5119063919306 : 1389.4417809092633
+noCorrStats bj len:min:max 			500 : 0.5035561005563841 : 39.80134694151962
+noCorrStats gnull len:min:max 		500 : -0.9990541626765782 : -2.5601025211060147e-19
+noCorrStats hc len:min:max 			500 : -3.0810180533698386 : 10.296357596793042
+ELL-0.1 all-47	len:min:max 	500 : -0.99028397 : -9.889458e-05
+# indices >=1 off : 75 of 91		% indices off : 0.5
+ELL-0.1 all-44	len:min:max 	500 : -0.99028397 : -0.00021032931
+# indices >=1 off : 70 of 91		% indices off : 0.78
+noCorrStats all-31
+noCorrStats score len:min:max 		500 : 508.18271210477474 : 1465.3055474143562
+noCorrStats bj len:min:max 			500 : 0.5999551733946604 : 52.4989990478024
+noCorrStats gnull len:min:max 		500 : -0.9999973305825378 : -1.8260683215637593e-23
+noCorrStats hc len:min:max 			500 : -3.5572693424484947 : 11.33134842921026
+ELL-0.1 all-31	len:min:max 	500 : -0.98990136 : -0.000120737095
+# indices >=1 off : 73 of 91		% indices off : 0.72
+noCorrStats all-39
+noCorrStats score len:min:max 		500 : 554.5371259359038 : 1400.0172750186268
+noCorrStats bj len:min:max 			500 : 0.4645865003191855 : 43.16660210253335
+noCorrStats gnull len:min:max 		500 : -0.9997121912192832 : -8.913846388594962e-18
+noCorrStats hc len:min:max 			500 : -2.5881993382636654 : 10.824409139364256
+noCorrStats all-26
+noCorrStats score len:min:max 		500 : 510.5932864834137 : 1443.1128977350868
+noCorrStats bj len:min:max 			500 : 0.5841035871107804 : 49.35168390041637
+noCorrStats gnull len:min:max 		500 : -0.9999997294167451 : -1.7388255620943483e-23
+noCorrStats hc len:min:max 			500 : -3.6468835056238302 : 11.090567945321814
+ELL-0.1 all-39	len:min:max 	500 : -0.95513886 : -0.00010665355
+# indices >=1 off : 75 of 91		% indices off : 0.91
+ELL-0.1 all-26	len:min:max 	500 : -0.99028397 : -4.0191266e-05
+# indices >=1 off : 67 of 91		% indices off : 0.38
+cpma all-49	len:min:max 	500 : 2.5500230549369007e-06 : 106.12273104304404
+cpma all-50	len:min:max 	500 : 0.00039624637793167494 : 169.76341757095906
+cpma all-51	len:min:max 	500 : 1.778986188583076e-05 : 159.80069023193755
+cpma all-52	len:min:max 	500 : 8.065593465289567e-05 : 125.71345387798647
+cpma all-53	len:min:max 	500 : 2.4225664674304426e-07 : 75.30505430238009
+cpma all-54	len:min:max 	500 : 6.3743900682311505e-06 : 109.41287733474564
+cpma all-55	len:min:max 	500 : 2.7831943953060545e-05 : 117.55226946662879
+cpma all-58	len:min:max 	500 : 9.04380613064859e-06 : 76.5890862463657
+cpma all-57	len:min:max 	500 : 8.767284452915192e-05 : 147.61291147319025
+cpma all-56	len:min:max 	500 : 0.0004340109480835963 : 121.75516351865917
+cpma all-59	len:min:max 	500 : 5.984561357763596e-05 : 105.6285046087578
+cpma all-62	len:min:max 	500 : 0.00023868519747338723 : 102.42944382928363
+cpma all-61	len:min:max 	500 : 3.5577140806708485e-06 : 95.98400486841456
+cpma all-60	len:min:max 	500 : 8.985807653516531e-10 : 96.14176539326036
+cpma all-63	len:min:max 	500 : 5.211958887230139e-05 : 133.89609482782544
+cpma all-64	len:min:max 	500 : 1.1092064596596174e-05 : 148.5252705737912
+cpma all-65	len:min:max 	500 : 0.00010580273919913452 : 90.37868303516734
+cpma all-66	len:min:max 	500 : 0.0002003087429329753 : 146.03786348890753
+cpma all-67	len:min:max 	500 : 0.0005983158316666959 : 130.10389009081337
+cpma all-68	len:min:max 	500 : 0.00020361305541882757 : 118.34777822753495
+cpma all-69	len:min:max 	500 : 4.4969512600800954e-05 : 102.77117576436831
+cpma all-70	len:min:max 	500 : 2.728751496761106e-06 : 116.92324997811556
+cpma all-71	len:min:max 	500 : 0.0006010169436194701 : 119.14382601893521
+cpma all-72	len:min:max 	500 : 0.0012393269498716109 : 175.98901572188333
+noCorrStats all-58
+noCorrStats score len:min:max 		500 : 580.5879759062665 : 1349.746244685115
+noCorrStats bj len:min:max 			500 : 0.45311752332053473 : 46.59189966392199
+noCorrStats gnull len:min:max 		500 : -0.9999918004257519 : -2.982255831100514e-22
+noCorrStats hc len:min:max 			500 : -4.317929421291315 : 11.187220619363229
+ELL-0.1 all-58	len:min:max 	500 : -0.99028397 : -0.00061844575
+# indices >=1 off : 68 of 91		% indices off : 0.77
+noCorrStats all-61
+noCorrStats score len:min:max 		500 : 549.1115584637732 : 1337.5964318969352
+noCorrStats bj len:min:max 			500 : 0.49392956636019697 : 39.35887334069788
+noCorrStats gnull len:min:max 		500 : -0.999930102474455 : -2.4894755517141674e-17
+noCorrStats hc len:min:max 			500 : -2.8179684799492395 : 8.991437404567128
+ELL-0.1 all-61	len:min:max 	500 : -0.9845108 : -0.0005183308
+# indices >=1 off : 51 of 91		% indices off : 0.33
+noCorrStats all-49
+noCorrStats score len:min:max 		500 : 562.9152045087217 : 1429.753292307306
+noCorrStats bj len:min:max 			500 : 0.5148221018096576 : 44.154914636979825
+noCorrStats gnull len:min:max 		500 : -0.9999977182810367 : -3.1658789198376618e-21
+noCorrStats hc len:min:max 			500 : -3.5834223511663685 : 13.694631320905607
+ELL-0.1 all-49	len:min:max 	500 : -0.98253095 : -0.0001742672
+# indices >=1 off : 77 of 91		% indices off : 0.88
+noCorrStats all-56
+noCorrStats score len:min:max 		500 : 554.7641835819602 : 1472.3772614505112
+noCorrStats bj len:min:max 			500 : 0.454979785700488 : 38.51702291265368
+noCorrStats gnull len:min:max 		500 : -0.9999640087215876 : -1.1245876274883148e-18
+noCorrStats hc len:min:max 			500 : -3.543399557290549 : 13.381793971970414
+ELL-0.1 all-56	len:min:max 	500 : -0.986732 : -5.8158326e-05
+# indices >=1 off : 79 of 91		% indices off : 0.46
+noCorrStats all-70
+noCorrStats score len:min:max 		500 : 519.5436483660802 : 1422.1142538654922
+noCorrStats bj len:min:max 			500 : 0.5375444671376978 : 59.82414371890024
+noCorrStats gnull len:min:max 		500 : -0.9999274512484734 : -3.2638282759869417e-19
+noCorrStats hc len:min:max 			500 : -2.7707731312138333 : 11.389136536476826
+ELL-0.1 all-70	len:min:max 	500 : -0.9845108 : -0.0009514412
+# indices >=1 off : 68 of 91		% indices off : 0.33
+noCorrStats all-51
+noCorrStats score len:min:max 		500 : 467.0621017853016 : 1393.9660477662324
+noCorrStats bj len:min:max 			500 : 0.41008242553075275 : 64.4170953053843
+noCorrStats gnull len:min:max 		500 : -0.9999999999999795 : -1.815612863390835e-18
+noCorrStats hc len:min:max 			500 : -5.7146770567688066 : 10.884889631139552
+ELL-0.1 all-51	len:min:max 	500 : -0.99028397 : -0.00022214105
+# indices >=1 off : 77 of 91		% indices off : 0.77
+noCorrStats all-54
+noCorrStats score len:min:max 		500 : 527.1430344132907 : 1378.3777599325426
+noCorrStats bj len:min:max 			500 : 0.5522891972345171 : 52.21732804502272
+noCorrStats gnull len:min:max 		500 : -0.9999999898402814 : -4.1400165346894775e-19
+noCorrStats hc len:min:max 			500 : -4.3320537705532844 : 10.4018389565113
+noCorrStats all-62
+noCorrStats score len:min:max 		500 : 553.2310088009245 : 1414.7718949829475
+noCorrStats bj len:min:max 			500 : 0.44806955453935593 : 41.22395486553218
+noCorrStats gnull len:min:max 		500 : -0.9999789928248047 : -7.954944343900803e-17
+noCorrStats hc len:min:max 			500 : -3.2308516935119758 : 10.722602924000611
+ELL-0.1 all-54	len:min:max 	500 : -0.99028397 : -0.00014003289
+# indices >=1 off : 76 of 91		% indices off : 0.56
+ELL-0.1 all-62	len:min:max 	500 : -0.9845961 : -0.00014391824
+# indices >=1 off : 76 of 91		% indices off : 0.47
+noCorrStats all-57
+noCorrStats score len:min:max 		500 : 477.596136816579 : 1412.2732787236412
+noCorrStats bj len:min:max 			500 : 0.5049022773075356 : 64.29486096248638
+noCorrStats gnull len:min:max 		500 : -0.9999990193786272 : -2.2910248552630726e-18
+noCorrStats hc len:min:max 			500 : -3.505461078985273 : 10.269328433380608
+ELL-0.1 all-57	len:min:max 	500 : -0.99028397 : -0.00021276316
+# indices >=1 off : 76 of 91		% indices off : 0.71
+noCorrStats all-52
+noCorrStats score len:min:max 		500 : 502.51661429694065 : 1358.3786391229005
+noCorrStats bj len:min:max 			500 : 0.5559679403580429 : 57.429831870306224
+noCorrStats gnull len:min:max 		500 : -0.9998249342921615 : -4.136944804764909e-18
+noCorrStats hc len:min:max 			500 : -3.070465739271308 : 9.089957332361895
+ELL-0.1 all-52	len:min:max 	500 : -0.9851558 : -0.00012050569
+# indices >=1 off : 42 of 91		% indices off : 0.26
+noCorrStats all-50
+noCorrStats score len:min:max 		500 : 572.8441648941476 : 1595.4021483343258
+noCorrStats bj len:min:max 			500 : 0.5152167714116558 : 62.33994866944609
+noCorrStats gnull len:min:max 		500 : -0.9998613091635976 : -3.889376354946505e-29
+noCorrStats hc len:min:max 			500 : -3.4340032452274527 : 13.344900688271727
+ELL-0.1 all-50	len:min:max 	500 : -0.9562066 : -3.114179e-05
+# indices >=1 off : 81 of 91		% indices off : 0.79
+noCorrStats all-65
+noCorrStats score len:min:max 		500 : 616.5078453813346 : 1372.4299550938715
+noCorrStats bj len:min:max 			500 : 0.4375037724829508 : 37.538689925598625
+noCorrStats gnull len:min:max 		500 : -0.99944631002992 : -2.6379723751412095e-18
+noCorrStats hc len:min:max 			500 : -2.7672649261904754 : 9.534120788102916
+ELL-0.1 all-65	len:min:max 	500 : -0.96047443 : -0.00027837662
+# indices >=1 off : 63 of 91		% indices off : 0.51
+noCorrStats all-64
+noCorrStats score len:min:max 		500 : 559.8466180045193 : 1553.9989097503212
+noCorrStats bj len:min:max 			500 : 0.6169309378316432 : 57.00345474697731
+noCorrStats gnull len:min:max 		500 : -0.9999971844343942 : -1.1164857239194142e-26
+noCorrStats hc len:min:max 			500 : -3.765591951440934 : 16.91428943315339
+noCorrStats all-72
+noCorrStats score len:min:max 		500 : 595.2549245204589 : 1610.7335814610515
+noCorrStats bj len:min:max 			500 : 0.5588539345577687 : 62.39633502005797
+noCorrStats gnull len:min:max 		500 : -0.9998888952726723 : -3.496396842085113e-29
+noCorrStats hc len:min:max 			500 : -2.692948142556714 : 15.444240013540824
+ELL-0.1 all-64	len:min:max 	500 : -0.99028397 : -3.0850544e-05
+# indices >=1 off : 83 of 91		% indices off : 1.08
+ELL-0.1 all-72	len:min:max 	500 : -0.9724375 : -7.727627e-06
+# indices >=1 off : 85 of 91		% indices off : 0.4
+noCorrStats all-66
+noCorrStats score len:min:max 		500 : 526.3627828347198 : 1535.9819269512518
+noCorrStats bj len:min:max 			500 : 0.36587709451939565 : 45.96515761270918
+noCorrStats gnull len:min:max 		500 : -0.9999886061984341 : -9.458782344233985e-22
+noCorrStats hc len:min:max 			500 : -3.4762176833251273 : 16.504069407170686
+ELL-0.1 all-66	len:min:max 	500 : -0.99028397 : -1.2196501e-05
+# indices >=1 off : 84 of 91		% indices off : 0.51
+noCorrStats all-59
+noCorrStats score len:min:max 		500 : 614.933947613761 : 1433.7539033920475
+noCorrStats bj len:min:max 			500 : 0.5922421354462435 : 44.41670864567889
+noCorrStats gnull len:min:max 		500 : -0.9999150249260287 : -2.691552406240363e-21
+noCorrStats hc len:min:max 			500 : -2.8905037039457517 : 11.071086927352157
+ELL-0.1 all-59	len:min:max 	500 : -0.96666324 : -7.749964e-05
+# indices >=1 off : 70 of 91		% indices off : 0.66
+noCorrStats all-69
+noCorrStats score len:min:max 		500 : 548.5177954109099 : 1423.616728674973
+noCorrStats bj len:min:max 			500 : 0.4331226968505717 : 48.66902221582042
+noCorrStats gnull len:min:max 		500 : -0.9999991282835147 : -4.368122738499185e-19
+noCorrStats hc len:min:max 			500 : -3.849433271696392 : 10.92553721086514
+ELL-0.1 all-69	len:min:max 	500 : -0.99028397 : -0.00037271212
+# indices >=1 off : 74 of 91		% indices off : 0.58
+noCorrStats all-53
+noCorrStats score len:min:max 		500 : 606.4752055143537 : 1330.2252572725188
+noCorrStats bj len:min:max 			500 : 0.5413753277334012 : 27.16632073107918
+noCorrStats gnull len:min:max 		500 : -0.999976827700774 : -1.0457911561286929e-13
+noCorrStats hc len:min:max 			500 : -3.114895439189725 : 10.450527757609224
+ELL-0.1 all-53	len:min:max 	500 : -0.9782141 : -0.000277953
+# indices >=1 off : 74 of 91		% indices off : 0.29
+noCorrStats all-68
+noCorrStats score len:min:max 		500 : 543.790972397903 : 1462.4309039883592
+noCorrStats bj len:min:max 			500 : 0.3844562405326689 : 50.06328681920583
+noCorrStats gnull len:min:max 		500 : -0.9999860126870156 : -8.363623189759131e-24
+noCorrStats hc len:min:max 			500 : -3.1173253685393796 : 11.113154941642268
+ELL-0.1 all-68	len:min:max 	500 : -0.9869792 : -0.00022214105
+# indices >=1 off : 72 of 91		% indices off : 0.89
+noCorrStats all-55
+noCorrStats score len:min:max 		500 : 524.4880750806924 : 1465.4147562522583
+noCorrStats bj len:min:max 			500 : 0.5594165325799821 : 43.038115688944174
+noCorrStats gnull len:min:max 		500 : -0.999999052755475 : -3.401411142300198e-20
+noCorrStats hc len:min:max 			500 : -3.4856040266230903 : 12.376574347555378
+ELL-0.1 all-55	len:min:max 	500 : -0.99028397 : -2.6501259e-05
+# indices >=1 off : 74 of 91		% indices off : 0.72
+noCorrStats all-67
+noCorrStats score len:min:max 		500 : 505.07326886652487 : 1377.1683593510868
+noCorrStats bj len:min:max 			500 : 0.4747736333445461 : 54.15123105887908
+noCorrStats gnull len:min:max 		500 : -0.9999943808742286 : -6.864236187554973e-15
+noCorrStats hc len:min:max 			500 : -3.4700218149139226 : 10.715865895277188
+noCorrStats all-71
+noCorrStats score len:min:max 		500 : 576.6155112120165 : 1456.0738332337476
+noCorrStats bj len:min:max 			500 : 0.4491707172599881 : 40.456406759810996
+noCorrStats gnull len:min:max 		500 : -0.9996292476678381 : -1.453068630768156e-19
+noCorrStats hc len:min:max 			500 : -2.82447497505462 : 10.894853435576554
+ELL-0.1 all-67	len:min:max 	500 : -0.99028397 : -0.00028495843
+# indices >=1 off : 67 of 91		% indices off : 0.56
+ELL-0.1 all-71	len:min:max 	500 : -0.97000074 : -0.0003815097
+# indices >=1 off : 74 of 91		% indices off : 1.07
+noCorrStats all-60
+noCorrStats score len:min:max 		500 : 562.266392958991 : 1396.797388655595
+noCorrStats bj len:min:max 			500 : 0.4374953677585244 : 44.13278987201918
+noCorrStats gnull len:min:max 		500 : -0.9999332371453518 : -3.3994131115707586e-21
+noCorrStats hc len:min:max 			500 : -2.9285714494240582 : 10.485509836340118
+ELL-0.1 all-60	len:min:max 	500 : -0.98396146 : -8.0357946e-05
+# indices >=1 off : 73 of 91		% indices off : 0.72
+noCorrStats all-63
+noCorrStats score len:min:max 		500 : 592.0307163359798 : 1509.6761190218112
+noCorrStats bj len:min:max 			500 : 0.5151737277685298 : 41.62161771188886
+noCorrStats gnull len:min:max 		500 : -0.9994934394385089 : -5.98929822581756e-20
+noCorrStats hc len:min:max 			500 : -2.849957979586523 : 13.987151330352328
+ELL-0.1 all-63	len:min:max 	500 : -0.97716576 : -8.135803e-05
+# indices >=1 off : 80 of 91		% indices off : 0.75
+cpma all-73	len:min:max 	500 : 6.658101483481005e-07 : 117.540036501734
+cpma all-74	len:min:max 	500 : 7.212824675661977e-05 : 118.62407474712381
+cpma all-75	len:min:max 	500 : 5.078883077658247e-05 : 98.29210995725225
+cpma all-77	len:min:max 	500 : 7.583361366414465e-06 : 124.96036248968448
+cpma all-78	len:min:max 	500 : 0.0002508720262994757 : 118.44670709502861
+cpma all-76	len:min:max 	500 : 1.1472729966044426e-07 : 97.94462255879444
+cpma all-80	len:min:max 	500 : 3.5282751923659816e-05 : 79.71968331063545
+cpma all-81	len:min:max 	500 : 3.1792089430382475e-05 : 101.05059660672305
+cpma all-79	len:min:max 	500 : 1.884219454950653e-05 : 143.56828962565123
+cpma all-82	len:min:max 	500 : 7.362755786743946e-05 : 110.79636078916337
+cpma all-83	len:min:max 	500 : 4.587182047544047e-07 : 69.36113502566513
+cpma all-84	len:min:max 	500 : 1.732219971017912e-06 : 110.37248778612229
+cpma all-85	len:min:max 	500 : 3.619705967139453e-05 : 108.62598978542883
+cpma all-86	len:min:max 	500 : 0.00017980328630073927 : 144.90735223172305
+cpma all-87	len:min:max 	500 : 0.00014227461542759556 : 109.80208838349608
+cpma all-88	len:min:max 	500 : 5.903594683331903e-05 : 120.09962132854707
+cpma all-89	len:min:max 	500 : 4.7518002247670665e-05 : 123.09105230489877
+cpma all-90	len:min:max 	500 : 3.327437661937438e-05 : 163.3696272692705
+cpma all-91	len:min:max 	500 : 2.0300012693041936e-06 : 110.81938813999113
+cpma all-92	len:min:max 	500 : 1.9595578123698942e-05 : 117.103008907412
+cpma all-93	len:min:max 	500 : 3.2250554795609787e-06 : 122.68506294116924
+cpma all-94	len:min:max 	500 : 0.00020122505884501152 : 119.6749063226016
+cpma all-95	len:min:max 	500 : 0.0004339573879406089 : 118.5760568672813
+cpma all-96	len:min:max 	500 : 7.548540452262387e-06 : 90.57422964623584
+noCorrStats all-75
+noCorrStats score len:min:max 		500 : 582.4136349558879 : 1409.930275632229
+noCorrStats bj len:min:max 			500 : 0.43010770686908845 : 39.93241716390544
+noCorrStats gnull len:min:max 		500 : -0.9999975105912726 : -2.486129138599364e-19
+noCorrStats hc len:min:max 			500 : -3.5673019419370484 : 10.545983982255956
+ELL-0.1 all-75	len:min:max 	500 : -0.99028397 : -0.0001311152
+# indices >=1 off : 69 of 91		% indices off : 0.68
+noCorrStats all-81
+noCorrStats score len:min:max 		500 : 585.3131162193644 : 1418.3213953488362
+noCorrStats bj len:min:max 			500 : 0.35855414103524347 : 39.61040341870535
+noCorrStats gnull len:min:max 		500 : -0.9998300493973138 : -1.0734411981030705e-17
+noCorrStats hc len:min:max 			500 : -3.5886916402973883 : 10.544077366737628
+ELL-0.1 all-81	len:min:max 	500 : -0.9728709 : -0.00017716018
+# indices >=1 off : 72 of 91		% indices off : 0.39
+noCorrStats all-73
+noCorrStats score len:min:max 		500 : 551.4232023768964 : 1452.7292814627137
+noCorrStats bj len:min:max 			500 : 0.6098837163490707 : 45.06958731812956
+noCorrStats gnull len:min:max 		500 : -0.9999990199170995 : -1.5068229588139035e-21
+noCorrStats hc len:min:max 			500 : -4.675558315181069 : 12.443871695704896
+ELL-0.1 all-73	len:min:max 	500 : -0.99028397 : -0.00026711827
+# indices >=1 off : 66 of 91		% indices off : 0.6
+noCorrStats all-77
+noCorrStats score len:min:max 		500 : 546.7247892671378 : 1480.8849859203144
+noCorrStats bj len:min:max 			500 : 0.6601083257853736 : 44.10105751330231
+noCorrStats gnull len:min:max 		500 : -0.9999999332686227 : -3.9804364645255295e-21
+noCorrStats hc len:min:max 			500 : -4.056450085655065 : 13.347188691452471
+ELL-0.1 all-77	len:min:max 	500 : -0.99028397 : -2.69758e-05
+# indices >=1 off : 74 of 91		% indices off : 0.64
+noCorrStats all-80
+noCorrStats score len:min:max 		500 : 579.7744126018662 : 1316.9885341737322
+noCorrStats bj len:min:max 			500 : 0.4328779367974208 : 31.262670214569916
+noCorrStats gnull len:min:max 		500 : -0.9999998396236002 : -1.5670183830390335e-15
+noCorrStats hc len:min:max 			500 : -4.608002575537324 : 8.918353311466147
+ELL-0.1 all-80	len:min:max 	500 : -0.98738825 : -0.0011097348
+# indices >=1 off : 50 of 91		% indices off : 0.25
+noCorrStats all-76
+noCorrStats score len:min:max 		500 : 554.5179149659401 : 1366.7516223281095
+noCorrStats bj len:min:max 			500 : 0.5960056377838889 : 39.67272317217559
+noCorrStats gnull len:min:max 		500 : -0.9998430877746901 : -3.267757975036738e-19
+noCorrStats hc len:min:max 			500 : -2.6283195977640834 : 10.289885887046573
+ELL-0.1 all-76	len:min:max 	500 : -0.98329246 : -0.00016063677
+# indices >=1 off : 58 of 91		% indices off : 0.7
+noCorrStats all-79
+noCorrStats score len:min:max 		500 : 578.1987541964963 : 1531.1702832274566
+noCorrStats bj len:min:max 			500 : 0.5127077151898665 : 53.246634863708266
+noCorrStats gnull len:min:max 		500 : -0.9999478208416702 : -3.9158317849199e-25
+noCorrStats hc len:min:max 			500 : -3.3448132010086353 : 12.926705874701277
+ELL-0.1 all-79	len:min:max 	500 : -0.96382153 : -8.423184e-05
+# indices >=1 off : 72 of 91		% indices off : 0.46
+noCorrStats all-83
+noCorrStats score len:min:max 		500 : 615.3451884794283 : 1318.9051347828056
+noCorrStats bj len:min:max 			500 : 0.3684089922932571 : 33.29232982919186
+noCorrStats gnull len:min:max 		500 : -0.9999368657394926 : -2.3091857957279314e-16
+noCorrStats hc len:min:max 			500 : -2.8597015706956856 : 10.102343502698526
+ELL-0.1 all-83	len:min:max 	500 : -0.9761725 : -0.0004411699
+# indices >=1 off : 57 of 91		% indices off : 0.47
+noCorrStats all-90
+noCorrStats score len:min:max 		500 : 464.1911332973925 : 1472.840427468159
+noCorrStats bj len:min:max 			500 : 0.4691643515114615 : 61.25795770490057
+noCorrStats gnull len:min:max 		500 : -0.9999999999996134 : -2.233929030692904e-21
+noCorrStats hc len:min:max 			500 : -6.87949095725412 : 10.726179874334052
+ELL-0.1 all-90	len:min:max 	500 : -0.99028397 : -0.00015031018
+# indices >=1 off : 75 of 91		% indices off : 0.59
+noCorrStats all-87
+noCorrStats score len:min:max 		500 : 541.7345187571428 : 1430.9946858177416
+noCorrStats bj len:min:max 			500 : 0.4068220549378347 : 44.94953239029981
+noCorrStats gnull len:min:max 		500 : -0.9999973135693272 : -1.4242613162454195e-21
+noCorrStats hc len:min:max 			500 : -3.3141059628902862 : 10.295602664134497
+ELL-0.1 all-87	len:min:max 	500 : -0.9888526 : -8.04504e-05
+# indices >=1 off : 58 of 91		% indices off : 0.31
+noCorrStats all-84
+noCorrStats score len:min:max 		500 : 568.9236458344197 : 1437.7047064077374
+noCorrStats bj len:min:max 			500 : 0.4436528367937853 : 38.53523106739019
+noCorrStats gnull len:min:max 		500 : -0.9999935528786489 : -1.6137449848796377e-18
+noCorrStats hc len:min:max 			500 : -3.178455589062204 : 11.287991483672627
+ELL-0.1 all-84	len:min:max 	500 : -0.9729462 : -0.00016699334
+# indices >=1 off : 79 of 91		% indices off : 0.78
+noCorrStats all-86
+noCorrStats score len:min:max 		500 : 581.9924582919305 : 1531.513163998476
+noCorrStats bj len:min:max 			500 : 0.4902360500209536 : 57.44123859802928
+noCorrStats gnull len:min:max 		500 : -0.9999988970520345 : -4.949769547124841e-27
+noCorrStats hc len:min:max 			500 : -4.739426406664313 : 12.176900861128873
+ELL-0.1 all-86	len:min:max 	500 : -0.99028397 : -0.00016699334
+# indices >=1 off : 79 of 91		% indices off : 0.49
+noCorrStats all-85
+noCorrStats score len:min:max 		500 : 599.9488072270649 : 1434.7450389060823
+noCorrStats bj len:min:max 			500 : 0.43214678662813305 : 38.63628468902981
+noCorrStats gnull len:min:max 		500 : -0.9999985738039093 : -8.577966245800928e-19
+noCorrStats hc len:min:max 			500 : -3.812552254332885 : 10.42033300062929
+ELL-0.1 all-85	len:min:max 	500 : -0.97930217 : -9.250186e-05
+# indices >=1 off : 72 of 91		% indices off : 0.59
+noCorrStats all-88
+noCorrStats score len:min:max 		500 : 586.7404260015169 : 1466.8133225721222
+noCorrStats bj len:min:max 			500 : 0.5587331385537505 : 44.24523797216858
+noCorrStats gnull len:min:max 		500 : -0.9999988631967583 : -3.241614876076903e-21
+noCorrStats hc len:min:max 			500 : -4.290661227198933 : 10.980447269324786
+ELL-0.1 all-88	len:min:max 	500 : -0.9854982 : -0.00050943065
+# indices >=1 off : 71 of 91		% indices off : 0.47
+noCorrStats all-74
+noCorrStats score len:min:max 		500 : 513.0668207924424 : 1416.1279367744798
+noCorrStats bj len:min:max 			500 : 0.3656979401239339 : 49.25921394928396
+noCorrStats gnull len:min:max 		500 : -0.9999617596195851 : -4.359079348647366e-19
+noCorrStats hc len:min:max 			500 : -3.2044498357724693 : 10.552268638543222
+ELL-0.1 all-74	len:min:max 	500 : -0.99028397 : -0.00033153946
+# indices >=1 off : 75 of 91		% indices off : 0.7
+noCorrStats all-78
+noCorrStats score len:min:max 		500 : 518.0028972566171 : 1429.8210039485614
+noCorrStats bj len:min:max 			500 : 0.3435142076425635 : 46.4640926659604
+noCorrStats gnull len:min:max 		500 : -0.9999737206614994 : -6.81660989479862e-18
+noCorrStats hc len:min:max 			500 : -3.0933357130739925 : 11.109887805548144
+ELL-0.1 all-78	len:min:max 	500 : -0.9882637 : -7.727627e-06
+# indices >=1 off : 69 of 91		% indices off : 0.9
+noCorrStats all-94
+noCorrStats score len:min:max 		500 : 591.3146276566036 : 1475.944979089088
+noCorrStats bj len:min:max 			500 : 0.4940231349545198 : 38.53715400291188
+noCorrStats gnull len:min:max 		500 : -0.9996250924314874 : -1.1184860061640335e-18
+noCorrStats hc len:min:max 			500 : -2.973338345315012 : 13.075725442701119
+ELL-0.1 all-94	len:min:max 	500 : -0.96885014 : -5.8158326e-05
+# indices >=1 off : 80 of 91		% indices off : 0.55
+noCorrStats all-91
+noCorrStats score len:min:max 		500 : 532.3468557797121 : 1303.9909545139492
+noCorrStats bj len:min:max 			500 : 0.5268655009319102 : 44.10496914895469
+noCorrStats gnull len:min:max 		500 : -0.9996764574107416 : -3.176082896993752e-15
+noCorrStats hc len:min:max 			500 : -2.8937685089192646 : 8.301592304759827
+noCorrStats all-89
+noCorrStats score len:min:max 		500 : 512.4855059592667 : 1323.616433437332
+noCorrStats bj len:min:max 			500 : 0.39114055013589066 : 51.82006696172988
+noCorrStats gnull len:min:max 		500 : -0.9999985268336007 : -2.385251343412801e-17
+noCorrStats hc len:min:max 			500 : -4.134994927677801 : 9.070224131935625
+ELL-0.1 all-91	len:min:max 	500 : -0.9562775 : -0.00012050569
+# indices >=1 off : 54 of 91		% indices off : 0.38
+noCorrStats all-82
+noCorrStats score len:min:max 		500 : 537.3449155675767 : 1325.088180525214
+noCorrStats bj len:min:max 			500 : 0.4845780554418764 : 42.75921731686675
+noCorrStats gnull len:min:max 		500 : -0.9998925440736951 : -2.0722692936904187e-17
+noCorrStats hc len:min:max 			500 : -2.8821700052788035 : 9.739630318627018
+ELL-0.1 all-89	len:min:max 	500 : -0.99028397 : -0.00024085419
+# indices >=1 off : 39 of 91		% indices off : 0.23
+noCorrStats all-92
+noCorrStats score len:min:max 		500 : 523.9013399180732 : 1388.5959972024498
+noCorrStats bj len:min:max 			500 : 0.5925656922288904 : 49.12613716479953
+noCorrStats gnull len:min:max 		500 : -0.9999972345222405 : -8.952406523894589e-15
+noCorrStats hc len:min:max 			500 : -3.309697375216546 : 9.739218217042337
+ELL-0.1 all-82	len:min:max 	500 : -0.98644125 : -0.0014871493
+# indices >=1 off : 49 of 91		% indices off : 0.16
+ELL-0.1 all-92	len:min:max 	500 : -0.99028397 : -0.0007578112
+# indices >=1 off : 72 of 91		% indices off : 0.43
+noCorrStats all-93
+noCorrStats score len:min:max 		500 : 507.02034076490276 : 1392.9001448195163
+noCorrStats bj len:min:max 			500 : 0.39857824619908194 : 56.87936995138756
+noCorrStats gnull len:min:max 		500 : -0.9999999998435092 : -1.3712306127122809e-18
+noCorrStats hc len:min:max 			500 : -4.688960170495111 : 9.829786546104547
+ELL-0.1 all-93	len:min:max 	500 : -0.99028397 : -0.0007407514
+# indices >=1 off : 56 of 91		% indices off : 0.31
+noCorrStats all-95
+noCorrStats score len:min:max 		500 : 528.8362923952853 : 1461.9828022121426
+noCorrStats bj len:min:max 			500 : 0.3193680722625194 : 47.95853771622927
+noCorrStats gnull len:min:max 		500 : -0.999929587257294 : -9.818492105699578e-21
+noCorrStats hc len:min:max 			500 : -2.7761523857926997 : 11.01289794026765
+ELL-0.1 all-95	len:min:max 	500 : -0.9894472 : -8.0357946e-05
+# indices >=1 off : 73 of 91		% indices off : 0.4
+noCorrStats all-96
+noCorrStats score len:min:max 		500 : 597.6029455680745 : 1401.5003088949577
+noCorrStats bj len:min:max 			500 : 0.5745193845455904 : 42.99754081164962
+noCorrStats gnull len:min:max 		500 : -0.9999966548151384 : -1.161990372207378e-20
+noCorrStats hc len:min:max 			500 : -4.104667642935495 : 10.986668272842943
+ELL-0.1 all-96	len:min:max 	500 : -0.99005365 : -0.0005710254
+# indices >=1 off : 65 of 91		% indices off : 0.63
+cpma all-97	len:min:max 	500 : 3.773964272113517e-05 : 113.96477310160117
+cpma all-98	len:min:max 	500 : 5.7688232118380256e-05 : 80.78655376844108
+cpma all-100	len:min:max 	500 : 4.1257799239247106e-05 : 130.05786111241105
+cpma all-99	len:min:max 	500 : 2.0251536625437438e-07 : 170.9874108002241
+cpma all-101	len:min:max 	500 : 0.00017876766469271388 : 125.54947583177636
+cpma all-104	len:min:max 	500 : 1.310981679125689e-05 : 128.64603032963896
+cpma all-103	len:min:max 	500 : 0.0016282608921756037 : 93.40678198157184
+cpma all-102	len:min:max 	500 : 0.00011969967090408318 : 89.74502113682502
+cpma all-105	len:min:max 	500 : 1.5366622392321005e-06 : 100.1008924959624
+cpma all-106	len:min:max 	500 : 2.505257725715637e-07 : 82.31956574716423
+cpma all-107	len:min:max 	500 : 1.634834916330874e-07 : 104.08031321053022
+cpma all-108	len:min:max 	500 : 3.907314749085344e-06 : 126.33582053094688
+cpma all-110	len:min:max 	500 : 8.846436685416847e-07 : 79.73672812373115
+cpma all-109	len:min:max 	500 : 5.354706445359625e-06 : 78.71957221554658
+cpma all-111	len:min:max 	500 : 3.285831553512253e-06 : 96.61304354117601
+cpma all-112	len:min:max 	500 : 6.792175918235444e-05 : 115.93755098176553
+cpma all-113	len:min:max 	500 : 0.00030740464717382565 : 114.49030513477373
+cpma all-114	len:min:max 	500 : 1.4081560948397964e-06 : 95.38835731616928
+cpma all-115	len:min:max 	500 : 4.486883153731469e-05 : 78.81435316737588
+cpma all-116	len:min:max 	500 : 1.1892734619323164e-07 : 112.71618524810947
+cpma all-117	len:min:max 	500 : 1.0989135262207128e-05 : 91.51677252968875
+cpma all-118	len:min:max 	500 : 2.8738017135765404e-05 : 94.13198088600257
+cpma all-119	len:min:max 	500 : 3.1668114388594404e-06 : 86.99679105295945
+cpma all-120	len:min:max 	500 : 1.8337414076086134e-07 : 111.13485518206471
+noCorrStats all-99
+noCorrStats score len:min:max 		500 : 535.7128889176608 : 1602.0522456853337
+noCorrStats bj len:min:max 			500 : 0.34174458374189265 : 59.52133174056933
+noCorrStats gnull len:min:max 		500 : -0.999999364320686 : -6.95454836384701e-28
+noCorrStats hc len:min:max 			500 : -4.3027179559867665 : 15.618258521664613
+ELL-0.1 all-99	len:min:max 	500 : -0.99028397 : -1.2625206e-05
+# indices >=1 off : 81 of 91		% indices off : 0.96
+noCorrStats all-101
+noCorrStats score len:min:max 		500 : 514.206542022488 : 1340.222959480597
+noCorrStats bj len:min:max 			500 : 0.40868923188078454 : 46.44491554905351
+noCorrStats gnull len:min:max 		500 : -0.9999975513976036 : -2.975541689079683e-16
+noCorrStats hc len:min:max 			500 : -3.4609193082694936 : 9.933567502789876
+ELL-0.1 all-101	len:min:max 	500 : -0.99028397 : -0.0003038414
+# indices >=1 off : 60 of 91		% indices off : 0.46
+noCorrStats all-113
+noCorrStats score len:min:max 		500 : 520.2269299054811 : 1350.4870737036886
+noCorrStats bj len:min:max 			500 : 0.4680658246521086 : 56.40774845732577
+noCorrStats gnull len:min:max 		500 : -0.9999977408670551 : -4.363018042109651e-16
+noCorrStats hc len:min:max 			500 : -3.489513384258566 : 9.001097266392387
+ELL-0.1 all-113	len:min:max 	500 : -0.99028397 : -0.00016063677
+# indices >=1 off : 35 of 91		% indices off : 0.19
+noCorrStats all-104
+noCorrStats score len:min:max 		500 : 502.5950911231395 : 1411.5646105548694
+noCorrStats bj len:min:max 			500 : 0.44939655243696225 : 45.36178914673658
+noCorrStats gnull len:min:max 		500 : -0.9999999683422733 : -3.7717292715764264e-19
+noCorrStats hc len:min:max 			500 : -3.9335989314953492 : 12.453385204445539
+ELL-0.1 all-104	len:min:max 	500 : -0.99028397 : -7.749964e-05
+# indices >=1 off : 81 of 91		% indices off : 0.72
+noCorrStats all-105
+noCorrStats score len:min:max 		500 : 563.9481276534957 : 1412.1636199600107
+noCorrStats bj len:min:max 			500 : 0.5507494708006794 : 39.75096403170466
+noCorrStats gnull len:min:max 		500 : -0.9999999657879336 : -3.429476867344537e-18
+noCorrStats hc len:min:max 			500 : -4.376455720502472 : 11.623562794051981
+ELL-0.1 all-105	len:min:max 	500 : -0.99028397 : -0.00012050569
+# indices >=1 off : 69 of 91		% indices off : 0.53
+noCorrStats all-100
+noCorrStats score len:min:max 		500 : 499.81606929939153 : 1423.0661922306704
+noCorrStats bj len:min:max 			500 : 0.6877947989482313 : 58.14974776573917
+noCorrStats gnull len:min:max 		500 : -0.9999758192151088 : -8.681098824279e-19
+noCorrStats hc len:min:max 			500 : -3.1076129378218744 : 10.972061091251504
+ELL-0.1 all-100	len:min:max 	500 : -0.9885906 : -0.00031688504
+# indices >=1 off : 70 of 91		% indices off : 0.64
+noCorrStats all-109
+noCorrStats score len:min:max 		500 : 597.9464459428913 : 1346.0902773334478
+noCorrStats bj len:min:max 			500 : 0.5528164972151812 : 38.35340235827879
+noCorrStats gnull len:min:max 		500 : -0.9998352277655732 : -1.232928841556053e-18
+noCorrStats hc len:min:max 			500 : -2.619047505362779 : 10.154372763802138
+ELL-0.1 all-109	len:min:max 	500 : -0.98549306 : -0.0001742672
+# indices >=1 off : 55 of 91		% indices off : 0.35
+noCorrStats all-102
+noCorrStats score len:min:max 		500 : 584.5447489611929 : 1376.5543567785298
+noCorrStats bj len:min:max 			500 : 0.5021728003301034 : 39.021539424137686
+noCorrStats gnull len:min:max 		500 : -0.9999904624415167 : -6.093230306980814e-19
+noCorrStats hc len:min:max 			500 : -3.1292345203442515 : 10.460338744950821
+noCorrStats all-98
+noCorrStats score len:min:max 		500 : 578.1787435744922 : 1343.2504162670807
+noCorrStats bj len:min:max 			500 : 0.30618217855916624 : 33.89559641140469
+noCorrStats gnull len:min:max 		500 : -0.9998212761086209 : -1.1101521146898833e-16
+noCorrStats hc len:min:max 			500 : -3.1622387535675216 : 10.546122946022209
+ELL-0.1 all-102	len:min:max 	500 : -0.99028397 : -0.0005585644
+# indices >=1 off : 59 of 91		% indices off : 0.35
+ELL-0.1 all-98	len:min:max 	500 : -0.9879602 : -0.00028946873
+# indices >=1 off : 72 of 91		% indices off : 0.6
+noCorrStats all-120
+noCorrStats score len:min:max 		500 : 546.1894827279737 : 1455.8371835021205
+noCorrStats bj len:min:max 			500 : 0.4955226790789951 : 45.78315907137219
+noCorrStats gnull len:min:max 		500 : -0.999955725492919 : -6.468127219606984e-22
+noCorrStats hc len:min:max 			500 : -3.295218976541204 : 12.005218787849808
+ELL-0.1 all-120	len:min:max 	500 : -0.99028397 : -0.0004621448
+# indices >=1 off : 75 of 91		% indices off : 0.23
+noCorrStats all-106
+noCorrStats score len:min:max 		500 : 596.2676659845071 : 1360.3419685228491
+noCorrStats bj len:min:max 			500 : 0.4977806879317864 : 32.80310371757828
+noCorrStats gnull len:min:max 		500 : -0.9999997777088021 : -2.9977123651863944e-16
+noCorrStats hc len:min:max 			500 : -3.825870062814176 : 10.166915314293135
+ELL-0.1 all-106	len:min:max 	500 : -0.99028397 : -0.0005403938
+# indices >=1 off : 69 of 91		% indices off : 0.63
+noCorrStats all-103
+noCorrStats score len:min:max 		500 : 550.9922661205051 : 1355.7984386645253
+noCorrStats bj len:min:max 			500 : 0.4306282044080719 : 46.9823127457353
+noCorrStats gnull len:min:max 		500 : -0.9999913287075975 : -3.147719623315199e-17
+noCorrStats hc len:min:max 			500 : -3.5448375977916338 : 9.362396021372069
+noCorrStats all-97
+noCorrStats score len:min:max 		500 : 523.9526253560715 : 1399.9424048605013
+noCorrStats bj len:min:max 			500 : 0.4717163763502729 : 45.437972994493414
+noCorrStats gnull len:min:max 		500 : -0.9999993010815559 : -5.706123017997514e-21
+noCorrStats hc len:min:max 			500 : -3.6636137316086894 : 10.062029045074937
+ELL-0.1 all-103	len:min:max 	500 : -0.99028397 : -0.00018802338
+# indices >=1 off : 59 of 91		% indices off : 0.43
+ELL-0.1 all-97	len:min:max 	500 : -0.99028397 : -0.00019277113
+# indices >=1 off : 62 of 91		% indices off : 0.56
+noCorrStats all-114
+noCorrStats score len:min:max 		500 : 568.8844463882828 : 1394.4118679174287
+noCorrStats bj len:min:max 			500 : 0.5119119544185226 : 37.814280009957436
+noCorrStats gnull len:min:max 		500 : -0.999930742197624 : -2.1556535667966396e-18
+noCorrStats hc len:min:max 			500 : -2.7791250872394433 : 10.285508107022537
+ELL-0.1 all-114	len:min:max 	500 : -0.9894867 : -0.0003211078
+# indices >=1 off : 70 of 91		% indices off : 0.71
+noCorrStats all-107
+noCorrStats score len:min:max 		500 : 579.2252806883236 : 1418.5598875220226
+noCorrStats bj len:min:max 			500 : 0.6092169474492789 : 41.75469195922615
+noCorrStats gnull len:min:max 		500 : -0.9999873975213474 : -3.779475002249337e-20
+noCorrStats hc len:min:max 			500 : -3.550582694922558 : 10.685200241169428
+ELL-0.1 all-107	len:min:max 	500 : -0.99028397 : -0.00022108525
+# indices >=1 off : 68 of 91		% indices off : 0.33
+noCorrStats all-111
+noCorrStats score len:min:max 		500 : 556.1777515507484 : 1408.3952837037875
+noCorrStats bj len:min:max 			500 : 0.5222192877048334 : 41.17369230857059
+noCorrStats gnull len:min:max 		500 : -0.9996075481059121 : -7.575180208360268e-20
+noCorrStats hc len:min:max 			500 : -2.448937640270309 : 10.937908318146336
+ELL-0.1 all-111	len:min:max 	500 : -0.9797626 : -0.00062514277
+# indices >=1 off : 65 of 91		% indices off : 0.27
+noCorrStats all-110
+noCorrStats score len:min:max 		500 : 585.4819864840551 : 1319.7860562849132
+noCorrStats bj len:min:max 			500 : 0.5321258362263027 : 31.781922335653846
+noCorrStats gnull len:min:max 		500 : -0.9999083219108664 : -9.503845036938621e-16
+noCorrStats hc len:min:max 			500 : -3.452421566061925 : 9.720925257031293
+noCorrStats all-112
+noCorrStats score len:min:max 		500 : 556.4386431631664 : 1442.672105165252
+noCorrStats bj len:min:max 			500 : 0.33762404273765206 : 43.468256230719845
+noCorrStats gnull len:min:max 		500 : -0.999976459109198 : -7.678836433049067e-21
+noCorrStats hc len:min:max 			500 : -3.8151975532444924 : 11.53534515856821
+ELL-0.1 all-110	len:min:max 	500 : -0.9863068 : -0.00016063677
+# indices >=1 off : 54 of 91		% indices off : 0.35
+ELL-0.1 all-112	len:min:max 	500 : -0.99028397 : -0.00017214938
+# indices >=1 off : 69 of 91		% indices off : 0.36
+noCorrStats all-119
+noCorrStats score len:min:max 		500 : 582.8032627627206 : 1387.5042056576583
+noCorrStats bj len:min:max 			500 : 0.49270462216518607 : 42.64526755988021
+noCorrStats gnull len:min:max 		500 : -0.9999847638347021 : -2.005097087158702e-20
+noCorrStats hc len:min:max 			500 : -3.243131759675959 : 12.811801678182272
+ELL-0.1 all-119	len:min:max 	500 : -0.99028397 : -0.00058275583
+# indices >=1 off : 71 of 91		% indices off : 0.41
+noCorrStats all-115
+noCorrStats score len:min:max 		500 : 580.4332163033974 : 1322.1878447980007
+noCorrStats bj len:min:max 			500 : 0.3596183887110493 : 33.48078289563352
+noCorrStats gnull len:min:max 		500 : -0.9999840592543625 : -1.7988539898274058e-16
+noCorrStats hc len:min:max 			500 : -3.4504785964065343 : 9.681939276837019
+ELL-0.1 all-115	len:min:max 	500 : -0.9782422 : -0.00017214938
+# indices >=1 off : 68 of 91		% indices off : 0.69
+noCorrStats all-118
+noCorrStats score len:min:max 		500 : 602.8735780742004 : 1392.8272871560448
+noCorrStats bj len:min:max 			500 : 0.5643810403210697 : 33.424209470046904
+noCorrStats gnull len:min:max 		500 : -0.9999857038733566 : -1.7634602347196121e-16
+noCorrStats hc len:min:max 			500 : -3.3998036725253047 : 10.005991520890436
+ELL-0.1 all-118	len:min:max 	500 : -0.9892446 : -5.156676e-05
+# indices >=1 off : 73 of 91		% indices off : 0.68
+noCorrStats all-116
+noCorrStats score len:min:max 		500 : 523.4079985527259 : 1357.037648371886
+noCorrStats bj len:min:max 			500 : 0.35812755326157447 : 44.752181877503304
+noCorrStats gnull len:min:max 		500 : -0.9999864712442144 : -1.5314864188958633e-17
+noCorrStats hc len:min:max 			500 : -3.0591292479788463 : 10.441821674405185
+ELL-0.1 all-116	len:min:max 	500 : -0.99028397 : -0.0008334374
+# indices >=1 off : 65 of 91		% indices off : 0.6
+noCorrStats all-108
+noCorrStats score len:min:max 		500 : 511.63176306337544 : 1400.6142490349494
+noCorrStats bj len:min:max 			500 : 0.34746868765593314 : 50.78588280385167
+noCorrStats gnull len:min:max 		500 : -0.9999714593126214 : -4.7639743141146775e-21
+noCorrStats hc len:min:max 			500 : -2.934283320009048 : 10.911944616800396
+noCorrStats all-117
+noCorrStats score len:min:max 		500 : 609.5097816233667 : 1386.810480265474
+noCorrStats bj len:min:max 			500 : 0.35970504968604977 : 35.94621821343121
+noCorrStats gnull len:min:max 		500 : -0.9999695766865537 : -1.2797947191789298e-17
+noCorrStats hc len:min:max 			500 : -3.36412278070739 : 9.551242199173782
+ELL-0.1 all-108	len:min:max 	500 : -0.9882535 : -0.00016678641
+# indices >=1 off : 71 of 91		% indices off : 0.5
+ELL-0.1 all-117	len:min:max 	500 : -0.98522353 : -0.00012444275
+# indices >=1 off : 56 of 91		% indices off : 0.58
+cpma all-121	len:min:max 	500 : 1.635035005165264e-07 : 172.42927317267095
+cpma all-122	len:min:max 	500 : 7.737980922684073e-09 : 105.18591810384714
+cpma all-123	len:min:max 	500 : 1.821651130740065e-05 : 141.25076567238102
+cpma all-124	len:min:max 	500 : 7.792408723616973e-06 : 93.45562599413643
+cpma all-126	len:min:max 	500 : 0.00029043704671494197 : 176.86144124174098
+cpma all-125	len:min:max 	500 : 0.0005462891167553607 : 103.18799961798686
+cpma all-127	len:min:max 	500 : 6.52402923151385e-06 : 176.10430032166914
+cpma all-130	len:min:max 	500 : 0.00021367841509345453 : 97.97804783996071
+cpma all-128	len:min:max 	500 : 9.61776004260173e-05 : 87.44374359489666
+cpma all-129	len:min:max 	500 : 1.6271502317977138e-05 : 81.08665832875886
+cpma all-131	len:min:max 	500 : 0.00015822150817257352 : 154.9934537680383
+cpma all-132	len:min:max 	500 : 1.1126476238132454e-05 : 171.92288728568928
+cpma all-133	len:min:max 	500 : 4.356783392722718e-06 : 121.40073200950792
+cpma all-135	len:min:max 	500 : 0.00033802288271544967 : 85.84816639680321
+cpma all-134	len:min:max 	500 : 5.891985165362712e-05 : 110.76501645774078
+cpma all-136	len:min:max 	500 : 3.273510628787335e-05 : 124.77679309921587
+cpma all-138	len:min:max 	500 : 1.35232403408736e-06 : 86.84475107834987
+cpma all-137	len:min:max 	500 : 0.0001198970840050606 : 116.48861230667353
+cpma all-139	len:min:max 	500 : 9.590236004441977e-05 : 107.66100059794553
+cpma all-140	len:min:max 	500 : 2.089425834128633e-06 : 92.40013338510835
+cpma all-141	len:min:max 	500 : 7.263358565978706e-05 : 64.54142446421247
+cpma all-143	len:min:max 	500 : 0.00032391184140578844 : 112.19794508406085
+cpma all-142	len:min:max 	500 : 5.585970939137042e-07 : 115.71630579697376
+cpma all-144	len:min:max 	500 : 8.057646300585475e-05 : 107.52662482345295
+noCorrStats all-122
+noCorrStats score len:min:max 		500 : 560.1273798028217 : 1426.4722467035886
+noCorrStats bj len:min:max 			500 : 0.6292097790365051 : 44.65190840817997
+noCorrStats gnull len:min:max 		500 : -0.9999517336316622 : -1.9900079748216898e-21
+noCorrStats hc len:min:max 			500 : -3.7747866240648573 : 11.83990818459079
+ELL-0.1 all-122	len:min:max 	500 : -0.99028397 : -8.750336e-05
+# indices >=1 off : 78 of 91		% indices off : 0.53
+noCorrStats all-131
+noCorrStats score len:min:max 		500 : 554.5591857367976 : 1554.8719207880351
+noCorrStats bj len:min:max 			500 : 0.573630699960076 : 55.107939830845005
+noCorrStats gnull len:min:max 		500 : -0.9999567615329 : -6.555365939761843e-26
+noCorrStats hc len:min:max 			500 : -3.009859958050679 : 14.039624044883682
+ELL-0.1 all-131	len:min:max 	500 : -0.98622036 : -0.00010487385
+# indices >=1 off : 79 of 91		% indices off : 1.06
+noCorrStats all-132
+noCorrStats score len:min:max 		500 : 518.0504378491822 : 1586.9606099661362
+noCorrStats bj len:min:max 			500 : 0.7059834422663795 : 61.7482303520772
+noCorrStats gnull len:min:max 		500 : -0.9999995355893985 : -6.279889613077349e-29
+noCorrStats hc len:min:max 			500 : -4.1879559004075855 : 13.169465098286418
+ELL-0.1 all-132	len:min:max 	500 : -0.99028397 : -2.6768808e-05
+# indices >=1 off : 77 of 91		% indices off : 0.53
+noCorrStats all-123
+noCorrStats score len:min:max 		500 : 543.2414495550337 : 1519.6273506518303
+noCorrStats bj len:min:max 			500 : 0.28816388040728563 : 55.14102486063101
+noCorrStats gnull len:min:max 		500 : -0.9999878841940618 : -5.703936489276965e-26
+noCorrStats hc len:min:max 			500 : -3.0771673549026772 : 12.82724177468839
+ELL-0.1 all-123	len:min:max 	500 : -0.99028397 : -7.132949e-05
+# indices >=1 off : 69 of 91		% indices off : 0.28
+noCorrStats all-143
+noCorrStats score len:min:max 		500 : 528.759082304957 : 1446.7911246938024
+noCorrStats bj len:min:max 			500 : 0.420666331085279 : 55.87738711091709
+noCorrStats gnull len:min:max 		500 : -0.9999827758535862 : -2.5783987102688775e-26
+noCorrStats hc len:min:max 			500 : -3.2750085554495083 : 12.546501365502355
+ELL-0.1 all-143	len:min:max 	500 : -0.98822683 : -0.00035333837
+# indices >=1 off : 72 of 91		% indices off : 0.76
+noCorrStats all-130
+noCorrStats score len:min:max 		500 : 580.2351323729451 : 1399.0722979735406
+noCorrStats bj len:min:max 			500 : 0.44149976062827323 : 37.421623654068384
+noCorrStats gnull len:min:max 		500 : -0.9999110523762679 : -3.0239578060232218e-18
+noCorrStats hc len:min:max 			500 : -3.133982171236472 : 10.821642401223821
+ELL-0.1 all-130	len:min:max 	500 : -0.9822058 : -0.00016063677
+# indices >=1 off : 59 of 91		% indices off : 0.44
+noCorrStats all-129
+noCorrStats score len:min:max 		500 : 569.1256779676497 : 1343.6998116182665
+noCorrStats bj len:min:max 			500 : 0.3712389627706856 : 35.62801205584033
+noCorrStats gnull len:min:max 		500 : -0.9999973548498077 : -3.3368241027120364e-17
+noCorrStats hc len:min:max 			500 : -3.5788997445679858 : 9.859272856514282
+ELL-0.1 all-129	len:min:max 	500 : -0.99028397 : -8.0357946e-05
+# indices >=1 off : 66 of 91		% indices off : 0.48
+noCorrStats all-133
+noCorrStats score len:min:max 		500 : 518.6079088914288 : 1417.6575342625217
+noCorrStats bj len:min:max 			500 : 0.6359106170849731 : 44.41962631873571
+noCorrStats gnull len:min:max 		500 : -0.999999968769233 : -1.7012257869869492e-19
+noCorrStats hc len:min:max 			500 : -4.088747181307788 : 13.045992100172837
+ELL-0.1 all-133	len:min:max 	500 : -0.99028397 : -0.00023047811
+# indices >=1 off : 77 of 91		% indices off : 0.5
+noCorrStats all-134
+noCorrStats score len:min:max 		500 : 572.9816183038185 : 1449.5196198018468
+noCorrStats bj len:min:max 			500 : 0.5035861177030606 : 43.26158535219916
+noCorrStats gnull len:min:max 		500 : -0.9999989508528514 : -8.28340120610864e-21
+noCorrStats hc len:min:max 			500 : -3.45412516002662 : 10.828361411180286
+noCorrStats all-135
+noCorrStats score len:min:max 		500 : 568.8679771537891 : 1342.5141752743173
+noCorrStats bj len:min:max 			500 : 0.6058117840084901 : 33.38214929009676
+noCorrStats gnull len:min:max 		500 : -0.9999998537755307 : -2.657614592459339e-15
+noCorrStats hc len:min:max 			500 : -3.7312771361524923 : 8.538641563440917
+ELL-0.1 all-134	len:min:max 	500 : -0.99028397 : -0.00012050569
+# indices >=1 off : 63 of 91		% indices off : 0.39
+ELL-0.1 all-135	len:min:max 	500 : -0.99028397 : -0.00048389242
+# indices >=1 off : 63 of 91		% indices off : 0.36
+noCorrStats all-142
+noCorrStats score len:min:max 		500 : 556.4396231803205 : 1448.5794869832202
+noCorrStats bj len:min:max 			500 : 0.5603283595107186 : 54.21505018259915
+noCorrStats gnull len:min:max 		500 : -0.9999982681419644 : -1.3982109496414427e-25
+noCorrStats hc len:min:max 			500 : -4.186211010985855 : 12.35578295382663
+ELL-0.1 all-142	len:min:max 	500 : -0.99028397 : -0.00044371287
+# indices >=1 off : 60 of 91		% indices off : 0.5
+noCorrStats all-127
+noCorrStats score len:min:max 		500 : 548.8745564254538 : 1607.2070314797797
+noCorrStats bj len:min:max 			500 : 0.6230707316170203 : 61.71610986731834
+noCorrStats gnull len:min:max 		500 : -0.9999999914455706 : -6.565786500568648e-29
+noCorrStats hc len:min:max 			500 : -4.429010325045774 : 13.909751861289877
+ELL-0.1 all-127	len:min:max 	500 : -0.99028397 : -1.876773e-05
+# indices >=1 off : 83 of 91		% indices off : 0.38
+noCorrStats all-136
+noCorrStats score len:min:max 		500 : 564.4050544665138 : 1506.877839635459
+noCorrStats bj len:min:max 			500 : 0.44254396145825875 : 46.327296412241765
+noCorrStats gnull len:min:max 		500 : -0.9999574511488953 : -4.6842417153851355e-22
+noCorrStats hc len:min:max 			500 : -3.6867442043186567 : 16.159364913296187
+ELL-0.1 all-136	len:min:max 	500 : -0.99028397 : -1.09069915e-05
+# indices >=1 off : 83 of 91		% indices off : 0.69
+noCorrStats all-124
+noCorrStats score len:min:max 		500 : 583.0571753625009 : 1389.871909893781
+noCorrStats bj len:min:max 			500 : 0.5077231553951828 : 37.70882750234705
+noCorrStats gnull len:min:max 		500 : -0.9999797549420278 : -2.230021438742062e-18
+noCorrStats hc len:min:max 			500 : -3.3383480159171075 : 11.8531792261591
+noCorrStats all-126
+noCorrStats score len:min:max 		500 : 491.21587450793425 : 1620.4527810056734
+noCorrStats bj len:min:max 			500 : 0.7054916671459824 : 63.692956639050024
+noCorrStats gnull len:min:max 		500 : -0.9999999403805065 : -8.811505094908832e-30
+noCorrStats hc len:min:max 			500 : -3.8511338188741577 : 15.257164970946574
+ELL-0.1 all-124	len:min:max 	500 : -0.9800956 : -0.0002803117
+# indices >=1 off : 77 of 91		% indices off : 0.68
+ELL-0.1 all-126	len:min:max 	500 : -0.99028397 : -7.727627e-06
+# indices >=1 off : 84 of 91		% indices off : 0.99
+noCorrStats all-121
+noCorrStats score len:min:max 		500 : 533.2219644999566 : 1585.2159331259052
+noCorrStats bj len:min:max 			500 : 0.3835905072372022 : 58.45379717738283
+noCorrStats gnull len:min:max 		500 : -0.9999998837298049 : -1.7324620024026623e-27
+noCorrStats hc len:min:max 			500 : -3.87298853746701 : 13.184232020397124
+ELL-0.1 all-121	len:min:max 	500 : -0.99028397 : -0.00015998055
+# indices >=1 off : 77 of 91		% indices off : 0.31
+noCorrStats all-141
+noCorrStats score len:min:max 		500 : 631.2654457708862 : 1313.3822899552993
+noCorrStats bj len:min:max 			500 : 0.3492806058945968 : 31.363661515468625
+noCorrStats gnull len:min:max 		500 : -0.9999007164612227 : -1.4318622157445856e-15
+noCorrStats hc len:min:max 			500 : -2.9790691462975096 : 10.132144302749056
+ELL-0.1 all-141	len:min:max 	500 : -0.9777961 : -1.2470829e-05
+# indices >=1 off : 60 of 91		% indices off : 0.29
+noCorrStats all-128
+noCorrStats score len:min:max 		500 : 568.4244100456525 : 1347.0078747900916
+noCorrStats bj len:min:max 			500 : 0.47739074787070673 : 37.2365626631236
+noCorrStats gnull len:min:max 		500 : -0.9999903703087218 : -5.329730043122948e-17
+noCorrStats hc len:min:max 			500 : -3.1887812672983844 : 9.469792323479536
+ELL-0.1 all-128	len:min:max 	500 : -0.9799325 : -8.0357946e-05
+# indices >=1 off : 65 of 91		% indices off : 0.23
+noCorrStats all-144
+noCorrStats score len:min:max 		500 : 522.2477379527156 : 1361.2110172136793
+noCorrStats bj len:min:max 			500 : 0.47046012207416205 : 48.429080488801354
+noCorrStats gnull len:min:max 		500 : -0.9999998177155267 : -5.235368171187421e-16
+noCorrStats hc len:min:max 			500 : -3.8532714798094845 : 8.923070046756814
+ELL-0.1 all-144	len:min:max 	500 : -0.99028397 : -0.00064120046
+# indices >=1 off : 47 of 91		% indices off : 0.23
+noCorrStats all-140
+noCorrStats score len:min:max 		500 : 558.3215168226701 : 1394.4913853253852
+noCorrStats bj len:min:max 			500 : 0.43233893066175944 : 35.75027529561562
+noCorrStats gnull len:min:max 		500 : -0.9999137290592364 : -4.9322588864337705e-17
+noCorrStats hc len:min:max 			500 : -2.881600721794832 : 11.868759978410916
+noCorrStats all-137
+noCorrStats score len:min:max 		500 : 583.4705957508748 : 1459.0805482042756
+noCorrStats bj len:min:max 			500 : 0.6912399504276269 : 45.99256629414112
+noCorrStats gnull len:min:max 		500 : -0.9999973002437373 : -5.736058948265171e-22
+noCorrStats hc len:min:max 			500 : -3.545422216390113 : 12.33179817402108
+ELL-0.1 all-140	len:min:max 	500 : -0.98252606 : -0.00022841172
+# indices >=1 off : 76 of 91		% indices off : 0.61
+noCorrStats all-125
+noCorrStats score len:min:max 		500 : 573.8242504774363 : 1416.1150310354287
+noCorrStats bj len:min:max 			500 : 0.5077932889308179 : 40.671514362860734
+noCorrStats gnull len:min:max 		500 : -0.9999998984943422 : -1.1351649369465305e-19
+noCorrStats hc len:min:max 			500 : -4.560919792073126 : 10.46900827034949
+ELL-0.1 all-137	len:min:max 	500 : -0.99028397 : -7.749964e-05
+# indices >=1 off : 70 of 91		% indices off : 0.23
+ELL-0.1 all-125	len:min:max 	500 : -0.99028397 : -9.0714175e-06
+# indices >=1 off : 63 of 91		% indices off : 0.48
+noCorrStats all-139
+noCorrStats score len:min:max 		500 : 595.0324482153226 : 1426.6801092668763
+noCorrStats bj len:min:max 			500 : 0.590052813409541 : 41.57692720634434
+noCorrStats gnull len:min:max 		500 : -0.9994741156623208 : -4.0433507774503875e-20
+noCorrStats hc len:min:max 			500 : -2.6588886100857727 : 11.004163039552814
+ELL-0.1 all-139	len:min:max 	500 : -0.9502447 : -0.00058485504
+# indices >=1 off : 69 of 91		% indices off : 0.35
+noCorrStats all-138
+noCorrStats score len:min:max 		500 : 569.5270163156786 : 1371.9871334924699
+noCorrStats bj len:min:max 			500 : 0.46493714277982473 : 43.8891900486372
+noCorrStats gnull len:min:max 		500 : -0.9998121520434863 : -4.010896591795651e-21
+noCorrStats hc len:min:max 			500 : -2.7733432602834758 : 10.052797551343499
+ELL-0.1 all-138	len:min:max 	500 : -0.971757 : -0.00012434405
+# indices >=1 off : 64 of 91		% indices off : 0.64
+cpma all-145	len:min:max 	500 : 1.0280238711857237e-05 : 93.42332565408469
+cpma all-146	len:min:max 	500 : 2.7779396987170912e-05 : 89.54837372130714
+cpma all-148	len:min:max 	500 : 6.491261956398375e-06 : 98.3582186323074
+cpma all-147	len:min:max 	500 : 4.011068449472077e-05 : 87.50623582858316
+cpma all-149	len:min:max 	500 : 4.471067768463399e-05 : 123.86916483749155
+cpma all-150	len:min:max 	500 : 1.671292557148263e-05 : 97.99454471847639
+cpma all-151	len:min:max 	500 : 1.255519782716874e-05 : 109.05494258615909
+cpma all-153	len:min:max 	500 : 0.00017294866484007798 : 104.27972251113533
+cpma all-152	len:min:max 	500 : 4.853086102230009e-05 : 111.1846063658777
+cpma all-154	len:min:max 	500 : 0.000136002814542735 : 186.7228566651338
+cpma all-155	len:min:max 	500 : 0.0003978357672167476 : 67.19626851235262
+cpma all-156	len:min:max 	500 : 2.5812430976657197e-05 : 97.22994806868701
+cpma all-158	len:min:max 	500 : 1.9104601960862055e-05 : 84.55027769017943
+cpma all-157	len:min:max 	500 : 0.0002175121790060075 : 114.60665789822997
+cpma all-159	len:min:max 	500 : 3.150307748001069e-08 : 77.76263690714222
+cpma all-160	len:min:max 	500 : 9.925206541083753e-07 : 98.01492885083826
+cpma all-161	len:min:max 	500 : 2.8997556000831537e-05 : 74.99570109888555
+cpma all-162	len:min:max 	500 : 5.707252967113163e-05 : 92.647492069902
+cpma all-163	len:min:max 	500 : 0.0004867916686634999 : 114.57314791323734
+cpma all-164	len:min:max 	500 : 2.9775443181279115e-05 : 101.7660354997879
+cpma all-165	len:min:max 	500 : 3.532373739290051e-06 : 95.27871356087417
+cpma all-166	len:min:max 	500 : 0.0002845079179678578 : 86.76807366504181
+cpma all-167	len:min:max 	500 : 5.080046321381815e-06 : 91.08311599808803
+cpma all-168	len:min:max 	500 : 4.793762855115347e-06 : 118.3709851036001
+noCorrStats all-163
+noCorrStats score len:min:max 		500 : 598.5536554827789 : 1456.5140622074475
+noCorrStats bj len:min:max 			500 : 0.3911338568688696 : 47.76583694882799
+noCorrStats gnull len:min:max 		500 : -0.9999220485451517 : -8.838563900353523e-23
+noCorrStats hc len:min:max 			500 : -4.120353218085824 : 12.289780185801341
+ELL-0.1 all-163	len:min:max 	500 : -0.9742895 : -2.8281498e-05
+# indices >=1 off : 74 of 91		% indices off : 0.45
+noCorrStats all-148
+noCorrStats score len:min:max 		500 : 558.4000267606796 : 1416.1751520115035
+noCorrStats bj len:min:max 			500 : 0.4407779721232179 : 42.60909537990779
+noCorrStats gnull len:min:max 		500 : -0.9999822024755917 : -1.800791324363212e-20
+noCorrStats hc len:min:max 			500 : -3.4635416223550366 : 11.267317007802333
+ELL-0.1 all-148	len:min:max 	500 : -0.974341 : -8.9059526e-05
+# indices >=1 off : 70 of 91		% indices off : 0.63
+noCorrStats all-149
+noCorrStats score len:min:max 		500 : 501.2106537442119 : 1413.8617631070513
+noCorrStats bj len:min:max 			500 : 0.43711319882106536 : 55.838573519396384
+noCorrStats gnull len:min:max 		500 : -0.9999999999902915 : -4.152685739274245e-17
+noCorrStats hc len:min:max 			500 : -4.871008934801548 : 10.689512471931856
+ELL-0.1 all-149	len:min:max 	500 : -0.99028397 : -0.00032101737
+# indices >=1 off : 72 of 91		% indices off : 0.61
+noCorrStats all-160
+noCorrStats score len:min:max 		500 : 545.8825208842884 : 1349.1661097491722
+noCorrStats bj len:min:max 			500 : 0.4588336386141468 : 42.32226627515085
+noCorrStats gnull len:min:max 		500 : -0.9999824267960377 : -2.9093144362063153e-18
+noCorrStats hc len:min:max 			500 : -3.0371532013238296 : 9.736593237704243
+ELL-0.1 all-160	len:min:max 	500 : -0.99028397 : -0.0004573789
+# indices >=1 off : 59 of 91		% indices off : 0.44
+noCorrStats all-153
+noCorrStats score len:min:max 		500 : 564.9629155812631 : 1428.0929328302982
+noCorrStats bj len:min:max 			500 : 0.5276673806634291 : 39.28916427314329
+noCorrStats gnull len:min:max 		500 : -0.9999999373837827 : -4.885610296288859e-19
+noCorrStats hc len:min:max 			500 : -4.0670647140658795 : 11.534090382066418
+ELL-0.1 all-153	len:min:max 	500 : -0.99028397 : -1.7643393e-05
+# indices >=1 off : 83 of 91		% indices off : 1.13
+noCorrStats all-151
+noCorrStats score len:min:max 		500 : 596.0262230251561 : 1443.3966553345083
+noCorrStats bj len:min:max 			500 : 0.5464295731371465 : 48.78967555535798
+noCorrStats gnull len:min:max 		500 : -0.9999997031638239 : -3.3890327775367894e-23
+noCorrStats hc len:min:max 			500 : -4.2143749935847294 : 11.818724643855226
+ELL-0.1 all-151	len:min:max 	500 : -0.98063576 : -0.00019885742
+# indices >=1 off : 76 of 91		% indices off : 0.48
+noCorrStats all-156
+noCorrStats score len:min:max 		500 : 557.7672159688482 : 1402.6258612753286
+noCorrStats bj len:min:max 			500 : 0.5658400493480366 : 35.548675822833665
+noCorrStats gnull len:min:max 		500 : -0.9997572211240742 : -2.0517178864487686e-17
+noCorrStats hc len:min:max 			500 : -3.1248620178537614 : 9.776840627304257
+ELL-0.1 all-156	len:min:max 	500 : -0.9831451 : -4.4235014e-05
+# indices >=1 off : 73 of 91		% indices off : 0.43
+noCorrStats all-146
+noCorrStats score len:min:max 		500 : 590.0995677271715 : 1372.0359409446037
+noCorrStats bj len:min:max 			500 : 0.44311782830596697 : 33.822280869864976
+noCorrStats gnull len:min:max 		500 : -0.9999870753636632 : -1.174269934672939e-16
+noCorrStats hc len:min:max 			500 : -3.5320872054929713 : 9.521340327264046
+noCorrStats all-162
+noCorrStats score len:min:max 		500 : 610.223521515806 : 1398.1969992672518
+noCorrStats bj len:min:max 			500 : 0.4755166474842849 : 41.257643465020074
+noCorrStats gnull len:min:max 		500 : -0.9999268525915541 : -6.696333150944295e-20
+noCorrStats hc len:min:max 			500 : -3.1446235006535104 : 11.591363319222442
+ELL-0.1 all-146	len:min:max 	500 : -0.99028397 : -0.00063023256
+# indices >=1 off : 61 of 91		% indices off : 0.64
+noCorrStats all-152
+noCorrStats score len:min:max 		500 : 524.3056295820112 : 1321.4465017044254
+noCorrStats bj len:min:max 			500 : 0.5473941239549599 : 44.996939358597494
+noCorrStats gnull len:min:max 		500 : -0.9999999133424624 : -2.21917493177545e-14
+noCorrStats hc len:min:max 			500 : -4.138664645595682 : 9.327310817126458
+ELL-0.1 all-162	len:min:max 	500 : -0.9896922 : -4.0218125e-05
+# indices >=1 off : 72 of 91		% indices off : 0.75
+ELL-0.1 all-152	len:min:max 	500 : -0.99028397 : -0.00028094224
+# indices >=1 off : 68 of 91		% indices off : 0.31
+noCorrStats all-155
+noCorrStats score len:min:max 		500 : 622.8038014836014 : 1316.4994868252065
+noCorrStats bj len:min:max 			500 : 0.4608671618289644 : 31.892627060283555
+noCorrStats gnull len:min:max 		500 : -0.9999486711107978 : -1.2147236105834966e-15
+noCorrStats hc len:min:max 			500 : -3.0174600874776343 : 12.55898806313862
+ELL-0.1 all-155	len:min:max 	500 : -0.9752804 : -0.0001513984
+# indices >=1 off : 76 of 91		% indices off : 0.32
+noCorrStats all-154
+noCorrStats score len:min:max 		500 : 611.144553858799 : 1641.1012140753903
+noCorrStats bj len:min:max 			500 : 0.4214651297755894 : 70.86354456578427
+noCorrStats gnull len:min:max 		500 : -0.9950800965377102 : -8.351963860358029e-33
+noCorrStats hc len:min:max 			500 : -3.276276506914677 : 16.459145487721
+noCorrStats all-157
+noCorrStats score len:min:max 		500 : 588.2879230718729 : 1440.9114232606923
+noCorrStats bj len:min:max 			500 : 0.4409433771931808 : 51.068324323512456
+noCorrStats gnull len:min:max 		500 : -0.9999934927892729 : -2.9047788786868746e-24
+noCorrStats hc len:min:max 			500 : -3.6484943918021755 : 12.47960419097648
+ELL-0.1 all-154	len:min:max 	500 : -0.95611775 : -3.8393177e-06
+# indices >=1 off : 78 of 91		% indices off : 0.83
+noCorrStats all-145
+noCorrStats score len:min:max 		500 : 557.6852426713422 : 1332.9752481985665
+noCorrStats bj len:min:max 			500 : 0.46968157031084984 : 36.956919709238754
+noCorrStats gnull len:min:max 		500 : -0.9999886797608258 : -2.1857878920779566e-17
+noCorrStats hc len:min:max 			500 : -3.4331381517220714 : 11.270781828051021
+ELL-0.1 all-157	len:min:max 	500 : -0.99028397 : -0.00041159065
+# indices >=1 off : 75 of 91		% indices off : 0.42
+ELL-0.1 all-145	len:min:max 	500 : -0.99028397 : -0.00020114165
+# indices >=1 off : 63 of 91		% indices off : 0.46
+noCorrStats all-165
+noCorrStats score len:min:max 		500 : 559.2892892685563 : 1279.0459941888444
+noCorrStats bj len:min:max 			500 : 0.5121659215014279 : 39.24044536274687
+noCorrStats gnull len:min:max 		500 : -0.99941702002648 : -1.1272695446530552e-15
+noCorrStats hc len:min:max 			500 : -3.2045970483692447 : 9.542597349948299
+noCorrStats all-150
+noCorrStats score len:min:max 		500 : 564.2838236990717 : 1410.9875951019246
+noCorrStats bj len:min:max 			500 : 0.35509712369455976 : 46.12676230457937
+noCorrStats gnull len:min:max 		500 : -0.9998831361735427 : -4.425303172528648e-22
+noCorrStats hc len:min:max 			500 : -2.718827727975409 : 11.365631615204984
+ELL-0.1 all-165	len:min:max 	500 : -0.9593174 : -6.341541e-06
+# indices >=1 off : 49 of 91		% indices off : 0.29
+noCorrStats all-158
+noCorrStats score len:min:max 		500 : 614.9524262529592 : 1366.0613537965044
+noCorrStats bj len:min:max 			500 : 0.41322097146982595 : 35.45140845537165
+noCorrStats gnull len:min:max 		500 : -0.9999732464795097 : -2.4030066087268586e-17
+noCorrStats hc len:min:max 			500 : -2.9977630420271173 : 10.191189328023064
+ELL-0.1 all-150	len:min:max 	500 : -0.9785941 : -0.00038705204
+# indices >=1 off : 54 of 91		% indices off : 0.27
+ELL-0.1 all-158	len:min:max 	500 : -0.9890159 : -0.0002007526
+# indices >=1 off : 69 of 91		% indices off : 0.48
+noCorrStats all-167
+noCorrStats score len:min:max 		500 : 595.9874122575493 : 1392.4984268918274
+noCorrStats bj len:min:max 			500 : 0.5173393963749794 : 36.38535883415557
+noCorrStats gnull len:min:max 		500 : -0.9999339472701612 : -7.829873934944523e-18
+noCorrStats hc len:min:max 			500 : -3.1084606013378075 : 10.022323232999351
+ELL-0.1 all-167	len:min:max 	500 : -0.98934084 : -0.0002057867
+# indices >=1 off : 72 of 91		% indices off : 0.51
+noCorrStats all-159
+noCorrStats score len:min:max 		500 : 593.3536228756147 : 1346.7863315967113
+noCorrStats bj len:min:max 			500 : 0.5557866168925611 : 35.482387759934326
+noCorrStats gnull len:min:max 		500 : -0.999612367969225 : -4.4377114812684436e-16
+noCorrStats hc len:min:max 			500 : -2.829425731776139 : 9.528312921448011
+ELL-0.1 all-159	len:min:max 	500 : -0.9659763 : -0.0009473069
+# indices >=1 off : 66 of 91		% indices off : 0.41
+noCorrStats all-166
+noCorrStats score len:min:max 		500 : 572.4757222688785 : 1363.2169987981147
+noCorrStats bj len:min:max 			500 : 0.4575716151033422 : 37.809829020836936
+noCorrStats gnull len:min:max 		500 : -0.999996204158218 : -5.952245210236252e-15
+noCorrStats hc len:min:max 			500 : -4.181639179724911 : 9.007579023512468
+ELL-0.1 all-166	len:min:max 	500 : -0.99028397 : -0.00019234257
+# indices >=1 off : 59 of 91		% indices off : 0.22
+noCorrStats all-164
+noCorrStats score len:min:max 		500 : 563.2635563349968 : 1425.97735651139
+noCorrStats bj len:min:max 			500 : 0.43982965247114275 : 40.47335618008575
+noCorrStats gnull len:min:max 		500 : -0.9999604043500586 : -1.4666323158082535e-19
+noCorrStats hc len:min:max 			500 : -3.1703048467603385 : 11.719741064769407
+noCorrStats all-147
+noCorrStats score len:min:max 		500 : 598.6875684014913 : 1371.5490580976818
+noCorrStats bj len:min:max 			500 : 0.5419929372109575 : 37.7869669035397
+noCorrStats gnull len:min:max 		500 : -0.999992674556095 : -1.951688508993048e-18
+noCorrStats hc len:min:max 			500 : -3.2305309598350496 : 9.44400369293589
+ELL-0.1 all-164	len:min:max 	500 : -0.9789381 : -0.0001513984
+# indices >=1 off : 75 of 91		% indices off : 0.7
+ELL-0.1 all-147	len:min:max 	500 : -0.9786343 : -0.00031688504
+# indices >=1 off : 61 of 91		% indices off : 0.43
+noCorrStats all-168
+noCorrStats score len:min:max 		500 : 518.9080759021423 : 1459.0748577444308
+noCorrStats bj len:min:max 			500 : 0.3755546597017319 : 50.478458443286016
+noCorrStats gnull len:min:max 		500 : -0.9999999998331759 : -6.882298108589352e-24
+noCorrStats hc len:min:max 			500 : -6.341854388680529 : 13.696028766977426
+ELL-0.1 all-168	len:min:max 	500 : -0.99028397 : -0.00011171507
+# indices >=1 off : 75 of 91		% indices off : 0.46
+noCorrStats all-161
+noCorrStats score len:min:max 		500 : 583.7330712921361 : 1288.0553679139464
+noCorrStats bj len:min:max 			500 : 0.4221066941556789 : 33.57013093766881
+noCorrStats gnull len:min:max 		500 : -0.9999975095906672 : -2.111124483659431e-15
+noCorrStats hc len:min:max 			500 : -3.50844046457201 : 9.088252400914508
+ELL-0.1 all-161	len:min:max 	500 : -0.99028397 : -0.0003211078
+# indices >=1 off : 56 of 91		% indices off : 0.6
+cpma all-169	len:min:max 	500 : 0.00011632007954176515 : 87.04207837510694
+cpma all-170	len:min:max 	500 : 6.748895248165354e-05 : 75.60427617305504
+cpma all-171	len:min:max 	500 : 4.521727532846853e-06 : 101.97584573507993
+cpma all-172	len:min:max 	500 : 0.0006415320694941329 : 134.43929064553595
+cpma all-174	len:min:max 	500 : 0.00016874199354788288 : 125.69501058253263
+cpma all-173	len:min:max 	500 : 4.731931221613195e-05 : 86.77132519726183
+cpma all-175	len:min:max 	500 : 0.0003543920629454078 : 98.23812927653853
+cpma all-176	len:min:max 	500 : 1.3851507901563309e-05 : 96.0259484565122
+cpma all-178	len:min:max 	500 : 2.6998872272088192e-05 : 102.5906604289521
+cpma all-177	len:min:max 	500 : 9.376981324749067e-07 : 162.3530109790663
+cpma all-180	len:min:max 	500 : 1.4073870261199772e-05 : 129.98636249530136
+cpma all-179	len:min:max 	500 : 1.1721715054591186e-05 : 91.01030148624159
+cpma all-181	len:min:max 	500 : 0.00013222949382907245 : 168.72889618045883
+cpma all-182	len:min:max 	500 : 1.3070204659015872e-05 : 140.33183822981482
+cpma all-183	len:min:max 	500 : 3.167854629282374e-05 : 96.74595347282957
+cpma all-184	len:min:max 	500 : 5.6731150834821165e-06 : 65.51001001633449
+cpma all-185	len:min:max 	500 : 3.139565160381608e-05 : 101.84274307672058
+cpma all-186	len:min:max 	500 : 5.9412412156234495e-05 : 128.2654044620558
+cpma all-187	len:min:max 	500 : 2.8147416742285714e-05 : 117.51652315522915
+cpma all-188	len:min:max 	500 : 5.800029612146318e-08 : 104.72863205332396
+cpma all-189	len:min:max 	500 : 4.998598342353944e-05 : 121.27991622046102
+cpma all-190	len:min:max 	500 : 0.0001901832438306883 : 113.41926007283837
+cpma all-191	len:min:max 	500 : 6.69167948217364e-05 : 74.64112502711578
+cpma all-192	len:min:max 	500 : 4.906396316073369e-05 : 132.9130377955862
+noCorrStats all-181
+noCorrStats score len:min:max 		500 : 575.3972915865129 : 1591.6170279360956
+noCorrStats bj len:min:max 			500 : 0.5074071518635299 : 63.27423858663231
+noCorrStats gnull len:min:max 		500 : -0.9999568167358196 : -1.550174247942786e-29
+noCorrStats hc len:min:max 			500 : -3.3408612497349077 : 14.353361289389232
+ELL-0.1 all-181	len:min:max 	500 : -0.9825872 : -7.749964e-05
+# indices >=1 off : 81 of 91		% indices off : 0.78
+noCorrStats all-173
+noCorrStats score len:min:max 		500 : 570.3104114252002 : 1365.2651754262306
+noCorrStats bj len:min:max 			500 : 0.4951912289227239 : 38.320370452107156
+noCorrStats gnull len:min:max 		500 : -0.9999763267889493 : -7.631023259679735e-18
+noCorrStats hc len:min:max 			500 : -3.2269476345234467 : 10.243930596616686
+ELL-0.1 all-173	len:min:max 	500 : -0.98524207 : -0.00029571258
+# indices >=1 off : 64 of 91		% indices off : 0.32
+noCorrStats all-176
+noCorrStats score len:min:max 		500 : 578.1272567085762 : 1404.5523317054863
+noCorrStats bj len:min:max 			500 : 0.4426869200010462 : 39.65376983407332
+noCorrStats gnull len:min:max 		500 : -0.9999499922525641 : -3.417790049277096e-19
+noCorrStats hc len:min:max 			500 : -3.3133634350720054 : 10.478048234552084
+ELL-0.1 all-176	len:min:max 	500 : -0.98104733 : -0.00030059958
+# indices >=1 off : 68 of 91		% indices off : 0.33
+noCorrStats all-178
+noCorrStats score len:min:max 		500 : 588.2324133095464 : 1439.12218437959
+noCorrStats bj len:min:max 			500 : 0.6141424204545521 : 39.13110293323366
+noCorrStats gnull len:min:max 		500 : -0.9999412979800196 : -6.075701722578082e-19
+noCorrStats hc len:min:max 			500 : -3.099785232051174 : 11.608721311077444
+ELL-0.1 all-178	len:min:max 	500 : -0.9746523 : -0.00013054417
+# indices >=1 off : 72 of 91		% indices off : 0.38
+noCorrStats all-188
+noCorrStats score len:min:max 		500 : 566.699155935842 : 1429.1561770135356
+noCorrStats bj len:min:max 			500 : 0.4620803579441019 : 38.29791686853747
+noCorrStats gnull len:min:max 		500 : -0.9986616727157049 : -1.1771475052431644e-18
+noCorrStats hc len:min:max 			500 : -2.439716027700837 : 12.763771185622552
+noCorrStats all-171
+noCorrStats score len:min:max 		500 : 551.8011738863861 : 1415.8493682405708
+noCorrStats bj len:min:max 			500 : 0.5374276527554797 : 39.82108090582592
+noCorrStats gnull len:min:max 		500 : -0.9999999766724592 : -1.3269502806248009e-17
+noCorrStats hc len:min:max 			500 : -4.071880907234984 : 11.199118119693258
+ELL-0.1 all-188	len:min:max 	500 : -0.94972485 : -0.00011111996
+# indices >=1 off : 79 of 91		% indices off : 0.9
+ELL-0.1 all-171	len:min:max 	500 : -0.99028397 : -0.00019590309
+# indices >=1 off : 74 of 91		% indices off : 0.23
+noCorrStats all-179
+noCorrStats score len:min:max 		500 : 579.8979590550479 : 1367.4773407524428
+noCorrStats bj len:min:max 			500 : 0.4301898420539977 : 40.37430629230895
+noCorrStats gnull len:min:max 		500 : -0.999999927112461 : -1.3586206414522866e-19
+noCorrStats hc len:min:max 			500 : -3.824601759128473 : 9.364473705386906
+ELL-0.1 all-179	len:min:max 	500 : -0.9898688 : -0.0011097348
+# indices >=1 off : 51 of 91		% indices off : 0.31
+noCorrStats all-175
+noCorrStats score len:min:max 		500 : 598.4442409219744 : 1407.4810986162686
+noCorrStats bj len:min:max 			500 : 0.4538844759165421 : 39.20263290803789
+noCorrStats gnull len:min:max 		500 : -0.9999065182906507 : -5.413638023170681e-19
+noCorrStats hc len:min:max 			500 : -3.2509719327694753 : 10.441143969530065
+ELL-0.1 all-175	len:min:max 	500 : -0.9636983 : -9.250186e-05
+# indices >=1 off : 62 of 91		% indices off : 0.49
+noCorrStats all-186
+noCorrStats score len:min:max 		500 : 507.9344597928945 : 1342.5187405574382
+noCorrStats bj len:min:max 			500 : 0.3603299849007567 : 52.16024250166811
+noCorrStats gnull len:min:max 		500 : -0.9999999954590384 : -2.2885576059915303e-16
+noCorrStats hc len:min:max 			500 : -4.176871255265068 : 9.191418355788583
+ELL-0.1 all-186	len:min:max 	500 : -0.99028397 : -0.0007526209
+# indices >=1 off : 57 of 91		% indices off : 0.43
+noCorrStats all-187
+noCorrStats score len:min:max 		500 : 574.8004597215338 : 1447.22909131747
+noCorrStats bj len:min:max 			500 : 0.4143561866572973 : 37.98784370305353
+noCorrStats gnull len:min:max 		500 : -0.999963812231281 : -1.5442058766979309e-18
+noCorrStats hc len:min:max 			500 : -3.6654543270682227 : 10.722824321509187
+ELL-0.1 all-187	len:min:max 	500 : -0.9783328 : -0.0003130123
+# indices >=1 off : 66 of 91		% indices off : 0.58
+noCorrStats all-182
+noCorrStats score len:min:max 		500 : 569.7644580872422 : 1520.4282343261266
+noCorrStats bj len:min:max 			500 : 0.5975256261037855 : 51.81751510457242
+noCorrStats gnull len:min:max 		500 : -0.9999989917140318 : -1.7205913860727155e-24
+noCorrStats hc len:min:max 			500 : -3.8058865241906212 : 12.984112974951897
+ELL-0.1 all-182	len:min:max 	500 : -0.99028397 : -0.00021040617
+# indices >=1 off : 77 of 91		% indices off : 0.56
+noCorrStats all-170
+noCorrStats score len:min:max 		500 : 615.6009474091118 : 1333.5198294684537
+noCorrStats bj len:min:max 			500 : 0.5115529996274158 : 28.31046392021135
+noCorrStats gnull len:min:max 		500 : -0.9999363038829316 : -2.857932564292137e-14
+noCorrStats hc len:min:max 			500 : -2.9740934459065596 : 10.09131556317699
+noCorrStats all-192
+noCorrStats score len:min:max 		500 : 504.7398635333616 : 1312.00349035484
+noCorrStats bj len:min:max 			500 : 0.5168689312268032 : 54.9307176595172
+noCorrStats gnull len:min:max 		500 : -0.9999718398850547 : -4.403948205422292e-15
+noCorrStats hc len:min:max 			500 : -3.1109879569133714 : 9.551374368579632
+ELL-0.1 all-170	len:min:max 	500 : -0.97875315 : -0.00036848892
+# indices >=1 off : 68 of 91		% indices off : 0.34
+noCorrStats all-174
+noCorrStats score len:min:max 		500 : 599.0984575169215 : 1477.6894003035065
+noCorrStats bj len:min:max 			500 : 0.5050947295219443 : 50.73843998003413
+noCorrStats gnull len:min:max 		500 : -0.9999605030658635 : -4.356276441198087e-24
+noCorrStats hc len:min:max 			500 : -3.317116781631568 : 11.988639169284582
+ELL-0.1 all-192	len:min:max 	500 : -0.99028397 : -0.00019240244
+# indices >=1 off : 63 of 91		% indices off : 0.35
+ELL-0.1 all-174	len:min:max 	500 : -0.9799252 : -0.00030405924
+# indices >=1 off : 75 of 91		% indices off : 0.59
+noCorrStats all-185
+noCorrStats score len:min:max 		500 : 547.2705513539737 : 1413.7493493761672
+noCorrStats bj len:min:max 			500 : 0.49629043670296674 : 36.53232218471175
+noCorrStats gnull len:min:max 		500 : -0.9999642493311421 : -8.710815457413588e-18
+noCorrStats hc len:min:max 			500 : -3.0978410142374275 : 10.662201387649734
+ELL-0.1 all-185	len:min:max 	500 : -0.9688884 : -0.0004953761
+# indices >=1 off : 70 of 91		% indices off : 0.16
+noCorrStats all-189
+noCorrStats score len:min:max 		500 : 513.2179308835304 : 1403.3082643125822
+noCorrStats bj len:min:max 			500 : 0.6027983565623387 : 56.17028982125758
+noCorrStats gnull len:min:max 		500 : -0.9999977385118842 : -1.7243221322092826e-18
+noCorrStats hc len:min:max 			500 : -3.4893548392687803 : 9.94989424978284
+noCorrStats all-169
+noCorrStats score len:min:max 		500 : 567.4901507663219 : 1378.1724529488786
+noCorrStats bj len:min:max 			500 : 0.35842594702815217 : 46.38939723949641
+noCorrStats gnull len:min:max 		500 : -0.9999910938025038 : -1.7283555460618056e-17
+noCorrStats hc len:min:max 			500 : -3.766601276611148 : 9.902800223806862
+ELL-0.1 all-189	len:min:max 	500 : -0.99028397 : -0.0003815097
+# indices >=1 off : 70 of 91		% indices off : 0.57
+ELL-0.1 all-169	len:min:max 	500 : -0.99028397 : -0.00015998055
+# indices >=1 off : 64 of 91		% indices off : 0.52
+noCorrStats all-184
+noCorrStats score len:min:max 		500 : 612.2690417786988 : 1269.3589932270474
+noCorrStats bj len:min:max 			500 : 0.6492673676436193 : 33.030477953281085
+noCorrStats gnull len:min:max 		500 : -0.9999017858878309 : -1.1915462347715786e-12
+noCorrStats hc len:min:max 			500 : -3.2635709377528017 : 7.740233583836541
+ELL-0.1 all-184	len:min:max 	500 : -0.9801752 : -0.0004411699
+# indices >=1 off : 19 of 91		% indices off : 0.06
+noCorrStats all-172
+noCorrStats score len:min:max 		500 : 558.4661371347377 : 1501.9788516885362
+noCorrStats bj len:min:max 			500 : 0.6011674336808345 : 52.27652105247928
+noCorrStats gnull len:min:max 		500 : -0.9996806776266647 : -9.304274370915564e-25
+noCorrStats hc len:min:max 			500 : -2.9831180345633097 : 12.542152827030622
+ELL-0.1 all-172	len:min:max 	500 : -0.97950983 : -0.0002902452
+# indices >=1 off : 75 of 91		% indices off : 0.61
+noCorrStats all-191
+noCorrStats score len:min:max 		500 : 589.4658106698813 : 1337.7934403534812
+noCorrStats bj len:min:max 			500 : 0.40201874428087164 : 32.792965332811136
+noCorrStats gnull len:min:max 		500 : -0.9999919542604575 : -1.6579244556033827e-15
+noCorrStats hc len:min:max 			500 : -3.7968625522041153 : 9.38272943578362
+ELL-0.1 all-191	len:min:max 	500 : -0.98674476 : -0.00024085419
+# indices >=1 off : 55 of 91		% indices off : 0.35
+noCorrStats all-177
+noCorrStats score len:min:max 		500 : 617.8032131776142 : 1554.963965696848
+noCorrStats bj len:min:max 			500 : 0.6392190349801112 : 62.78570530817747
+noCorrStats gnull len:min:max 		500 : -0.9999479520016885 : -2.3485976121099546e-29
+noCorrStats hc len:min:max 			500 : -2.997236860318312 : 13.19384330166928
+noCorrStats all-180
+noCorrStats score len:min:max 		500 : 555.7362785767297 : 1487.0664105203678
+noCorrStats bj len:min:max 			500 : 0.4200112396568946 : 41.45036254958538
+noCorrStats gnull len:min:max 		500 : -0.9999995688461444 : -6.148892132265399e-20
+noCorrStats hc len:min:max 			500 : -3.613463434481183 : 13.09246997894969
+ELL-0.1 all-177	len:min:max 	500 : -0.9747172 : -4.3420125e-05
+# indices >=1 off : 72 of 91		% indices off : 0.85
+ELL-0.1 all-180	len:min:max 	500 : -0.99028397 : -0.00037271212
+# indices >=1 off : 72 of 91		% indices off : 0.72
+noCorrStats all-190
+noCorrStats score len:min:max 		500 : 529.1146076145076 : 1357.7903449118062
+noCorrStats bj len:min:max 			500 : 0.5157301880016923 : 43.74349222292628
+noCorrStats gnull len:min:max 		500 : -0.9999632555786849 : -4.960436964824763e-19
+noCorrStats hc len:min:max 			500 : -3.0420073234432583 : 11.478539115331401
+ELL-0.1 all-190	len:min:max 	500 : -0.99028397 : -0.0013507182
+# indices >=1 off : 68 of 91		% indices off : 0.58
+noCorrStats all-183
+noCorrStats score len:min:max 		500 : 594.7575310559112 : 1395.5316321580713
+noCorrStats bj len:min:max 			500 : 0.6061184609419351 : 40.77801106481653
+noCorrStats gnull len:min:max 		500 : -0.9999962317738578 : -1.052784793303973e-19
+noCorrStats hc len:min:max 			500 : -3.6023886951810065 : 10.459896971452478
+ELL-0.1 all-183	len:min:max 	500 : -0.9792453 : -0.00049236714
+# indices >=1 off : 67 of 91		% indices off : 0.64
+cpma all-193	len:min:max 	500 : 2.2001950128469616e-07 : 92.39718390835696
+cpma all-194	len:min:max 	500 : 9.388634134666063e-05 : 119.48492250824165
+cpma all-195	len:min:max 	500 : 6.759364623576403e-09 : 81.81352119462463
+cpma all-196	len:min:max 	500 : 0.0006038044102751883 : 183.06055044662207
+cpma all-197	len:min:max 	500 : 1.291510670853313e-05 : 76.89095272041595
+cpma all-198	len:min:max 	500 : 7.831937182345428e-06 : 123.51864591111735
+cpma all-199	len:min:max 	500 : 2.8005197236780077e-06 : 110.31598356505674
+cpma all-200	len:min:max 	500 : 0.00011751181955332868 : 126.35081836892823
+cpma all-201	len:min:max 	500 : 5.487578164320439e-06 : 99.78516561578726
+cpma all-202	len:min:max 	500 : 4.713692396762781e-05 : 173.99116191798385
+cpma all-204	len:min:max 	500 : 3.416829713387415e-06 : 92.92776982337637
+cpma all-203	len:min:max 	500 : 5.545402018469758e-06 : 103.6181959598016
+cpma all-206	len:min:max 	500 : 1.0807088983710855e-06 : 108.20829283987587
+cpma all-205	len:min:max 	500 : 1.2807704479200765e-05 : 140.9655473133971
+cpma all-207	len:min:max 	500 : 0.00047714640459162183 : 163.79914961319264
+cpma all-208	len:min:max 	500 : 2.7585010684560984e-06 : 92.55462817346779
+cpma all-209	len:min:max 	500 : 3.889889740094077e-05 : 70.79254023524663
+cpma all-210	len:min:max 	500 : 2.2773072487325408e-05 : 105.8135907401138
+cpma all-211	len:min:max 	500 : 0.0003185382920491975 : 101.04137188487766
+cpma all-213	len:min:max 	500 : 6.79044023854658e-06 : 82.92181375780456
+cpma all-212	len:min:max 	500 : 5.617790520773269e-06 : 123.1771025095386
+cpma all-215	len:min:max 	500 : 0.00029288938821991906 : 136.3550553920577
+cpma all-214	len:min:max 	500 : 1.146570866694674e-06 : 83.52902415538665
+cpma all-216	len:min:max 	500 : 0.00010311201003787573 : 116.8925628984889
+noCorrStats all-198
+noCorrStats score len:min:max 		500 : 574.5687903863827 : 1465.307510037479
+noCorrStats bj len:min:max 			500 : 0.4817897750428201 : 42.03421666866792
+noCorrStats gnull len:min:max 		500 : -0.999990185567472 : -2.9436166594933726e-20
+noCorrStats hc len:min:max 			500 : -3.2582371344939136 : 10.473705672756044
+ELL-0.1 all-198	len:min:max 	500 : -0.99028397 : -7.749964e-05
+# indices >=1 off : 74 of 91		% indices off : 0.75
+noCorrStats all-196
+noCorrStats score len:min:max 		500 : 579.2263668575928 : 1618.9969669120844
+noCorrStats bj len:min:max 			500 : 0.46786836206361915 : 58.73621817556874
+noCorrStats gnull len:min:max 		500 : -0.999999785065093 : -1.3940470323173516e-27
+noCorrStats hc len:min:max 			500 : -3.6786731556344336 : 16.09051322247615
+ELL-0.1 all-196	len:min:max 	500 : -0.99028397 : -7.749964e-05
+# indices >=1 off : 80 of 91		% indices off : 0.5
+noCorrStats all-193
+noCorrStats score len:min:max 		500 : 623.4578875394046 : 1396.7112905803656
+noCorrStats bj len:min:max 			500 : 0.5452412124072268 : 44.08471740302505
+noCorrStats gnull len:min:max 		500 : -0.9997420983930579 : -3.81099991208575e-21
+noCorrStats hc len:min:max 			500 : -3.344794326568268 : 10.956192908441995
+ELL-0.1 all-193	len:min:max 	500 : -0.9651935 : -0.00048119764
+# indices >=1 off : 72 of 91		% indices off : 0.45
+noCorrStats all-203
+noCorrStats score len:min:max 		500 : 597.8173047367903 : 1424.5745423798
+noCorrStats bj len:min:max 			500 : 0.4149503499447052 : 41.125357940364886
+noCorrStats gnull len:min:max 		500 : -0.9999055711852158 : -7.459758149094119e-20
+noCorrStats hc len:min:max 			500 : -2.927870037949218 : 11.492884306157489
+ELL-0.1 all-203	len:min:max 	500 : -0.982687 : -0.00040113082
+# indices >=1 off : 74 of 91		% indices off : 0.78
+noCorrStats all-216
+noCorrStats score len:min:max 		500 : 517.8059614207534 : 1310.2718146148814
+noCorrStats bj len:min:max 			500 : 0.3612504633312873 : 49.20498320018911
+noCorrStats gnull len:min:max 		500 : -0.9999999737663405 : -2.81214187487711e-14
+noCorrStats hc len:min:max 			500 : -3.957766933324137 : 9.284627800761506
+ELL-0.1 all-216	len:min:max 	500 : -0.99028397 : -0.00016063677
+# indices >=1 off : 53 of 91		% indices off : 0.29
+noCorrStats all-207
+noCorrStats score len:min:max 		500 : 513.9912502920472 : 1558.6296935683126
+noCorrStats bj len:min:max 			500 : 0.6520586330527276 : 55.787081955796445
+noCorrStats gnull len:min:max 		500 : -0.999999930878878 : -2.5485641660959476e-26
+noCorrStats hc len:min:max 			500 : -4.082515876504172 : 11.872440104618157
+ELL-0.1 all-207	len:min:max 	500 : -0.99028397 : -8.423184e-05
+# indices >=1 off : 80 of 91		% indices off : 0.6
+noCorrStats all-200
+noCorrStats score len:min:max 		500 : 613.6185126044026 : 1491.0341738635332
+noCorrStats bj len:min:max 			500 : 0.5576961743126623 : 50.897239018296794
+noCorrStats gnull len:min:max 		500 : -0.9998457473009452 : -4.27972957377092e-24
+noCorrStats hc len:min:max 			500 : -2.8292050683890744 : 14.914439250094498
+ELL-0.1 all-200	len:min:max 	500 : -0.98522884 : -8.735849e-05
+# indices >=1 off : 78 of 91		% indices off : 0.42
+noCorrStats all-210
+noCorrStats score len:min:max 		500 : 619.2969322497211 : 1406.0679288295464
+noCorrStats bj len:min:max 			500 : 0.24855371869311507 : 41.97861081007603
+noCorrStats gnull len:min:max 		500 : -0.9999508986807663 : -2.849784078213542e-20
+noCorrStats hc len:min:max 			500 : -3.374067481094964 : 10.277920234745554
+ELL-0.1 all-210	len:min:max 	500 : -0.97742796 : -0.00024204097
+# indices >=1 off : 69 of 91		% indices off : 0.54
+noCorrStats all-202
+noCorrStats score len:min:max 		500 : 453.134012954749 : 1443.4756534730936
+noCorrStats bj len:min:max 			500 : 0.4843847313335306 : 71.71235293423655
+noCorrStats gnull len:min:max 		500 : -0.9999999999992477 : -3.7436846386242606e-21
+noCorrStats hc len:min:max 			500 : -5.340373625598801 : 12.142149230018376
+noCorrStats all-201
+noCorrStats score len:min:max 		500 : 545.2327335574782 : 1406.9232660925948
+noCorrStats bj len:min:max 			500 : 0.4711770691526456 : 42.187147795452
+noCorrStats gnull len:min:max 		500 : -0.9999901095903381 : -9.63497498455578e-16
+noCorrStats hc len:min:max 			500 : -3.241214577137548 : 10.105268200700428
+ELL-0.1 all-202	len:min:max 	500 : -0.99028397 : -0.0006040212
+# indices >=1 off : 71 of 91		% indices off : 0.54
+noCorrStats all-212
+noCorrStats score len:min:max 		500 : 519.2086859325346 : 1424.9749070233386
+noCorrStats bj len:min:max 			500 : 0.3978168233770812 : 50.20633427503075
+noCorrStats gnull len:min:max 		500 : -0.9999630155427733 : -8.637003269582822e-24
+noCorrStats hc len:min:max 			500 : -2.8897420962624554 : 12.615964347606573
+ELL-0.1 all-201	len:min:max 	500 : -0.9750777 : -7.816409e-06
+# indices >=1 off : 74 of 91		% indices off : 0.8
+noCorrStats all-215
+noCorrStats score len:min:max 		500 : 496.30733570913185 : 1397.2446415033496
+noCorrStats bj len:min:max 			500 : 0.5604037387319217 : 54.11722530160325
+noCorrStats gnull len:min:max 		500 : -0.9988167434717897 : -3.221103655069686e-21
+noCorrStats hc len:min:max 			500 : -2.5314310472392907 : 11.597742160325529
+ELL-0.1 all-212	len:min:max 	500 : -0.99028397 : -0.00048119764
+# indices >=1 off : 71 of 91		% indices off : 0.55
+ELL-0.1 all-215	len:min:max 	500 : -0.96876204 : -0.00014661676
+# indices >=1 off : 77 of 91		% indices off : 0.67
+noCorrStats all-197
+noCorrStats score len:min:max 		500 : 583.3561408283108 : 1324.0222434022114
+noCorrStats bj len:min:max 			500 : 0.5182760496636564 : 35.45585428784008
+noCorrStats gnull len:min:max 		500 : -0.9999997488560813 : -2.2571038153786453e-17
+noCorrStats hc len:min:max 			500 : -4.085291596051758 : 11.569857794949053
+ELL-0.1 all-197	len:min:max 	500 : -0.99028397 : -0.00022983867
+# indices >=1 off : 77 of 91		% indices off : 0.54
+noCorrStats all-214
+noCorrStats score len:min:max 		500 : 574.9485956733068 : 1345.3230434591464
+noCorrStats bj len:min:max 			500 : 0.5086451363622945 : 33.92370744930599
+noCorrStats gnull len:min:max 		500 : -0.999999430349627 : -6.185994062290511e-15
+noCorrStats hc len:min:max 			500 : -3.7318879664607247 : 10.058938199818641
+ELL-0.1 all-214	len:min:max 	500 : -0.9894085 : -0.0006330567
+# indices >=1 off : 70 of 91		% indices off : 0.49
+noCorrStats all-204
+noCorrStats score len:min:max 		500 : 572.6070522434562 : 1378.5818001311677
+noCorrStats bj len:min:max 			500 : 0.35580370487667534 : 37.99275795025637
+noCorrStats gnull len:min:max 		500 : -0.999961696743403 : -5.4138925375212956e-17
+noCorrStats hc len:min:max 			500 : -3.115038154860061 : 9.426317338851016
+ELL-0.1 all-204	len:min:max 	500 : -0.9686119 : -0.00031688504
+# indices >=1 off : 69 of 91		% indices off : 0.41
+noCorrStats all-195
+noCorrStats score len:min:max 		500 : 581.8641088525641 : 1340.776038984873
+noCorrStats bj len:min:max 			500 : 0.47727588750640165 : 37.82568230627748
+noCorrStats gnull len:min:max 		500 : -0.9999753931966137 : -1.707735664870864e-15
+noCorrStats hc len:min:max 			500 : -3.369863937403256 : 9.382706964543393
+ELL-0.1 all-195	len:min:max 	500 : -0.98513395 : -0.0005612202
+# indices >=1 off : 54 of 91		% indices off : 0.2
+noCorrStats all-209
+noCorrStats score len:min:max 		500 : 595.3679016420564 : 1288.9558867846888
+noCorrStats bj len:min:max 			500 : 0.5461705532332405 : 30.60669083088736
+noCorrStats gnull len:min:max 		500 : -0.9999552386528493 : -8.253589104918636e-14
+noCorrStats hc len:min:max 			500 : -3.06554272734765 : 9.151444325279988
+ELL-0.1 all-209	len:min:max 	500 : -0.9750337 : -0.0006127974
+# indices >=1 off : 59 of 91		% indices off : 0.24
+noCorrStats all-205
+noCorrStats score len:min:max 		500 : 582.3713336543229 : 1524.7649716936105
+noCorrStats bj len:min:max 			500 : 0.36977298148390175 : 47.819910204538445
+noCorrStats gnull len:min:max 		500 : -0.9999999521231203 : -8.207629294500748e-23
+noCorrStats hc len:min:max 			500 : -4.834565107347573 : 11.861765776268019
+ELL-0.1 all-205	len:min:max 	500 : -0.99028397 : -2.942438e-05
+# indices >=1 off : 73 of 91		% indices off : 0.95
+noCorrStats all-211
+noCorrStats score len:min:max 		500 : 542.2627986753397 : 1382.8583604720818
+noCorrStats bj len:min:max 			500 : 0.2938725223970781 : 39.60100576701065
+noCorrStats gnull len:min:max 		500 : -0.9999761693361885 : -1.3790962711381719e-17
+noCorrStats hc len:min:max 			500 : -3.2722079019772616 : 9.25335569929566
+ELL-0.1 all-211	len:min:max 	500 : -0.98923093 : -0.00037845198
+# indices >=1 off : 70 of 91		% indices off : 0.26
+noCorrStats all-213
+noCorrStats score len:min:max 		500 : 577.830261942026 : 1325.3054985549948
+noCorrStats bj len:min:max 			500 : 0.5098598153326377 : 35.04316497431679
+noCorrStats gnull len:min:max 		500 : -0.9999777815147611 : -6.187175087821528e-17
+noCorrStats hc len:min:max 			500 : -3.134716047955456 : 8.88732213439293
+ELL-0.1 all-213	len:min:max 	500 : -0.9786195 : -4.4235014e-05
+# indices >=1 off : 45 of 91		% indices off : 0.22
+noCorrStats all-199
+noCorrStats score len:min:max 		500 : 574.9961671244669 : 1438.300362975197
+noCorrStats bj len:min:max 			500 : 0.44847465755163185 : 44.651542370693285
+noCorrStats gnull len:min:max 		500 : -0.9999707520354032 : -2.0005885703407682e-21
+noCorrStats hc len:min:max 			500 : -3.4725006183824365 : 11.828693024548429
+ELL-0.1 all-199	len:min:max 	500 : -0.9797193 : -0.0001311152
+# indices >=1 off : 79 of 91		% indices off : 0.71
+noCorrStats all-194
+noCorrStats score len:min:max 		500 : 517.9017671898365 : 1366.137893545957
+noCorrStats bj len:min:max 			500 : 0.6289094352139591 : 46.81583697540127
+noCorrStats gnull len:min:max 		500 : -0.9999998909275511 : -5.013587223962233e-15
+noCorrStats hc len:min:max 			500 : -3.8135358099085037 : 9.597593384620325
+ELL-0.1 all-194	len:min:max 	500 : -0.99028397 : -0.0003211078
+# indices >=1 off : 65 of 91		% indices off : 0.53
+noCorrStats all-206
+noCorrStats score len:min:max 		500 : 599.0494110491111 : 1444.4589817052424
+noCorrStats bj len:min:max 			500 : 0.39341664309454477 : 50.70894019722928
+noCorrStats gnull len:min:max 		500 : -0.999915044587481 : -5.3459399558432056e-24
+noCorrStats hc len:min:max 			500 : -2.936713893691006 : 12.985920650844234
+ELL-0.1 all-206	len:min:max 	500 : -0.9687352 : -8.0357946e-05
+# indices >=1 off : 79 of 91		% indices off : 0.44
+noCorrStats all-208
+noCorrStats score len:min:max 		500 : 573.6222247869847 : 1392.0236665655332
+noCorrStats bj len:min:max 			500 : 0.519484982835242 : 36.55561591536605
+noCorrStats gnull len:min:max 		500 : -0.9999492517457417 : -7.736759176304219e-18
+noCorrStats hc len:min:max 			500 : -3.3332862373475227 : 10.006452969321982
+ELL-0.1 all-208	len:min:max 	500 : -0.9778249 : -3.736296e-05
+# indices >=1 off : 66 of 91		% indices off : 0.38
+cpma all-217	len:min:max 	500 : 0.0004349731061665807 : 106.2997756459099
+cpma all-218	len:min:max 	500 : 1.8320453818887472e-05 : 102.1544522849781
+cpma all-220	len:min:max 	500 : 3.038746399397496e-05 : 88.69086153905118
+cpma all-219	len:min:max 	500 : 1.3369364751270041e-05 : 117.74215323809403
+cpma all-222	len:min:max 	500 : 9.738395419844892e-05 : 117.1377506336703
+cpma all-221	len:min:max 	500 : 1.7342099454253912e-06 : 91.32721313861475
+cpma all-223	len:min:max 	500 : 5.7540346460882574e-06 : 124.4813600816251
+cpma all-224	len:min:max 	500 : 4.627276211977005e-06 : 104.29457322006238
+cpma all-227	len:min:max 	500 : 5.7713701608008705e-05 : 144.83441568914714
+cpma all-225	len:min:max 	500 : 8.816701301839203e-05 : 78.36908910227612
+cpma all-226	len:min:max 	500 : 3.780280167120509e-06 : 79.49507058523886
+cpma all-228	len:min:max 	500 : 0.0007460716951754875 : 115.94335451820734
+cpma all-231	len:min:max 	500 : 0.0005123326045577414 : 113.67316205097086
+cpma all-229	len:min:max 	500 : 3.47552340826951e-05 : 155.85119300781844
+cpma all-230	len:min:max 	500 : 0.0001996586834138725 : 127.95977129827952
+cpma all-232	len:min:max 	500 : 1.8238644770462997e-05 : 128.82119219214292
+cpma all-233	len:min:max 	500 : 4.743008867080789e-05 : 97.2629197242677
+cpma all-234	len:min:max 	500 : 1.9859784515574574e-05 : 87.79563219445299
+cpma all-236	len:min:max 	500 : 9.402901923749596e-08 : 107.12642990888162
+cpma all-235	len:min:max 	500 : 0.0004157832754572155 : 162.9400331300294
+cpma all-237	len:min:max 	500 : 2.721393684623763e-06 : 124.45721530625451
+cpma all-238	len:min:max 	500 : 6.471418600995094e-08 : 128.10398182574863
+cpma all-240	len:min:max 	500 : 0.00019113487905997317 : 146.3219958453774
+cpma all-239	len:min:max 	500 : 4.62640164187178e-05 : 151.4550157495014
+noCorrStats all-220
+noCorrStats score len:min:max 		500 : 566.8167454986124 : 1373.6744787781681
+noCorrStats bj len:min:max 			500 : 0.4501672643823764 : 41.13680779806714
+noCorrStats gnull len:min:max 		500 : -0.9999909412663931 : -6.3955694307005e-20
+noCorrStats hc len:min:max 			500 : -3.124241897464724 : 10.011422827925339
+ELL-0.1 all-220	len:min:max 	500 : -0.98917484 : -3.0850544e-05
+# indices >=1 off : 62 of 91		% indices off : 0.46
+noCorrStats all-221
+noCorrStats score len:min:max 		500 : 559.7457734584083 : 1345.104799456551
+noCorrStats bj len:min:max 			500 : 0.6108812329188856 : 38.20245651479641
+noCorrStats gnull len:min:max 		500 : -0.9992651247169285 : -1.4469721424092594e-18
+noCorrStats hc len:min:max 			500 : -2.9693020986601364 : 10.087346968443995
+ELL-0.1 all-221	len:min:max 	500 : -0.96837974 : -9.684246e-05
+# indices >=1 off : 55 of 91		% indices off : 0.4
+noCorrStats all-229
+noCorrStats score len:min:max 		500 : 586.5309645097477 : 1558.587452001814
+noCorrStats bj len:min:max 			500 : 0.46526599790546114 : 58.368378593237885
+noCorrStats gnull len:min:max 		500 : -0.9999751743773129 : -2.3259775591745866e-27
+noCorrStats hc len:min:max 			500 : -3.0832895372349194 : 13.83006716476321
+ELL-0.1 all-229	len:min:max 	500 : -0.98734236 : -0.00016699334
+# indices >=1 off : 79 of 91		% indices off : 0.52
+noCorrStats all-227
+noCorrStats score len:min:max 		500 : 487.98233678523354 : 1377.2053430815442
+noCorrStats bj len:min:max 			500 : 0.4422216652857256 : 58.05606735004979
+noCorrStats gnull len:min:max 		500 : -0.99997660155211 : -9.384916267747272e-19
+noCorrStats hc len:min:max 			500 : -3.113236693001001 : 9.690193945411732
+ELL-0.1 all-227	len:min:max 	500 : -0.96598333 : -0.00032101737
+# indices >=1 off : 51 of 91		% indices off : 0.34
+noCorrStats all-226
+noCorrStats score len:min:max 		500 : 625.1997825463336 : 1345.176921332876
+noCorrStats bj len:min:max 			500 : 0.44033461049947414 : 28.361609587272863
+noCorrStats gnull len:min:max 		500 : -0.999979583618904 : -2.650960861105629e-14
+noCorrStats hc len:min:max 			500 : -3.799930634533451 : 9.504197593403033
+ELL-0.1 all-226	len:min:max 	500 : -0.96488106 : -0.00059827353
+# indices >=1 off : 66 of 91		% indices off : 0.22
+noCorrStats all-219
+noCorrStats score len:min:max 		500 : 600.831998551678 : 1462.4212586619412
+noCorrStats bj len:min:max 			500 : 0.5920062123310951 : 46.465583210181165
+noCorrStats gnull len:min:max 		500 : -0.9998596991668391 : -3.4170364364542105e-22
+noCorrStats hc len:min:max 			500 : -2.8581888091321472 : 11.668115130053021
+ELL-0.1 all-219	len:min:max 	500 : -0.9735146 : -0.00028946873
+# indices >=1 off : 73 of 91		% indices off : 0.56
+noCorrStats all-222
+noCorrStats score len:min:max 		500 : 518.0649305636716 : 1441.6079457152575
+noCorrStats bj len:min:max 			500 : 0.45828206863943094 : 48.91871865986746
+noCorrStats gnull len:min:max 		500 : -0.9999999991108504 : -4.78185826302679e-22
+noCorrStats hc len:min:max 			500 : -4.7012125682545225 : 10.360559900839283
+ELL-0.1 all-222	len:min:max 	500 : -0.99028397 : -4.5425666e-05
+# indices >=1 off : 66 of 91		% indices off : 0.79
+noCorrStats all-232
+noCorrStats score len:min:max 		500 : 597.6190529178615 : 1493.9938163499637
+noCorrStats bj len:min:max 			500 : 0.4313729468984085 : 52.493292663182075
+noCorrStats gnull len:min:max 		500 : -0.9999727412712176 : -7.408114216703269e-25
+noCorrStats hc len:min:max 			500 : -3.8260730343077456 : 11.664353051344946
+ELL-0.1 all-232	len:min:max 	500 : -0.9808342 : -0.0001742672
+# indices >=1 off : 76 of 91		% indices off : 0.51
+noCorrStats all-224
+noCorrStats score len:min:max 		500 : 538.8111622012912 : 1397.2584122648734
+noCorrStats bj len:min:max 			500 : 0.4684995502631012 : 47.61115254232143
+noCorrStats gnull len:min:max 		500 : -0.9999962257767179 : -1.0677499652994964e-22
+noCorrStats hc len:min:max 			500 : -3.422916415087018 : 11.31169057505157
+ELL-0.1 all-224	len:min:max 	500 : -0.9739562 : -0.00015498845
+# indices >=1 off : 54 of 91		% indices off : 0.59
+noCorrStats all-225
+noCorrStats score len:min:max 		500 : 579.762870292552 : 1337.6776647907047
+noCorrStats bj len:min:max 			500 : 0.379847842024157 : 30.651327149186617
+noCorrStats gnull len:min:max 		500 : -0.9999908728247722 : -6.255331609545269e-15
+noCorrStats hc len:min:max 			500 : -3.332541458490009 : 9.610014294484124
+ELL-0.1 all-225	len:min:max 	500 : -0.99028397 : -0.00063023256
+# indices >=1 off : 60 of 91		% indices off : 0.38
+noCorrStats all-218
+noCorrStats score len:min:max 		500 : 541.6914748893286 : 1356.434278608924
+noCorrStats bj len:min:max 			500 : 0.46981210291348946 : 37.52246664183841
+noCorrStats gnull len:min:max 		500 : -0.9998107398561593 : -2.8427074106799507e-18
+noCorrStats hc len:min:max 			500 : -3.5945946342860795 : 10.590903616959583
+ELL-0.1 all-218	len:min:max 	500 : -0.9846931 : -6.7615e-05
+# indices >=1 off : 71 of 91		% indices off : 0.64
+noCorrStats all-217
+noCorrStats score len:min:max 		500 : 557.9833302093929 : 1441.5651820340036
+noCorrStats bj len:min:max 			500 : 0.4404387236326757 : 44.45859032294024
+noCorrStats gnull len:min:max 		500 : -0.9999956096474734 : -6.196769683219537e-19
+noCorrStats hc len:min:max 			500 : -3.238660993884853 : 11.614810027623383
+ELL-0.1 all-217	len:min:max 	500 : -0.99028397 : -8.0357946e-05
+# indices >=1 off : 74 of 91		% indices off : 0.37
+noCorrStats all-238
+noCorrStats score len:min:max 		500 : 613.5724761203787 : 1492.9628231952297
+noCorrStats bj len:min:max 			500 : 0.6615629392557071 : 52.78255909568539
+noCorrStats gnull len:min:max 		500 : -0.9996278685646013 : -5.628537159352478e-25
+noCorrStats hc len:min:max 			500 : -3.2091200568772695 : 11.744675885446197
+ELL-0.1 all-238	len:min:max 	500 : -0.95898175 : -5.0349743e-05
+# indices >=1 off : 76 of 91		% indices off : 0.82
+noCorrStats all-233
+noCorrStats score len:min:max 		500 : 558.4572523731815 : 1401.1670578444423
+noCorrStats bj len:min:max 			500 : 0.570940238680512 : 42.96654158871092
+noCorrStats gnull len:min:max 		500 : -0.9999999339064757 : -1.1815122948131622e-20
+noCorrStats hc len:min:max 			500 : -4.088526028084287 : 10.81823050540601
+ELL-0.1 all-233	len:min:max 	500 : -0.99028397 : -0.0002849403
+# indices >=1 off : 71 of 91		% indices off : 0.39
+noCorrStats all-231
+noCorrStats score len:min:max 		500 : 584.7580185019546 : 1444.1488414261353
+noCorrStats bj len:min:max 			500 : 0.4674589313665972 : 41.958603264086996
+noCorrStats gnull len:min:max 		500 : -0.9999985096786411 : -3.0104482041558905e-20
+noCorrStats hc len:min:max 			500 : -4.437752294013688 : 10.573769209260321
+ELL-0.1 all-231	len:min:max 	500 : -0.99028397 : -0.00068408955
+# indices >=1 off : 71 of 91		% indices off : 0.53
+noCorrStats all-237
+noCorrStats score len:min:max 		500 : 568.1165232444303 : 1467.8614321382174
+noCorrStats bj len:min:max 			500 : 0.6367240956198102 : 49.97347614288399
+noCorrStats gnull len:min:max 		500 : -0.999899097554022 : -9.12081962690663e-24
+noCorrStats hc len:min:max 			500 : -3.731685087724846 : 11.770225239312456
+ELL-0.1 all-237	len:min:max 	500 : -0.97286725 : -0.0001742672
+# indices >=1 off : 77 of 91		% indices off : 0.46
+noCorrStats all-223
+noCorrStats score len:min:max 		500 : 543.5256526211622 : 1475.5117180149189
+noCorrStats bj len:min:max 			500 : 0.4255056319187532 : 51.82565347447953
+noCorrStats gnull len:min:max 		500 : -0.9999533074658185 : -1.4801368624320193e-24
+noCorrStats hc len:min:max 			500 : -3.0005888079841263 : 11.73698394732497
+ELL-0.1 all-223	len:min:max 	500 : -0.9674677 : -0.00044371287
+# indices >=1 off : 64 of 91		% indices off : 0.35
+noCorrStats all-239
+noCorrStats score len:min:max 		500 : 477.9502943633868 : 1418.6101336910908
+noCorrStats bj len:min:max 			500 : 0.5568545063697248 : 57.83899574762789
+noCorrStats gnull len:min:max 		500 : -0.9999999992558887 : -5.09846681276214e-24
+noCorrStats hc len:min:max 			500 : -4.391900771629338 : 10.64435718364802
+noCorrStats all-236
+noCorrStats score len:min:max 		500 : 568.254093959971 : 1437.860739997655
+noCorrStats bj len:min:max 			500 : 0.48377132636115056 : 40.469950602830714
+noCorrStats gnull len:min:max 		500 : -0.9999673958475991 : -1.5490725429620572e-19
+noCorrStats hc len:min:max 			500 : -3.2643689994017504 : 11.820640933996362
+ELL-0.1 all-239	len:min:max 	500 : -0.99028397 : -0.00019060427
+# indices >=1 off : 70 of 91		% indices off : 0.51
+ELL-0.1 all-236	len:min:max 	500 : -0.9715142 : -0.00014647671
+# indices >=1 off : 75 of 91		% indices off : 0.55
+noCorrStats all-240
+noCorrStats score len:min:max 		500 : 618.8520254426933 : 1544.865055679628
+noCorrStats bj len:min:max 			500 : 0.5186826233332078 : 54.55151349915701
+noCorrStats gnull len:min:max 		500 : -0.9999757324382251 : -9.583110287079212e-26
+noCorrStats hc len:min:max 			500 : -3.407398808168092 : 14.395732436871478
+ELL-0.1 all-240	len:min:max 	500 : -0.9603733 : -0.00016699334
+# indices >=1 off : 77 of 91		% indices off : 0.33
+noCorrStats all-235
+noCorrStats score len:min:max 		500 : 584.7242145601746 : 1562.3598906117147
+noCorrStats bj len:min:max 			500 : 0.5366868342276264 : 52.88948038894936
+noCorrStats gnull len:min:max 		500 : -0.9999012587294083 : -4.511980799294389e-25
+noCorrStats hc len:min:max 			500 : -2.9645114069977327 : 13.988827112142573
+ELL-0.1 all-235	len:min:max 	500 : -0.9799812 : -0.00022214105
+# indices >=1 off : 78 of 91		% indices off : 0.7
+noCorrStats all-228
+noCorrStats score len:min:max 		500 : 540.1349909533094 : 1453.7389568711287
+noCorrStats bj len:min:max 			500 : 0.5438074293208425 : 46.382802928782
+noCorrStats gnull len:min:max 		500 : -0.9999997234936463 : -3.9201189274782786e-22
+noCorrStats hc len:min:max 			500 : -3.7954994120043195 : 11.660448292999288
+ELL-0.1 all-228	len:min:max 	500 : -0.99028397 : -4.8297985e-05
+# indices >=1 off : 71 of 91		% indices off : 0.49
+noCorrStats all-230
+noCorrStats score len:min:max 		500 : 572.1368099297597 : 1486.5855113915256
+noCorrStats bj len:min:max 			500 : 0.5960403220581574 : 46.091533568915914
+noCorrStats gnull len:min:max 		500 : -0.9999499188013027 : -5.049121576838456e-22
+noCorrStats hc len:min:max 			500 : -3.160989113051818 : 12.620399638771525
+noCorrStats all-234
+noCorrStats score len:min:max 		500 : 564.371793619429 : 1375.5185125171065
+noCorrStats bj len:min:max 			500 : 0.5115921569058557 : 35.3145354535229
+noCorrStats gnull len:min:max 		500 : -0.9999958301404634 : -6.93058147071617e-16
+noCorrStats hc len:min:max 			500 : -4.451254921925021 : 10.456686834159049
+ELL-0.1 all-230	len:min:max 	500 : -0.97544295 : -0.00021040617
+# indices >=1 off : 77 of 91		% indices off : 0.36
+ELL-0.1 all-234	len:min:max 	500 : -0.99028397 : -6.925025e-05
+# indices >=1 off : 71 of 91		% indices off : 0.5
+cpma all-241	len:min:max 	500 : 7.583566730318125e-05 : 118.41506364870293
+cpma all-243	len:min:max 	500 : 1.8667815311346203e-05 : 110.55466978833647
+cpma all-244	len:min:max 	500 : 5.1746410463238135e-05 : 129.2870958617841
+cpma all-242	len:min:max 	500 : 0.0001344705196970608 : 104.8558128719651
+cpma all-245	len:min:max 	500 : 2.454471541568637e-07 : 121.38279674779187
+cpma all-246	len:min:max 	500 : 4.812085535377264e-06 : 120.87062953309578
+cpma all-247	len:min:max 	500 : 0.00010189427484874614 : 102.1045721731225
+cpma all-248	len:min:max 	500 : 9.811425115913153e-06 : 83.72953531605526
+cpma all-249	len:min:max 	500 : 0.00014624365758209024 : 136.88063188332853
+cpma all-250	len:min:max 	500 : 1.7017458958434872e-05 : 100.99443140047879
+cpma all-252	len:min:max 	500 : 4.216347588226199e-05 : 119.66050450222247
+cpma all-253	len:min:max 	500 : 1.5211335266940296e-06 : 105.69180003278416
+cpma all-251	len:min:max 	500 : 5.712354322895408e-08 : 68.05227447785728
+cpma all-254	len:min:max 	500 : 1.7580976418685168e-05 : 86.50715783512169
+cpma all-255	len:min:max 	500 : 9.6116909844568e-06 : 98.82438225097758
+cpma all-257	len:min:max 	500 : 2.573069650679827e-07 : 157.07190451457245
+cpma all-256	len:min:max 	500 : 4.415620423969813e-06 : 124.83111915194968
+cpma all-258	len:min:max 	500 : 4.960353362548631e-05 : 90.18108653298259
+cpma all-259	len:min:max 	500 : 4.882733628619462e-05 : 90.21021352443313
+cpma all-261	len:min:max 	500 : 0.0005124251565575833 : 106.44923957165338
+cpma all-263	len:min:max 	500 : 9.16702083486598e-06 : 187.2437610866018
+cpma all-260	len:min:max 	500 : 8.050234100664966e-06 : 105.44829936190035
+cpma all-262	len:min:max 	500 : 2.0902243704767898e-06 : 100.63837369651446
+cpma all-264	len:min:max 	500 : 5.237077493802644e-05 : 97.95027423834472
+noCorrStats all-242
+noCorrStats score len:min:max 		500 : 613.0167529490844 : 1422.65851261319
+noCorrStats bj len:min:max 			500 : 0.5197680265740958 : 37.5398122730713
+noCorrStats gnull len:min:max 		500 : -0.9997490982988259 : -2.87673743170055e-18
+noCorrStats hc len:min:max 			500 : -2.5379629753487785 : 10.550678503494865
+noCorrStats all-246
+noCorrStats score len:min:max 		500 : 591.9817782226161 : 1474.356086817155
+noCorrStats bj len:min:max 			500 : 0.5462015875589564 : 49.25881979858978
+noCorrStats gnull len:min:max 		500 : -0.9999908922035228 : -2.1919150929344928e-23
+noCorrStats hc len:min:max 			500 : -3.123373623748401 : 12.27229986701977
+ELL-0.1 all-242	len:min:max 	500 : -0.9792268 : -0.00047279807
+# indices >=1 off : 66 of 91		% indices off : 0.24
+ELL-0.1 all-246	len:min:max 	500 : -0.99028397 : -0.00056022627
+# indices >=1 off : 70 of 91		% indices off : 0.51
+noCorrStats all-255
+noCorrStats score len:min:max 		500 : 544.840417268504 : 1376.2255798180427
+noCorrStats bj len:min:max 			500 : 0.33294651586828494 : 49.81328538900483
+noCorrStats gnull len:min:max 		500 : -0.9996650843450551 : -1.8516849676085592e-18
+noCorrStats hc len:min:max 			500 : -3.2002161463200642 : 9.646242088598893
+ELL-0.1 all-255	len:min:max 	500 : -0.97428715 : -0.00031688504
+# indices >=1 off : 49 of 91		% indices off : 0.44
+noCorrStats all-253
+noCorrStats score len:min:max 		500 : 588.3724461823143 : 1419.8439839108933
+noCorrStats bj len:min:max 			500 : 0.47184755446349264 : 38.98257789569401
+noCorrStats gnull len:min:max 		500 : -0.999917540140765 : -5.592252103909991e-19
+noCorrStats hc len:min:max 			500 : -3.4033961638703145 : 10.550798431245255
+ELL-0.1 all-253	len:min:max 	500 : -0.97091174 : -0.0006987848
+# indices >=1 off : 68 of 91		% indices off : 0.65
+noCorrStats all-251
+noCorrStats score len:min:max 		500 : 617.446203374249 : 1317.784460324451
+noCorrStats bj len:min:max 			500 : 0.4482151066257291 : 31.61907317611009
+noCorrStats gnull len:min:max 		500 : -0.9993962311937656 : -1.0966498403180275e-15
+noCorrStats hc len:min:max 			500 : -2.733150708604631 : 8.884560148896426
+ELL-0.1 all-251	len:min:max 	500 : -0.9678216 : -0.00077332096
+# indices >=1 off : 60 of 91		% indices off : 0.56
+noCorrStats all-262
+noCorrStats score len:min:max 		500 : 600.6181163532766 : 1424.3065987678392
+noCorrStats bj len:min:max 			500 : 0.5379189805697064 : 45.35379224116655
+noCorrStats gnull len:min:max 		500 : -0.9999991287980989 : -1.179631820077211e-21
+noCorrStats hc len:min:max 			500 : -3.7259749371904993 : 12.164852205487428
+noCorrStats all-247
+noCorrStats score len:min:max 		500 : 545.5933975845123 : 1364.8925960686502
+noCorrStats bj len:min:max 			500 : 0.3856853315930022 : 43.05648508523175
+noCorrStats gnull len:min:max 		500 : -0.9998763963688646 : -2.462284024422475e-18
+noCorrStats hc len:min:max 			500 : -3.0196258088091485 : 9.905634098025159
+ELL-0.1 all-262	len:min:max 	500 : -0.99028397 : -7.567076e-05
+# indices >=1 off : 79 of 91		% indices off : 0.78
+ELL-0.1 all-247	len:min:max 	500 : -0.98696244 : -1.8339395e-05
+# indices >=1 off : 38 of 91		% indices off : 0.43
+noCorrStats all-245
+noCorrStats score len:min:max 		500 : 613.5795296952903 : 1478.6480873969704
+noCorrStats bj len:min:max 			500 : 0.5411689039418875 : 44.976625024145406
+noCorrStats gnull len:min:max 		500 : -0.9992510442014881 : -1.4152624480260255e-21
+noCorrStats hc len:min:max 			500 : -3.123620936132664 : 11.50523024365743
+ELL-0.1 all-245	len:min:max 	500 : -0.9704813 : -3.8105438e-05
+# indices >=1 off : 81 of 91		% indices off : 1.18
+noCorrStats all-263
+noCorrStats score len:min:max 		500 : 588.8759142838696 : 1647.981910804211
+noCorrStats bj len:min:max 			500 : 0.6253973414535273 : 65.7187635654032
+noCorrStats gnull len:min:max 		500 : -0.9999933616989439 : -1.4027657573080886e-30
+noCorrStats hc len:min:max 			500 : -3.3196683759152297 : 16.48582010535195
+ELL-0.1 all-263	len:min:max 	500 : -0.98599166 : -7.727627e-06
+# indices >=1 off : 83 of 91		% indices off : 0.67
+noCorrStats all-249
+noCorrStats score len:min:max 		500 : 574.2535297095808 : 1500.417928733789
+noCorrStats bj len:min:max 			500 : 0.2723824831709353 : 58.51558812499147
+noCorrStats gnull len:min:max 		500 : -0.9995853143767182 : -1.7653425547474818e-27
+noCorrStats hc len:min:max 			500 : -2.9103011362976576 : 12.543292699594847
+noCorrStats all-243
+noCorrStats score len:min:max 		500 : 555.346037518447 : 1448.411977383933
+noCorrStats bj len:min:max 			500 : 0.43769308219493297 : 43.65264481907333
+noCorrStats gnull len:min:max 		500 : -0.9999997791570469 : -5.976076649850408e-21
+noCorrStats hc len:min:max 			500 : -3.750718034412641 : 11.003530275990625
+ELL-0.1 all-249	len:min:max 	500 : -0.9439115 : -0.0001311152
+# indices >=1 off : 74 of 91		% indices off : 0.73
+ELL-0.1 all-243	len:min:max 	500 : -0.99028397 : -0.0005612202
+# indices >=1 off : 59 of 91		% indices off : 0.43
+noCorrStats all-250
+noCorrStats score len:min:max 		500 : 551.0552555349001 : 1416.5999149156346
+noCorrStats bj len:min:max 			500 : 0.4206555202663923 : 42.19563501973002
+noCorrStats gnull len:min:max 		500 : -0.9999983659432996 : -1.8015066765391025e-19
+noCorrStats hc len:min:max 			500 : -3.7098433501927626 : 9.866381915979948
+ELL-0.1 all-250	len:min:max 	500 : -0.99028397 : -0.0002297098
+# indices >=1 off : 62 of 91		% indices off : 0.59
+noCorrStats all-259
+noCorrStats score len:min:max 		500 : 584.0030951081162 : 1388.437855711338
+noCorrStats bj len:min:max 			500 : 0.46375790137376055 : 37.93922415735717
+noCorrStats gnull len:min:max 		500 : -0.9993287289092974 : -1.8950107218007438e-18
+noCorrStats hc len:min:max 			500 : -3.1771800536120978 : 11.507937358633917
+ELL-0.1 all-259	len:min:max 	500 : -0.9729425 : -0.000120737095
+# indices >=1 off : 80 of 91		% indices off : 0.45
+noCorrStats all-258
+noCorrStats score len:min:max 		500 : 570.7497870880896 : 1384.1448847609447
+noCorrStats bj len:min:max 			500 : 0.5322498209445758 : 35.50892232917643
+noCorrStats gnull len:min:max 		500 : -0.9998545281189082 : -6.889063070955468e-17
+noCorrStats hc len:min:max 			500 : -3.375876100991646 : 9.234411669800823
+ELL-0.1 all-258	len:min:max 	500 : -0.9759982 : -0.00019234257
+# indices >=1 off : 67 of 91		% indices off : 0.46
+noCorrStats all-244
+noCorrStats score len:min:max 		500 : 568.3125111565216 : 1487.999495992456
+noCorrStats bj len:min:max 			500 : 0.5147510235920654 : 51.688625570420925
+noCorrStats gnull len:min:max 		500 : -0.9992375003530276 : -1.6991940444849623e-24
+noCorrStats hc len:min:max 			500 : -3.1222320775734804 : 11.616444633726433
+ELL-0.1 all-244	len:min:max 	500 : -0.9544226 : -5.584415e-05
+# indices >=1 off : 76 of 91		% indices off : 0.85
+noCorrStats all-252
+noCorrStats score len:min:max 		500 : 513.5282253189948 : 1325.418733245994
+noCorrStats bj len:min:max 			500 : 0.5652824164356133 : 52.460594972712066
+noCorrStats gnull len:min:max 		500 : -0.9999989971725569 : -1.0568542197826748e-15
+noCorrStats hc len:min:max 			500 : -4.267475138880304 : 9.18436247622259
+ELL-0.1 all-252	len:min:max 	500 : -0.99028397 : -0.0007610948
+# indices >=1 off : 60 of 91		% indices off : 0.27
+noCorrStats all-260
+noCorrStats score len:min:max 		500 : 595.028321452422 : 1422.1318795762063
+noCorrStats bj len:min:max 			500 : 0.5393799169055176 : 39.463199350712635
+noCorrStats gnull len:min:max 		500 : -0.9997625733700914 : -4.346820345349864e-19
+noCorrStats hc len:min:max 			500 : -3.145503391728725 : 10.835429627736701
+ELL-0.1 all-260	len:min:max 	500 : -0.9832749 : -0.00037271212
+# indices >=1 off : 73 of 91		% indices off : 0.36
+noCorrStats all-261
+noCorrStats score len:min:max 		500 : 540.4096316069509 : 1360.0543692337906
+noCorrStats bj len:min:max 			500 : 0.30760237380545186 : 51.003724536353445
+noCorrStats gnull len:min:max 		500 : -0.999986765526294 : -3.448992420350361e-17
+noCorrStats hc len:min:max 			500 : -3.6423475603031066 : 10.149773651051156
+ELL-0.1 all-261	len:min:max 	500 : -0.98809975 : -0.0006917407
+# indices >=1 off : 55 of 91		% indices off : 0.36
+noCorrStats all-248
+noCorrStats score len:min:max 		500 : 584.4115594490806 : 1360.9539330099865
+noCorrStats bj len:min:max 			500 : 0.42866378113743614 : 35.045462057110605
+noCorrStats gnull len:min:max 		500 : -0.9999747848695772 : -3.349867153443458e-14
+noCorrStats hc len:min:max 			500 : -3.48499943867881 : 9.626831462404688
+ELL-0.1 all-248	len:min:max 	500 : -0.98883754 : -0.00040118938
+# indices >=1 off : 69 of 91		% indices off : 0.24
+noCorrStats all-256
+noCorrStats score len:min:max 		500 : 605.9151236468425 : 1472.8287915756086
+noCorrStats bj len:min:max 			500 : 0.42120624512543914 : 50.2262340156955
+noCorrStats gnull len:min:max 		500 : -0.9991527030942791 : -7.991477861596215e-24
+noCorrStats hc len:min:max 			500 : -2.573743787659469 : 12.05195185773244
+noCorrStats all-241
+noCorrStats score len:min:max 		500 : 566.7127426351302 : 1475.622241892697
+noCorrStats bj len:min:max 			500 : 0.53251511981992 : 45.71601559841174
+noCorrStats gnull len:min:max 		500 : -0.999967730707413 : -7.424815621666452e-22
+noCorrStats hc len:min:max 			500 : -3.444463368787236 : 11.998284480136785
+ELL-0.1 all-256	len:min:max 	500 : -0.9485166 : -0.00014040328
+# indices >=1 off : 76 of 91		% indices off : 0.45
+ELL-0.1 all-241	len:min:max 	500 : -0.99028397 : -0.00018834877
+# indices >=1 off : 75 of 91		% indices off : 0.5
+noCorrStats all-254
+noCorrStats score len:min:max 		500 : 586.3717768918654 : 1372.7717256059743
+noCorrStats bj len:min:max 			500 : 0.5879403540551884 : 37.29505972427075
+noCorrStats gnull len:min:max 		500 : -0.999995786381716 : -1.4510941414706487e-16
+noCorrStats hc len:min:max 			500 : -3.2586977504393984 : 10.224813946572871
+ELL-0.1 all-254	len:min:max 	500 : -0.99028397 : -0.00048119764
+# indices >=1 off : 61 of 91		% indices off : 0.57
+noCorrStats all-264
+noCorrStats score len:min:max 		500 : 550.1026392840308 : 1380.0707737911607
+noCorrStats bj len:min:max 			500 : 0.6271249748514248 : 44.83161831437868
+noCorrStats gnull len:min:max 		500 : -0.9993925568980191 : -1.1162134978989092e-17
+noCorrStats hc len:min:max 			500 : -3.0336440853734414 : 10.412645794826929
+noCorrStats all-257
+noCorrStats score len:min:max 		500 : 545.9104456690696 : 1563.9899360967927
+noCorrStats bj len:min:max 			500 : 0.5139008208372589 : 50.8351154883877
+noCorrStats gnull len:min:max 		500 : -0.9999443664275731 : -4.1884337675556555e-24
+noCorrStats hc len:min:max 			500 : -3.161033953981708 : 14.49712953234039
+ELL-0.1 all-264	len:min:max 	500 : -0.96480674 : -0.00032116115
+# indices >=1 off : 64 of 91		% indices off : 0.61
+ELL-0.1 all-257	len:min:max 	500 : -0.98511374 : -1.7643393e-05
+# indices >=1 off : 84 of 91		% indices off : 0.66
+cpma all-265	len:min:max 	500 : 4.4613616410060786e-05 : 114.28689434054104
+cpma all-266	len:min:max 	500 : 9.87097155302763e-06 : 163.0927707466617
+cpma all-268	len:min:max 	500 : 8.575934771215543e-07 : 111.05223328527427
+cpma all-267	len:min:max 	500 : 9.726536518428475e-07 : 107.02247110286771
+cpma all-270	len:min:max 	500 : 2.2061030904296786e-06 : 90.38215440131717
+cpma all-271	len:min:max 	500 : 7.420567271765321e-08 : 115.85961101521934
+cpma all-269	len:min:max 	500 : 2.4553930416004732e-05 : 97.36271829580073
+cpma all-272	len:min:max 	500 : 0.000473886542749824 : 148.5265492322269
+cpma all-274	len:min:max 	500 : 5.0875900342362e-05 : 124.2114112131294
+cpma all-273	len:min:max 	500 : 0.00015027011613710783 : 105.1488832080995
+cpma all-277	len:min:max 	500 : 1.4595570974051952e-08 : 79.5640095338531
+cpma all-275	len:min:max 	500 : 6.566440788446926e-06 : 100.79122124529931
+cpma all-276	len:min:max 	500 : 0.0004576274150167592 : 121.49949040605497
+cpma all-278	len:min:max 	500 : 0.00020624310491257347 : 104.77654895037449
+cpma all-279	len:min:max 	500 : 4.134784830966964e-06 : 94.3630732367892
+cpma all-280	len:min:max 	500 : 0.0002552686728449771 : 95.6475540058309
+cpma all-282	len:min:max 	500 : 6.522359399241395e-06 : 66.10184281120564
+cpma all-281	len:min:max 	500 : 0.0003261604670115048 : 158.74975437147805
+cpma all-283	len:min:max 	500 : 6.614917583647184e-05 : 124.53424146235193
+cpma all-284	len:min:max 	500 : 3.133463906124234e-07 : 86.80117029971007
+cpma all-286	len:min:max 	500 : 1.3146564015187323e-07 : 188.9975522392033
+cpma all-285	len:min:max 	500 : 1.1462227121228352e-05 : 93.73901977864443
+cpma all-287	len:min:max 	500 : 1.9677827367559075e-08 : 112.51212370912981
+cpma all-288	len:min:max 	500 : 4.291840195946861e-05 : 103.40497977043015
+noCorrStats all-269
+noCorrStats score len:min:max 		500 : 581.1156440825239 : 1409.3383098648933
+noCorrStats bj len:min:max 			500 : 0.5554921703502791 : 42.344472346279076
+noCorrStats gnull len:min:max 		500 : -0.9999083131229946 : -2.000741905105176e-20
+noCorrStats hc len:min:max 			500 : -3.3443746820202804 : 10.442520485121099
+ELL-0.1 all-269	len:min:max 	500 : -0.971757 : -0.00014258991
+# indices >=1 off : 50 of 91		% indices off : 0.36
+noCorrStats all-265
+noCorrStats score len:min:max 		500 : 569.4381105476127 : 1457.1317532166704
+noCorrStats bj len:min:max 			500 : 0.5184107190119001 : 43.846492827177904
+noCorrStats gnull len:min:max 		500 : -0.9999994234118897 : -4.788854373695596e-21
+noCorrStats hc len:min:max 			500 : -3.691371504195181 : 11.429045130980544
+ELL-0.1 all-265	len:min:max 	500 : -0.9897397 : -7.633604e-05
+# indices >=1 off : 78 of 91		% indices off : 0.83
+noCorrStats all-272
+noCorrStats score len:min:max 		500 : 558.6228837162487 : 1539.8619607502696
+noCorrStats bj len:min:max 			500 : 0.5231372645189437 : 54.326477037105484
+noCorrStats gnull len:min:max 		500 : -0.9997299546631329 : -1.17703991313616e-25
+noCorrStats hc len:min:max 			500 : -3.4715208289225217 : 11.866757930227992
+ELL-0.1 all-272	len:min:max 	500 : -0.96006155 : -6.51937e-05
+# indices >=1 off : 80 of 91		% indices off : 0.46
+noCorrStats all-267
+noCorrStats score len:min:max 		500 : 538.1293090948495 : 1404.2569205714178
+noCorrStats bj len:min:max 			500 : 0.4517780461615977 : 40.468171699310666
+noCorrStats gnull len:min:max 		500 : -0.9993378505196867 : -1.4100275125183159e-19
+noCorrStats hc len:min:max 			500 : -3.047492866023357 : 10.250201880858095
+ELL-0.1 all-267	len:min:max 	500 : -0.95340735 : -0.00046906451
+# indices >=1 off : 70 of 91		% indices off : 0.63
+noCorrStats all-278
+noCorrStats score len:min:max 		500 : 561.2976411145394 : 1421.374252471111
+noCorrStats bj len:min:max 			500 : 0.5090101371946847 : 41.52718535703981
+noCorrStats gnull len:min:max 		500 : -0.9999592795108446 : -5.044835808481193e-20
+noCorrStats hc len:min:max 			500 : -3.1836064956518615 : 10.765189075241507
+ELL-0.1 all-278	len:min:max 	500 : -0.9839358 : -0.00016063677
+# indices >=1 off : 72 of 91		% indices off : 0.61
+noCorrStats all-268
+noCorrStats score len:min:max 		500 : 581.1914143349127 : 1436.9574055757423
+noCorrStats bj len:min:max 			500 : 0.5025459369573013 : 39.374109673734594
+noCorrStats gnull len:min:max 		500 : -0.999797791278603 : -4.313156263114598e-19
+noCorrStats hc len:min:max 			500 : -3.546254370359986 : 13.462782133828584
+ELL-0.1 all-268	len:min:max 	500 : -0.99028397 : -4.4235014e-05
+# indices >=1 off : 81 of 91		% indices off : 0.82
+noCorrStats all-275
+noCorrStats score len:min:max 		500 : 594.4359706742703 : 1415.875328201519
+noCorrStats bj len:min:max 			500 : 0.6029698321236758 : 47.53527808351341
+noCorrStats gnull len:min:max 		500 : -0.99999917837592 : -1.2148812417785768e-22
+noCorrStats hc len:min:max 			500 : -3.783800626207178 : 11.745684046454791
+noCorrStats all-266
+noCorrStats score len:min:max 		500 : 560.888644493149 : 1579.3642437016542
+noCorrStats bj len:min:max 			500 : 0.47132942563206365 : 56.739204247483684
+noCorrStats gnull len:min:max 		500 : -0.9999837367991123 : -1.3431909749710218e-26
+noCorrStats hc len:min:max 			500 : -3.0287980942352157 : 15.131045059288
+ELL-0.1 all-275	len:min:max 	500 : -0.98201805 : -0.00071937934
+# indices >=1 off : 67 of 91		% indices off : 0.36
+ELL-0.1 all-266	len:min:max 	500 : -0.99028397 : -4.0191266e-05
+# indices >=1 off : 81 of 91		% indices off : 0.44
+noCorrStats all-270
+noCorrStats score len:min:max 		500 : 601.0813675851963 : 1381.901216736276
+noCorrStats bj len:min:max 			500 : 0.47741148700121616 : 44.19914052441125
+noCorrStats gnull len:min:max 		500 : -0.9998218115295021 : -3.7322224683051265e-21
+noCorrStats hc len:min:max 			500 : -2.9946167578218703 : 11.803964482892596
+ELL-0.1 all-270	len:min:max 	500 : -0.99028397 : -0.0007211399
+# indices >=1 off : 59 of 91		% indices off : 0.29
+noCorrStats all-286
+noCorrStats score len:min:max 		500 : 446.6728434348743 : 1237.1921912667872
+noCorrStats bj len:min:max 			500 : 0.4933109139192738 : 69.40422610289887
+noCorrStats gnull len:min:max 		500 : -0.9999999987004057 : -2.1917116371038844e-13
+noCorrStats hc len:min:max 			500 : -4.326692644964766 : 7.8784417368561845
+noCorrStats all-276
+noCorrStats score len:min:max 		500 : 569.2956876023699 : 1458.7004326179785
+noCorrStats bj len:min:max 			500 : 0.49806921730638953 : 47.68729717886918
+noCorrStats gnull len:min:max 		500 : -0.9999987589616428 : -8.41817643764658e-23
+noCorrStats hc len:min:max 			500 : -3.6291937824140397 : 10.484305947475587
+ELL-0.1 all-286	len:min:max 	500 : -0.99028397 : -0.00010248797
+# indices >=1 off : 13 of 91		% indices off : 0.03
+ELL-0.1 all-276	len:min:max 	500 : -0.98949814 : -0.00028094224
+# indices >=1 off : 66 of 91		% indices off : 0.18
+noCorrStats all-288
+noCorrStats score len:min:max 		500 : 608.9906140663662 : 1422.2482882449428
+noCorrStats bj len:min:max 			500 : 0.4435214843483568 : 44.73207094600884
+noCorrStats gnull len:min:max 		500 : -0.9999827446488325 : -1.7133676049657922e-21
+noCorrStats hc len:min:max 			500 : -3.8556440748444416 : 12.819481196563512
+ELL-0.1 all-288	len:min:max 	500 : -0.9664978 : -0.0001147078
+# indices >=1 off : 79 of 91		% indices off : 1.18
+noCorrStats all-277
+noCorrStats score len:min:max 		500 : 579.6926112472005 : 1347.5938870097634
+noCorrStats bj len:min:max 			500 : 0.41860945169287794 : 32.506604414983684
+noCorrStats gnull len:min:max 		500 : -0.9999928330824988 : -4.796772616249587e-16
+noCorrStats hc len:min:max 			500 : -3.908889122343093 : 9.482709660646002
+noCorrStats all-283
+noCorrStats score len:min:max 		500 : 556.10219535009 : 1479.133395058631
+noCorrStats bj len:min:max 			500 : 0.4819513568937127 : 51.086498043771634
+noCorrStats gnull len:min:max 		500 : -0.9999998023969047 : -2.9997451280215126e-24
+noCorrStats hc len:min:max 			500 : -3.9287274946524993 : 11.551288981120685
+ELL-0.1 all-277	len:min:max 	500 : -0.9632207 : -4.0191266e-05
+# indices >=1 off : 49 of 91		% indices off : 0.49
+ELL-0.1 all-283	len:min:max 	500 : -0.99028397 : -7.132949e-05
+# indices >=1 off : 73 of 91		% indices off : 0.59
+noCorrStats all-274
+noCorrStats score len:min:max 		500 : 600.4071104417433 : 1454.010648695044
+noCorrStats bj len:min:max 			500 : 0.465810017794443 : 53.386431230089975
+noCorrStats gnull len:min:max 		500 : -0.9999945804691186 : -2.9551254742239357e-25
+noCorrStats hc len:min:max 			500 : -3.2988061147555476 : 11.795886892988422
+ELL-0.1 all-274	len:min:max 	500 : -0.98519456 : -0.00024089581
+# indices >=1 off : 74 of 91		% indices off : 0.71
+noCorrStats all-279
+noCorrStats score len:min:max 		500 : 627.5792584965782 : 1402.487604514376
+noCorrStats bj len:min:max 			500 : 0.3115297463711472 : 43.125997013482284
+noCorrStats gnull len:min:max 		500 : -0.9999795407567028 : -1.0088627752318573e-20
+noCorrStats hc len:min:max 			500 : -3.49283205373673 : 10.86449605604168
+ELL-0.1 all-279	len:min:max 	500 : -0.97764444 : -9.317486e-05
+# indices >=1 off : 69 of 91		% indices off : 0.68
+noCorrStats all-281
+noCorrStats score len:min:max 		500 : 560.6494134072374 : 1579.941359972899
+noCorrStats bj len:min:max 			500 : 0.5807429928031662 : 61.18942472200531
+noCorrStats gnull len:min:max 		500 : -0.9999741139788507 : -1.174917234947726e-28
+noCorrStats hc len:min:max 			500 : -4.0607768309489165 : 14.995241495773811
+ELL-0.1 all-281	len:min:max 	500 : -0.99028397 : -2.3710697e-06
+# indices >=1 off : 84 of 91		% indices off : 0.87
+noCorrStats all-285
+noCorrStats score len:min:max 		500 : 573.5211456715035 : 1402.0895819291966
+noCorrStats bj len:min:max 			500 : 0.469272411398903 : 36.96506800867142
+noCorrStats gnull len:min:max 		500 : -0.9994412560957033 : -5.5403469823146235e-18
+noCorrStats hc len:min:max 			500 : -2.5772644024136757 : 10.60495044575422
+ELL-0.1 all-285	len:min:max 	500 : -0.9665405 : -0.0005801563
+# indices >=1 off : 72 of 91		% indices off : 0.6
+noCorrStats all-282
+noCorrStats score len:min:max 		500 : 603.3843997770487 : 1293.7906984053757
+noCorrStats bj len:min:max 			500 : 0.5556765496276382 : 27.347139516182352
+noCorrStats gnull len:min:max 		500 : -0.9996021178858503 : -1.766749517218151e-12
+noCorrStats hc len:min:max 			500 : -2.788986593835522 : 8.471883846346982
+noCorrStats all-284
+noCorrStats score len:min:max 		500 : 610.5797551782945 : 1370.3495049480764
+noCorrStats bj len:min:max 			500 : 0.4873269497818736 : 30.835238150324468
+noCorrStats gnull len:min:max 		500 : -0.9993973115332069 : -2.4077044273043628e-14
+noCorrStats hc len:min:max 			500 : -2.7732886911035726 : 9.478866765319156
+ELL-0.1 all-282	len:min:max 	500 : -0.96935153 : -0.0005295521
+# indices >=1 off : 56 of 91		% indices off : 0.19
+ELL-0.1 all-284	len:min:max 	500 : -0.9534951 : -0.0003462596
+# indices >=1 off : 55 of 91		% indices off : 0.33
+noCorrStats all-273
+noCorrStats score len:min:max 		500 : 613.9088266610215 : 1436.6239887839606
+noCorrStats bj len:min:max 			500 : 0.5046473075807811 : 44.138929750302886
+noCorrStats gnull len:min:max 		500 : -0.9997034757457774 : -3.561498531049684e-21
+noCorrStats hc len:min:max 			500 : -2.7710360845882906 : 10.910508775849987
+ELL-0.1 all-273	len:min:max 	500 : -0.9689005 : -0.00037271212
+# indices >=1 off : 76 of 91		% indices off : 1.06
+noCorrStats all-280
+noCorrStats score len:min:max 		500 : 553.4142073194948 : 1338.7468961413472
+noCorrStats bj len:min:max 			500 : 0.5995740598263998 : 42.18721084439418
+noCorrStats gnull len:min:max 		500 : -0.9999976545019439 : -3.4937829096726054e-15
+noCorrStats hc len:min:max 			500 : -3.334663478910109 : 8.608422701607282
+ELL-0.1 all-280	len:min:max 	500 : -0.9844595 : -0.0017323027
+# indices >=1 off : 46 of 91		% indices off : 0.18
+noCorrStats all-271
+noCorrStats score len:min:max 		500 : 522.2271671980512 : 1354.4384638644726
+noCorrStats bj len:min:max 			500 : 0.4006911816056578 : 45.601412162411634
+noCorrStats gnull len:min:max 		500 : -0.999999512597132 : -6.720562942529806e-19
+noCorrStats hc len:min:max 			500 : -3.6404746348345194 : 9.903156803297161
+ELL-0.1 all-271	len:min:max 	500 : -0.99028397 : -2.3681978e-05
+# indices >=1 off : 67 of 91		% indices off : 0.66
+noCorrStats all-287
+noCorrStats score len:min:max 		500 : 543.441533585796 : 1451.0844395293407
+noCorrStats bj len:min:max 			500 : 0.3665029347199882 : 47.354736280845565
+noCorrStats gnull len:min:max 		500 : -0.9999940084544463 : -1.3276185760573127e-20
+noCorrStats hc len:min:max 			500 : -3.3377558491251573 : 11.191878332816863
+ELL-0.1 all-287	len:min:max 	500 : -0.99028397 : -0.000120737095
+# indices >=1 off : 79 of 91		% indices off : 0.52
+cpma all-290	len:min:max 	500 : 4.356852332421113e-05 : 89.66791858816941
+cpma all-289	len:min:max 	500 : 7.840881153242663e-07 : 99.6402745316991
+cpma all-291	len:min:max 	500 : 4.598721170623321e-05 : 102.2401618203512
+cpma all-292	len:min:max 	500 : 9.243167005479336e-05 : 116.29728450680523
+cpma all-293	len:min:max 	500 : 0.0003970925390603952 : 83.75332281415467
+cpma all-294	len:min:max 	500 : 0.00013632032460009214 : 94.72515368443419
+cpma all-295	len:min:max 	500 : 4.031109710922465e-06 : 137.42523907486975
+cpma all-296	len:min:max 	500 : 0.0003864437221636763 : 71.5372254567028
+cpma all-297	len:min:max 	500 : 2.101864811265841e-05 : 98.8859958471985
+cpma all-299	len:min:max 	500 : 7.990632366272621e-05 : 86.4944692615918
+cpma all-298	len:min:max 	500 : 0.0001593517135916045 : 123.23502955763433
+cpma all-300	len:min:max 	500 : 1.9483333744574338e-05 : 96.17541954167609
+cpma all-301	len:min:max 	500 : 4.420639015734196e-05 : 133.33599585643606
+cpma all-303	len:min:max 	500 : 8.462975529255345e-05 : 83.03303302819586
+cpma all-302	len:min:max 	500 : 1.4560688214260153e-05 : 98.73877644241838
+cpma all-305	len:min:max 	500 : 1.1326297681080177e-05 : 105.79424632084374
+cpma all-304	len:min:max 	500 : 5.205016350373626e-06 : 90.50829658407929
+cpma all-306	len:min:max 	500 : 7.3599185270722955e-06 : 89.07524221129825
+cpma all-308	len:min:max 	500 : 2.675960240594577e-05 : 81.2771102011593
+cpma all-307	len:min:max 	500 : 0.00017327087334706448 : 123.50732180105479
+cpma all-309	len:min:max 	500 : 0.00016880034308996983 : 149.88149501052612
+cpma all-310	len:min:max 	500 : 9.978285743272863e-05 : 70.0171101295964
+cpma all-311	len:min:max 	500 : 5.733433681598399e-05 : 113.04426857400904
+cpma all-312	len:min:max 	500 : 2.278397005284205e-06 : 134.36186709184403
+noCorrStats all-292
+noCorrStats score len:min:max 		500 : 599.8191197414037 : 1455.3932414734752
+noCorrStats bj len:min:max 			500 : 0.522342808734164 : 41.0203036332406
+noCorrStats gnull len:min:max 		500 : -0.9993167821247123 : -6.954408633368475e-20
+noCorrStats hc len:min:max 			500 : -2.9262839639179252 : 12.369191735041758
+ELL-0.1 all-292	len:min:max 	500 : -0.97485346 : -4.0218125e-05
+# indices >=1 off : 77 of 91		% indices off : 0.5
+noCorrStats all-299
+noCorrStats score len:min:max 		500 : 571.4942266527767 : 1346.699243532903
+noCorrStats bj len:min:max 			500 : 0.5092691336404542 : 42.393649426138985
+noCorrStats gnull len:min:max 		500 : -0.9997870302571402 : -3.807619549045691e-17
+noCorrStats hc len:min:max 			500 : -3.0702866872686174 : 10.788888155030396
+ELL-0.1 all-299	len:min:max 	500 : -0.97796977 : -0.0001742672
+# indices >=1 off : 73 of 91		% indices off : 0.5
+noCorrStats all-308
+noCorrStats score len:min:max 		500 : 583.2999237485956 : 1351.8447292941664
+noCorrStats bj len:min:max 			500 : 0.4705080718509866 : 34.05024166946085
+noCorrStats gnull len:min:max 		500 : -0.9998289581678232 : -4.3465557143712693e-16
+noCorrStats hc len:min:max 			500 : -3.0887925805693595 : 9.40924220510936
+ELL-0.1 all-308	len:min:max 	500 : -0.96498865 : -0.0010439773
+# indices >=1 off : 46 of 91		% indices off : 0.22
+noCorrStats all-290
+noCorrStats score len:min:max 		500 : 559.1307101557593 : 1369.2148964458875
+noCorrStats bj len:min:max 			500 : 0.38402217445626086 : 38.028949855208474
+noCorrStats gnull len:min:max 		500 : -0.9999994572646641 : -2.4328733165455873e-16
+noCorrStats hc len:min:max 			500 : -4.1867072466369635 : 10.472750039190226
+ELL-0.1 all-290	len:min:max 	500 : -0.99028397 : -8.9059526e-05
+# indices >=1 off : 69 of 91		% indices off : 0.48
+noCorrStats all-295
+noCorrStats score len:min:max 		500 : 564.6879545484076 : 1508.508375116504
+noCorrStats bj len:min:max 			500 : 0.5545161840689216 : 62.28491422646712
+noCorrStats gnull len:min:max 		500 : -0.9999999802614339 : -4.0607434860729587e-29
+noCorrStats hc len:min:max 			500 : -4.147780340293531 : 13.217401194763879
+ELL-0.1 all-295	len:min:max 	500 : -0.99028397 : -0.0001982825
+# indices >=1 off : 74 of 91		% indices off : 0.44
+noCorrStats all-291
+noCorrStats score len:min:max 		500 : 541.3498767900275 : 1338.1622255748582
+noCorrStats bj len:min:max 			500 : 0.25110614950824117 : 47.09143739284494
+noCorrStats gnull len:min:max 		500 : -0.9999776915794858 : -3.308449932706202e-15
+noCorrStats hc len:min:max 			500 : -3.1213757875007127 : 8.826332930899454
+ELL-0.1 all-291	len:min:max 	500 : -0.98887324 : -0.00061844575
+# indices >=1 off : 40 of 91		% indices off : 0.2
+noCorrStats all-293
+noCorrStats score len:min:max 		500 : 573.0767771885191 : 1282.0977641090706
+noCorrStats bj len:min:max 			500 : 0.5153810291089602 : 34.37633680742254
+noCorrStats gnull len:min:max 		500 : -0.9999974006913133 : -9.046446472901621e-13
+noCorrStats hc len:min:max 			500 : -3.431378011031706 : 8.469265409326706
+ELL-0.1 all-293	len:min:max 	500 : -0.977285 : -0.00011645068
+# indices >=1 off : 47 of 91		% indices off : 0.21
+noCorrStats all-307
+noCorrStats score len:min:max 		500 : 509.46437429845435 : 1346.5641604564614
+noCorrStats bj len:min:max 			500 : 0.6395858768736545 : 48.43516955510982
+noCorrStats gnull len:min:max 		500 : -0.9999951295000918 : -9.214098199438843e-16
+noCorrStats hc len:min:max 			500 : -3.5915408880273905 : 8.90781051318755
+ELL-0.1 all-307	len:min:max 	500 : -0.9875429 : -0.00014653266
+# indices >=1 off : 64 of 91		% indices off : 0.45
+noCorrStats all-298
+noCorrStats score len:min:max 		500 : 509.39289323522206 : 1437.3892297590555
+noCorrStats bj len:min:max 			500 : 0.2920202177968017 : 61.1014137034076
+noCorrStats gnull len:min:max 		500 : -0.999884070692818 : -1.0808945745893188e-21
+noCorrStats hc len:min:max 			500 : -2.890973403512194 : 12.194583423493235
+noCorrStats all-309
+noCorrStats score len:min:max 		500 : 593.5995311585993 : 1532.6885449895672
+noCorrStats bj len:min:max 			500 : 0.3104389726931995 : 60.51103279556481
+noCorrStats gnull len:min:max 		500 : -0.9999999632246908 : -2.231302534187987e-28
+noCorrStats hc len:min:max 			500 : -4.358506246253191 : 12.971516288499618
+ELL-0.1 all-298	len:min:max 	500 : -0.98725617 : -8.04504e-05
+# indices >=1 off : 79 of 91		% indices off : 0.55
+ELL-0.1 all-309	len:min:max 	500 : -0.99028397 : -0.0006946776
+# indices >=1 off : 67 of 91		% indices off : 0.42
+noCorrStats all-305
+noCorrStats score len:min:max 		500 : 613.3464801106369 : 1426.3984960179769
+noCorrStats bj len:min:max 			500 : 0.3881578853463756 : 46.856966486938795
+noCorrStats gnull len:min:max 		500 : -0.9999076986775125 : -2.2390916618079552e-22
+noCorrStats hc len:min:max 			500 : -2.9298410865309816 : 11.07540436569502
+noCorrStats all-289
+noCorrStats score len:min:max 		500 : 547.1133867461543 : 1410.7023187210264
+noCorrStats bj len:min:max 			500 : 0.4413682053100772 : 40.00827154412237
+noCorrStats gnull len:min:max 		500 : -0.9999809798226982 : -4.536022751480077e-19
+noCorrStats hc len:min:max 			500 : -3.476751182280747 : 10.257119572648573
+ELL-0.1 all-305	len:min:max 	500 : -0.9767709 : -0.00085851003
+# indices >=1 off : 65 of 91		% indices off : 0.4
+noCorrStats all-303
+noCorrStats score len:min:max 		500 : 595.6009426087786 : 1358.0158711208505
+noCorrStats bj len:min:max 			500 : 0.43253992760253046 : 29.73755238720848
+noCorrStats gnull len:min:max 		500 : -0.9999791612857111 : -7.668691374143865e-15
+noCorrStats hc len:min:max 			500 : -2.9874884449638253 : 9.271506468302885
+ELL-0.1 all-289	len:min:max 	500 : -0.98143685 : -6.3260384e-05
+# indices >=1 off : 73 of 91		% indices off : 0.67
+ELL-0.1 all-303	len:min:max 	500 : -0.9896221 : -0.0006127974
+# indices >=1 off : 68 of 91		% indices off : 0.62
+noCorrStats all-300
+noCorrStats score len:min:max 		500 : 584.006247282016 : 1424.4294224567213
+noCorrStats bj len:min:max 			500 : 0.4508238302669308 : 47.15313503156996
+noCorrStats gnull len:min:max 		500 : -0.9993901435994034 : -1.8834304380617757e-22
+noCorrStats hc len:min:max 			500 : -2.493881913733044 : 12.19600040905179
+ELL-0.1 all-300	len:min:max 	500 : -0.96187335 : -3.0850544e-05
+# indices >=1 off : 80 of 91		% indices off : 0.56
+noCorrStats all-294
+noCorrStats score len:min:max 		500 : 596.9911719702646 : 1400.215557569842
+noCorrStats bj len:min:max 			500 : 0.47291219222396064 : 39.9469671959568
+noCorrStats gnull len:min:max 		500 : -0.9999552013776793 : -2.487658036155961e-19
+noCorrStats hc len:min:max 			500 : -3.1061644898423038 : 10.361532623248332
+ELL-0.1 all-294	len:min:max 	500 : -0.9837925 : -0.00027837662
+# indices >=1 off : 62 of 91		% indices off : 1.23
+noCorrStats all-312
+noCorrStats score len:min:max 		500 : 574.8008765559576 : 1497.288390431089
+noCorrStats bj len:min:max 			500 : 0.564915440103159 : 46.47444338600783
+noCorrStats gnull len:min:max 		500 : -0.9997180529003186 : -3.7204715582539743e-22
+noCorrStats hc len:min:max 			500 : -2.9787388604720912 : 12.502014017651444
+ELL-0.1 all-312	len:min:max 	500 : -0.9601166 : -0.00012050569
+# indices >=1 off : 68 of 91		% indices off : 0.78
+noCorrStats all-297
+noCorrStats score len:min:max 		500 : 546.7368736176883 : 1416.0070797198482
+noCorrStats bj len:min:max 			500 : 0.5212227649113993 : 43.92953220712439
+noCorrStats gnull len:min:max 		500 : -0.9999989327331102 : -5.627276538907533e-17
+noCorrStats hc len:min:max 			500 : -3.6958551593511584 : 11.858640469513158
+noCorrStats all-310
+noCorrStats score len:min:max 		500 : 597.6116024393149 : 1330.1610855674696
+noCorrStats bj len:min:max 			500 : 0.5096525427685673 : 32.41965950132134
+noCorrStats gnull len:min:max 		500 : -0.9998304631679239 : -1.1687839970048256e-15
+noCorrStats hc len:min:max 			500 : -3.0969373957505644 : 8.916929595758374
+ELL-0.1 all-297	len:min:max 	500 : -0.99028397 : -0.00028094224
+# indices >=1 off : 71 of 91		% indices off : 0.29
+ELL-0.1 all-310	len:min:max 	500 : -0.97510296 : -0.00070963724
+# indices >=1 off : 47 of 91		% indices off : 0.26
+noCorrStats all-304
+noCorrStats score len:min:max 		500 : 566.573737458045 : 1370.6348191784068
+noCorrStats bj len:min:max 			500 : 0.4478105891939565 : 37.320106957120686
+noCorrStats gnull len:min:max 		500 : -0.9997859614745223 : -3.213677808825439e-18
+noCorrStats hc len:min:max 			500 : -2.9963079312269043 : 11.9952825752292
+ELL-0.1 all-304	len:min:max 	500 : -0.9849837 : -6.403894e-05
+# indices >=1 off : 79 of 91		% indices off : 0.81
+noCorrStats all-311
+noCorrStats score len:min:max 		500 : 585.338433520579 : 1436.7519960953964
+noCorrStats bj len:min:max 			500 : 0.4189469419489695 : 49.92957483933709
+noCorrStats gnull len:min:max 		500 : -0.9999393409191433 : -9.600559200863286e-24
+noCorrStats hc len:min:max 			500 : -2.9459448418630836 : 11.083578904141755
+ELL-0.1 all-311	len:min:max 	500 : -0.9820239 : -0.00014258991
+# indices >=1 off : 62 of 91		% indices off : 0.77
+noCorrStats all-301
+noCorrStats score len:min:max 		500 : 527.4781439369937 : 1496.3174768349597
+noCorrStats bj len:min:max 			500 : 0.2842358356457186 : 53.952340056703676
+noCorrStats gnull len:min:max 		500 : -0.9999448461792784 : -1.8087430479105243e-25
+noCorrStats hc len:min:max 			500 : -3.008075538943227 : 12.340228550921617
+ELL-0.1 all-301	len:min:max 	500 : -0.9875432 : -0.00014258991
+# indices >=1 off : 75 of 91		% indices off : 0.39
+noCorrStats all-296
+noCorrStats score len:min:max 		500 : 635.584931229927 : 1331.3397744455058
+noCorrStats bj len:min:max 			500 : 0.5104716457064619 : 30.343239765915587
+noCorrStats gnull len:min:max 		500 : -0.9996772600078646 : -4.409551252846925e-15
+noCorrStats hc len:min:max 			500 : -2.7068781112540807 : 9.911720523259179
+ELL-0.1 all-296	len:min:max 	500 : -0.950322 : -1.9710002e-05
+# indices >=1 off : 67 of 91		% indices off : 0.32
+noCorrStats all-306
+noCorrStats score len:min:max 		500 : 560.0849491831997 : 1325.074391354432
+noCorrStats bj len:min:max 			500 : 0.3619782394964467 : 36.193529571601275
+noCorrStats gnull len:min:max 		500 : -0.99995283576197 : -3.860661313425298e-14
+noCorrStats hc len:min:max 			500 : -3.367482144062845 : 8.89933547021286
+ELL-0.1 all-306	len:min:max 	500 : -0.99028397 : -0.0003610801
+# indices >=1 off : 52 of 91		% indices off : 0.26
+noCorrStats all-302
+noCorrStats score len:min:max 		500 : 612.234795106696 : 1402.5792228334542
+noCorrStats bj len:min:max 			500 : 0.41877015376357973 : 43.385935354930304
+noCorrStats gnull len:min:max 		500 : -0.9997441969608797 : -7.54621155405973e-21
+noCorrStats hc len:min:max 			500 : -2.707315951080484 : 10.724682522646061
+ELL-0.1 all-302	len:min:max 	500 : -0.9822747 : -0.00040118938
+# indices >=1 off : 70 of 91		% indices off : 0.61
+cpma all-313	len:min:max 	500 : 2.656295691849664e-06 : 81.24837024277622
+cpma all-314	len:min:max 	500 : 5.00153601024067e-05 : 114.80668773426078
+cpma all-315	len:min:max 	500 : 1.255146344192326e-06 : 85.2714276824936
+cpma all-316	len:min:max 	500 : 2.8329293854767457e-05 : 93.33170903117389
+cpma all-317	len:min:max 	500 : 3.3160176826640964e-09 : 100.15240606764928
+cpma all-318	len:min:max 	500 : 8.19209890323691e-06 : 99.64662111729194
+cpma all-319	len:min:max 	500 : 1.1386222467990592e-05 : 334.84321163839195
+cpma all-320	len:min:max 	500 : 5.80134401388932e-05 : 123.6761457055436
+cpma all-322	len:min:max 	500 : 7.63191837904742e-05 : 81.70617283170213
+cpma all-321	len:min:max 	500 : 0.00015570704817946535 : 97.53951628170944
+cpma all-323	len:min:max 	500 : 1.233305738423951e-06 : 96.56854917510464
+cpma all-324	len:min:max 	500 : 4.426288251124788e-05 : 79.79874306607417
+cpma all-327	len:min:max 	500 : 0.00040401736441708636 : 83.94291531139424
+cpma all-325	len:min:max 	500 : 7.09199612174416e-05 : 136.12838920640388
+cpma all-326	len:min:max 	500 : 9.238842176273465e-05 : 131.54392084233405
+cpma all-330	len:min:max 	500 : 1.1573292795219459e-05 : 82.04305629132432
+cpma all-328	len:min:max 	500 : 0.001430282587534748 : 135.09580671869298
+cpma all-329	len:min:max 	500 : 1.3137798305251636e-05 : 109.6749264013506
+cpma all-331	len:min:max 	500 : 6.537447916343808e-08 : 82.00906298309928
+cpma all-332	len:min:max 	500 : 4.609208190231584e-06 : 142.62132400528753
+cpma all-333	len:min:max 	500 : 1.6408921510446817e-07 : 99.04624634443644
+cpma all-334	len:min:max 	500 : 1.7927959561347961e-06 : 109.09800427382652
+cpma all-335	len:min:max 	500 : 6.388818292180076e-07 : 117.79970721732207
+cpma all-336	len:min:max 	500 : 0.00047501560948148835 : 107.18170747417571

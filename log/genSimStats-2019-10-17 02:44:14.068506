@@ -1,0 +1,2251 @@
+
+{
+   "setup": false,
+   "genY": false,
+   "genSnps": false,
+   "genSimZScores": false,
+   "genNullZCorr": false,
+   "plotZ": false,
+   "genOffDiag": false,
+   "setupELL": false,
+   "genIIDStats": false,
+   "genSimStats": true,
+   "makePVals": false,
+   "plotPower": false,
+   "etaGRM": 0.5,
+   "etaError": 0.5,
+   "ellEps": 1e-09,
+   "ellDSet": [
+      0.1
+   ],
+   "binsPerIndex": 500,
+   "local": "/deeplearning/akinbiyi/",
+   "name": "sim/",
+   "numCores": 24,
+   "numPCs": 10,
+   "smallNumCores": 3,
+   "grmSnpChr": [
+      "chr1",
+      "chr2",
+      "chr3",
+      "chr4",
+      "chr5",
+      "chr6",
+      "chr7",
+      "chr8",
+      "chr9",
+      "chr10",
+      "chr11",
+      "chr12",
+      "chr13",
+      "chr14",
+      "chr15",
+      "chr16",
+      "chr17",
+      "chr18",
+      "chr19"
+   ],
+   "snpChr": [
+      "chr0",
+      "chr1"
+   ],
+   "traitChr": [
+      "chr1"
+   ],
+   "muEpsRange": [
+      [
+         0.3,
+         10
+      ],
+      [
+         0.3,
+         8
+      ],
+      [
+         0.3,
+         6
+      ],
+      [
+         0.3,
+         12
+      ],
+      [
+         0.4,
+         10
+      ],
+      [
+         0.4,
+         8
+      ],
+      [
+         0.4,
+         6
+      ],
+      [
+         0.4,
+         12
+      ],
+      [
+         0.5,
+         10
+      ],
+      [
+         0.5,
+         8
+      ],
+      [
+         0.5,
+         6
+      ],
+      [
+         0.5,
+         12
+      ]
+   ],
+   "snpFile": "ail.genos.dosage.gwasSNPs.txt",
+   "numDecScore": 3,
+   "numQSnps": 3000000000.0,
+   "H0SnpSize": 40001,
+   "H1SnpSize": 1000,
+   "numH1Segments": 100,
+   "grmParm": "s",
+   "wald": true,
+   "allChrGRM": true,
+   "RPath": "ga/ail/R/",
+   "dbToken": "YIjLc0Jkc2QAAAAAAAAELhNPLYwqK53qaNPZqrkPIgHhe6n--GwXZbmgkQwbOQMo",
+   "response": "hipRaw",
+   "quantNormalizeExpr": true,
+   "remPCFromSnp": false,
+   "remPCFromTraits": false,
+   "remPCCorrSnp": false,
+   "PCIsPreds": false,
+   "CovIsPreds": false,
+   "remCovFromTraits": true,
+   "linBatch": false,
+   "cisMean": true,
+   "Types": [
+      "hc",
+      "bj",
+      "gnull",
+      "score",
+      "cpma",
+      "ell-0.1"
+   ],
+   "colors": [
+      [
+         0,
+         0,
+         0
+      ],
+      [
+         1,
+         0,
+         0
+      ],
+      [
+         0,
+         1,
+         0
+      ],
+      [
+         0,
+         0,
+         1
+      ],
+      [
+         1,
+         1,
+         0
+      ],
+      [
+         1,
+         0,
+         1
+      ]
+   ],
+   "firstEntry": true,
+   "logName": "ga/log/genSimStats-2019-10-17 02:44:14.068506",
+   "numIIDSegments": 1000,
+   "IIDReps": 500000,
+   "numSimStatSegments": 10
+}
+cpma mu:0.3-eps:10-0	len:min:max 	100 : 0.0023099281806935323 : 80.89838582756238
+cpma mu:0.3-eps:10-1	len:min:max 	100 : 0.00042628507799236104 : 60.271827866048625
+cpma mu:0.3-eps:10-2	len:min:max 	100 : 3.231760456401389e-05 : 29.117416683915508
+cpma mu:0.3-eps:10-3	len:min:max 	100 : 5.90660420130007e-06 : 68.67435343585748
+cpma mu:0.3-eps:10-4	len:min:max 	100 : 0.001468886617658427 : 66.01457609280806
+cpma mu:0.3-eps:10-5	len:min:max 	100 : 0.0013283229800435947 : 88.86408822760859
+cpma mu:0.3-eps:10-6	len:min:max 	100 : 0.0002042001851805253 : 58.46589114647759
+cpma mu:0.3-eps:10-7	len:min:max 	100 : 0.0011450508172856644 : 45.33762831270724
+cpma mu:0.3-eps:10-8	len:min:max 	100 : 0.014167337936669355 : 70.92890649050787
+cpma mu:0.3-eps:10-9	len:min:max 	100 : 7.752665260341018e-05 : 62.99523057468832
+noCorrStats mu:0.3-eps:10-7
+noCorrStats score len:min:max 		100 : 741.2352430654392 : 1230.5303351830323
+noCorrStats bj len:min:max 			100 : 1.0076433637183737 : 19.982532031365597
+noCorrStats gnull len:min:max 		100 : -0.8504032057628226 : -1.4717697725979725e-10
+noCorrStats hc len:min:max 			100 : -0.6535620464710492 : 7.210942800937482
+ELL-0.1 mu:0.3-eps:10-7	len:min:max 	100 : -0.71729785 : -4.0191266e-05
+# indices >=1 off : 1 of 91		% indices off : 0.03
+noCorrStats mu:0.3-eps:10-5
+noCorrStats score len:min:max 		100 : 800.6547762719371 : 1361.4354366216821
+noCorrStats bj len:min:max 			100 : 0.8123437375095152 : 39.86029517792832
+noCorrStats gnull len:min:max 		100 : -0.8316610101396795 : -2.5350988182465095e-19
+noCorrStats hc len:min:max 			100 : -0.6818586872788459 : 9.884378993336538
+ELL-0.1 mu:0.3-eps:10-5	len:min:max 	100 : -0.63905615 : -3.4644238e-06
+# indices >=1 off : 55 of 91		% indices off : 0.66
+noCorrStats mu:0.3-eps:10-6
+noCorrStats score len:min:max 		100 : 737.4389218646465 : 1260.3320134175497
+noCorrStats bj len:min:max 			100 : 0.6932839030783646 : 23.7533240248555
+noCorrStats gnull len:min:max 		100 : -0.9552038260481384 : -2.9559324805121274e-12
+noCorrStats hc len:min:max 			100 : -1.5188114202525367 : 7.514283504169388
+ELL-0.1 mu:0.3-eps:10-6	len:min:max 	100 : -0.74983513 : -6.925025e-05
+# indices >=1 off : 17 of 91		% indices off : 0.19
+noCorrStats mu:0.3-eps:10-0
+noCorrStats score len:min:max 		100 : 730.6193229923603 : 1351.268189913345
+noCorrStats bj len:min:max 			100 : 1.0393155052390077 : 33.126508964371716
+noCorrStats gnull len:min:max 		100 : -0.718863343575273 : -2.227986192053005e-16
+noCorrStats hc len:min:max 			100 : -0.5796519503309822 : 8.855969719788796
+ELL-0.1 mu:0.3-eps:10-0	len:min:max 	100 : -0.61886024 : -0.00019234257
+# indices >=1 off : 58 of 91		% indices off : 1.09
+noCorrStats mu:0.3-eps:10-1
+noCorrStats score len:min:max 		100 : 689.2751496630133 : 1291.5429018222087
+noCorrStats bj len:min:max 			100 : 1.0156159307364923 : 21.8648619910597
+noCorrStats gnull len:min:max 		100 : -0.8084746295939634 : -2.296721155475411e-11
+noCorrStats hc len:min:max 			100 : -0.6420096288555411 : 8.36715736975532
+ELL-0.1 mu:0.3-eps:10-1	len:min:max 	100 : -0.6548351 : -4.3437844e-06
+# indices >=1 off : 15 of 91		% indices off : 0.18
+noCorrStats mu:0.3-eps:10-8
+noCorrStats score len:min:max 		100 : 762.655351327654 : 1353.8182674345626
+noCorrStats bj len:min:max 			100 : 0.7018360499533544 : 33.7686048199081
+noCorrStats gnull len:min:max 		100 : -0.9154145756767933 : -1.572953097175547e-16
+noCorrStats hc len:min:max 			100 : -1.1605251443034317 : 11.269529099438055
+ELL-0.1 mu:0.3-eps:10-8	len:min:max 	100 : -0.6968294 : -4.0191266e-05
+# indices >=1 off : 76 of 91		% indices off : 2.09
+noCorrStats mu:0.3-eps:10-4
+noCorrStats score len:min:max 		100 : 733.3648131528854 : 1311.4557494691476
+noCorrStats bj len:min:max 			100 : 0.8183711677989106 : 28.383327604911635
+noCorrStats gnull len:min:max 		100 : -0.9539489943751409 : -2.899920932190365e-14
+noCorrStats hc len:min:max 			100 : -1.3595065459582267 : 9.452616099963352
+ELL-0.1 mu:0.3-eps:10-4	len:min:max 	100 : -0.73333263 : -2.0592184e-05
+# indices >=1 off : 62 of 91		% indices off : 1.3
+noCorrStats mu:0.3-eps:10-2
+noCorrStats score len:min:max 		100 : 706.1519214904739 : 1173.602894915676
+noCorrStats bj len:min:max 			100 : 0.8102931742988916 : 18.505361869228697
+noCorrStats gnull len:min:max 		100 : -0.5857296488811226 : -7.1716249592166805e-09
+noCorrStats hc len:min:max 			100 : -1.0355090300756302 : 8.996056576835413
+ELL-0.1 mu:0.3-eps:10-2	len:min:max 	100 : -0.48422185 : -7.765665e-06
+# indices >=1 off : 1 of 91		% indices off : 0.02
+noCorrStats mu:0.3-eps:10-3
+noCorrStats score len:min:max 		100 : 676.2144171665361 : 1323.298393205583
+noCorrStats bj len:min:max 			100 : 0.793623571091078 : 28.190997814608515
+noCorrStats gnull len:min:max 		100 : -0.7369162766654292 : -3.640560668807932e-14
+noCorrStats hc len:min:max 			100 : -0.2907319915743684 : 9.358562644233544
+ELL-0.1 mu:0.3-eps:10-3	len:min:max 	100 : -0.61155933 : -2.0592184e-05
+# indices >=1 off : 64 of 91		% indices off : 1.11
+noCorrStats mu:0.3-eps:10-9
+noCorrStats score len:min:max 		100 : 752.4663033872962 : 1291.5244602012021
+noCorrStats bj len:min:max 			100 : 0.6839147451810778 : 29.68483508576293
+noCorrStats gnull len:min:max 		100 : -0.8625078994653594 : -7.977559675899866e-15
+noCorrStats hc len:min:max 			100 : -0.6994630921407263 : 8.714290543096642
+ELL-0.1 mu:0.3-eps:10-9	len:min:max 	100 : -0.73333263 : -3.8393177e-06
+# indices >=1 off : 25 of 91		% indices off : 0.27
+cpma mu:0.3-eps:8-0	len:min:max 	100 : 0.0025248294787161285 : 80.01570357496348
+cpma mu:0.3-eps:8-1	len:min:max 	100 : 0.0005996393174427794 : 57.04742501673536
+cpma mu:0.3-eps:8-2	len:min:max 	100 : 1.2443404557416216e-05 : 28.51186497717208
+cpma mu:0.3-eps:8-3	len:min:max 	100 : 0.0026930997173622018 : 77.9092975138683
+cpma mu:0.3-eps:8-4	len:min:max 	100 : 0.0037141046250326326 : 60.91985172039858
+cpma mu:0.3-eps:8-5	len:min:max 	100 : 0.0015620640515408013 : 94.64599745114356
+cpma mu:0.3-eps:8-6	len:min:max 	100 : 4.329376679379493e-08 : 54.702591174496774
+cpma mu:0.3-eps:8-7	len:min:max 	100 : 0.0004261849844624521 : 47.86762945582814
+cpma mu:0.3-eps:8-8	len:min:max 	100 : 6.131504051154479e-07 : 83.74474870003723
+cpma mu:0.3-eps:8-9	len:min:max 	100 : 0.007786429196130484 : 67.22352617061733
+noCorrStats mu:0.3-eps:8-1
+noCorrStats score len:min:max 		100 : 691.9476002272316 : 1278.9375000793314
+noCorrStats bj len:min:max 			100 : 1.1057456725481123 : 22.40091798864013
+noCorrStats gnull len:min:max 		100 : -0.344765776915859 : -1.3056073369143592e-11
+noCorrStats hc len:min:max 			100 : -0.40208500907342276 : 8.39714434574494
+ELL-0.1 mu:0.3-eps:8-1	len:min:max 	100 : -0.38267025 : -4.0191266e-05
+# indices >=1 off : 15 of 91		% indices off : 0.18
+noCorrStats mu:0.3-eps:8-6
+noCorrStats score len:min:max 		100 : 727.6416600099591 : 1247.9167194748427
+noCorrStats bj len:min:max 			100 : 0.6049683964224593 : 21.760512827788023
+noCorrStats gnull len:min:max 		100 : -0.9713169628355853 : -2.257161042809862e-11
+noCorrStats hc len:min:max 			100 : -1.7403230539515286 : 8.236210055660175
+ELL-0.1 mu:0.3-eps:8-6	len:min:max 	100 : -0.78921294 : -7.765665e-06
+# indices >=1 off : 18 of 91		% indices off : 0.2
+noCorrStats mu:0.3-eps:8-3
+noCorrStats score len:min:max 		100 : 668.9631485921684 : 1357.1511542204144
+noCorrStats bj len:min:max 			100 : 0.9688962281739278 : 30.64791087444502
+noCorrStats gnull len:min:max 		100 : -0.7369162766654292 : -2.9461423288307833e-15
+noCorrStats hc len:min:max 			100 : -0.2907319915743684 : 10.130698181907535
+ELL-0.1 mu:0.3-eps:8-3	len:min:max 	100 : -0.61155933 : -1.2625206e-05
+# indices >=1 off : 70 of 91		% indices off : 1.14
+noCorrStats mu:0.3-eps:8-4
+noCorrStats score len:min:max 		100 : 748.3874086192005 : 1293.912902048264
+noCorrStats bj len:min:max 			100 : 1.0295358507600731 : 27.945951096737517
+noCorrStats gnull len:min:max 		100 : -0.5160846375252474 : -5.1676639614928896e-14
+noCorrStats hc len:min:max 			100 : -0.5451869625375214 : 9.382809152996952
+ELL-0.1 mu:0.3-eps:8-4	len:min:max 	100 : -0.45391947 : -3.2183234e-05
+# indices >=1 off : 65 of 91		% indices off : 1.1
+noCorrStats mu:0.3-eps:8-0
+noCorrStats score len:min:max 		100 : 753.6439325017232 : 1345.9317972929691
+noCorrStats bj len:min:max 			100 : 0.754323732851175 : 33.77313961257626
+noCorrStats gnull len:min:max 		100 : -0.29018141507095424 : -1.1569134059342564e-16
+noCorrStats hc len:min:max 			100 : -0.729099663002108 : 8.837105273276906
+ELL-0.1 mu:0.3-eps:8-0	len:min:max 	100 : -0.4379095 : -4.0191266e-05
+# indices >=1 off : 56 of 91		% indices off : 1.11
+noCorrStats mu:0.3-eps:8-5
+noCorrStats score len:min:max 		100 : 806.1899366278961 : 1381.2113387087566
+noCorrStats bj len:min:max 			100 : 0.7708799195724413 : 40.63645381914766
+noCorrStats gnull len:min:max 		100 : -0.8316610101396795 : -1.1567348678853942e-19
+noCorrStats hc len:min:max 			100 : -0.6818586872788459 : 9.988514032436486
+ELL-0.1 mu:0.3-eps:8-5	len:min:max 	100 : -0.63905615 : -4.537349e-06
+# indices >=1 off : 56 of 91		% indices off : 0.62
+noCorrStats mu:0.3-eps:8-2
+noCorrStats score len:min:max 		100 : 708.0499073351647 : 1157.4934587036523
+noCorrStats bj len:min:max 			100 : 0.9091479473439259 : 17.49103334482196
+noCorrStats gnull len:min:max 		100 : -0.7760987370597743 : -1.788477374057284e-08
+noCorrStats hc len:min:max 			100 : -0.7555199977088207 : 8.374278934660875
+ELL-0.1 mu:0.3-eps:8-2	len:min:max 	100 : -0.6165792 : -4.0191266e-05
+# indices >=1 off : 1 of 91		% indices off : 0.01
+noCorrStats mu:0.3-eps:8-8
+noCorrStats score len:min:max 		100 : 771.4824118868389 : 1399.4251097419626
+noCorrStats bj len:min:max 			100 : 1.0063269779729203 : 37.24876323071589
+noCorrStats gnull len:min:max 		100 : -0.5794048758863404 : -4.54017017741805e-18
+noCorrStats hc len:min:max 			100 : -0.40567523742013184 : 11.885018062356439
+ELL-0.1 mu:0.3-eps:8-8	len:min:max 	100 : -0.477606 : -2.4492438e-05
+# indices >=1 off : 83 of 91		% indices off : 2.26
+noCorrStats mu:0.3-eps:8-9
+noCorrStats score len:min:max 		100 : 753.9633028351701 : 1305.9208206714457
+noCorrStats bj len:min:max 			100 : 0.8533052242394867 : 31.255544381243265
+noCorrStats gnull len:min:max 		100 : -0.7401890667517285 : -1.6114809221243787e-15
+noCorrStats hc len:min:max 			100 : -1.1099636936837105 : 8.9241814552259
+ELL-0.1 mu:0.3-eps:8-9	len:min:max 	100 : -0.6138468 : -4.0191266e-05
+# indices >=1 off : 28 of 91		% indices off : 0.31
+noCorrStats mu:0.3-eps:8-7
+noCorrStats score len:min:max 		100 : 724.5188833904037 : 1238.8069928008347
+noCorrStats bj len:min:max 			100 : 0.5978609599198554 : 22.087424123032207
+noCorrStats gnull len:min:max 		100 : -0.85273558039868 : -1.7118944032751844e-11
+noCorrStats hc len:min:max 			100 : -0.6622383275290088 : 7.327702383004865
+ELL-0.1 mu:0.3-eps:8-7	len:min:max 	100 : -0.71883756 : -1.0335121e-05
+# indices >=1 off : 1 of 91		% indices off : 0.01
+cpma mu:0.3-eps:6-0	len:min:max 	100 : 0.0006696363034279784 : 78.525828785052
+cpma mu:0.3-eps:6-1	len:min:max 	100 : 0.00204037077492103 : 59.93465633987216
+cpma mu:0.3-eps:6-2	len:min:max 	100 : 0.004827441573070246 : 29.805285922913754
+cpma mu:0.3-eps:6-3	len:min:max 	100 : 0.0038934611238801153 : 80.17297044924999
+cpma mu:0.3-eps:6-4	len:min:max 	100 : 0.008469072810839862 : 64.99838261687546
+cpma mu:0.3-eps:6-5	len:min:max 	100 : 0.0012373254721751437 : 93.83836762169994
+cpma mu:0.3-eps:6-6	len:min:max 	100 : 1.058039561030455e-05 : 62.39719297977172
+cpma mu:0.3-eps:6-7	len:min:max 	100 : 0.02694573986082105 : 47.265946175823046
+cpma mu:0.3-eps:6-8	len:min:max 	100 : 1.3637212759931572e-05 : 72.06444255853057
+cpma mu:0.3-eps:6-9	len:min:max 	100 : 1.464074375689961e-05 : 64.11957321418413
+noCorrStats mu:0.3-eps:6-0
+noCorrStats score len:min:max 		100 : 722.1508589128281 : 1344.2055491893907
+noCorrStats bj len:min:max 			100 : 0.8392697353234615 : 33.126508964371716
+noCorrStats gnull len:min:max 		100 : -0.7480822721088674 : -2.227986192053005e-16
+noCorrStats hc len:min:max 			100 : -0.6687024701226659 : 9.52101472609885
+ELL-0.1 mu:0.3-eps:6-0	len:min:max 	100 : -0.6623811 : -3.4644238e-06
+# indices >=1 off : 46 of 91		% indices off : 0.97
+noCorrStats mu:0.3-eps:6-1
+noCorrStats score len:min:max 		100 : 696.4390798269407 : 1296.8168185291797
+noCorrStats bj len:min:max 			100 : 1.1057456725481123 : 23.115764643079842
+noCorrStats gnull len:min:max 		100 : -0.7490182460471585 : -6.304197466120245e-12
+noCorrStats hc len:min:max 			100 : -0.47449639647953074 : 8.774263715531843
+ELL-0.1 mu:0.3-eps:6-1	len:min:max 	100 : -0.58629537 : -1.7075305e-07
+# indices >=1 off : 11 of 91		% indices off : 0.14
+noCorrStats mu:0.3-eps:6-9
+noCorrStats score len:min:max 		100 : 757.1862953971308 : 1296.348187877629
+noCorrStats bj len:min:max 			100 : 0.6746570843537705 : 28.885814574986416
+noCorrStats gnull len:min:max 		100 : -0.39944124145653065 : -1.7819123738480704e-14
+noCorrStats hc len:min:max 			100 : -0.7947848018007644 : 8.627970698097919
+ELL-0.1 mu:0.3-eps:6-9	len:min:max 	100 : -0.38347426 : -1.929763e-06
+# indices >=1 off : 47 of 91		% indices off : 0.6
+noCorrStats mu:0.3-eps:6-3
+noCorrStats score len:min:max 		100 : 680.8825753250622 : 1367.2389756985353
+noCorrStats bj len:min:max 			100 : 0.5514293172600169 : 29.657510158876335
+noCorrStats gnull len:min:max 		100 : -0.7369162766654292 : -8.049537707319014e-15
+noCorrStats hc len:min:max 			100 : -0.4504342357363672 : 9.74463041307054
+ELL-0.1 mu:0.3-eps:6-3	len:min:max 	100 : -0.61155933 : -8.2808253e-07
+# indices >=1 off : 71 of 91		% indices off : 0.93
+noCorrStats mu:0.3-eps:6-6
+noCorrStats score len:min:max 		100 : 760.7182767238809 : 1279.7801658593146
+noCorrStats bj len:min:max 			100 : 0.8683230964420345 : 24.780201496897913
+noCorrStats gnull len:min:max 		100 : -0.6451016501652994 : -1.0382512090814732e-12
+noCorrStats hc len:min:max 			100 : -1.283745033516242 : 7.981613021454101
+ELL-0.1 mu:0.3-eps:6-6	len:min:max 	100 : -0.5198147 : -4.0191266e-05
+# indices >=1 off : 3 of 91		% indices off : 0.04
+noCorrStats mu:0.3-eps:6-7
+noCorrStats score len:min:max 		100 : 738.5380044326948 : 1239.3795760085438
+noCorrStats bj len:min:max 			100 : 0.5978609599198554 : 19.41310387245162
+noCorrStats gnull len:min:max 		100 : -0.7350569669352944 : -2.633765611486466e-10
+noCorrStats hc len:min:max 			100 : -0.37989882053225293 : 7.210942800937482
+ELL-0.1 mu:0.3-eps:6-7	len:min:max 	100 : -0.5933445 : -1.1614139e-06
+# indices >=1 off : 1 of 91		% indices off : 0.02
+noCorrStats mu:0.3-eps:6-8
+noCorrStats score len:min:max 		100 : 773.5706092181858 : 1358.7066004312278
+noCorrStats bj len:min:max 			100 : 0.34319089858631724 : 34.35909165405306
+noCorrStats gnull len:min:max 		100 : -0.8092091419767123 : -8.424131368148377e-17
+noCorrStats hc len:min:max 			100 : -0.6819175026474374 : 11.218261460462756
+ELL-0.1 mu:0.3-eps:6-8	len:min:max 	100 : -0.61252487 : -1.5396755e-06
+# indices >=1 off : 77 of 91		% indices off : 1.96
+noCorrStats mu:0.3-eps:6-2
+noCorrStats score len:min:max 		100 : 729.559476562945 : 1175.9002096853264
+noCorrStats bj len:min:max 			100 : 1.2545302374207141 : 21.131079651716693
+noCorrStats gnull len:min:max 		100 : -0.38731788791844296 : -1.0749381790417812e-10
+noCorrStats hc len:min:max 			100 : 0.23585839930104022 : 7.996315195631372
+ELL-0.1 mu:0.3-eps:6-2	len:min:max 	100 : -0.3421512 : -1.9607037e-06
+# indices >=1 off : 3 of 91		% indices off : 0.03
+noCorrStats mu:0.3-eps:6-4
+noCorrStats score len:min:max 		100 : 749.6431196377029 : 1313.2461263118646
+noCorrStats bj len:min:max 			100 : 1.050259593676505 : 32.4045592807794
+noCorrStats gnull len:min:max 		100 : -0.6500900495493108 : -5.642984416479071e-16
+noCorrStats hc len:min:max 			100 : -0.816178918972207 : 10.511292473757097
+ELL-0.1 mu:0.3-eps:6-4	len:min:max 	100 : -0.5376014 : -2.0592184e-05
+# indices >=1 off : 70 of 91		% indices off : 1.36
+noCorrStats mu:0.3-eps:6-5
+noCorrStats score len:min:max 		100 : 800.0060122629837 : 1381.5169142393615
+noCorrStats bj len:min:max 			100 : 0.6656026296736705 : 39.09056224416847
+noCorrStats gnull len:min:max 		100 : -0.31261589074988394 : -5.520836726921015e-19
+noCorrStats hc len:min:max 			100 : 0.17372068268678112 : 9.975162236618305
+ELL-0.1 mu:0.3-eps:6-5	len:min:max 	100 : -0.402322 : -1.7213335e-05
+# indices >=1 off : 57 of 91		% indices off : 0.64
+cpma mu:0.3-eps:12-0	len:min:max 	100 : 4.311881639296189e-06 : 91.71896614117577
+cpma mu:0.3-eps:12-1	len:min:max 	100 : 0.004483600254388875 : 60.43971320295714
+cpma mu:0.3-eps:12-2	len:min:max 	100 : 6.303126792772673e-05 : 26.578614689098686
+cpma mu:0.3-eps:12-3	len:min:max 	100 : 0.0018451364849170204 : 86.64985791952313
+cpma mu:0.3-eps:12-4	len:min:max 	100 : 0.0014725952587468782 : 61.49356313629687
+cpma mu:0.3-eps:12-5	len:min:max 	100 : 1.3913379007135518e-05 : 89.10624053169158
+cpma mu:0.3-eps:12-6	len:min:max 	100 : 6.0775000747526065e-06 : 63.606585053159506
+cpma mu:0.3-eps:12-7	len:min:max 	100 : 6.660236977040768e-06 : 47.72330895925006
+cpma mu:0.3-eps:12-8	len:min:max 	100 : 7.436125088133849e-06 : 78.79679689898148
+cpma mu:0.3-eps:12-9	len:min:max 	100 : 0.0010717013792600483 : 70.08264127079747
+noCorrStats mu:0.3-eps:12-9
+noCorrStats score len:min:max 		100 : 771.1906938418637 : 1320.1071501406564
+noCorrStats bj len:min:max 			100 : 0.7781366620567404 : 30.49282511964988
+noCorrStats gnull len:min:max 		100 : -0.9212966981153264 : -3.5160651046887215e-15
+noCorrStats hc len:min:max 			100 : -1.180895677979996 : 8.844696186780071
+ELL-0.1 mu:0.3-eps:12-9	len:min:max 	100 : -0.68436337 : -4.0191266e-05
+# indices >=1 off : 42 of 91		% indices off : 0.56
+noCorrStats mu:0.3-eps:12-0
+noCorrStats score len:min:max 		100 : 751.4943801110353 : 1384.815023844389
+noCorrStats bj len:min:max 			100 : 1.1999843930790246 : 36.415449422667386
+noCorrStats gnull len:min:max 		100 : -0.7501099914467133 : -7.96158056153336e-18
+noCorrStats hc len:min:max 			100 : -0.5796519503309822 : 9.58973581485387
+ELL-0.1 mu:0.3-eps:12-0	len:min:max 	100 : -0.58631635 : -3.2183234e-05
+# indices >=1 off : 60 of 91		% indices off : 1.13
+noCorrStats mu:0.3-eps:12-7
+noCorrStats score len:min:max 		100 : 738.5289428912 : 1239.9658505392092
+noCorrStats bj len:min:max 			100 : 0.4589215259177293 : 21.143139192923815
+noCorrStats gnull len:min:max 		100 : -0.8941252285299214 : -4.49950644689207e-11
+noCorrStats hc len:min:max 			100 : -0.8320416418473726 : 7.428576997999394
+ELL-0.1 mu:0.3-eps:12-7	len:min:max 	100 : -0.7318316 : -4.0191266e-05
+# indices >=1 off : 1 of 91		% indices off : 0.01
+noCorrStats mu:0.3-eps:12-8
+noCorrStats score len:min:max 		100 : 776.4588917467396 : 1379.8621640567192
+noCorrStats bj len:min:max 			100 : 0.7454362757339308 : 35.794085581522644
+noCorrStats gnull len:min:max 		100 : -0.8017894862016708 : -1.9746257731643377e-17
+noCorrStats hc len:min:max 			100 : -0.5024673633931382 : 11.218527228251453
+ELL-0.1 mu:0.3-eps:12-8	len:min:max 	100 : -0.67336595 : -1.8660914e-05
+# indices >=1 off : 74 of 91		% indices off : 1.82
+noCorrStats mu:0.3-eps:12-2
+noCorrStats score len:min:max 		100 : 732.0216437581892 : 1162.2810349902345
+noCorrStats bj len:min:max 			100 : 1.055107546067366 : 16.50844501108305
+noCorrStats gnull len:min:max 		100 : -0.3731117273521084 : -3.86749514690206e-08
+noCorrStats hc len:min:max 			100 : -0.4227431303297805 : 6.996573814427329
+ELL-0.1 mu:0.3-eps:12-2	len:min:max 	100 : -0.39558655 : -3.8464234e-05
+# indices >=1 off : 0 of 91		% indices off : 0.0
+noCorrStats mu:0.3-eps:12-1
+noCorrStats score len:min:max 		100 : 671.6500311538249 : 1291.3492374239054
+noCorrStats bj len:min:max 			100 : 0.7550962593613573 : 25.316425771594243
+noCorrStats gnull len:min:max 		100 : -0.9859787530381525 : -6.718878737222339e-13
+noCorrStats hc len:min:max 			100 : -1.5837388103086436 : 8.73693961557658
+ELL-0.1 mu:0.3-eps:12-1	len:min:max 	100 : -0.90158933 : -4.0191266e-05
+# indices >=1 off : 19 of 91		% indices off : 0.25
+noCorrStats mu:0.3-eps:12-4
+noCorrStats score len:min:max 		100 : 719.7949639685597 : 1284.0814845928753
+noCorrStats bj len:min:max 			100 : 0.8984128537399895 : 35.90556236478671
+noCorrStats gnull len:min:max 		100 : -0.972764588484885 : -1.634535937137312e-17
+noCorrStats hc len:min:max 			100 : -1.925481544026423 : 10.906578655626516
+ELL-0.1 mu:0.3-eps:12-4	len:min:max 	100 : -0.83461785 : -4.0191266e-05
+# indices >=1 off : 69 of 91		% indices off : 1.14
+noCorrStats mu:0.3-eps:12-3
+noCorrStats score len:min:max 		100 : 678.1100919113899 : 1381.3884937184519
+noCorrStats bj len:min:max 			100 : 0.6436153316973404 : 32.74789720314963
+noCorrStats gnull len:min:max 		100 : -0.684968106151416 : -3.509726375449873e-16
+noCorrStats hc len:min:max 			100 : -1.0047985130597175 : 10.130698181907535
+noCorrStats mu:0.3-eps:12-6
+noCorrStats score len:min:max 		100 : 738.5885582943422 : 1278.6821064307144
+noCorrStats bj len:min:max 			100 : 0.6802000602298475 : 26.35839540549754
+noCorrStats gnull len:min:max 		100 : -0.6123307853332847 : -2.082513279387686e-13
+noCorrStats hc len:min:max 			100 : -0.9730029287630875 : 9.978156907002392
+ELL-0.1 mu:0.3-eps:12-3	len:min:max 	100 : -0.55208397 : -0.00029202364
+# indices >=1 off : 70 of 91		% indices off : 1.44
+ELL-0.1 mu:0.3-eps:12-6	len:min:max 	100 : -0.49771205 : -4.0191266e-05
+# indices >=1 off : 18 of 91		% indices off : 0.21
+noCorrStats mu:0.3-eps:12-5
+noCorrStats score len:min:max 		100 : 801.5914625085047 : 1362.5941209856705
+noCorrStats bj len:min:max 			100 : 0.8267055645535895 : 39.09056224416847
+noCorrStats gnull len:min:max 		100 : -0.8316610101396795 : -5.520836726921015e-19
+noCorrStats hc len:min:max 			100 : -0.6818586872788459 : 9.78024395423659
+ELL-0.1 mu:0.3-eps:12-5	len:min:max 	100 : -0.6503332 : -1.5037622e-05
+# indices >=1 off : 55 of 91		% indices off : 0.68
+cpma mu:0.4-eps:10-0	len:min:max 	100 : 0.001169546419987455 : 93.67524082307318
+cpma mu:0.4-eps:10-1	len:min:max 	100 : 9.387891986989416e-05 : 65.882201782837
+cpma mu:0.4-eps:10-2	len:min:max 	100 : 0.0589270117579872 : 35.62111787453978
+cpma mu:0.4-eps:10-3	len:min:max 	100 : 0.005908364215429174 : 83.6752657606612
+cpma mu:0.4-eps:10-4	len:min:max 	100 : 4.8165913540287875e-05 : 76.06285572472734
+cpma mu:0.4-eps:10-5	len:min:max 	100 : 0.005455007507407572 : 106.71856660374033
+cpma mu:0.4-eps:10-6	len:min:max 	100 : 3.151168675685767e-05 : 64.98296464758641
+cpma mu:0.4-eps:10-7	len:min:max 	100 : 0.00024601531185908243 : 63.58047450854065
+cpma mu:0.4-eps:10-8	len:min:max 	100 : 0.0013556391841120785 : 86.76048385591821
+cpma mu:0.4-eps:10-9	len:min:max 	100 : 0.004112157173949527 : 66.74216442785837
+noCorrStats mu:0.4-eps:10-0
+noCorrStats score len:min:max 		100 : 772.4800818561175 : 1394.1449106359084
+noCorrStats bj len:min:max 			100 : 2.1748692759560773 : 33.77313961257626
+noCorrStats gnull len:min:max 		100 : -0.07242672380473857 : -1.1569134059342564e-16
+noCorrStats hc len:min:max 			100 : 0.20569313936663605 : 9.191543898489085
+ELL-0.1 mu:0.4-eps:10-0	len:min:max 	100 : -0.12629718 : -4.1674875e-07
+# indices >=1 off : 64 of 91		% indices off : 1.34
+noCorrStats mu:0.4-eps:10-1
+noCorrStats score len:min:max 		100 : 717.1841307444973 : 1314.6599251540613
+noCorrStats bj len:min:max 			100 : 1.3161442878867322 : 24.573581970947252
+noCorrStats gnull len:min:max 		100 : -0.14110510121937297 : -1.4300379694555688e-12
+noCorrStats hc len:min:max 			100 : 0.17295803620256242 : 9.106721861397842
+ELL-0.1 mu:0.4-eps:10-1	len:min:max 	100 : -0.2949448 : -1.1648232e-07
+# indices >=1 off : 49 of 91		% indices off : 0.79
+noCorrStats mu:0.4-eps:10-2
+noCorrStats score len:min:max 		100 : 750.8264713539901 : 1210.627243515078
+noCorrStats bj len:min:max 			100 : 0.9480076795702895 : 25.724807547798875
+noCorrStats gnull len:min:max 		100 : -0.312926902252009 : -1.0068933127820783e-12
+noCorrStats hc len:min:max 			100 : 0.5592627231871331 : 8.574598491773742
+ELL-0.1 mu:0.4-eps:10-2	len:min:max 	100 : -0.3838276 : -5.481329e-07
+# indices >=1 off : 6 of 91		% indices off : 0.1
+noCorrStats mu:0.4-eps:10-9
+noCorrStats score len:min:max 		100 : 780.6429711582673 : 1305.9041018758837
+noCorrStats bj len:min:max 			100 : 2.0396884221245934 : 31.30972758818876
+noCorrStats gnull len:min:max 		100 : -0.3396778742816589 : -1.5362011654981737e-15
+noCorrStats hc len:min:max 			100 : 0.41448560224640163 : 9.437666504291848
+ELL-0.1 mu:0.4-eps:10-9	len:min:max 	100 : -0.36372715 : -1.3100347e-07
+# indices >=1 off : 59 of 91		% indices off : 0.87
+noCorrStats mu:0.4-eps:10-4
+noCorrStats score len:min:max 		100 : 761.510398861268 : 1351.2436584018526
+noCorrStats bj len:min:max 			100 : 1.804851607512858 : 35.90556236478671
+noCorrStats gnull len:min:max 		100 : -0.062478481527847934 : -1.634535937137312e-17
+noCorrStats hc len:min:max 			100 : 0.48555807029744597 : 11.075534134137174
+ELL-0.1 mu:0.4-eps:10-4	len:min:max 	100 : -0.20702027 : -1.1648232e-07
+# indices >=1 off : 78 of 91		% indices off : 2.16
+noCorrStats mu:0.4-eps:10-8
+noCorrStats score len:min:max 		100 : 799.4700679956409 : 1404.6664864949298
+noCorrStats bj len:min:max 			100 : 0.9996833902587623 : 37.06143381369838
+noCorrStats gnull len:min:max 		100 : -0.21763369413487274 : -5.3914854402944934e-18
+noCorrStats hc len:min:max 			100 : 0.4988074292758323 : 11.681636214080754
+ELL-0.1 mu:0.4-eps:10-8	len:min:max 	100 : -0.27024963 : -1.1648232e-07
+# indices >=1 off : 87 of 91		% indices off : 2.88
+noCorrStats mu:0.4-eps:10-3
+noCorrStats score len:min:max 		100 : 698.5015142587065 : 1372.3064827325109
+noCorrStats bj len:min:max 			100 : 0.6939276138761262 : 29.970569405523058
+noCorrStats gnull len:min:max 		100 : -0.7629108318642688 : -6.516302330060913e-15
+noCorrStats hc len:min:max 			100 : -0.5041302715766961 : 10.51676595074453
+ELL-0.1 mu:0.4-eps:10-3	len:min:max 	100 : -0.6064821 : -8.2808253e-07
+# indices >=1 off : 80 of 91		% indices off : 1.63
+noCorrStats mu:0.4-eps:10-5
+noCorrStats score len:min:max 		100 : 833.7387074092292 : 1425.922198283075
+noCorrStats bj len:min:max 			100 : 0.8725005728459516 : 39.86029517792832
+noCorrStats gnull len:min:max 		100 : -0.13186265357639207 : -2.5350988182465095e-19
+noCorrStats hc len:min:max 			100 : 0.565161220584203 : 10.43092676932752
+ELL-0.1 mu:0.4-eps:10-5	len:min:max 	100 : -0.23859698 : -1.3100347e-07
+# indices >=1 off : 60 of 91		% indices off : 1.24
+noCorrStats mu:0.4-eps:10-6
+noCorrStats score len:min:max 		100 : 785.7315823995997 : 1286.5940117934308
+noCorrStats bj len:min:max 			100 : 1.296159800058427 : 25.301225042393792
+noCorrStats gnull len:min:max 		100 : -0.3052501466741062 : -6.107703782151285e-13
+noCorrStats hc len:min:max 			100 : 0.12223190583697477 : 9.053068761078977
+ELL-0.1 mu:0.4-eps:10-6	len:min:max 	100 : -0.283125 : -1.3100347e-07
+# indices >=1 off : 34 of 91		% indices off : 0.45
+noCorrStats mu:0.4-eps:10-7
+noCorrStats score len:min:max 		100 : 757.6325357251318 : 1305.4849750784817
+noCorrStats bj len:min:max 			100 : 1.1744827702154959 : 22.93793820566218
+noCorrStats gnull len:min:max 		100 : -0.3603264243255415 : -7.216547364508948e-12
+noCorrStats hc len:min:max 			100 : -0.09385760380694413 : 9.962690199479946
+ELL-0.1 mu:0.4-eps:10-7	len:min:max 	100 : -0.47920957 : -1.1648232e-07
+# indices >=1 off : 12 of 91		% indices off : 0.15
+cpma mu:0.4-eps:8-0	len:min:max 	100 : 0.003449786327109905 : 87.4676632915598
+cpma mu:0.4-eps:8-1	len:min:max 	100 : 0.008256216435256647 : 64.39891898988208
+cpma mu:0.4-eps:8-2	len:min:max 	100 : 0.0018856928600143874 : 32.6263291677551
+cpma mu:0.4-eps:8-3	len:min:max 	100 : 0.0040867350671760505 : 81.45676083558283
+cpma mu:0.4-eps:8-4	len:min:max 	100 : 0.00048007137411332224 : 69.18203695623743
+cpma mu:0.4-eps:8-5	len:min:max 	100 : 0.0008737628668313846 : 107.06605721782762
+cpma mu:0.4-eps:8-6	len:min:max 	100 : 2.663024679350201e-05 : 69.52848246235953
+cpma mu:0.4-eps:8-7	len:min:max 	100 : 0.0007502677872253116 : 60.73316059135868
+cpma mu:0.4-eps:8-8	len:min:max 	100 : 0.00012148969835834578 : 88.55966185034777
+cpma mu:0.4-eps:8-9	len:min:max 	100 : 0.0002338002268515993 : 73.62542015662257
+noCorrStats mu:0.4-eps:8-2
+noCorrStats score len:min:max 		100 : 755.5344282019121 : 1202.7051440371338
+noCorrStats bj len:min:max 			100 : 2.42619007946662 : 27.19761064693375
+noCorrStats gnull len:min:max 		100 : -0.07552724229367072 : -3.4502922955481284e-13
+noCorrStats hc len:min:max 			100 : 0.09412757634800321 : 10.995539339243498
+ELL-0.1 mu:0.4-eps:8-2	len:min:max 	100 : -0.24071315 : -1.1648232e-07
+# indices >=1 off : 9 of 91		% indices off : 0.19
+noCorrStats mu:0.4-eps:8-0
+noCorrStats score len:min:max 		100 : 761.5865888504669 : 1375.9353371624543
+noCorrStats bj len:min:max 			100 : 1.4687926764700747 : 33.77313961257626
+noCorrStats gnull len:min:max 		100 : -0.056099251180191476 : -1.1569134059342564e-16
+noCorrStats hc len:min:max 			100 : 0.8411115019851116 : 10.072457850623143
+ELL-0.1 mu:0.4-eps:8-0	len:min:max 	100 : -0.11499356 : -1.3100347e-07
+# indices >=1 off : 60 of 91		% indices off : 1.64
+noCorrStats mu:0.4-eps:8-4
+noCorrStats score len:min:max 		100 : 786.4461440944739 : 1332.638225180313
+noCorrStats bj len:min:max 			100 : 1.172892545827324 : 33.556914079916076
+noCorrStats gnull len:min:max 		100 : -0.25353531047234573 : -1.7580785870445345e-16
+noCorrStats hc len:min:max 			100 : 0.7897685075733303 : 10.511292473757097
+ELL-0.1 mu:0.4-eps:8-4	len:min:max 	100 : -0.31461334 : -4.1674875e-07
+# indices >=1 off : 74 of 91		% indices off : 1.62
+noCorrStats mu:0.4-eps:8-8
+noCorrStats score len:min:max 		100 : 818.181617965646 : 1416.2482886762807
+noCorrStats bj len:min:max 			100 : 1.4170383331801486 : 41.78640518859817
+noCorrStats gnull len:min:max 		100 : -0.09398221194722772 : -4.8319510615139954e-20
+noCorrStats hc len:min:max 			100 : 0.7456377201216245 : 12.894634810589766
+ELL-0.1 mu:0.4-eps:8-8	len:min:max 	100 : -0.18182947 : -1.1648232e-07
+# indices >=1 off : 86 of 91		% indices off : 2.66
+noCorrStats mu:0.4-eps:8-6
+noCorrStats score len:min:max 		100 : 785.4908925857618 : 1303.1161664263675
+noCorrStats bj len:min:max 			100 : 1.532264774154982 : 25.82729273850438
+noCorrStats gnull len:min:max 		100 : -0.20480686710957158 : -3.5752413996844457e-13
+noCorrStats hc len:min:max 			100 : 0.3644217389576981 : 11.686235620127631
+ELL-0.1 mu:0.4-eps:8-6	len:min:max 	100 : -0.18182947 : -1.7075305e-07
+# indices >=1 off : 40 of 91		% indices off : 0.59
+noCorrStats mu:0.4-eps:8-9
+noCorrStats score len:min:max 		100 : 780.4595897776609 : 1331.668531263156
+noCorrStats bj len:min:max 			100 : 1.766522144763495 : 33.519645858396885
+noCorrStats gnull len:min:max 		100 : -0.07944262750999252 : -5.401685996677855e-16
+noCorrStats hc len:min:max 			100 : 1.0852467365987792 : 9.565135739678588
+ELL-0.1 mu:0.4-eps:8-9	len:min:max 	100 : -0.17219752 : -1.1648232e-07
+# indices >=1 off : 67 of 91		% indices off : 0.99
+noCorrStats mu:0.4-eps:8-3
+noCorrStats score len:min:max 		100 : 704.0413883190809 : 1355.9116810580683
+noCorrStats bj len:min:max 			100 : 1.7981914937291432 : 28.905074166771094
+noCorrStats gnull len:min:max 		100 : -0.04639026610332883 : -1.7270533930354743e-14
+noCorrStats hc len:min:max 			100 : 0.6192450372219502 : 10.371596435545545
+ELL-0.1 mu:0.4-eps:8-3	len:min:max 	100 : -0.12144563 : -1.1648232e-07
+# indices >=1 off : 80 of 91		% indices off : 1.55
+noCorrStats mu:0.4-eps:8-1
+noCorrStats score len:min:max 		100 : 726.0441942096095 : 1309.2685847557523
+noCorrStats bj len:min:max 			100 : 1.729959064379514 : 23.844909322023245
+noCorrStats gnull len:min:max 		100 : -0.3442550232422319 : -2.8638422319670165e-12
+noCorrStats hc len:min:max 			100 : 0.19049434666298476 : 10.122060268554135
+ELL-0.1 mu:0.4-eps:8-1	len:min:max 	100 : -0.29795948 : -1.3100347e-07
+# indices >=1 off : 26 of 91		% indices off : 0.43
+noCorrStats mu:0.4-eps:8-5
+noCorrStats score len:min:max 		100 : 806.9536666930791 : 1423.6275371338081
+noCorrStats bj len:min:max 			100 : 1.9678476091235315 : 40.63645381914766
+noCorrStats gnull len:min:max 		100 : -0.3198841049382573 : -1.1567348678853942e-19
+noCorrStats hc len:min:max 			100 : 0.6295386847767139 : 10.521139344899167
+ELL-0.1 mu:0.4-eps:8-5	len:min:max 	100 : -0.3184975 : -3.082362e-07
+# indices >=1 off : 70 of 91		% indices off : 1.12
+noCorrStats mu:0.4-eps:8-7
+noCorrStats score len:min:max 		100 : 760.3722755874437 : 1296.257646016371
+noCorrStats bj len:min:max 			100 : 1.1954089933876186 : 22.140444237927735
+noCorrStats gnull len:min:max 		100 : -0.13128290312447533 : -2.4617899353384263e-11
+noCorrStats hc len:min:max 			100 : 0.3871032444050709 : 8.511874970329748
+ELL-0.1 mu:0.4-eps:8-7	len:min:max 	100 : -0.18389104 : -1.3100347e-07
+# indices >=1 off : 4 of 91		% indices off : 0.11
+cpma mu:0.4-eps:6-0	len:min:max 	100 : 0.00045680291259486694 : 89.40789536214834
+cpma mu:0.4-eps:6-1	len:min:max 	100 : 1.3112548913341016e-07 : 66.31761801705034
+cpma mu:0.4-eps:6-2	len:min:max 	100 : 0.0011099868406745372 : 32.026819156430065
+cpma mu:0.4-eps:6-3	len:min:max 	100 : 0.0001940648344316287 : 79.25211931018384
+cpma mu:0.4-eps:6-4	len:min:max 	100 : 0.04470848955497786 : 64.8923470518439
+cpma mu:0.4-eps:6-5	len:min:max 	100 : 2.5740964701981284e-05 : 105.91154253292552
+cpma mu:0.4-eps:6-6	len:min:max 	100 : 0.0002551073903305223 : 63.29270941550385
+cpma mu:0.4-eps:6-7	len:min:max 	100 : 0.00241812356034643 : 51.55085394414891
+cpma mu:0.4-eps:6-8	len:min:max 	100 : 0.005303206084136036 : 79.51877542298826
+cpma mu:0.4-eps:6-9	len:min:max 	100 : 2.6932857508654706e-05 : 74.08876241278995
+noCorrStats mu:0.4-eps:6-5
+noCorrStats score len:min:max 		100 : 847.9101424180717 : 1424.2655527754623
+noCorrStats bj len:min:max 			100 : 2.7676793159704816 : 39.09056224416847
+noCorrStats gnull len:min:max 		100 : -0.03649719848959575 : -5.520836726921015e-19
+noCorrStats hc len:min:max 			100 : 0.7338306309834466 : 9.920358396976404
+ELL-0.1 mu:0.4-eps:6-5	len:min:max 	100 : -0.05595486 : -1.1648232e-07
+# indices >=1 off : 64 of 91		% indices off : 1.03
+noCorrStats mu:0.4-eps:6-3
+noCorrStats score len:min:max 		100 : 703.6546785215036 : 1362.0556387044228
+noCorrStats bj len:min:max 			100 : 3.400541329281366 : 31.853724545556656
+noCorrStats gnull len:min:max 		100 : -0.07767251328888516 : -3.2788412037208522e-15
+noCorrStats hc len:min:max 			100 : -0.0034620300936748674 : 10.130698181907535
+ELL-0.1 mu:0.4-eps:6-3	len:min:max 	100 : -0.10036739 : -1.1648232e-07
+# indices >=1 off : 79 of 91		% indices off : 1.58
+noCorrStats mu:0.4-eps:6-2
+noCorrStats score len:min:max 		100 : 746.8329257898566 : 1193.4503677518253
+noCorrStats bj len:min:max 			100 : 2.184571971264729 : 26.05148190605779
+noCorrStats gnull len:min:max 		100 : -0.07799469660752245 : -7.801181768996972e-13
+noCorrStats hc len:min:max 			100 : 0.006967465410290908 : 10.995539339243498
+ELL-0.1 mu:0.4-eps:6-2	len:min:max 	100 : -0.14453603 : -1.3100347e-07
+# indices >=1 off : 8 of 91		% indices off : 0.32
+noCorrStats mu:0.4-eps:6-9
+noCorrStats score len:min:max 		100 : 809.2367270465975 : 1337.9168583457015
+noCorrStats bj len:min:max 			100 : 3.073841445556968 : 32.6610885879749
+noCorrStats gnull len:min:max 		100 : -0.03594814989456086 : -1.144636593130605e-15
+noCorrStats hc len:min:max 			100 : 1.036989486843186 : 9.698887548241894
+ELL-0.1 mu:0.4-eps:6-9	len:min:max 	100 : -0.13011698 : -1.1648232e-07
+# indices >=1 off : 34 of 91		% indices off : 0.59
+noCorrStats mu:0.4-eps:6-7
+noCorrStats score len:min:max 		100 : 759.8079947333498 : 1260.3893600994077
+noCorrStats bj len:min:max 			100 : 1.486772208293954 : 27.994262589024327
+noCorrStats gnull len:min:max 		100 : -0.2091800117193216 : -1.2182741902048859e-13
+noCorrStats hc len:min:max 			100 : -0.5244029365304076 : 9.505151078959527
+ELL-0.1 mu:0.4-eps:6-7	len:min:max 	100 : -0.21318297 : -1.1648232e-07
+# indices >=1 off : 5 of 91		% indices off : 0.32
+noCorrStats mu:0.4-eps:6-0
+noCorrStats score len:min:max 		100 : 761.2084884344729 : 1382.4209094153803
+noCorrStats bj len:min:max 			100 : 2.5650063717469234 : 34.42536340177728
+noCorrStats gnull len:min:max 		100 : -0.028697523368969288 : -5.974453773545269e-17
+noCorrStats hc len:min:max 			100 : 0.24660547319263157 : 10.408465498190324
+ELL-0.1 mu:0.4-eps:6-0	len:min:max 	100 : -0.08566143 : -1.1648232e-07
+# indices >=1 off : 67 of 91		% indices off : 1.54
+noCorrStats mu:0.4-eps:6-1
+noCorrStats score len:min:max 		100 : 733.3476849173292 : 1322.814656230103
+noCorrStats bj len:min:max 			100 : 1.1905768865321846 : 26.04479572643444
+noCorrStats gnull len:min:max 		100 : -0.100188626669257 : -9.527450006886492e-13
+noCorrStats hc len:min:max 			100 : 0.8013165115042304 : 11.055001243996388
+ELL-0.1 mu:0.4-eps:6-1	len:min:max 	100 : -0.1668414 : -1.3100347e-07
+# indices >=1 off : 27 of 91		% indices off : 0.44
+noCorrStats mu:0.4-eps:6-8
+noCorrStats score len:min:max 		100 : 789.7113686512688 : 1385.871027756532
+noCorrStats bj len:min:max 			100 : 1.8201308164968821 : 38.722789201405796
+noCorrStats gnull len:min:max 		100 : -0.028309646942799083 : -1.0242926044715891e-18
+noCorrStats hc len:min:max 			100 : 0.9634025496728945 : 11.770272258171534
+ELL-0.1 mu:0.4-eps:6-8	len:min:max 	100 : -0.30049482 : -1.1648232e-07
+# indices >=1 off : 89 of 91		% indices off : 2.65
+noCorrStats mu:0.4-eps:6-6
+noCorrStats score len:min:max 		100 : 767.1886076188333 : 1279.7419620381927
+noCorrStats bj len:min:max 			100 : 1.4523202286954107 : 29.258317912369847
+noCorrStats gnull len:min:max 		100 : -0.6861514832759735 : -3.8305087831775775e-14
+noCorrStats hc len:min:max 			100 : -0.14811317390341536 : 9.406823424598674
+ELL-0.1 mu:0.4-eps:6-6	len:min:max 	100 : -0.5672429 : -1.1648232e-07
+# indices >=1 off : 12 of 91		% indices off : 0.45
+noCorrStats mu:0.4-eps:6-4
+noCorrStats score len:min:max 		100 : 765.0479032414563 : 1313.384597683439
+noCorrStats bj len:min:max 			100 : 2.0758913222235713 : 31.267094016713767
+noCorrStats gnull len:min:max 		100 : -0.02091710482963024 : -1.7850353792191267e-15
+noCorrStats hc len:min:max 			100 : -0.21763762117878335 : 10.297864353201215
+ELL-0.1 mu:0.4-eps:6-4	len:min:max 	100 : -0.24054597 : -1.1648232e-07
+# indices >=1 off : 75 of 91		% indices off : 1.81
+cpma mu:0.4-eps:12-0	len:min:max 	100 : 0.00017664273036643863 : 87.91331467454074
+cpma mu:0.4-eps:12-1	len:min:max 	100 : 0.010044122731414973 : 70.85659770352686
+cpma mu:0.4-eps:12-2	len:min:max 	100 : 0.007742132400380797 : 41.15792767451603
+cpma mu:0.4-eps:12-3	len:min:max 	100 : 0.0005125964416947681 : 82.01017022908673
+cpma mu:0.4-eps:12-4	len:min:max 	100 : 0.01505838774392032 : 72.18711961755434
+cpma mu:0.4-eps:12-5	len:min:max 	100 : 0.0026628281993907876 : 107.22794628450356
+cpma mu:0.4-eps:12-6	len:min:max 	100 : 0.00029830850144207943 : 64.96120654358856
+cpma mu:0.4-eps:12-7	len:min:max 	100 : 0.002925706006863038 : 62.545724745334155
+cpma mu:0.4-eps:12-8	len:min:max 	100 : 0.013967587687147898 : 86.15823925811492
+cpma mu:0.4-eps:12-9	len:min:max 	100 : 0.00042616123937477823 : 75.22466159927717
+noCorrStats mu:0.4-eps:12-2
+noCorrStats score len:min:max 		100 : 752.317375723666 : 1237.6644754773565
+noCorrStats bj len:min:max 			100 : 1.3103460665168882 : 18.201646610840868
+noCorrStats gnull len:min:max 		100 : -0.23013958443686863 : -1.0538392051258376e-09
+noCorrStats hc len:min:max 			100 : 0.0514029356902278 : 9.835460054737533
+ELL-0.1 mu:0.4-eps:12-2	len:min:max 	100 : -0.26352635 : -8.2808253e-07
+# indices >=1 off : 1 of 91		% indices off : 0.03
+noCorrStats mu:0.4-eps:12-4
+noCorrStats score len:min:max 		100 : 775.077823196826 : 1341.8037933123755
+noCorrStats bj len:min:max 			100 : 1.7577540327565777 : 38.311627282100346
+noCorrStats gnull len:min:max 		100 : -0.20518093859070283 : -1.4364407430978371e-18
+noCorrStats hc len:min:max 			100 : 0.44387401617133265 : 11.988360859676936
+ELL-0.1 mu:0.4-eps:12-4	len:min:max 	100 : -0.21034452 : -3.091981e-05
+# indices >=1 off : 75 of 91		% indices off : 1.87
+noCorrStats mu:0.4-eps:12-3
+noCorrStats score len:min:max 		100 : 701.8647935921858 : 1370.4308085853456
+noCorrStats bj len:min:max 			100 : 1.0062309692816813 : 31.186662655085467
+noCorrStats gnull len:min:max 		100 : -0.19397356801883686 : -1.7074947570130847e-15
+noCorrStats hc len:min:max 			100 : 0.08625108767789069 : 11.066529519040616
+ELL-0.1 mu:0.4-eps:12-3	len:min:max 	100 : -0.2548169 : -9.847771e-06
+# indices >=1 off : 77 of 91		% indices off : 1.36
+noCorrStats mu:0.4-eps:12-7
+noCorrStats score len:min:max 		100 : 764.8698959752096 : 1304.7165608576668
+noCorrStats bj len:min:max 			100 : 0.6616733650291076 : 22.33252954279479
+noCorrStats gnull len:min:max 		100 : -0.39797517675482746 : -1.3375251265843113e-11
+noCorrStats hc len:min:max 			100 : 0.28409419017274246 : 9.528317936107205
+noCorrStats mu:0.4-eps:12-0
+noCorrStats score len:min:max 		100 : 818.2939136627332 : 1374.4399012374197
+noCorrStats bj len:min:max 			100 : 0.9957503474262637 : 33.77313961257626
+noCorrStats gnull len:min:max 		100 : -0.18885961689968084 : -1.1569134059342564e-16
+noCorrStats hc len:min:max 			100 : 0.45257074546899306 : 11.295916270281799
+ELL-0.1 mu:0.4-eps:12-7	len:min:max 	100 : -0.49637246 : -1.9607037e-06
+# indices >=1 off : 4 of 91		% indices off : 0.09
+ELL-0.1 mu:0.4-eps:12-0	len:min:max 	100 : -0.16852684 : -6.7398014e-07
+# indices >=1 off : 63 of 91		% indices off : 1.55
+noCorrStats mu:0.4-eps:12-5
+noCorrStats score len:min:max 		100 : 822.6873764513522 : 1423.332772785686
+noCorrStats bj len:min:max 			100 : 1.5565568111651829 : 42.20795583300729
+noCorrStats gnull len:min:max 		100 : -0.32987664086090057 : -2.3631719255279947e-20
+noCorrStats hc len:min:max 			100 : -0.07425216200004366 : 11.522867790874523
+ELL-0.1 mu:0.4-eps:12-5	len:min:max 	100 : -0.28223917 : -1.5396755e-06
+# indices >=1 off : 75 of 91		% indices off : 1.58
+noCorrStats mu:0.4-eps:12-1
+noCorrStats score len:min:max 		100 : 709.9038739140815 : 1329.9350825142833
+noCorrStats bj len:min:max 			100 : 1.3409128238772912 : 27.313029060037806
+noCorrStats gnull len:min:max 		100 : -0.5659403096569376 : -1.138285883521754e-13
+noCorrStats hc len:min:max 			100 : -0.23494931133872907 : 10.216068598861623
+ELL-0.1 mu:0.4-eps:12-1	len:min:max 	100 : -0.46880177 : -5.6700023e-06
+# indices >=1 off : 49 of 91		% indices off : 0.81
+noCorrStats mu:0.4-eps:12-9
+noCorrStats score len:min:max 		100 : 791.6233571899833 : 1333.203310679788
+noCorrStats bj len:min:max 			100 : 1.2066870681079653 : 34.66535091026782
+noCorrStats gnull len:min:max 		100 : -0.11659720592711827 : -5.134477160159569e-17
+noCorrStats hc len:min:max 			100 : 0.32221135657927336 : 9.989399744353117
+ELL-0.1 mu:0.4-eps:12-9	len:min:max 	100 : -0.2433911 : -8.2808253e-07
+# indices >=1 off : 61 of 91		% indices off : 1.02
+noCorrStats mu:0.4-eps:12-6
+noCorrStats score len:min:max 		100 : 775.6151918023755 : 1283.4989418682333
+noCorrStats bj len:min:max 			100 : 1.2810473821470705 : 24.780201496897913
+noCorrStats gnull len:min:max 		100 : -0.6496266361997298 : -1.0382512090814732e-12
+noCorrStats hc len:min:max 			100 : -0.18985628880796834 : 10.976428849776536
+ELL-0.1 mu:0.4-eps:12-6	len:min:max 	100 : -0.5243915 : -9.0714175e-06
+# indices >=1 off : 32 of 91		% indices off : 0.35
+noCorrStats mu:0.4-eps:12-8
+noCorrStats score len:min:max 		100 : 797.1878571780697 : 1409.5353567751959
+noCorrStats bj len:min:max 			100 : 0.6030097027824548 : 41.78640518859817
+noCorrStats gnull len:min:max 		100 : -0.5412168344984122 : -4.8319510615139954e-20
+noCorrStats hc len:min:max 			100 : 0.13757784904825177 : 12.894634810589766
+ELL-0.1 mu:0.4-eps:12-8	len:min:max 	100 : -0.4502931 : -2.2841179e-07
+# indices >=1 off : 83 of 91		% indices off : 2.84
+cpma mu:0.5-eps:10-0	len:min:max 	100 : 0.0127457368416799 : 106.80150453193892
+cpma mu:0.5-eps:10-1	len:min:max 	100 : 0.0021318614744814113 : 84.3006510391424
+cpma mu:0.5-eps:10-2	len:min:max 	100 : 0.00012368958232400473 : 48.49144685740066
+cpma mu:0.5-eps:10-3	len:min:max 	100 : 0.00027337703795637935 : 86.2793408646794
+cpma mu:0.5-eps:10-4	len:min:max 	100 : 0.0025169611144519877 : 62.272466033145975
+cpma mu:0.5-eps:10-5	len:min:max 	100 : 0.0007972842049639439 : 102.36821755928031
+cpma mu:0.5-eps:10-6	len:min:max 	100 : 0.035199513515181025 : 74.35172357885676
+cpma mu:0.5-eps:10-7	len:min:max 	100 : 0.0005084617187094409 : 65.71881590710291
+cpma mu:0.5-eps:10-8	len:min:max 	100 : 1.3811950339004397e-07 : 107.43848481675923
+cpma mu:0.5-eps:10-9	len:min:max 	100 : 0.0002286719245603308 : 87.91630450625235
+noCorrStats mu:0.5-eps:10-1
+noCorrStats score len:min:max 		100 : 756.4956857207374 : 1385.271764014605
+noCorrStats bj len:min:max 			100 : 2.710750307397252 : 38.10064260229827
+noCorrStats gnull len:min:max 		100 : -0.012207047724889905 : -4.219222436133914e-18
+noCorrStats hc len:min:max 			100 : 1.1863138561774955 : 11.987942219438642
+ELL-0.1 mu:0.5-eps:10-1	len:min:max 	100 : -0.06461594 : -1.1648232e-07
+# indices >=1 off : 78 of 91		% indices off : 2.67
+noCorrStats mu:0.5-eps:10-0
+noCorrStats score len:min:max 		100 : 811.9042543513127 : 1439.883992023494
+noCorrStats bj len:min:max 			100 : 2.7355103735017092 : 38.00285882430331
+noCorrStats gnull len:min:max 		100 : -0.10546982598096938 : -6.1020374975524556e-18
+noCorrStats hc len:min:max 			100 : 1.1076713615605491 : 10.79802602794818
+ELL-0.1 mu:0.5-eps:10-0	len:min:max 	100 : -0.17299892 : -1.1648232e-07
+# indices >=1 off : 76 of 91		% indices off : 3.18
+noCorrStats mu:0.5-eps:10-7
+noCorrStats score len:min:max 		100 : 788.1788928322135 : 1317.7557356570412
+noCorrStats bj len:min:max 			100 : 3.757705226054867 : 28.604074296152223
+noCorrStats gnull len:min:max 		100 : -0.008617865923624582 : -5.640384193989605e-14
+noCorrStats hc len:min:max 			100 : 1.4107540353604597 : 9.99110556796569
+ELL-0.1 mu:0.5-eps:10-7	len:min:max 	100 : -0.025459137 : -1.1648232e-07
+# indices >=1 off : 25 of 91		% indices off : 1.09
+noCorrStats mu:0.5-eps:10-4
+noCorrStats score len:min:max 		100 : 797.9466841639062 : 1309.6734820566776
+noCorrStats bj len:min:max 			100 : 5.284055488793979 : 37.10150304813558
+noCorrStats gnull len:min:max 		100 : -0.004631703077771663 : -4.879375926638077e-18
+noCorrStats hc len:min:max 			100 : 1.4616565050043158 : 13.173999471945901
+ELL-0.1 mu:0.5-eps:10-4	len:min:max 	100 : -0.03660321 : -1.1648232e-07
+# indices >=1 off : 91 of 91		% indices off : 2.82
+noCorrStats mu:0.5-eps:10-5
+noCorrStats score len:min:max 		100 : 853.8075938563228 : 1411.247277187074
+noCorrStats bj len:min:max 			100 : 4.4537693124157505 : 39.09056224416847
+noCorrStats gnull len:min:max 		100 : -0.0021308179294251416 : -5.520836726921015e-19
+noCorrStats hc len:min:max 			100 : 1.0262203891364776 : 12.077152362603679
+ELL-0.1 mu:0.5-eps:10-5	len:min:max 	100 : -0.046372417 : -1.1648232e-07
+# indices >=1 off : 81 of 91		% indices off : 2.41
+noCorrStats mu:0.5-eps:10-3
+noCorrStats score len:min:max 		100 : 732.7034941521085 : 1391.3564534891016
+noCorrStats bj len:min:max 			100 : 4.762611945132814 : 30.611409309021496
+noCorrStats gnull len:min:max 		100 : -0.0014639723571603718 : -3.1258952744946678e-15
+noCorrStats hc len:min:max 			100 : 1.4410062600313638 : 11.066529519040616
+ELL-0.1 mu:0.5-eps:10-3	len:min:max 	100 : -0.009006743 : -1.1648232e-07
+# indices >=1 off : 88 of 91		% indices off : 2.65
+noCorrStats mu:0.5-eps:10-2
+noCorrStats score len:min:max 		100 : 806.6917357045594 : 1259.5343564415782
+noCorrStats bj len:min:max 			100 : 4.685020176952387 : 41.98148151250898
+noCorrStats gnull len:min:max 		100 : -0.003400398068781632 : -7.002373318270854e-20
+noCorrStats hc len:min:max 			100 : 1.712732977236969 : 12.895664177936244
+ELL-0.1 mu:0.5-eps:10-2	len:min:max 	100 : -0.013358173 : -1.1648232e-07
+# indices >=1 off : 38 of 91		% indices off : 1.37
+noCorrStats mu:0.5-eps:10-6
+noCorrStats score len:min:max 		100 : 828.091708741539 : 1319.2793032548227
+noCorrStats bj len:min:max 			100 : 4.356426144103491 : 34.390164272901806
+noCorrStats gnull len:min:max 		100 : -0.003570233202824764 : -1.459509330815112e-16
+noCorrStats hc len:min:max 			100 : 0.5967545487030971 : 12.972972735324824
+ELL-0.1 mu:0.5-eps:10-6	len:min:max 	100 : -0.009567345 : -1.1648232e-07
+# indices >=1 off : 77 of 91		% indices off : 1.93
+noCorrStats mu:0.5-eps:10-9
+noCorrStats score len:min:max 		100 : 810.3659375288091 : 1381.334789618411
+noCorrStats bj len:min:max 			100 : 4.570271274793981 : 35.63315307138271
+noCorrStats gnull len:min:max 		100 : -0.04777971318259587 : -4.6700222893087826e-17
+noCorrStats hc len:min:max 			100 : 1.9459054162223202 : 12.439315211959203
+ELL-0.1 mu:0.5-eps:10-9	len:min:max 	100 : -0.09594801 : -1.1648232e-07
+# indices >=1 off : 90 of 91		% indices off : 2.49
+noCorrStats mu:0.5-eps:10-8
+noCorrStats score len:min:max 		100 : 818.4793813665797 : 1479.7916660280375
+noCorrStats bj len:min:max 			100 : 2.820766247224854 : 46.87521494734996
+noCorrStats gnull len:min:max 		100 : -0.11698403493703521 : -2.8511564355923033e-22
+noCorrStats hc len:min:max 			100 : 1.3375143328866521 : 15.75029528106975
+ELL-0.1 mu:0.5-eps:10-8	len:min:max 	100 : -0.20112869 : -1.1648232e-07
+# indices >=1 off : 91 of 91		% indices off : 4.3
+cpma mu:0.5-eps:8-0	len:min:max 	100 : 0.012220471635373542 : 95.00407531702149
+cpma mu:0.5-eps:8-1	len:min:max 	100 : 0.01238012531939603 : 77.57962755606604
+cpma mu:0.5-eps:8-2	len:min:max 	100 : 5.500112092704512e-05 : 39.69260357436724
+cpma mu:0.5-eps:8-3	len:min:max 	100 : 0.018587995782581856 : 103.6701182097695
+cpma mu:0.5-eps:8-4	len:min:max 	100 : 7.170934622990899e-06 : 82.12283470976035
+cpma mu:0.5-eps:8-5	len:min:max 	100 : 0.0005769473882537568 : 116.39197819830406
+cpma mu:0.5-eps:8-6	len:min:max 	100 : 0.10912703978283389 : 78.72639882355907
+cpma mu:0.5-eps:8-7	len:min:max 	100 : 6.456270784838125e-05 : 55.06104452184445
+cpma mu:0.5-eps:8-8	len:min:max 	100 : 1.2419053746270947e-05 : 92.62903191324222
+cpma mu:0.5-eps:8-9	len:min:max 	100 : 0.004236140743159922 : 83.52452719418761
+noCorrStats mu:0.5-eps:8-5
+noCorrStats score len:min:max 		100 : 852.9053218435071 : 1455.9384112678422
+noCorrStats bj len:min:max 			100 : 3.8146253998540094 : 40.63645381914766
+noCorrStats gnull len:min:max 		100 : -0.005128853959615468 : -1.1567348678853942e-19
+noCorrStats hc len:min:max 			100 : 1.4535770374610413 : 10.724289578731131
+ELL-0.1 mu:0.5-eps:8-5	len:min:max 	100 : -0.01932131 : -1.1648232e-07
+# indices >=1 off : 79 of 91		% indices off : 2.91
+noCorrStats mu:0.5-eps:8-4
+noCorrStats score len:min:max 		100 : 789.9399547149206 : 1386.3431095989738
+noCorrStats bj len:min:max 			100 : 5.121531512727126 : 46.290355229231565
+noCorrStats gnull len:min:max 		100 : -0.00219630518711346 : -1.1696758326630178e-21
+noCorrStats hc len:min:max 			100 : 1.6897462047670713 : 12.225370252759797
+ELL-0.1 mu:0.5-eps:8-4	len:min:max 	100 : -0.008479859 : -1.1648232e-07
+# indices >=1 off : 91 of 91		% indices off : 3.89
+noCorrStats mu:0.5-eps:8-6
+noCorrStats score len:min:max 		100 : 800.0172649147195 : 1342.0978957004947
+noCorrStats bj len:min:max 			100 : 7.12063178723989 : 41.079104374927944
+noCorrStats gnull len:min:max 		100 : -0.016821094730586114 : -3.2298773347686653e-19
+noCorrStats hc len:min:max 			100 : 0.20268660805782845 : 12.972972735324824
+ELL-0.1 mu:0.5-eps:8-6	len:min:max 	100 : -0.028516175 : -1.1648232e-07
+# indices >=1 off : 58 of 91		% indices off : 2.64
+noCorrStats mu:0.5-eps:8-8
+noCorrStats score len:min:max 		100 : 844.1348412022576 : 1436.9660460284445
+noCorrStats bj len:min:max 			100 : 5.426653122322989 : 51.70687544631401
+noCorrStats gnull len:min:max 		100 : -0.0009502763883065705 : -4.8656852715141336e-24
+noCorrStats hc len:min:max 			100 : 1.8197846664030255 : 13.386648443398668
+ELL-0.1 mu:0.5-eps:8-8	len:min:max 	100 : -0.0046787695 : -1.1648232e-07
+# indices >=1 off : 91 of 91		% indices off : 4.76
+noCorrStats mu:0.5-eps:8-2
+noCorrStats score len:min:max 		100 : 778.6621144796546 : 1235.7295728087872
+noCorrStats bj len:min:max 			100 : 4.22453403214743 : 44.28580282600431
+noCorrStats gnull len:min:max 		100 : -0.003128810145676197 : -9.362286696556222e-21
+noCorrStats hc len:min:max 			100 : 1.4318555691765917 : 11.995280720447541
+ELL-0.1 mu:0.5-eps:8-2	len:min:max 	100 : -0.014195508 : -1.1648232e-07
+# indices >=1 off : 19 of 91		% indices off : 1.71
+noCorrStats mu:0.5-eps:8-3
+noCorrStats score len:min:max 		100 : 753.7120814875857 : 1448.8047281882878
+noCorrStats bj len:min:max 			100 : 3.582693698810062 : 42.872434855093296
+noCorrStats gnull len:min:max 		100 : -0.004025388869648185 : -3.847889560275004e-20
+noCorrStats hc len:min:max 			100 : 1.6192709509789776 : 11.824935161177988
+ELL-0.1 mu:0.5-eps:8-3	len:min:max 	100 : -0.09750209 : -1.1648232e-07
+# indices >=1 off : 91 of 91		% indices off : 3.92
+noCorrStats mu:0.5-eps:8-1
+noCorrStats score len:min:max 		100 : 764.4046926559145 : 1362.50606179345
+noCorrStats bj len:min:max 			100 : 4.659572513207461 : 35.46603725153881
+noCorrStats gnull len:min:max 		100 : -0.0034881945839615094 : -6.924849848169803e-17
+noCorrStats hc len:min:max 			100 : 1.8149651750820448 : 11.554306591735468
+ELL-0.1 mu:0.5-eps:8-1	len:min:max 	100 : -0.016060248 : -1.1648232e-07
+# indices >=1 off : 66 of 91		% indices off : 3.13
+noCorrStats mu:0.5-eps:8-9
+noCorrStats score len:min:max 		100 : 812.7141932085599 : 1365.2564946638267
+noCorrStats bj len:min:max 			100 : 6.407959754300726 : 38.70867652691879
+noCorrStats gnull len:min:max 		100 : -0.00046189094244325203 : -2.035285372984614e-18
+noCorrStats hc len:min:max 			100 : -0.4165679170415572 : 11.283757921389485
+ELL-0.1 mu:0.5-eps:8-9	len:min:max 	100 : -0.009006743 : -1.1648232e-07
+# indices >=1 off : 85 of 91		% indices off : 2.8
+noCorrStats mu:0.5-eps:8-0
+noCorrStats score len:min:max 		100 : 841.0775192039408 : 1401.2877650741038
+noCorrStats bj len:min:max 			100 : 5.331691181570714 : 43.98687371282774
+noCorrStats gnull len:min:max 		100 : -0.001030662117599591 : -1.3796449377684908e-20
+noCorrStats hc len:min:max 			100 : 0.7141558608252445 : 13.070817814464746
+ELL-0.1 mu:0.5-eps:8-0	len:min:max 	100 : -0.007457493 : -1.1648232e-07
+# indices >=1 off : 76 of 91		% indices off : 3.8
+noCorrStats mu:0.5-eps:8-7
+noCorrStats score len:min:max 		100 : 818.7639019028705 : 1285.7947321790543
+noCorrStats bj len:min:max 			100 : 5.988054419909196 : 39.6486488202147
+noCorrStats gnull len:min:max 		100 : -0.0005840241241399293 : -8.970588472480712e-19
+noCorrStats hc len:min:max 			100 : 1.605225500532636 : 10.225508834300987
+ELL-0.1 mu:0.5-eps:8-7	len:min:max 	100 : -0.0034705373 : -1.1648232e-07
+# indices >=1 off : 21 of 91		% indices off : 1.85
+cpma mu:0.5-eps:6-0	len:min:max 	100 : 0.009476605537201976 : 103.10389977187151
+cpma mu:0.5-eps:6-1	len:min:max 	100 : 0.00041133178092422895 : 92.14414168727126
+cpma mu:0.5-eps:6-2	len:min:max 	100 : 0.00225245629917481 : 42.325783233096445
+cpma mu:0.5-eps:6-3	len:min:max 	100 : 0.00018971763529407326 : 93.98330592405728
+cpma mu:0.5-eps:6-4	len:min:max 	100 : 5.8084333431907e-06 : 71.65297338863093
+cpma mu:0.5-eps:6-5	len:min:max 	100 : 0.0005592908764811 : 112.8345818185935
+cpma mu:0.5-eps:6-6	len:min:max 	100 : 0.159884597565906 : 60.30153694663932
+cpma mu:0.5-eps:6-7	len:min:max 	100 : 0.00495463580955402 : 59.85188776254108
+cpma mu:0.5-eps:6-8	len:min:max 	100 : 0.0003832068177871406 : 96.85197589707786
+cpma mu:0.5-eps:6-9	len:min:max 	100 : 9.469751239521429e-05 : 82.7877867582265
+noCorrStats mu:0.5-eps:6-5
+noCorrStats score len:min:max 		100 : 862.6017933086061 : 1447.8391815152415
+noCorrStats bj len:min:max 			100 : 2.3183638515651515 : 42.199626760908906
+noCorrStats gnull len:min:max 		100 : -0.019460570678150827 : -9.179847982252748e-20
+noCorrStats hc len:min:max 			100 : 1.9239837800248853 : 10.601355863766267
+ELL-0.1 mu:0.5-eps:6-5	len:min:max 	100 : -0.06350866 : -1.1648232e-07
+# indices >=1 off : 70 of 91		% indices off : 3.33
+noCorrStats mu:0.5-eps:6-1
+noCorrStats score len:min:max 		100 : 751.7421238084953 : 1422.6235413514155
+noCorrStats bj len:min:max 			100 : 5.589921776307097 : 53.25249113981182
+noCorrStats gnull len:min:max 		100 : -0.0005946024400624512 : -1.4542341414403194e-24
+noCorrStats hc len:min:max 			100 : 1.5513925286335535 : 11.055001243996388
+ELL-0.1 mu:0.5-eps:6-1	len:min:max 	100 : -0.001961432 : -1.1648232e-07
+# indices >=1 off : 40 of 91		% indices off : 3.24
+noCorrStats mu:0.5-eps:6-3
+noCorrStats score len:min:max 		100 : 732.336290201501 : 1425.0924044458936
+noCorrStats bj len:min:max 			100 : 7.2920166783330505 : 43.93307169729749
+noCorrStats gnull len:min:max 		100 : -0.00018530889354683588 : -1.4559064448589486e-20
+noCorrStats hc len:min:max 			100 : 0.7071091746211075 : 10.902833719581526
+ELL-0.1 mu:0.5-eps:6-3	len:min:max 	100 : -0.0008521387 : -1.1648232e-07
+# indices >=1 off : 84 of 91		% indices off : 3.59
+noCorrStats mu:0.5-eps:6-8
+noCorrStats score len:min:max 		100 : 823.8769897280881 : 1432.7639682993322
+noCorrStats bj len:min:max 			100 : 6.783289143118599 : 49.92167427686561
+noCorrStats gnull len:min:max 		100 : -0.0003087883907332778 : -3.650078246476406e-23
+noCorrStats hc len:min:max 			100 : 1.5744749885922247 : 13.386648443398668
+ELL-0.1 mu:0.5-eps:6-8	len:min:max 	100 : -0.0075647803 : -1.1648232e-07
+# indices >=1 off : 91 of 91		% indices off : 5.62
+noCorrStats mu:0.5-eps:6-6
+noCorrStats score len:min:max 		100 : 844.8327222227407 : 1322.3864627584007
+noCorrStats bj len:min:max 			100 : 5.931348875472447 : 48.31205458364857
+noCorrStats gnull len:min:max 		100 : -0.0004428939552698945 : -2.0334766379963023e-22
+noCorrStats hc len:min:max 			100 : 0.0038991819619482422 : 11.97470079255068
+ELL-0.1 mu:0.5-eps:6-6	len:min:max 	100 : -0.0066468483 : -1.1648232e-07
+# indices >=1 off : 39 of 91		% indices off : 3.29
+noCorrStats mu:0.5-eps:6-2
+noCorrStats score len:min:max 		100 : 785.4442884199077 : 1249.138892516452
+noCorrStats bj len:min:max 			100 : 8.240922865133909 : 47.6055200489462
+noCorrStats gnull len:min:max 		100 : -5.361016239454682e-05 : -3.6999751116646604e-22
+noCorrStats hc len:min:max 			100 : 0.28998726984995815 : 10.995539339243498
+ELL-0.1 mu:0.5-eps:6-2	len:min:max 	100 : -0.00063023256 : -1.1648232e-07
+# indices >=1 off : 12 of 91		% indices off : 3.14
+noCorrStats mu:0.5-eps:6-0
+noCorrStats score len:min:max 		100 : 820.6894865729806 : 1430.0578406728114
+noCorrStats bj len:min:max 			100 : 9.479682211529239 : 48.59626695184778
+noCorrStats gnull len:min:max 		100 : -1.652550781558291e-05 : -1.3737924679486478e-22
+noCorrStats hc len:min:max 			100 : 0.6771384173765903 : 12.183367042373273
+ELL-0.1 mu:0.5-eps:6-0	len:min:max 	100 : -0.00012050569 : -1.1648232e-07
+# indices >=1 off : 74 of 91		% indices off : 4.15
+noCorrStats mu:0.5-eps:6-7
+noCorrStats score len:min:max 		100 : 824.32975424028 : 1301.1685850030046
+noCorrStats bj len:min:max 			100 : 6.8341670078017005 : 48.63478594910765
+noCorrStats gnull len:min:max 		100 : -0.00022606691529002815 : -1.4725792606186506e-22
+noCorrStats hc len:min:max 			100 : 0.1353738131038157 : 9.549512938429555
+ELL-0.1 mu:0.5-eps:6-7	len:min:max 	100 : -0.004246694 : -1.1648232e-07
+# indices >=1 off : 9 of 91		% indices off : 2.53
+noCorrStats mu:0.5-eps:6-9
+noCorrStats score len:min:max 		100 : 825.3707228483152 : 1370.101637663933
+noCorrStats bj len:min:max 			100 : 8.303174728652882 : 43.74377761760298
+noCorrStats gnull len:min:max 		100 : -6.724058624507743e-05 : -1.7593150985146277e-20
+noCorrStats hc len:min:max 			100 : 1.0852467365987792 : 10.303579066744192
+ELL-0.1 mu:0.5-eps:6-9	len:min:max 	100 : -0.0003610801 : -1.1648232e-07
+# indices >=1 off : 63 of 91		% indices off : 3.32
+noCorrStats mu:0.5-eps:6-4
+noCorrStats score len:min:max 		100 : 819.2358495386444 : 1380.1364638027624
+noCorrStats bj len:min:max 			100 : 5.355519459289035 : 43.77546576215948
+noCorrStats gnull len:min:max 		100 : -0.0011106356244561376 : -1.7044391835267416e-20
+noCorrStats hc len:min:max 			100 : -0.8340509400212487 : 11.276741033573694
+ELL-0.1 mu:0.5-eps:6-4	len:min:max 	100 : -0.0022333884 : -1.1648232e-07
+# indices >=1 off : 89 of 91		% indices off : 4.63
+cpma mu:0.5-eps:12-0	len:min:max 	100 : 0.0019280224787507905 : 96.43124360951879
+cpma mu:0.5-eps:12-1	len:min:max 	100 : 0.001494453505074489 : 81.79963977967054
+cpma mu:0.5-eps:12-2	len:min:max 	100 : 5.7889021263690665e-05 : 45.872375502331124
+cpma mu:0.5-eps:12-3	len:min:max 	100 : 0.013684519784874283 : 98.08296972194148
+cpma mu:0.5-eps:12-4	len:min:max 	100 : 0.0009474980161030544 : 74.73452247558271
+cpma mu:0.5-eps:12-5	len:min:max 	100 : 0.0015953394631651463 : 106.09079326364554
+cpma mu:0.5-eps:12-6	len:min:max 	100 : 4.2739442505990155e-05 : 79.8000753433389
+cpma mu:0.5-eps:12-7	len:min:max 	100 : 1.1488413292681798e-05 : 65.3979257332121
+cpma mu:0.5-eps:12-8	len:min:max 	100 : 0.0016204374678636668 : 111.24988093942011
+cpma mu:0.5-eps:12-9	len:min:max 	100 : 0.0027942315027758013 : 91.68356397149546
+noCorrStats mu:0.5-eps:12-1
+noCorrStats score len:min:max 		100 : 765.4929205239459 : 1374.288508937684
+noCorrStats bj len:min:max 			100 : 0.953550056684353 : 33.9693378134388
+noCorrStats gnull len:min:max 		100 : -0.11401593577176906 : -2.629823535332206e-16
+noCorrStats hc len:min:max 			100 : 1.5988240414916108 : 13.909023986761925
+ELL-0.1 mu:0.5-eps:12-1	len:min:max 	100 : -0.16696322 : -1.1648232e-07
+# indices >=1 off : 87 of 91		% indices off : 2.89
+noCorrStats mu:0.5-eps:12-2
+noCorrStats score len:min:max 		100 : 766.3594460246245 : 1251.0356552125263
+noCorrStats bj len:min:max 			100 : 3.3281907651688836 : 30.63811479855806
+noCorrStats gnull len:min:max 		100 : -0.011548156739704392 : -9.638143660884217e-15
+noCorrStats hc len:min:max 			100 : 1.7948635326670017 : 12.995022101651582
+ELL-0.1 mu:0.5-eps:12-2	len:min:max 	100 : -0.053158946 : -1.1648232e-07
+# indices >=1 off : 38 of 91		% indices off : 1.19
+noCorrStats mu:0.5-eps:12-0
+noCorrStats score len:min:max 		100 : 790.3249685065634 : 1404.4660337568616
+noCorrStats bj len:min:max 			100 : 2.4127376554441193 : 33.77313961257626
+noCorrStats gnull len:min:max 		100 : -0.018753825409888576 : -1.1569134059342564e-16
+noCorrStats hc len:min:max 			100 : 2.3114938293201726 : 11.731082822174494
+ELL-0.1 mu:0.5-eps:12-0	len:min:max 	100 : -0.09387406 : -1.1648232e-07
+# indices >=1 off : 86 of 91		% indices off : 2.66
+noCorrStats mu:0.5-eps:12-6
+noCorrStats score len:min:max 		100 : 822.5372961832509 : 1343.2724483694058
+noCorrStats bj len:min:max 			100 : 1.9763366584962494 : 30.579949399609482
+noCorrStats gnull len:min:max 		100 : -0.029776191054974095 : -8.404575888212481e-15
+noCorrStats hc len:min:max 			100 : 1.3806658428005292 : 13.97124467809897
+ELL-0.1 mu:0.5-eps:12-6	len:min:max 	100 : -0.12578116 : -1.1648232e-07
+# indices >=1 off : 73 of 91		% indices off : 1.86
+noCorrStats mu:0.5-eps:12-9
+noCorrStats score len:min:max 		100 : 818.2032765363524 : 1395.9407195939514
+noCorrStats bj len:min:max 			100 : 2.3992502195359937 : 34.66535091026782
+noCorrStats gnull len:min:max 		100 : -0.02381124911578403 : -5.134477160159569e-17
+noCorrStats hc len:min:max 			100 : 0.6921893597828551 : 11.283757921389485
+ELL-0.1 mu:0.5-eps:12-9	len:min:max 	100 : -0.053809315 : -1.1648232e-07
+# indices >=1 off : 91 of 91		% indices off : 2.73
+noCorrStats mu:0.5-eps:12-4
+noCorrStats score len:min:max 		100 : 803.4699704570967 : 1370.8509734012962
+noCorrStats bj len:min:max 			100 : 3.305661637213939 : 42.24302058610748
+noCorrStats gnull len:min:max 		100 : -0.008311409987853341 : -2.9486424389061524e-20
+noCorrStats hc len:min:max 			100 : 1.6980835810793737 : 14.165251316169806
+ELL-0.1 mu:0.5-eps:12-4	len:min:max 	100 : -0.04159888 : -1.3100347e-07
+# indices >=1 off : 90 of 91		% indices off : 2.81
+noCorrStats mu:0.5-eps:12-3
+noCorrStats score len:min:max 		100 : 740.3418226319181 : 1420.587183950659
+noCorrStats bj len:min:max 			100 : 1.3502605966635537 : 34.91753063688865
+noCorrStats gnull len:min:max 		100 : -0.08812809098063415 : -5.2306401644692226e-17
+noCorrStats hc len:min:max 			100 : 1.9166011630573931 : 12.061037026092515
+ELL-0.1 mu:0.5-eps:12-3	len:min:max 	100 : -0.120593354 : -1.1648232e-07
+# indices >=1 off : 91 of 91		% indices off : 2.79
+noCorrStats mu:0.5-eps:12-5
+noCorrStats score len:min:max 		100 : 872.6886389780614 : 1419.7121643042149
+noCorrStats bj len:min:max 			100 : 2.00539349946483 : 44.61283084695527
+noCorrStats gnull len:min:max 		100 : -0.029597116956493377 : -2.0820076803394083e-21
+noCorrStats hc len:min:max 			100 : 2.3028665262352868 : 10.705711670734999
+ELL-0.1 mu:0.5-eps:12-5	len:min:max 	100 : -0.11462458 : -1.1648232e-07
+# indices >=1 off : 76 of 91		% indices off : 2.11
+noCorrStats mu:0.5-eps:12-8
+noCorrStats score len:min:max 		100 : 848.0633194083376 : 1469.4434752249722
+noCorrStats bj len:min:max 			100 : 2.3399662830616914 : 41.78640518859817
+noCorrStats gnull len:min:max 		100 : -0.05603003218899664 : -4.8319510615139954e-20
+noCorrStats hc len:min:max 			100 : 1.8396830788344298 : 15.776076463821962
+ELL-0.1 mu:0.5-eps:12-8	len:min:max 	100 : -0.08918741 : -1.1648232e-07
+# indices >=1 off : 91 of 91		% indices off : 5.25
+noCorrStats mu:0.5-eps:12-7
+noCorrStats score len:min:max 		100 : 769.9146721333501 : 1312.9192449778236
+noCorrStats bj len:min:max 			100 : 4.028646750091905 : 29.667679663368745
+noCorrStats gnull len:min:max 		100 : -0.0063241403402565415 : -2.0933817039296538e-14
+noCorrStats hc len:min:max 			100 : 1.1759600684511837 : 10.422931352487485
+ELL-0.1 mu:0.5-eps:12-7	len:min:max 	100 : -0.08895692 : -1.1648232e-07
+# indices >=1 off : 63 of 91		% indices off : 0.96
+cpma mu:0-eps:0-0	len:min:max 	100 : 2.5619003281462938e-05 : 68.6206824593537
+cpma mu:0-eps:0-1	len:min:max 	100 : 0.002828929020324722 : 47.502980288063554
+cpma mu:0-eps:0-2	len:min:max 	100 : 5.748136936745141e-05 : 39.494821803744344
+cpma mu:0-eps:0-3	len:min:max 	100 : 0.00015658766642445698 : 66.3578617343228
+cpma mu:0-eps:0-4	len:min:max 	100 : 0.0035823177568090614 : 52.751837296051235
+cpma mu:0-eps:0-5	len:min:max 	100 : 0.0010348689302190905 : 75.85568886903093
+cpma mu:0-eps:0-6	len:min:max 	100 : 0.007474783564248355 : 48.1508680642055
+cpma mu:0-eps:0-7	len:min:max 	100 : 0.0022484652981802355 : 37.31727230694196
+cpma mu:0-eps:0-8	len:min:max 	100 : 0.00033318948408123106 : 64.82986509521834
+cpma mu:0-eps:0-9	len:min:max 	100 : 0.0009868210345302941 : 56.25267428895313
+noCorrStats mu:0-eps:0-3
+noCorrStats score len:min:max 		100 : 651.9932271967007 : 1316.1165712839525
+noCorrStats bj len:min:max 			100 : 0.7350833176418073 : 26.69686791126517
+noCorrStats gnull len:min:max 		100 : -0.9818907945023895 : -1.6256058435846527e-13
+noCorrStats hc len:min:max 			100 : -1.5054667545427385 : 8.972494875396547
+ELL-0.1 mu:0-eps:0-3	len:min:max 	100 : -0.9001898 : -0.0013507182
+# indices >=1 off : 58 of 91		% indices off : 0.65
+noCorrStats mu:0-eps:0-6
+noCorrStats score len:min:max 		100 : 708.8925987671137 : 1219.461620703369
+noCorrStats bj len:min:max 			100 : 0.630824199083667 : 22.7467355642594
+noCorrStats gnull len:min:max 		100 : -0.974698869219373 : -8.250045505752291e-12
+noCorrStats hc len:min:max 			100 : -1.7403230539515286 : 7.054650265129272
+ELL-0.1 mu:0-eps:0-6	len:min:max 	100 : -0.90595365 : -0.00032101737
+# indices >=1 off : 0 of 91		% indices off : 0.0
+noCorrStats mu:0-eps:0-8
+noCorrStats score len:min:max 		100 : 737.0047222103982 : 1334.2145545524659
+noCorrStats bj len:min:max 			100 : 0.5554430573540828 : 31.606739163453057
+noCorrStats gnull len:min:max 		100 : -0.9224571931963165 : -1.3408518288671941e-15
+noCorrStats hc len:min:max 			100 : -1.1605251443034317 : 10.57908093567093
+ELL-0.1 mu:0-eps:0-8	len:min:max 	100 : -0.72314364 : -4.0191266e-05
+# indices >=1 off : 74 of 91		% indices off : 1.1
+noCorrStats mu:0-eps:0-2
+noCorrStats score len:min:max 		100 : 671.0817101890727 : 1133.312293485616
+noCorrStats bj len:min:max 			100 : 0.6955311387332758 : 20.63061668370872
+noCorrStats gnull len:min:max 		100 : -0.9833278298151474 : -1.2857812287811788e-06
+noCorrStats hc len:min:max 			100 : -1.5311296223505972 : 5.996832433223287
+ELL-0.1 mu:0-eps:0-2	len:min:max 	100 : -0.8587316 : -0.00063023256
+# indices >=1 off : 0 of 91		% indices off : 0.0
+noCorrStats mu:0-eps:0-4
+noCorrStats score len:min:max 		100 : 708.2763462393573 : 1265.7892415125837
+noCorrStats bj len:min:max 			100 : 0.638711304225866 : 27.945951096737517
+noCorrStats gnull len:min:max 		100 : -0.982580576619973 : -5.1676639614928896e-14
+noCorrStats hc len:min:max 			100 : -2.1129909099405815 : 9.382809152996952
+ELL-0.1 mu:0-eps:0-4	len:min:max 	100 : -0.8567044 : -0.0015074504
+# indices >=1 off : 57 of 91		% indices off : 0.75
+noCorrStats mu:0-eps:0-0
+noCorrStats score len:min:max 		100 : 692.5965894924789 : 1308.5348047893438
+noCorrStats bj len:min:max 			100 : 0.910346286094518 : 30.596212678828024
+noCorrStats gnull len:min:max 		100 : -0.8583191367818259 : -2.899592826124384e-15
+noCorrStats hc len:min:max 			100 : -0.8570156941417076 : 8.38576091312304
+ELL-0.1 mu:0-eps:0-0	len:min:max 	100 : -0.74475867 : -0.0015026147
+# indices >=1 off : 39 of 91		% indices off : 0.6
+noCorrStats mu:0-eps:0-7
+noCorrStats score len:min:max 		100 : 700.0476847737801 : 1194.9453285669547
+noCorrStats bj len:min:max 			100 : 0.8150467720749343 : 17.748723397596674
+noCorrStats gnull len:min:max 		100 : -0.9946084030370211 : -1.4462482142157418e-09
+noCorrStats hc len:min:max 			100 : -1.8506913534121745 : 6.400192775228555
+ELL-0.1 mu:0-eps:0-7	len:min:max 	100 : -0.87047976 : -0.00012248321
+# indices >=1 off : 0 of 91		% indices off : 0.0
+noCorrStats mu:0-eps:0-5
+noCorrStats score len:min:max 		100 : 765.8751613058586 : 1321.333518159903
+noCorrStats bj len:min:max 			100 : 0.5576740456760025 : 35.33911221206994
+noCorrStats gnull len:min:max 		100 : -0.8938801619120817 : -2.4573123139168955e-17
+noCorrStats hc len:min:max 			100 : -1.164134683908371 : 9.259568758736847
+ELL-0.1 mu:0-eps:0-5	len:min:max 	100 : -0.7297228 : -4.4235014e-05
+# indices >=1 off : 54 of 91		% indices off : 0.59
+noCorrStats mu:0-eps:0-1
+noCorrStats score len:min:max 		100 : 647.0957715982179 : 1242.6927095180174
+noCorrStats bj len:min:max 			100 : 0.5109172061408094 : 22.23308464046819
+noCorrStats gnull len:min:max 		100 : -0.9859787530381525 : -1.9859326569751038e-10
+noCorrStats hc len:min:max 			100 : -1.5837388103086436 : 7.257810632291535
+ELL-0.1 mu:0-eps:0-1	len:min:max 	100 : -0.91091263 : -8.9059526e-05
+# indices >=1 off : 0 of 91		% indices off : 0.0
+noCorrStats mu:0-eps:0-9
+noCorrStats score len:min:max 		100 : 729.8097314010756 : 1267.34377603077
+noCorrStats bj len:min:max 			100 : 0.6318285187565111 : 26.594218541564864
+noCorrStats gnull len:min:max 		100 : -0.9895573234173844 : -1.8249583068198352e-13
+noCorrStats hc len:min:max 			100 : -2.3079351667249908 : 8.19266796836291
+ELL-0.1 mu:0-eps:0-9	len:min:max 	100 : -0.8348236 : -0.0017173421
+# indices >=1 off : 10 of 91		% indices off : 0.11
+cpma mu:0.3-eps:10-0	len:min:max 	100 : 0.0023099281806935323 : 80.89838582756238
+cpma mu:0.3-eps:10-1	len:min:max 	100 : 0.00042628507799236104 : 60.271827866048625
+cpma mu:0.3-eps:10-2	len:min:max 	100 : 3.231760456401389e-05 : 29.117416683915508
+cpma mu:0.3-eps:10-3	len:min:max 	100 : 5.90660420130007e-06 : 68.67435343585748
+cpma mu:0.3-eps:10-4	len:min:max 	100 : 0.001468886617658427 : 66.01457609280806
+cpma mu:0.3-eps:10-5	len:min:max 	100 : 0.0013283229800435947 : 88.86408822760859
+cpma mu:0.3-eps:10-6	len:min:max 	100 : 0.0002042001851805253 : 58.46589114647759
+cpma mu:0.3-eps:10-7	len:min:max 	100 : 0.0011450508172856644 : 45.33762831270724
+cpma mu:0.3-eps:10-8	len:min:max 	100 : 0.014167337936669355 : 70.92890649050787
+cpma mu:0.3-eps:10-9	len:min:max 	100 : 7.752665260341018e-05 : 62.99523057468832
+noCorrStats mu:0.3-eps:10-0
+noCorrStats score len:min:max 		100 : 730.6193229923603 : 1351.268189913345
+noCorrStats bj len:min:max 			100 : 1.0393155052390077 : 33.126508964371716
+noCorrStats gnull len:min:max 		100 : -0.718863343575273 : -2.227986192053005e-16
+noCorrStats hc len:min:max 			100 : -0.5796519503309822 : 8.855969719788796
+ELL-0.1 mu:0.3-eps:10-0	len:min:max 	100 : -0.83807117 : -1.0306137e-09
+# indices >=1 off : 58 of 91		% indices off : 1.09
+noCorrStats mu:0.3-eps:10-5
+noCorrStats score len:min:max 		100 : 800.6547762719371 : 1361.4354366216821
+noCorrStats bj len:min:max 			100 : 0.8123437375095152 : 39.86029517792832
+noCorrStats gnull len:min:max 		100 : -0.8316610101396795 : -2.5350988182465095e-19
+noCorrStats hc len:min:max 			100 : -0.6818586872788459 : 9.884378993336538
+ELL-0.1 mu:0.3-eps:10-5	len:min:max 	100 : -0.8473472 : -1.0377406e-09
+# indices >=1 off : 55 of 91		% indices off : 0.66
+noCorrStats mu:0.3-eps:10-6
+noCorrStats score len:min:max 		100 : 737.4389218646465 : 1260.3320134175497
+noCorrStats bj len:min:max 			100 : 0.6932839030783646 : 23.7533240248555
+noCorrStats gnull len:min:max 		100 : -0.9552038260481384 : -2.9559324805121274e-12
+noCorrStats hc len:min:max 			100 : -1.5188114202525367 : 7.514283504169388
+ELL-0.1 mu:0.3-eps:10-6	len:min:max 	100 : -0.9556696 : -1.0438862e-09
+# indices >=1 off : 17 of 91		% indices off : 0.19
+noCorrStats mu:0.3-eps:10-7
+noCorrStats score len:min:max 		100 : 741.2352430654392 : 1230.5303351830323
+noCorrStats bj len:min:max 			100 : 1.0076433637183737 : 19.982532031365597
+noCorrStats gnull len:min:max 		100 : -0.8504032057628226 : -1.4717697725979725e-10
+noCorrStats hc len:min:max 			100 : -0.6535620464710492 : 7.210942800937482
+ELL-0.1 mu:0.3-eps:10-7	len:min:max 	100 : -0.85164887 : -2.917918e-09
+# indices >=1 off : 1 of 91		% indices off : 0.03
+noCorrStats mu:0.3-eps:10-4
+noCorrStats score len:min:max 		100 : 733.3648131528854 : 1311.4557494691476
+noCorrStats bj len:min:max 			100 : 0.8183711677989106 : 28.383327604911635
+noCorrStats gnull len:min:max 		100 : -0.9539489943751409 : -2.899920932190365e-14
+noCorrStats hc len:min:max 			100 : -1.3595065459582267 : 9.452616099963352
+ELL-0.1 mu:0.3-eps:10-4	len:min:max 	100 : -0.95605916 : -1.0301621e-09
+# indices >=1 off : 62 of 91		% indices off : 1.3
+noCorrStats mu:0.3-eps:10-2
+noCorrStats score len:min:max 		100 : 706.1519214904739 : 1173.602894915676
+noCorrStats bj len:min:max 			100 : 0.8102931742988916 : 18.505361869228697
+noCorrStats gnull len:min:max 		100 : -0.5857296488811226 : -7.1716249592166805e-09
+noCorrStats hc len:min:max 			100 : -1.0355090300756302 : 8.996056576835413
+ELL-0.1 mu:0.3-eps:10-2	len:min:max 	100 : -0.5865796 : -7.3763053e-09
+# indices >=1 off : 1 of 91		% indices off : 0.02
+noCorrStats mu:0.3-eps:10-1
+noCorrStats score len:min:max 		100 : 689.2751496630133 : 1291.5429018222087
+noCorrStats bj len:min:max 			100 : 1.0156159307364923 : 21.8648619910597
+noCorrStats gnull len:min:max 		100 : -0.8084746295939634 : -2.296721155475411e-11
+noCorrStats hc len:min:max 			100 : -0.6420096288555411 : 8.36715736975532
+ELL-0.1 mu:0.3-eps:10-1	len:min:max 	100 : -0.81012046 : -1.0289559e-09
+# indices >=1 off : 15 of 91		% indices off : 0.18
+noCorrStats mu:0.3-eps:10-3
+noCorrStats score len:min:max 		100 : 676.2144171665361 : 1323.298393205583
+noCorrStats bj len:min:max 			100 : 0.793623571091078 : 28.190997814608515
+noCorrStats gnull len:min:max 		100 : -0.7369162766654292 : -3.640560668807932e-14
+noCorrStats hc len:min:max 			100 : -0.2907319915743684 : 9.358562644233544
+noCorrStats mu:0.3-eps:10-9
+noCorrStats score len:min:max 		100 : 752.4663033872962 : 1291.5244602012021
+noCorrStats bj len:min:max 			100 : 0.6839147451810778 : 29.68483508576293
+noCorrStats gnull len:min:max 		100 : -0.8625078994653594 : -7.977559675899866e-15
+noCorrStats hc len:min:max 			100 : -0.6994630921407263 : 8.714290543096642
+ELL-0.1 mu:0.3-eps:10-3	len:min:max 	100 : -0.7395515 : -1.0289559e-09
+# indices >=1 off : 64 of 91		% indices off : 1.11
+ELL-0.1 mu:0.3-eps:10-9	len:min:max 	100 : -0.9044105 : -1.038328e-09
+# indices >=1 off : 25 of 91		% indices off : 0.27
+noCorrStats mu:0.3-eps:10-8
+noCorrStats score len:min:max 		100 : 762.655351327654 : 1353.8182674345626
+noCorrStats bj len:min:max 			100 : 0.7018360499533544 : 33.7686048199081
+noCorrStats gnull len:min:max 		100 : -0.9154145756767933 : -1.572953097175547e-16
+noCorrStats hc len:min:max 			100 : -1.1605251443034317 : 11.269529099438055
+ELL-0.1 mu:0.3-eps:10-8	len:min:max 	100 : -0.923246 : -1.0222522e-09
+# indices >=1 off : 76 of 91		% indices off : 2.09
+cpma mu:0.3-eps:8-0	len:min:max 	100 : 0.0025248294787161285 : 80.01570357496348
+cpma mu:0.3-eps:8-1	len:min:max 	100 : 0.0005996393174427794 : 57.04742501673536
+cpma mu:0.3-eps:8-2	len:min:max 	100 : 1.2443404557416216e-05 : 28.51186497717208
+cpma mu:0.3-eps:8-3	len:min:max 	100 : 0.0026930997173622018 : 77.9092975138683
+cpma mu:0.3-eps:8-4	len:min:max 	100 : 0.0037141046250326326 : 60.91985172039858
+cpma mu:0.3-eps:8-5	len:min:max 	100 : 0.0015620640515408013 : 94.64599745114356
+cpma mu:0.3-eps:8-6	len:min:max 	100 : 4.329376679379493e-08 : 54.702591174496774
+cpma mu:0.3-eps:8-7	len:min:max 	100 : 0.0004261849844624521 : 47.86762945582814
+cpma mu:0.3-eps:8-8	len:min:max 	100 : 6.131504051154479e-07 : 83.74474870003723
+cpma mu:0.3-eps:8-9	len:min:max 	100 : 0.007786429196130484 : 67.22352617061733
+noCorrStats mu:0.3-eps:8-2
+noCorrStats score len:min:max 		100 : 708.0499073351647 : 1157.4934587036523
+noCorrStats bj len:min:max 			100 : 0.9091479473439259 : 17.49103334482196
+noCorrStats gnull len:min:max 		100 : -0.7760987370597743 : -1.788477374057284e-08
+noCorrStats hc len:min:max 			100 : -0.7555199977088207 : 8.374278934660875
+ELL-0.1 mu:0.3-eps:8-2	len:min:max 	100 : -0.7773043 : -1.858977e-08
+# indices >=1 off : 1 of 91		% indices off : 0.01
+noCorrStats mu:0.3-eps:8-8
+noCorrStats score len:min:max 		100 : 771.4824118868389 : 1399.4251097419626
+noCorrStats bj len:min:max 			100 : 1.0063269779729203 : 37.24876323071589
+noCorrStats gnull len:min:max 		100 : -0.5794048758863404 : -4.54017017741805e-18
+noCorrStats hc len:min:max 			100 : -0.40567523742013184 : 11.885018062356439
+ELL-0.1 mu:0.3-eps:8-8	len:min:max 	100 : -0.5811597 : -1.0165344e-09
+# indices >=1 off : 83 of 91		% indices off : 2.26
+noCorrStats mu:0.3-eps:8-0
+noCorrStats score len:min:max 		100 : 753.6439325017232 : 1345.9317972929691
+noCorrStats bj len:min:max 			100 : 0.754323732851175 : 33.77313961257626
+noCorrStats gnull len:min:max 		100 : -0.29018141507095424 : -1.1569134059342564e-16
+noCorrStats hc len:min:max 			100 : -0.729099663002108 : 8.837105273276906
+ELL-0.1 mu:0.3-eps:8-0	len:min:max 	100 : -0.49045476 : -1.0377406e-09
+# indices >=1 off : 56 of 91		% indices off : 1.11
+noCorrStats mu:0.3-eps:8-9
+noCorrStats score len:min:max 		100 : 753.9633028351701 : 1305.9208206714457
+noCorrStats bj len:min:max 			100 : 0.8533052242394867 : 31.255544381243265
+noCorrStats gnull len:min:max 		100 : -0.7401890667517285 : -1.6114809221243787e-15
+noCorrStats hc len:min:max 			100 : -1.1099636936837105 : 8.9241814552259
+ELL-0.1 mu:0.3-eps:8-9	len:min:max 	100 : -0.74215525 : -1.0474853e-09
+# indices >=1 off : 28 of 91		% indices off : 0.31
+noCorrStats mu:0.3-eps:8-4
+noCorrStats score len:min:max 		100 : 748.3874086192005 : 1293.912902048264
+noCorrStats bj len:min:max 			100 : 1.0295358507600731 : 27.945951096737517
+noCorrStats gnull len:min:max 		100 : -0.5160846375252474 : -5.1676639614928896e-14
+noCorrStats hc len:min:max 			100 : -0.5451869625375214 : 9.382809152996952
+ELL-0.1 mu:0.3-eps:8-4	len:min:max 	100 : -0.51817864 : -1.0306137e-09
+# indices >=1 off : 65 of 91		% indices off : 1.1
+noCorrStats mu:0.3-eps:8-3
+noCorrStats score len:min:max 		100 : 668.9631485921684 : 1357.1511542204144
+noCorrStats bj len:min:max 			100 : 0.9688962281739278 : 30.64791087444502
+noCorrStats gnull len:min:max 		100 : -0.7369162766654292 : -2.9461423288307833e-15
+noCorrStats hc len:min:max 			100 : -0.2907319915743684 : 10.130698181907535
+ELL-0.1 mu:0.3-eps:8-3	len:min:max 	100 : -0.7395515 : -1.0289559e-09
+# indices >=1 off : 70 of 91		% indices off : 1.14
+noCorrStats mu:0.3-eps:8-1
+noCorrStats score len:min:max 		100 : 691.9476002272316 : 1278.9375000793314
+noCorrStats bj len:min:max 			100 : 1.1057456725481123 : 22.40091798864013
+noCorrStats gnull len:min:max 		100 : -0.344765776915859 : -1.3056073369143592e-11
+noCorrStats hc len:min:max 			100 : -0.40208500907342276 : 8.39714434574494
+ELL-0.1 mu:0.3-eps:8-1	len:min:max 	100 : -0.40654075 : -1.0289559e-09
+# indices >=1 off : 15 of 91		% indices off : 0.18
+noCorrStats mu:0.3-eps:8-6
+noCorrStats score len:min:max 		100 : 727.6416600099591 : 1247.9167194748427
+noCorrStats bj len:min:max 			100 : 0.6049683964224593 : 21.760512827788023
+noCorrStats gnull len:min:max 		100 : -0.9713169628355853 : -2.257161042809862e-11
+noCorrStats hc len:min:max 			100 : -1.7403230539515286 : 8.236210055660175
+noCorrStats mu:0.3-eps:8-5
+noCorrStats score len:min:max 		100 : 806.1899366278961 : 1381.2113387087566
+noCorrStats bj len:min:max 			100 : 0.7708799195724413 : 40.63645381914766
+noCorrStats gnull len:min:max 		100 : -0.8316610101396795 : -1.1567348678853942e-19
+noCorrStats hc len:min:max 			100 : -0.6818586872788459 : 9.988514032436486
+ELL-0.1 mu:0.3-eps:8-6	len:min:max 	100 : -0.9749866 : -1.0438862e-09
+# indices >=1 off : 18 of 91		% indices off : 0.2
+ELL-0.1 mu:0.3-eps:8-5	len:min:max 	100 : -0.8473472 : -1.0377406e-09
+# indices >=1 off : 56 of 91		% indices off : 0.62
+noCorrStats mu:0.3-eps:8-7
+noCorrStats score len:min:max 		100 : 724.5188833904037 : 1238.8069928008347
+noCorrStats bj len:min:max 			100 : 0.5978609599198554 : 22.087424123032207
+noCorrStats gnull len:min:max 		100 : -0.85273558039868 : -1.7118944032751844e-11
+noCorrStats hc len:min:max 			100 : -0.6622383275290088 : 7.327702383004865
+ELL-0.1 mu:0.3-eps:8-7	len:min:max 	100 : -0.85313284 : -2.917918e-09
+# indices >=1 off : 1 of 91		% indices off : 0.01
+cpma mu:0.3-eps:6-0	len:min:max 	100 : 0.0006696363034279784 : 78.525828785052
+cpma mu:0.3-eps:6-1	len:min:max 	100 : 0.00204037077492103 : 59.93465633987216
+cpma mu:0.3-eps:6-2	len:min:max 	100 : 0.004827441573070246 : 29.805285922913754
+cpma mu:0.3-eps:6-3	len:min:max 	100 : 0.0038934611238801153 : 80.17297044924999
+cpma mu:0.3-eps:6-4	len:min:max 	100 : 0.008469072810839862 : 64.99838261687546
+cpma mu:0.3-eps:6-5	len:min:max 	100 : 0.0012373254721751437 : 93.83836762169994
+cpma mu:0.3-eps:6-6	len:min:max 	100 : 1.058039561030455e-05 : 62.39719297977172
+cpma mu:0.3-eps:6-7	len:min:max 	100 : 0.02694573986082105 : 47.265946175823046
+cpma mu:0.3-eps:6-8	len:min:max 	100 : 1.3637212759931572e-05 : 72.06444255853057
+cpma mu:0.3-eps:6-9	len:min:max 	100 : 1.464074375689961e-05 : 64.11957321418413
+noCorrStats mu:0.3-eps:6-0
+noCorrStats score len:min:max 		100 : 722.1508589128281 : 1344.2055491893907
+noCorrStats bj len:min:max 			100 : 0.8392697353234615 : 33.126508964371716
+noCorrStats gnull len:min:max 		100 : -0.7480822721088674 : -2.227986192053005e-16
+noCorrStats hc len:min:max 			100 : -0.6687024701226659 : 9.52101472609885
+ELL-0.1 mu:0.3-eps:6-0	len:min:max 	100 : -0.8603333 : -1.0421913e-09
+# indices >=1 off : 46 of 91		% indices off : 0.97
+noCorrStats mu:0.3-eps:6-4
+noCorrStats score len:min:max 		100 : 749.6431196377029 : 1313.2461263118646
+noCorrStats bj len:min:max 			100 : 1.050259593676505 : 32.4045592807794
+noCorrStats gnull len:min:max 		100 : -0.6500900495493108 : -5.642984416479071e-16
+noCorrStats hc len:min:max 			100 : -0.816178918972207 : 10.511292473757097
+ELL-0.1 mu:0.3-eps:6-4	len:min:max 	100 : -0.68677926 : -1.0289559e-09
+# indices >=1 off : 70 of 91		% indices off : 1.36
+noCorrStats mu:0.3-eps:6-2
+noCorrStats score len:min:max 		100 : 729.559476562945 : 1175.9002096853264
+noCorrStats bj len:min:max 			100 : 1.2545302374207141 : 21.131079651716693
+noCorrStats gnull len:min:max 		100 : -0.38731788791844296 : -1.0749381790417812e-10
+noCorrStats hc len:min:max 			100 : 0.23585839930104022 : 7.996315195631372
+ELL-0.1 mu:0.3-eps:6-2	len:min:max 	100 : -0.3888988 : -1.038328e-09
+# indices >=1 off : 3 of 91		% indices off : 0.03
+noCorrStats mu:0.3-eps:6-3
+noCorrStats score len:min:max 		100 : 680.8825753250622 : 1367.2389756985353
+noCorrStats bj len:min:max 			100 : 0.5514293172600169 : 29.657510158876335
+noCorrStats gnull len:min:max 		100 : -0.7369162766654292 : -8.049537707319014e-15
+noCorrStats hc len:min:max 			100 : -0.4504342357363672 : 9.74463041307054
+ELL-0.1 mu:0.3-eps:6-3	len:min:max 	100 : -0.7395515 : -1.0246474e-09
+# indices >=1 off : 71 of 91		% indices off : 0.93
+noCorrStats mu:0.3-eps:6-1
+noCorrStats score len:min:max 		100 : 696.4390798269407 : 1296.8168185291797
+noCorrStats bj len:min:max 			100 : 1.1057456725481123 : 23.115764643079842
+noCorrStats gnull len:min:max 		100 : -0.7490182460471585 : -6.304197466120245e-12
+noCorrStats hc len:min:max 			100 : -0.47449639647953074 : 8.774263715531843
+ELL-0.1 mu:0.3-eps:6-1	len:min:max 	100 : -0.75045365 : -1.0289559e-09
+# indices >=1 off : 11 of 91		% indices off : 0.14
+noCorrStats mu:0.3-eps:6-8
+noCorrStats score len:min:max 		100 : 773.5706092181858 : 1358.7066004312278
+noCorrStats bj len:min:max 			100 : 0.34319089858631724 : 34.35909165405306
+noCorrStats gnull len:min:max 		100 : -0.8092091419767123 : -8.424131368148377e-17
+noCorrStats hc len:min:max 			100 : -0.6819175026474374 : 11.218261460462756
+ELL-0.1 mu:0.3-eps:6-8	len:min:max 	100 : -0.8106649 : -1.0222522e-09
+# indices >=1 off : 77 of 91		% indices off : 1.96
+noCorrStats mu:0.3-eps:6-6
+noCorrStats score len:min:max 		100 : 760.7182767238809 : 1279.7801658593146
+noCorrStats bj len:min:max 			100 : 0.8683230964420345 : 24.780201496897913
+noCorrStats gnull len:min:max 		100 : -0.6451016501652994 : -1.0382512090814732e-12
+noCorrStats hc len:min:max 			100 : -1.283745033516242 : 7.981613021454101
+ELL-0.1 mu:0.3-eps:6-6	len:min:max 	100 : -0.6479631 : -1.0474853e-09
+# indices >=1 off : 3 of 91		% indices off : 0.04
+noCorrStats mu:0.3-eps:6-7
+noCorrStats score len:min:max 		100 : 738.5380044326948 : 1239.3795760085438
+noCorrStats bj len:min:max 			100 : 0.5978609599198554 : 19.41310387245162
+noCorrStats gnull len:min:max 		100 : -0.7350569669352944 : -2.633765611486466e-10
+noCorrStats hc len:min:max 			100 : -0.37989882053225293 : 7.210942800937482
+ELL-0.1 mu:0.3-eps:6-7	len:min:max 	100 : -0.73660916 : -1.2500239e-09
+# indices >=1 off : 1 of 91		% indices off : 0.02
+noCorrStats mu:0.3-eps:6-5
+noCorrStats score len:min:max 		100 : 800.0060122629837 : 1381.5169142393615
+noCorrStats bj len:min:max 			100 : 0.6656026296736705 : 39.09056224416847
+noCorrStats gnull len:min:max 		100 : -0.31261589074988394 : -5.520836726921015e-19
+noCorrStats hc len:min:max 			100 : 0.17372068268678112 : 9.975162236618305
+ELL-0.1 mu:0.3-eps:6-5	len:min:max 	100 : -0.38515162 : -1.0377406e-09
+# indices >=1 off : 57 of 91		% indices off : 0.64
+noCorrStats mu:0.3-eps:6-9
+noCorrStats score len:min:max 		100 : 757.1862953971308 : 1296.348187877629
+noCorrStats bj len:min:max 			100 : 0.6746570843537705 : 28.885814574986416
+noCorrStats gnull len:min:max 		100 : -0.39944124145653065 : -1.7819123738480704e-14
+noCorrStats hc len:min:max 			100 : -0.7947848018007644 : 8.627970698097919
+ELL-0.1 mu:0.3-eps:6-9	len:min:max 	100 : -0.40058622 : -1.0289559e-09
+# indices >=1 off : 47 of 91		% indices off : 0.6
+cpma mu:0.3-eps:12-0	len:min:max 	100 : 4.311881639296189e-06 : 91.71896614117577
+cpma mu:0.3-eps:12-1	len:min:max 	100 : 0.004483600254388875 : 60.43971320295714
+cpma mu:0.3-eps:12-2	len:min:max 	100 : 6.303126792772673e-05 : 26.578614689098686
+cpma mu:0.3-eps:12-3	len:min:max 	100 : 0.0018451364849170204 : 86.64985791952313
+cpma mu:0.3-eps:12-4	len:min:max 	100 : 0.0014725952587468782 : 61.49356313629687
+cpma mu:0.3-eps:12-5	len:min:max 	100 : 1.3913379007135518e-05 : 89.10624053169158
+cpma mu:0.3-eps:12-6	len:min:max 	100 : 6.0775000747526065e-06 : 63.606585053159506
+cpma mu:0.3-eps:12-7	len:min:max 	100 : 6.660236977040768e-06 : 47.72330895925006
+cpma mu:0.3-eps:12-8	len:min:max 	100 : 7.436125088133849e-06 : 78.79679689898148
+cpma mu:0.3-eps:12-9	len:min:max 	100 : 0.0010717013792600483 : 70.08264127079747
+noCorrStats mu:0.3-eps:12-1
+noCorrStats score len:min:max 		100 : 671.6500311538249 : 1291.3492374239054
+noCorrStats bj len:min:max 			100 : 0.7550962593613573 : 25.316425771594243
+noCorrStats gnull len:min:max 		100 : -0.9859787530381525 : -6.718878737222339e-13
+noCorrStats hc len:min:max 			100 : -1.5837388103086436 : 8.73693961557658
+ELL-0.1 mu:0.3-eps:12-1	len:min:max 	100 : -0.9860714 : -1.0289559e-09
+# indices >=1 off : 19 of 91		% indices off : 0.25
+noCorrStats mu:0.3-eps:12-2
+noCorrStats score len:min:max 		100 : 732.0216437581892 : 1162.2810349902345
+noCorrStats bj len:min:max 			100 : 1.055107546067366 : 16.50844501108305
+noCorrStats gnull len:min:max 		100 : -0.3731117273521084 : -3.86749514690206e-08
+noCorrStats hc len:min:max 			100 : -0.4227431303297805 : 6.996573814427329
+ELL-0.1 mu:0.3-eps:12-2	len:min:max 	100 : -0.37421626 : -4.0639602e-08
+# indices >=1 off : 0 of 91		% indices off : 0.0
+noCorrStats mu:0.3-eps:12-6
+noCorrStats score len:min:max 		100 : 738.5885582943422 : 1278.6821064307144
+noCorrStats bj len:min:max 			100 : 0.6802000602298475 : 26.35839540549754
+noCorrStats gnull len:min:max 		100 : -0.6123307853332847 : -2.082513279387686e-13
+noCorrStats hc len:min:max 			100 : -0.9730029287630875 : 9.978156907002392
+ELL-0.1 mu:0.3-eps:12-6	len:min:max 	100 : -0.6136873 : -1.0438862e-09
+# indices >=1 off : 18 of 91		% indices off : 0.21
+noCorrStats mu:0.3-eps:12-7
+noCorrStats score len:min:max 		100 : 738.5289428912 : 1239.9658505392092
+noCorrStats bj len:min:max 			100 : 0.4589215259177293 : 21.143139192923815
+noCorrStats gnull len:min:max 		100 : -0.8941252285299214 : -4.49950644689207e-11
+noCorrStats hc len:min:max 			100 : -0.8320416418473726 : 7.428576997999394
+ELL-0.1 mu:0.3-eps:12-7	len:min:max 	100 : -0.89460677 : -1.2500239e-09
+# indices >=1 off : 1 of 91		% indices off : 0.01
+noCorrStats mu:0.3-eps:12-3
+noCorrStats score len:min:max 		100 : 678.1100919113899 : 1381.3884937184519
+noCorrStats bj len:min:max 			100 : 0.6436153316973404 : 32.74789720314963
+noCorrStats gnull len:min:max 		100 : -0.684968106151416 : -3.509726375449873e-16
+noCorrStats hc len:min:max 			100 : -1.0047985130597175 : 10.130698181907535
+ELL-0.1 mu:0.3-eps:12-3	len:min:max 	100 : -0.69984895 : -1.0289559e-09
+# indices >=1 off : 70 of 91		% indices off : 1.44
+noCorrStats mu:0.3-eps:12-4
+noCorrStats score len:min:max 		100 : 719.7949639685597 : 1284.0814845928753
+noCorrStats bj len:min:max 			100 : 0.8984128537399895 : 35.90556236478671
+noCorrStats gnull len:min:max 		100 : -0.972764588484885 : -1.634535937137312e-17
+noCorrStats hc len:min:max 			100 : -1.925481544026423 : 10.906578655626516
+ELL-0.1 mu:0.3-eps:12-4	len:min:max 	100 : -0.99330926 : -1.0289559e-09
+# indices >=1 off : 69 of 91		% indices off : 1.14
+noCorrStats mu:0.3-eps:12-0
+noCorrStats score len:min:max 		100 : 751.4943801110353 : 1384.815023844389
+noCorrStats bj len:min:max 			100 : 1.1999843930790246 : 36.415449422667386
+noCorrStats gnull len:min:max 		100 : -0.7501099914467133 : -7.96158056153336e-18
+noCorrStats hc len:min:max 			100 : -0.5796519503309822 : 9.58973581485387
+ELL-0.1 mu:0.3-eps:12-0	len:min:max 	100 : -0.7509829 : -1.0306137e-09
+# indices >=1 off : 60 of 91		% indices off : 1.13
+noCorrStats mu:0.3-eps:12-5
+noCorrStats score len:min:max 		100 : 801.5914625085047 : 1362.5941209856705
+noCorrStats bj len:min:max 			100 : 0.8267055645535895 : 39.09056224416847
+noCorrStats gnull len:min:max 		100 : -0.8316610101396795 : -5.520836726921015e-19
+noCorrStats hc len:min:max 			100 : -0.6818586872788459 : 9.78024395423659
+ELL-0.1 mu:0.3-eps:12-5	len:min:max 	100 : -0.83323693 : -1.0377406e-09
+# indices >=1 off : 55 of 91		% indices off : 0.68
+noCorrStats mu:0.3-eps:12-8
+noCorrStats score len:min:max 		100 : 776.4588917467396 : 1379.8621640567192
+noCorrStats bj len:min:max 			100 : 0.7454362757339308 : 35.794085581522644
+noCorrStats gnull len:min:max 		100 : -0.8017894862016708 : -1.9746257731643377e-17
+noCorrStats hc len:min:max 			100 : -0.5024673633931382 : 11.218527228251453
+ELL-0.1 mu:0.3-eps:12-8	len:min:max 	100 : -0.8073383 : -1.0222522e-09
+# indices >=1 off : 74 of 91		% indices off : 1.82
+noCorrStats mu:0.3-eps:12-9
+noCorrStats score len:min:max 		100 : 771.1906938418637 : 1320.1071501406564
+noCorrStats bj len:min:max 			100 : 0.7781366620567404 : 30.49282511964988
+noCorrStats gnull len:min:max 		100 : -0.9212966981153264 : -3.5160651046887215e-15
+noCorrStats hc len:min:max 			100 : -1.180895677979996 : 8.844696186780071
+ELL-0.1 mu:0.3-eps:12-9	len:min:max 	100 : -0.9225407 : -1.0289559e-09
+# indices >=1 off : 42 of 91		% indices off : 0.56
+cpma mu:0.4-eps:10-0	len:min:max 	100 : 0.001169546419987455 : 93.67524082307318
+cpma mu:0.4-eps:10-1	len:min:max 	100 : 9.387891986989416e-05 : 65.882201782837
+cpma mu:0.4-eps:10-2	len:min:max 	100 : 0.0589270117579872 : 35.62111787453978
+cpma mu:0.4-eps:10-3	len:min:max 	100 : 0.005908364215429174 : 83.6752657606612
+cpma mu:0.4-eps:10-4	len:min:max 	100 : 4.8165913540287875e-05 : 76.06285572472734
+cpma mu:0.4-eps:10-5	len:min:max 	100 : 0.005455007507407572 : 106.71856660374033
+cpma mu:0.4-eps:10-6	len:min:max 	100 : 3.151168675685767e-05 : 64.98296464758641
+cpma mu:0.4-eps:10-7	len:min:max 	100 : 0.00024601531185908243 : 63.58047450854065
+cpma mu:0.4-eps:10-8	len:min:max 	100 : 0.0013556391841120785 : 86.76048385591821
+cpma mu:0.4-eps:10-9	len:min:max 	100 : 0.004112157173949527 : 66.74216442785837
+noCorrStats mu:0.4-eps:10-5
+noCorrStats score len:min:max 		100 : 833.7387074092292 : 1425.922198283075
+noCorrStats bj len:min:max 			100 : 0.8725005728459516 : 39.86029517792832
+noCorrStats gnull len:min:max 		100 : -0.13186265357639207 : -2.5350988182465095e-19
+noCorrStats hc len:min:max 			100 : 0.565161220584203 : 10.43092676932752
+ELL-0.1 mu:0.4-eps:10-5	len:min:max 	100 : -0.13972329 : -1.0377406e-09
+# indices >=1 off : 60 of 91		% indices off : 1.24
+noCorrStats mu:0.4-eps:10-6
+noCorrStats score len:min:max 		100 : 785.7315823995997 : 1286.5940117934308
+noCorrStats bj len:min:max 			100 : 1.296159800058427 : 25.301225042393792
+noCorrStats gnull len:min:max 		100 : -0.3052501466741062 : -6.107703782151285e-13
+noCorrStats hc len:min:max 			100 : 0.12223190583697477 : 9.053068761078977
+noCorrStats mu:0.4-eps:10-9
+noCorrStats score len:min:max 		100 : 780.6429711582673 : 1305.9041018758837
+noCorrStats bj len:min:max 			100 : 2.0396884221245934 : 31.30972758818876
+noCorrStats gnull len:min:max 		100 : -0.3396778742816589 : -1.5362011654981737e-15
+noCorrStats hc len:min:max 			100 : 0.41448560224640163 : 9.437666504291848
+ELL-0.1 mu:0.4-eps:10-6	len:min:max 	100 : -0.3101491 : -1.0300121e-09
+# indices >=1 off : 34 of 91		% indices off : 0.45
+ELL-0.1 mu:0.4-eps:10-9	len:min:max 	100 : -0.34140688 : -1.0289559e-09
+# indices >=1 off : 59 of 91		% indices off : 0.87
+noCorrStats mu:0.4-eps:10-4
+noCorrStats score len:min:max 		100 : 761.510398861268 : 1351.2436584018526
+noCorrStats bj len:min:max 			100 : 1.804851607512858 : 35.90556236478671
+noCorrStats gnull len:min:max 		100 : -0.062478481527847934 : -1.634535937137312e-17
+noCorrStats hc len:min:max 			100 : 0.48555807029744597 : 11.075534134137174
+ELL-0.1 mu:0.4-eps:10-4	len:min:max 	100 : -0.067821786 : -1.0222522e-09
+# indices >=1 off : 78 of 91		% indices off : 2.16
+noCorrStats mu:0.4-eps:10-0
+noCorrStats score len:min:max 		100 : 772.4800818561175 : 1394.1449106359084
+noCorrStats bj len:min:max 			100 : 2.1748692759560773 : 33.77313961257626
+noCorrStats gnull len:min:max 		100 : -0.07242672380473857 : -1.1569134059342564e-16
+noCorrStats hc len:min:max 			100 : 0.20569313936663605 : 9.191543898489085
+ELL-0.1 mu:0.4-eps:10-0	len:min:max 	100 : -0.07293126 : -1.028475e-09
+# indices >=1 off : 64 of 91		% indices off : 1.34
+noCorrStats mu:0.4-eps:10-1
+noCorrStats score len:min:max 		100 : 717.1841307444973 : 1314.6599251540613
+noCorrStats bj len:min:max 			100 : 1.3161442878867322 : 24.573581970947252
+noCorrStats gnull len:min:max 		100 : -0.14110510121937297 : -1.4300379694555688e-12
+noCorrStats hc len:min:max 			100 : 0.17295803620256242 : 9.106721861397842
+ELL-0.1 mu:0.4-eps:10-1	len:min:max 	100 : -0.1418187 : -1.028475e-09
+# indices >=1 off : 49 of 91		% indices off : 0.79
+noCorrStats mu:0.4-eps:10-2
+noCorrStats score len:min:max 		100 : 750.8264713539901 : 1210.627243515078
+noCorrStats bj len:min:max 			100 : 0.9480076795702895 : 25.724807547798875
+noCorrStats gnull len:min:max 		100 : -0.312926902252009 : -1.0068933127820783e-12
+noCorrStats hc len:min:max 			100 : 0.5592627231871331 : 8.574598491773742
+ELL-0.1 mu:0.4-eps:10-2	len:min:max 	100 : -0.38711154 : -1.038328e-09
+# indices >=1 off : 6 of 91		% indices off : 0.1
+noCorrStats mu:0.4-eps:10-7
+noCorrStats score len:min:max 		100 : 757.6325357251318 : 1305.4849750784817
+noCorrStats bj len:min:max 			100 : 1.1744827702154959 : 22.93793820566218
+noCorrStats gnull len:min:max 		100 : -0.3603264243255415 : -7.216547364508948e-12
+noCorrStats hc len:min:max 			100 : -0.09385760380694413 : 9.962690199479946
+ELL-0.1 mu:0.4-eps:10-7	len:min:max 	100 : -0.5195398 : -1.0222522e-09
+# indices >=1 off : 12 of 91		% indices off : 0.15
+noCorrStats mu:0.4-eps:10-8
+noCorrStats score len:min:max 		100 : 799.4700679956409 : 1404.6664864949298
+noCorrStats bj len:min:max 			100 : 0.9996833902587623 : 37.06143381369838
+noCorrStats gnull len:min:max 		100 : -0.21763369413487274 : -5.3914854402944934e-18
+noCorrStats hc len:min:max 			100 : 0.4988074292758323 : 11.681636214080754
+ELL-0.1 mu:0.4-eps:10-8	len:min:max 	100 : -0.21904792 : -1.0165344e-09
+# indices >=1 off : 87 of 91		% indices off : 2.88
+noCorrStats mu:0.4-eps:10-3
+noCorrStats score len:min:max 		100 : 698.5015142587065 : 1372.3064827325109
+noCorrStats bj len:min:max 			100 : 0.6939276138761262 : 29.970569405523058
+noCorrStats gnull len:min:max 		100 : -0.7629108318642688 : -6.516302330060913e-15
+noCorrStats hc len:min:max 			100 : -0.5041302715766961 : 10.51676595074453
+ELL-0.1 mu:0.4-eps:10-3	len:min:max 	100 : -0.7644422 : -1.0222522e-09
+# indices >=1 off : 80 of 91		% indices off : 1.63
+cpma mu:0.4-eps:8-0	len:min:max 	100 : 0.003449786327109905 : 87.4676632915598
+cpma mu:0.4-eps:8-1	len:min:max 	100 : 0.008256216435256647 : 64.39891898988208
+cpma mu:0.4-eps:8-2	len:min:max 	100 : 0.0018856928600143874 : 32.6263291677551
+cpma mu:0.4-eps:8-3	len:min:max 	100 : 0.0040867350671760505 : 81.45676083558283
+cpma mu:0.4-eps:8-4	len:min:max 	100 : 0.00048007137411332224 : 69.18203695623743
+cpma mu:0.4-eps:8-5	len:min:max 	100 : 0.0008737628668313846 : 107.06605721782762
+cpma mu:0.4-eps:8-6	len:min:max 	100 : 2.663024679350201e-05 : 69.52848246235953
+cpma mu:0.4-eps:8-7	len:min:max 	100 : 0.0007502677872253116 : 60.73316059135868
+cpma mu:0.4-eps:8-8	len:min:max 	100 : 0.00012148969835834578 : 88.55966185034777
+cpma mu:0.4-eps:8-9	len:min:max 	100 : 0.0002338002268515993 : 73.62542015662257
+noCorrStats mu:0.4-eps:8-0
+noCorrStats score len:min:max 		100 : 761.5865888504669 : 1375.9353371624543
+noCorrStats bj len:min:max 			100 : 1.4687926764700747 : 33.77313961257626
+noCorrStats gnull len:min:max 		100 : -0.056099251180191476 : -1.1569134059342564e-16
+noCorrStats hc len:min:max 			100 : 0.8411115019851116 : 10.072457850623143
+ELL-0.1 mu:0.4-eps:8-0	len:min:max 	100 : -0.070874915 : -1.0377406e-09
+# indices >=1 off : 60 of 91		% indices off : 1.64
+noCorrStats mu:0.4-eps:8-2
+noCorrStats score len:min:max 		100 : 755.5344282019121 : 1202.7051440371338
+noCorrStats bj len:min:max 			100 : 2.42619007946662 : 27.19761064693375
+noCorrStats gnull len:min:max 		100 : -0.07552724229367072 : -3.4502922955481284e-13
+noCorrStats hc len:min:max 			100 : 0.09412757634800321 : 10.995539339243498
+ELL-0.1 mu:0.4-eps:8-2	len:min:max 	100 : -0.076610364 : -1.028475e-09
+# indices >=1 off : 9 of 91		% indices off : 0.19
+noCorrStats mu:0.4-eps:8-1
+noCorrStats score len:min:max 		100 : 726.0441942096095 : 1309.2685847557523
+noCorrStats bj len:min:max 			100 : 1.729959064379514 : 23.844909322023245
+noCorrStats gnull len:min:max 		100 : -0.3442550232422319 : -2.8638422319670165e-12
+noCorrStats hc len:min:max 			100 : 0.19049434666298476 : 10.122060268554135
+ELL-0.1 mu:0.4-eps:8-1	len:min:max 	100 : -0.35046688 : -1.0289559e-09
+# indices >=1 off : 26 of 91		% indices off : 0.43
+noCorrStats mu:0.4-eps:8-8
+noCorrStats score len:min:max 		100 : 818.181617965646 : 1416.2482886762807
+noCorrStats bj len:min:max 			100 : 1.4170383331801486 : 41.78640518859817
+noCorrStats gnull len:min:max 		100 : -0.09398221194722772 : -4.8319510615139954e-20
+noCorrStats hc len:min:max 			100 : 0.7456377201216245 : 12.894634810589766
+ELL-0.1 mu:0.4-eps:8-8	len:min:max 	100 : -0.09534831 : -1.0165344e-09
+# indices >=1 off : 86 of 91		% indices off : 2.66
+noCorrStats mu:0.4-eps:8-5
+noCorrStats score len:min:max 		100 : 806.9536666930791 : 1423.6275371338081
+noCorrStats bj len:min:max 			100 : 1.9678476091235315 : 40.63645381914766
+noCorrStats gnull len:min:max 		100 : -0.3198841049382573 : -1.1567348678853942e-19
+noCorrStats hc len:min:max 			100 : 0.6295386847767139 : 10.521139344899167
+ELL-0.1 mu:0.4-eps:8-5	len:min:max 	100 : -0.32082534 : -1.0165344e-09
+# indices >=1 off : 70 of 91		% indices off : 1.12
+noCorrStats mu:0.4-eps:8-4
+noCorrStats score len:min:max 		100 : 786.4461440944739 : 1332.638225180313
+noCorrStats bj len:min:max 			100 : 1.172892545827324 : 33.556914079916076
+noCorrStats gnull len:min:max 		100 : -0.25353531047234573 : -1.7580785870445345e-16
+noCorrStats hc len:min:max 			100 : 0.7897685075733303 : 10.511292473757097
+ELL-0.1 mu:0.4-eps:8-4	len:min:max 	100 : -0.25481358 : -1.028475e-09
+# indices >=1 off : 74 of 91		% indices off : 1.62
+noCorrStats mu:0.4-eps:8-3
+noCorrStats score len:min:max 		100 : 704.0413883190809 : 1355.9116810580683
+noCorrStats bj len:min:max 			100 : 1.7981914937291432 : 28.905074166771094
+noCorrStats gnull len:min:max 		100 : -0.04639026610332883 : -1.7270533930354743e-14
+noCorrStats hc len:min:max 			100 : 0.6192450372219502 : 10.371596435545545
+ELL-0.1 mu:0.4-eps:8-3	len:min:max 	100 : -0.04892741 : -1.0222522e-09
+# indices >=1 off : 80 of 91		% indices off : 1.55
+noCorrStats mu:0.4-eps:8-7
+noCorrStats score len:min:max 		100 : 760.3722755874437 : 1296.257646016371
+noCorrStats bj len:min:max 			100 : 1.1954089933876186 : 22.140444237927735
+noCorrStats gnull len:min:max 		100 : -0.13128290312447533 : -2.4617899353384263e-11
+noCorrStats hc len:min:max 			100 : 0.3871032444050709 : 8.511874970329748
+ELL-0.1 mu:0.4-eps:8-7	len:min:max 	100 : -0.1321768 : -1.028475e-09
+# indices >=1 off : 4 of 91		% indices off : 0.11
+noCorrStats mu:0.4-eps:8-6
+noCorrStats score len:min:max 		100 : 785.4908925857618 : 1303.1161664263675
+noCorrStats bj len:min:max 			100 : 1.532264774154982 : 25.82729273850438
+noCorrStats gnull len:min:max 		100 : -0.20480686710957158 : -3.5752413996844457e-13
+noCorrStats hc len:min:max 			100 : 0.3644217389576981 : 11.686235620127631
+ELL-0.1 mu:0.4-eps:8-6	len:min:max 	100 : -0.20608442 : -1.0222522e-09
+# indices >=1 off : 40 of 91		% indices off : 0.59
+noCorrStats mu:0.4-eps:8-9
+noCorrStats score len:min:max 		100 : 780.4595897776609 : 1331.668531263156
+noCorrStats bj len:min:max 			100 : 1.766522144763495 : 33.519645858396885
+noCorrStats gnull len:min:max 		100 : -0.07944262750999252 : -5.401685996677855e-16
+noCorrStats hc len:min:max 			100 : 1.0852467365987792 : 9.565135739678588
+ELL-0.1 mu:0.4-eps:8-9	len:min:max 	100 : -0.0863412 : -1.028475e-09
+# indices >=1 off : 67 of 91		% indices off : 0.99
+cpma mu:0.4-eps:6-0	len:min:max 	100 : 0.00045680291259486694 : 89.40789536214834
+cpma mu:0.4-eps:6-1	len:min:max 	100 : 1.3112548913341016e-07 : 66.31761801705034
+cpma mu:0.4-eps:6-2	len:min:max 	100 : 0.0011099868406745372 : 32.026819156430065
+cpma mu:0.4-eps:6-3	len:min:max 	100 : 0.0001940648344316287 : 79.25211931018384
+cpma mu:0.4-eps:6-4	len:min:max 	100 : 0.04470848955497786 : 64.8923470518439
+cpma mu:0.4-eps:6-5	len:min:max 	100 : 2.5740964701981284e-05 : 105.91154253292552
+cpma mu:0.4-eps:6-6	len:min:max 	100 : 0.0002551073903305223 : 63.29270941550385
+cpma mu:0.4-eps:6-7	len:min:max 	100 : 0.00241812356034643 : 51.55085394414891
+cpma mu:0.4-eps:6-8	len:min:max 	100 : 0.005303206084136036 : 79.51877542298826
+cpma mu:0.4-eps:6-9	len:min:max 	100 : 2.6932857508654706e-05 : 74.08876241278995
+noCorrStats mu:0.4-eps:6-5
+noCorrStats score len:min:max 		100 : 847.9101424180717 : 1424.2655527754623
+noCorrStats bj len:min:max 			100 : 2.7676793159704816 : 39.09056224416847
+noCorrStats gnull len:min:max 		100 : -0.03649719848959575 : -5.520836726921015e-19
+noCorrStats hc len:min:max 			100 : 0.7338306309834466 : 9.920358396976404
+ELL-0.1 mu:0.4-eps:6-5	len:min:max 	100 : -0.036852058 : -1.028475e-09
+# indices >=1 off : 64 of 91		% indices off : 1.03
+noCorrStats mu:0.4-eps:6-9
+noCorrStats score len:min:max 		100 : 809.2367270465975 : 1337.9168583457015
+noCorrStats bj len:min:max 			100 : 3.073841445556968 : 32.6610885879749
+noCorrStats gnull len:min:max 		100 : -0.03594814989456086 : -1.144636593130605e-15
+noCorrStats hc len:min:max 			100 : 1.036989486843186 : 9.698887548241894
+ELL-0.1 mu:0.4-eps:6-9	len:min:max 	100 : -0.036220435 : -1.028475e-09
+# indices >=1 off : 34 of 91		% indices off : 0.59
+noCorrStats mu:0.4-eps:6-0
+noCorrStats score len:min:max 		100 : 761.2084884344729 : 1382.4209094153803
+noCorrStats bj len:min:max 			100 : 2.5650063717469234 : 34.42536340177728
+noCorrStats gnull len:min:max 		100 : -0.028697523368969288 : -5.974453773545269e-17
+noCorrStats hc len:min:max 			100 : 0.24660547319263157 : 10.408465498190324
+ELL-0.1 mu:0.4-eps:6-0	len:min:max 	100 : -0.029650493 : -1.028475e-09
+# indices >=1 off : 67 of 91		% indices off : 1.54
+noCorrStats mu:0.4-eps:6-6
+noCorrStats score len:min:max 		100 : 767.1886076188333 : 1279.7419620381927
+noCorrStats bj len:min:max 			100 : 1.4523202286954107 : 29.258317912369847
+noCorrStats gnull len:min:max 		100 : -0.6861514832759735 : -3.8305087831775775e-14
+noCorrStats hc len:min:max 			100 : -0.14811317390341536 : 9.406823424598674
+ELL-0.1 mu:0.4-eps:6-6	len:min:max 	100 : -0.6879264 : -1.0222522e-09
+# indices >=1 off : 12 of 91		% indices off : 0.45
+noCorrStats mu:0.4-eps:6-4
+noCorrStats score len:min:max 		100 : 765.0479032414563 : 1313.384597683439
+noCorrStats bj len:min:max 			100 : 2.0758913222235713 : 31.267094016713767
+noCorrStats gnull len:min:max 		100 : -0.02091710482963024 : -1.7850353792191267e-15
+noCorrStats hc len:min:max 			100 : -0.21763762117878335 : 10.297864353201215
+ELL-0.1 mu:0.4-eps:6-4	len:min:max 	100 : -0.16098939 : -1.028475e-09
+# indices >=1 off : 75 of 91		% indices off : 1.81
+noCorrStats mu:0.4-eps:6-1
+noCorrStats score len:min:max 		100 : 733.3476849173292 : 1322.814656230103
+noCorrStats bj len:min:max 			100 : 1.1905768865321846 : 26.04479572643444
+noCorrStats gnull len:min:max 		100 : -0.100188626669257 : -9.527450006886492e-13
+noCorrStats hc len:min:max 			100 : 0.8013165115042304 : 11.055001243996388
+ELL-0.1 mu:0.4-eps:6-1	len:min:max 	100 : -0.10170607 : -1.0246474e-09
+# indices >=1 off : 27 of 91		% indices off : 0.44
+noCorrStats mu:0.4-eps:6-8
+noCorrStats score len:min:max 		100 : 789.7113686512688 : 1385.871027756532
+noCorrStats bj len:min:max 			100 : 1.8201308164968821 : 38.722789201405796
+noCorrStats gnull len:min:max 		100 : -0.028309646942799083 : -1.0242926044715891e-18
+noCorrStats hc len:min:max 			100 : 0.9634025496728945 : 11.770272258171534
+ELL-0.1 mu:0.4-eps:6-8	len:min:max 	100 : -0.14391032 : -1.0165344e-09
+# indices >=1 off : 89 of 91		% indices off : 2.65
+noCorrStats mu:0.4-eps:6-7
+noCorrStats score len:min:max 		100 : 759.8079947333498 : 1260.3893600994077
+noCorrStats bj len:min:max 			100 : 1.486772208293954 : 27.994262589024327
+noCorrStats gnull len:min:max 		100 : -0.2091800117193216 : -1.2182741902048859e-13
+noCorrStats hc len:min:max 			100 : -0.5244029365304076 : 9.505151078959527
+ELL-0.1 mu:0.4-eps:6-7	len:min:max 	100 : -0.21026233 : -1.028475e-09
+# indices >=1 off : 5 of 91		% indices off : 0.32
+noCorrStats mu:0.4-eps:6-3
+noCorrStats score len:min:max 		100 : 703.6546785215036 : 1362.0556387044228
+noCorrStats bj len:min:max 			100 : 3.400541329281366 : 31.853724545556656
+noCorrStats gnull len:min:max 		100 : -0.07767251328888516 : -3.2788412037208522e-15
+noCorrStats hc len:min:max 			100 : -0.0034620300936748674 : 10.130698181907535
+ELL-0.1 mu:0.4-eps:6-3	len:min:max 	100 : -0.078721374 : -1.0246474e-09
+# indices >=1 off : 79 of 91		% indices off : 1.58
+noCorrStats mu:0.4-eps:6-2
+noCorrStats score len:min:max 		100 : 746.8329257898566 : 1193.4503677518253
+noCorrStats bj len:min:max 			100 : 2.184571971264729 : 26.05148190605779
+noCorrStats gnull len:min:max 		100 : -0.07799469660752245 : -7.801181768996972e-13
+noCorrStats hc len:min:max 			100 : 0.006967465410290908 : 10.995539339243498
+ELL-0.1 mu:0.4-eps:6-2	len:min:max 	100 : -0.07859601 : -1.028475e-09
+# indices >=1 off : 8 of 91		% indices off : 0.32
+cpma mu:0.4-eps:12-0	len:min:max 	100 : 0.00017664273036643863 : 87.91331467454074
+cpma mu:0.4-eps:12-1	len:min:max 	100 : 0.010044122731414973 : 70.85659770352686
+cpma mu:0.4-eps:12-2	len:min:max 	100 : 0.007742132400380797 : 41.15792767451603
+cpma mu:0.4-eps:12-3	len:min:max 	100 : 0.0005125964416947681 : 82.01017022908673
+cpma mu:0.4-eps:12-4	len:min:max 	100 : 0.01505838774392032 : 72.18711961755434
+cpma mu:0.4-eps:12-5	len:min:max 	100 : 0.0026628281993907876 : 107.22794628450356
+cpma mu:0.4-eps:12-6	len:min:max 	100 : 0.00029830850144207943 : 64.96120654358856
+cpma mu:0.4-eps:12-7	len:min:max 	100 : 0.002925706006863038 : 62.545724745334155
+cpma mu:0.4-eps:12-8	len:min:max 	100 : 0.013967587687147898 : 86.15823925811492
+cpma mu:0.4-eps:12-9	len:min:max 	100 : 0.00042616123937477823 : 75.22466159927717
+noCorrStats mu:0.4-eps:12-2
+noCorrStats score len:min:max 		100 : 752.317375723666 : 1237.6644754773565
+noCorrStats bj len:min:max 			100 : 1.3103460665168882 : 18.201646610840868
+noCorrStats gnull len:min:max 		100 : -0.23013958443686863 : -1.0538392051258376e-09
+noCorrStats hc len:min:max 			100 : 0.0514029356902278 : 9.835460054737533
+ELL-0.1 mu:0.4-eps:12-2	len:min:max 	100 : -0.2322474 : -1.1015473e-09
+# indices >=1 off : 1 of 91		% indices off : 0.03
+noCorrStats mu:0.4-eps:12-4
+noCorrStats score len:min:max 		100 : 775.077823196826 : 1341.8037933123755
+noCorrStats bj len:min:max 			100 : 1.7577540327565777 : 38.311627282100346
+noCorrStats gnull len:min:max 		100 : -0.20518093859070283 : -1.4364407430978371e-18
+noCorrStats hc len:min:max 			100 : 0.44387401617133265 : 11.988360859676936
+ELL-0.1 mu:0.4-eps:12-4	len:min:max 	100 : -0.20661761 : -1.0222522e-09
+# indices >=1 off : 75 of 91		% indices off : 1.87
+noCorrStats mu:0.4-eps:12-3
+noCorrStats score len:min:max 		100 : 701.8647935921858 : 1370.4308085853456
+noCorrStats bj len:min:max 			100 : 1.0062309692816813 : 31.186662655085467
+noCorrStats gnull len:min:max 		100 : -0.19397356801883686 : -1.7074947570130847e-15
+noCorrStats hc len:min:max 			100 : 0.08625108767789069 : 11.066529519040616
+ELL-0.1 mu:0.4-eps:12-3	len:min:max 	100 : -0.19807737 : -1.0222522e-09
+# indices >=1 off : 77 of 91		% indices off : 1.36
+noCorrStats mu:0.4-eps:12-6
+noCorrStats score len:min:max 		100 : 775.6151918023755 : 1283.4989418682333
+noCorrStats bj len:min:max 			100 : 1.2810473821470705 : 24.780201496897913
+noCorrStats gnull len:min:max 		100 : -0.6496266361997298 : -1.0382512090814732e-12
+noCorrStats hc len:min:max 			100 : -0.18985628880796834 : 10.976428849776536
+noCorrStats mu:0.4-eps:12-8
+noCorrStats score len:min:max 		100 : 797.1878571780697 : 1409.5353567751959
+noCorrStats bj len:min:max 			100 : 0.6030097027824548 : 41.78640518859817
+noCorrStats gnull len:min:max 		100 : -0.5412168344984122 : -4.8319510615139954e-20
+noCorrStats hc len:min:max 			100 : 0.13757784904825177 : 12.894634810589766
+ELL-0.1 mu:0.4-eps:12-6	len:min:max 	100 : -0.6511749 : -1.0222522e-09
+# indices >=1 off : 32 of 91		% indices off : 0.35
+ELL-0.1 mu:0.4-eps:12-8	len:min:max 	100 : -0.54211366 : -1.0165344e-09
+# indices >=1 off : 83 of 91		% indices off : 2.84
+noCorrStats mu:0.4-eps:12-1
+noCorrStats score len:min:max 		100 : 709.9038739140815 : 1329.9350825142833
+noCorrStats bj len:min:max 			100 : 1.3409128238772912 : 27.313029060037806
+noCorrStats gnull len:min:max 		100 : -0.5659403096569376 : -1.138285883521754e-13
+noCorrStats hc len:min:max 			100 : -0.23494931133872907 : 10.216068598861623
+ELL-0.1 mu:0.4-eps:12-1	len:min:max 	100 : -0.5680508 : -1.0246474e-09
+# indices >=1 off : 49 of 91		% indices off : 0.81
+noCorrStats mu:0.4-eps:12-0
+noCorrStats score len:min:max 		100 : 818.2939136627332 : 1374.4399012374197
+noCorrStats bj len:min:max 			100 : 0.9957503474262637 : 33.77313961257626
+noCorrStats gnull len:min:max 		100 : -0.18885961689968084 : -1.1569134059342564e-16
+noCorrStats hc len:min:max 			100 : 0.45257074546899306 : 11.295916270281799
+ELL-0.1 mu:0.4-eps:12-0	len:min:max 	100 : -0.18998964 : -1.024294e-09
+# indices >=1 off : 63 of 91		% indices off : 1.55
+noCorrStats mu:0.4-eps:12-7
+noCorrStats score len:min:max 		100 : 764.8698959752096 : 1304.7165608576668
+noCorrStats bj len:min:max 			100 : 0.6616733650291076 : 22.33252954279479
+noCorrStats gnull len:min:max 		100 : -0.39797517675482746 : -1.3375251265843113e-11
+noCorrStats hc len:min:max 			100 : 0.28409419017274246 : 9.528317936107205
+ELL-0.1 mu:0.4-eps:12-7	len:min:max 	100 : -0.56483835 : -1.0222522e-09
+# indices >=1 off : 4 of 91		% indices off : 0.09
+noCorrStats mu:0.4-eps:12-9
+noCorrStats score len:min:max 		100 : 791.6233571899833 : 1333.203310679788
+noCorrStats bj len:min:max 			100 : 1.2066870681079653 : 34.66535091026782
+noCorrStats gnull len:min:max 		100 : -0.11659720592711827 : -5.134477160159569e-17
+noCorrStats hc len:min:max 			100 : 0.32221135657927336 : 9.989399744353117
+ELL-0.1 mu:0.4-eps:12-9	len:min:max 	100 : -0.19212426 : -1.0289559e-09
+# indices >=1 off : 61 of 91		% indices off : 1.02
+noCorrStats mu:0.4-eps:12-5
+noCorrStats score len:min:max 		100 : 822.6873764513522 : 1423.332772785686
+noCorrStats bj len:min:max 			100 : 1.5565568111651829 : 42.20795583300729
+noCorrStats gnull len:min:max 		100 : -0.32987664086090057 : -2.3631719255279947e-20
+noCorrStats hc len:min:max 			100 : -0.07425216200004366 : 11.522867790874523
+ELL-0.1 mu:0.4-eps:12-5	len:min:max 	100 : -0.33061114 : -1.0165344e-09
+# indices >=1 off : 75 of 91		% indices off : 1.58
+cpma mu:0.5-eps:10-0	len:min:max 	100 : 0.0127457368416799 : 106.80150453193892
+cpma mu:0.5-eps:10-1	len:min:max 	100 : 0.0021318614744814113 : 84.3006510391424
+cpma mu:0.5-eps:10-2	len:min:max 	100 : 0.00012368958232400473 : 48.49144685740066
+cpma mu:0.5-eps:10-3	len:min:max 	100 : 0.00027337703795637935 : 86.2793408646794
+cpma mu:0.5-eps:10-4	len:min:max 	100 : 0.0025169611144519877 : 62.272466033145975
+cpma mu:0.5-eps:10-5	len:min:max 	100 : 0.0007972842049639439 : 102.36821755928031
+cpma mu:0.5-eps:10-6	len:min:max 	100 : 0.035199513515181025 : 74.35172357885676
+cpma mu:0.5-eps:10-7	len:min:max 	100 : 0.0005084617187094409 : 65.71881590710291
+cpma mu:0.5-eps:10-8	len:min:max 	100 : 1.3811950339004397e-07 : 107.43848481675923
+cpma mu:0.5-eps:10-9	len:min:max 	100 : 0.0002286719245603308 : 87.91630450625235
+noCorrStats mu:0.5-eps:10-3
+noCorrStats score len:min:max 		100 : 732.7034941521085 : 1391.3564534891016
+noCorrStats bj len:min:max 			100 : 4.762611945132814 : 30.611409309021496
+noCorrStats gnull len:min:max 		100 : -0.0014639723571603718 : -3.1258952744946678e-15
+noCorrStats hc len:min:max 			100 : 1.4410062600313638 : 11.066529519040616
+ELL-0.1 mu:0.5-eps:10-3	len:min:max 	100 : -0.0014876483 : -1.0165344e-09
+# indices >=1 off : 88 of 91		% indices off : 2.65
+noCorrStats mu:0.5-eps:10-0
+noCorrStats score len:min:max 		100 : 811.9042543513127 : 1439.883992023494
+noCorrStats bj len:min:max 			100 : 2.7355103735017092 : 38.00285882430331
+noCorrStats gnull len:min:max 		100 : -0.10546982598096938 : -6.1020374975524556e-18
+noCorrStats hc len:min:max 			100 : 1.1076713615605491 : 10.79802602794818
+ELL-0.1 mu:0.5-eps:10-0	len:min:max 	100 : -0.10620827 : -1.0165344e-09
+# indices >=1 off : 76 of 91		% indices off : 3.18
+noCorrStats mu:0.5-eps:10-9
+noCorrStats score len:min:max 		100 : 810.3659375288091 : 1381.334789618411
+noCorrStats bj len:min:max 			100 : 4.570271274793981 : 35.63315307138271
+noCorrStats gnull len:min:max 		100 : -0.04777971318259587 : -4.6700222893087826e-17
+noCorrStats hc len:min:max 			100 : 1.9459054162223202 : 12.439315211959203
+ELL-0.1 mu:0.5-eps:10-9	len:min:max 	100 : -0.048585556 : -1.0165344e-09
+# indices >=1 off : 90 of 91		% indices off : 2.49
+noCorrStats mu:0.5-eps:10-7
+noCorrStats score len:min:max 		100 : 788.1788928322135 : 1317.7557356570412
+noCorrStats bj len:min:max 			100 : 3.757705226054867 : 28.604074296152223
+noCorrStats gnull len:min:max 		100 : -0.008617865923624582 : -5.640384193989605e-14
+noCorrStats hc len:min:max 			100 : 1.4107540353604597 : 9.99110556796569
+ELL-0.1 mu:0.5-eps:10-7	len:min:max 	100 : -0.008648284 : -1.0165344e-09
+# indices >=1 off : 25 of 91		% indices off : 1.09
+noCorrStats mu:0.5-eps:10-2
+noCorrStats score len:min:max 		100 : 806.6917357045594 : 1259.5343564415782
+noCorrStats bj len:min:max 			100 : 4.685020176952387 : 41.98148151250898
+noCorrStats gnull len:min:max 		100 : -0.003400398068781632 : -7.002373318270854e-20
+noCorrStats hc len:min:max 			100 : 1.712732977236969 : 12.895664177936244
+ELL-0.1 mu:0.5-eps:10-2	len:min:max 	100 : -0.0034122164 : -1.0165344e-09
+# indices >=1 off : 38 of 91		% indices off : 1.37
+noCorrStats mu:0.5-eps:10-8
+noCorrStats score len:min:max 		100 : 818.4793813665797 : 1479.7916660280375
+noCorrStats bj len:min:max 			100 : 2.820766247224854 : 46.87521494734996
+noCorrStats gnull len:min:max 		100 : -0.11698403493703521 : -2.8511564355923033e-22
+noCorrStats hc len:min:max 			100 : 1.3375143328866521 : 15.75029528106975
+ELL-0.1 mu:0.5-eps:10-8	len:min:max 	100 : -0.11798604 : -1.0165344e-09
+# indices >=1 off : 91 of 91		% indices off : 4.3
+noCorrStats mu:0.5-eps:10-4
+noCorrStats score len:min:max 		100 : 797.9466841639062 : 1309.6734820566776
+noCorrStats bj len:min:max 			100 : 5.284055488793979 : 37.10150304813558
+noCorrStats gnull len:min:max 		100 : -0.004631703077771663 : -4.879375926638077e-18
+noCorrStats hc len:min:max 			100 : 1.4616565050043158 : 13.173999471945901
+ELL-0.1 mu:0.5-eps:10-4	len:min:max 	100 : -0.0047039064 : -1.0165344e-09
+# indices >=1 off : 91 of 91		% indices off : 2.82
+noCorrStats mu:0.5-eps:10-6
+noCorrStats score len:min:max 		100 : 828.091708741539 : 1319.2793032548227
+noCorrStats bj len:min:max 			100 : 4.356426144103491 : 34.390164272901806
+noCorrStats gnull len:min:max 		100 : -0.003570233202824764 : -1.459509330815112e-16
+noCorrStats hc len:min:max 			100 : 0.5967545487030971 : 12.972972735324824
+ELL-0.1 mu:0.5-eps:10-6	len:min:max 	100 : -0.0038354816 : -1.0165344e-09
+# indices >=1 off : 77 of 91		% indices off : 1.93
+noCorrStats mu:0.5-eps:10-5
+noCorrStats score len:min:max 		100 : 853.8075938563228 : 1411.247277187074
+noCorrStats bj len:min:max 			100 : 4.4537693124157505 : 39.09056224416847
+noCorrStats gnull len:min:max 		100 : -0.0021308179294251416 : -5.520836726921015e-19
+noCorrStats hc len:min:max 			100 : 1.0262203891364776 : 12.077152362603679
+ELL-0.1 mu:0.5-eps:10-5	len:min:max 	100 : -0.0021557675 : -1.0165344e-09
+# indices >=1 off : 81 of 91		% indices off : 2.41
+noCorrStats mu:0.5-eps:10-1
+noCorrStats score len:min:max 		100 : 756.4956857207374 : 1385.271764014605
+noCorrStats bj len:min:max 			100 : 2.710750307397252 : 38.10064260229827
+noCorrStats gnull len:min:max 		100 : -0.012207047724889905 : -4.219222436133914e-18
+noCorrStats hc len:min:max 			100 : 1.1863138561774955 : 11.987942219438642
+ELL-0.1 mu:0.5-eps:10-1	len:min:max 	100 : -0.012375244 : -1.0165344e-09
+# indices >=1 off : 78 of 91		% indices off : 2.67
+cpma mu:0.5-eps:8-0	len:min:max 	100 : 0.012220471635373542 : 95.00407531702149
+cpma mu:0.5-eps:8-1	len:min:max 	100 : 0.01238012531939603 : 77.57962755606604
+cpma mu:0.5-eps:8-2	len:min:max 	100 : 5.500112092704512e-05 : 39.69260357436724
+cpma mu:0.5-eps:8-3	len:min:max 	100 : 0.018587995782581856 : 103.6701182097695
+cpma mu:0.5-eps:8-4	len:min:max 	100 : 7.170934622990899e-06 : 82.12283470976035
+cpma mu:0.5-eps:8-5	len:min:max 	100 : 0.0005769473882537568 : 116.39197819830406
+cpma mu:0.5-eps:8-6	len:min:max 	100 : 0.10912703978283389 : 78.72639882355907
+cpma mu:0.5-eps:8-7	len:min:max 	100 : 6.456270784838125e-05 : 55.06104452184445
+cpma mu:0.5-eps:8-8	len:min:max 	100 : 1.2419053746270947e-05 : 92.62903191324222
+cpma mu:0.5-eps:8-9	len:min:max 	100 : 0.004236140743159922 : 83.52452719418761
+noCorrStats mu:0.5-eps:8-0
+noCorrStats score len:min:max 		100 : 841.0775192039408 : 1401.2877650741038
+noCorrStats bj len:min:max 			100 : 5.331691181570714 : 43.98687371282774
+noCorrStats gnull len:min:max 		100 : -0.001030662117599591 : -1.3796449377684908e-20
+noCorrStats hc len:min:max 			100 : 0.7141558608252445 : 13.070817814464746
+ELL-0.1 mu:0.5-eps:8-0	len:min:max 	100 : -0.0011086792 : -1.0165344e-09
+# indices >=1 off : 76 of 91		% indices off : 3.8
+noCorrStats mu:0.5-eps:8-4
+noCorrStats score len:min:max 		100 : 789.9399547149206 : 1386.3431095989738
+noCorrStats bj len:min:max 			100 : 5.121531512727126 : 46.290355229231565
+noCorrStats gnull len:min:max 		100 : -0.00219630518711346 : -1.1696758326630178e-21
+noCorrStats hc len:min:max 			100 : 1.6897462047670713 : 12.225370252759797
+ELL-0.1 mu:0.5-eps:8-4	len:min:max 	100 : -0.0022092347 : -1.0165344e-09
+# indices >=1 off : 91 of 91		% indices off : 3.89
+noCorrStats mu:0.5-eps:8-1
+noCorrStats score len:min:max 		100 : 764.4046926559145 : 1362.50606179345
+noCorrStats bj len:min:max 			100 : 4.659572513207461 : 35.46603725153881
+noCorrStats gnull len:min:max 		100 : -0.0034881945839615094 : -6.924849848169803e-17
+noCorrStats hc len:min:max 			100 : 1.8149651750820448 : 11.554306591735468
+ELL-0.1 mu:0.5-eps:8-1	len:min:max 	100 : -0.0034923635 : -1.0165344e-09
+# indices >=1 off : 66 of 91		% indices off : 3.13
+noCorrStats mu:0.5-eps:8-3
+noCorrStats score len:min:max 		100 : 753.7120814875857 : 1448.8047281882878
+noCorrStats bj len:min:max 			100 : 3.582693698810062 : 42.872434855093296
+noCorrStats gnull len:min:max 		100 : -0.004025388869648185 : -3.847889560275004e-20
+noCorrStats hc len:min:max 			100 : 1.6192709509789776 : 11.824935161177988
+ELL-0.1 mu:0.5-eps:8-3	len:min:max 	100 : -0.017276827 : -1.0165344e-09
+# indices >=1 off : 91 of 91		% indices off : 3.92
+noCorrStats mu:0.5-eps:8-5
+noCorrStats score len:min:max 		100 : 852.9053218435071 : 1455.9384112678422
+noCorrStats bj len:min:max 			100 : 3.8146253998540094 : 40.63645381914766
+noCorrStats gnull len:min:max 		100 : -0.005128853959615468 : -1.1567348678853942e-19
+noCorrStats hc len:min:max 			100 : 1.4535770374610413 : 10.724289578731131
+ELL-0.1 mu:0.5-eps:8-5	len:min:max 	100 : -0.005225367 : -1.0165344e-09
+# indices >=1 off : 79 of 91		% indices off : 2.91
+noCorrStats mu:0.5-eps:8-9
+noCorrStats score len:min:max 		100 : 812.7141932085599 : 1365.2564946638267
+noCorrStats bj len:min:max 			100 : 6.407959754300726 : 38.70867652691879
+noCorrStats gnull len:min:max 		100 : -0.00046189094244325203 : -2.035285372984614e-18
+noCorrStats hc len:min:max 			100 : -0.4165679170415572 : 11.283757921389485
+ELL-0.1 mu:0.5-eps:8-9	len:min:max 	100 : -0.00048243123 : -1.0165344e-09
+# indices >=1 off : 85 of 91		% indices off : 2.8
+noCorrStats mu:0.5-eps:8-7
+noCorrStats score len:min:max 		100 : 818.7639019028705 : 1285.7947321790543
+noCorrStats bj len:min:max 			100 : 5.988054419909196 : 39.6486488202147
+noCorrStats gnull len:min:max 		100 : -0.0005840241241399293 : -8.970588472480712e-19
+noCorrStats hc len:min:max 			100 : 1.605225500532636 : 10.225508834300987
+ELL-0.1 mu:0.5-eps:8-7	len:min:max 	100 : -0.0006096935 : -1.0246474e-09
+# indices >=1 off : 21 of 91		% indices off : 1.85
+noCorrStats mu:0.5-eps:8-8
+noCorrStats score len:min:max 		100 : 844.1348412022576 : 1436.9660460284445
+noCorrStats bj len:min:max 			100 : 5.426653122322989 : 51.70687544631401
+noCorrStats gnull len:min:max 		100 : -0.0009502763883065705 : -4.8656852715141336e-24
+noCorrStats hc len:min:max 			100 : 1.8197846664030255 : 13.386648443398668
+ELL-0.1 mu:0.5-eps:8-8	len:min:max 	100 : -0.0010661175 : -1.0165344e-09
+# indices >=1 off : 91 of 91		% indices off : 4.76
+noCorrStats mu:0.5-eps:8-2
+noCorrStats score len:min:max 		100 : 778.6621144796546 : 1235.7295728087872
+noCorrStats bj len:min:max 			100 : 4.22453403214743 : 44.28580282600431
+noCorrStats gnull len:min:max 		100 : -0.003128810145676197 : -9.362286696556222e-21
+noCorrStats hc len:min:max 			100 : 1.4318555691765917 : 11.995280720447541
+ELL-0.1 mu:0.5-eps:8-2	len:min:max 	100 : -0.00324194 : -1.0165344e-09
+# indices >=1 off : 19 of 91		% indices off : 1.71
+noCorrStats mu:0.5-eps:8-6
+noCorrStats score len:min:max 		100 : 800.0172649147195 : 1342.0978957004947
+noCorrStats bj len:min:max 			100 : 7.12063178723989 : 41.079104374927944
+noCorrStats gnull len:min:max 		100 : -0.016821094730586114 : -3.2298773347686653e-19
+noCorrStats hc len:min:max 			100 : 0.20268660805782845 : 12.972972735324824
+ELL-0.1 mu:0.5-eps:8-6	len:min:max 	100 : -0.01732353 : -1.0165344e-09
+# indices >=1 off : 58 of 91		% indices off : 2.64
+cpma mu:0.5-eps:6-0	len:min:max 	100 : 0.009476605537201976 : 103.10389977187151
+cpma mu:0.5-eps:6-1	len:min:max 	100 : 0.00041133178092422895 : 92.14414168727126
+cpma mu:0.5-eps:6-2	len:min:max 	100 : 0.00225245629917481 : 42.325783233096445
+cpma mu:0.5-eps:6-3	len:min:max 	100 : 0.00018971763529407326 : 93.98330592405728
+cpma mu:0.5-eps:6-4	len:min:max 	100 : 5.8084333431907e-06 : 71.65297338863093
+cpma mu:0.5-eps:6-5	len:min:max 	100 : 0.0005592908764811 : 112.8345818185935
+cpma mu:0.5-eps:6-6	len:min:max 	100 : 0.159884597565906 : 60.30153694663932
+cpma mu:0.5-eps:6-7	len:min:max 	100 : 0.00495463580955402 : 59.85188776254108
+cpma mu:0.5-eps:6-8	len:min:max 	100 : 0.0003832068177871406 : 96.85197589707786
+cpma mu:0.5-eps:6-9	len:min:max 	100 : 9.469751239521429e-05 : 82.7877867582265
+noCorrStats mu:0.5-eps:6-7
+noCorrStats score len:min:max 		100 : 824.32975424028 : 1301.1685850030046
+noCorrStats bj len:min:max 			100 : 6.8341670078017005 : 48.63478594910765
+noCorrStats gnull len:min:max 		100 : -0.00022606691529002815 : -1.4725792606186506e-22
+noCorrStats hc len:min:max 			100 : 0.1353738131038157 : 9.549512938429555
+ELL-0.1 mu:0.5-eps:6-7	len:min:max 	100 : -0.00044350492 : -1.028475e-09
+# indices >=1 off : 9 of 91		% indices off : 2.53
+noCorrStats mu:0.5-eps:6-9
+noCorrStats score len:min:max 		100 : 825.3707228483152 : 1370.101637663933
+noCorrStats bj len:min:max 			100 : 8.303174728652882 : 43.74377761760298
+noCorrStats gnull len:min:max 		100 : -6.724058624507743e-05 : -1.7593150985146277e-20
+noCorrStats hc len:min:max 			100 : 1.0852467365987792 : 10.303579066744192
+ELL-0.1 mu:0.5-eps:6-9	len:min:max 	100 : -6.786111e-05 : -1.028475e-09
+# indices >=1 off : 63 of 91		% indices off : 3.32
+noCorrStats mu:0.5-eps:6-4
+noCorrStats score len:min:max 		100 : 819.2358495386444 : 1380.1364638027624
+noCorrStats bj len:min:max 			100 : 5.355519459289035 : 43.77546576215948
+noCorrStats gnull len:min:max 		100 : -0.0011106356244561376 : -1.7044391835267416e-20
+noCorrStats hc len:min:max 			100 : -0.8340509400212487 : 11.276741033573694
+ELL-0.1 mu:0.5-eps:6-4	len:min:max 	100 : -0.0011559232 : -1.0222522e-09
+# indices >=1 off : 89 of 91		% indices off : 4.63
+noCorrStats mu:0.5-eps:6-2
+noCorrStats score len:min:max 		100 : 785.4442884199077 : 1249.138892516452
+noCorrStats bj len:min:max 			100 : 8.240922865133909 : 47.6055200489462
+noCorrStats gnull len:min:max 		100 : -5.361016239454682e-05 : -3.6999751116646604e-22
+noCorrStats hc len:min:max 			100 : 0.28998726984995815 : 10.995539339243498
+ELL-0.1 mu:0.5-eps:6-2	len:min:max 	100 : -5.701225e-05 : -1.024294e-09
+# indices >=1 off : 12 of 91		% indices off : 3.14
+noCorrStats mu:0.5-eps:6-0
+noCorrStats score len:min:max 		100 : 820.6894865729806 : 1430.0578406728114
+noCorrStats bj len:min:max 			100 : 9.479682211529239 : 48.59626695184778
+noCorrStats gnull len:min:max 		100 : -1.652550781558291e-05 : -1.3737924679486478e-22
+noCorrStats hc len:min:max 			100 : 0.6771384173765903 : 12.183367042373273
+ELL-0.1 mu:0.5-eps:6-0	len:min:max 	100 : -8.0421356e-05 : -1.0165344e-09
+# indices >=1 off : 74 of 91		% indices off : 4.15
+noCorrStats mu:0.5-eps:6-5
+noCorrStats score len:min:max 		100 : 862.6017933086061 : 1447.8391815152415
+noCorrStats bj len:min:max 			100 : 2.3183638515651515 : 42.199626760908906
+noCorrStats gnull len:min:max 		100 : -0.019460570678150827 : -9.179847982252748e-20
+noCorrStats hc len:min:max 			100 : 1.9239837800248853 : 10.601355863766267
+ELL-0.1 mu:0.5-eps:6-5	len:min:max 	100 : -0.01975683 : -1.0165344e-09
+# indices >=1 off : 70 of 91		% indices off : 3.33
+noCorrStats mu:0.5-eps:6-3
+noCorrStats score len:min:max 		100 : 732.336290201501 : 1425.0924044458936
+noCorrStats bj len:min:max 			100 : 7.2920166783330505 : 43.93307169729749
+noCorrStats gnull len:min:max 		100 : -0.00018530889354683588 : -1.4559064448589486e-20
+noCorrStats hc len:min:max 			100 : 0.7071091746211075 : 10.902833719581526
+ELL-0.1 mu:0.5-eps:6-3	len:min:max 	100 : -0.00018675948 : -1.024294e-09
+# indices >=1 off : 84 of 91		% indices off : 3.59
+noCorrStats mu:0.5-eps:6-1
+noCorrStats score len:min:max 		100 : 751.7421238084953 : 1422.6235413514155
+noCorrStats bj len:min:max 			100 : 5.589921776307097 : 53.25249113981182
+noCorrStats gnull len:min:max 		100 : -0.0005946024400624512 : -1.4542341414403194e-24
+noCorrStats hc len:min:max 			100 : 1.5513925286335535 : 11.055001243996388
+ELL-0.1 mu:0.5-eps:6-1	len:min:max 	100 : -0.00060169015 : -1.0165344e-09
+# indices >=1 off : 40 of 91		% indices off : 3.24
+noCorrStats mu:0.5-eps:6-6
+noCorrStats score len:min:max 		100 : 844.8327222227407 : 1322.3864627584007
+noCorrStats bj len:min:max 			100 : 5.931348875472447 : 48.31205458364857
+noCorrStats gnull len:min:max 		100 : -0.0004428939552698945 : -2.0334766379963023e-22
+noCorrStats hc len:min:max 			100 : 0.0038991819619482422 : 11.97470079255068
+ELL-0.1 mu:0.5-eps:6-6	len:min:max 	100 : -0.00045481935 : -1.0165344e-09
+# indices >=1 off : 39 of 91		% indices off : 3.29
+noCorrStats mu:0.5-eps:6-8
+noCorrStats score len:min:max 		100 : 823.8769897280881 : 1432.7639682993322
+noCorrStats bj len:min:max 			100 : 6.783289143118599 : 49.92167427686561
+noCorrStats gnull len:min:max 		100 : -0.0003087883907332778 : -3.650078246476406e-23
+noCorrStats hc len:min:max 			100 : 1.5744749885922247 : 13.386648443398668
+ELL-0.1 mu:0.5-eps:6-8	len:min:max 	100 : -0.00043342583 : -1.0165344e-09
+# indices >=1 off : 91 of 91		% indices off : 5.62
+cpma mu:0.5-eps:12-0	len:min:max 	100 : 0.0019280224787507905 : 96.43124360951879
+cpma mu:0.5-eps:12-1	len:min:max 	100 : 0.001494453505074489 : 81.79963977967054
+cpma mu:0.5-eps:12-2	len:min:max 	100 : 5.7889021263690665e-05 : 45.872375502331124
+cpma mu:0.5-eps:12-3	len:min:max 	100 : 0.013684519784874283 : 98.08296972194148
+cpma mu:0.5-eps:12-4	len:min:max 	100 : 0.0009474980161030544 : 74.73452247558271
+cpma mu:0.5-eps:12-5	len:min:max 	100 : 0.0015953394631651463 : 106.09079326364554
+cpma mu:0.5-eps:12-6	len:min:max 	100 : 4.2739442505990155e-05 : 79.8000753433389
+cpma mu:0.5-eps:12-7	len:min:max 	100 : 1.1488413292681798e-05 : 65.3979257332121
+cpma mu:0.5-eps:12-8	len:min:max 	100 : 0.0016204374678636668 : 111.24988093942011
+cpma mu:0.5-eps:12-9	len:min:max 	100 : 0.0027942315027758013 : 91.68356397149546
+noCorrStats mu:0.5-eps:12-9
+noCorrStats score len:min:max 		100 : 818.2032765363524 : 1395.9407195939514
+noCorrStats bj len:min:max 			100 : 2.3992502195359937 : 34.66535091026782
+noCorrStats gnull len:min:max 		100 : -0.02381124911578403 : -5.134477160159569e-17
+noCorrStats hc len:min:max 			100 : 0.6921893597828551 : 11.283757921389485
+ELL-0.1 mu:0.5-eps:12-9	len:min:max 	100 : -0.024268532 : -1.0165344e-09
+# indices >=1 off : 91 of 91		% indices off : 2.73
+noCorrStats mu:0.5-eps:12-2
+noCorrStats score len:min:max 		100 : 766.3594460246245 : 1251.0356552125263
+noCorrStats bj len:min:max 			100 : 3.3281907651688836 : 30.63811479855806
+noCorrStats gnull len:min:max 		100 : -0.011548156739704392 : -9.638143660884217e-15
+noCorrStats hc len:min:max 			100 : 1.7948635326670017 : 12.995022101651582
+ELL-0.1 mu:0.5-eps:12-2	len:min:max 	100 : -0.011593905 : -1.0165344e-09
+# indices >=1 off : 38 of 91		% indices off : 1.19
+noCorrStats mu:0.5-eps:12-1
+noCorrStats score len:min:max 		100 : 765.4929205239459 : 1374.288508937684
+noCorrStats bj len:min:max 			100 : 0.953550056684353 : 33.9693378134388
+noCorrStats gnull len:min:max 		100 : -0.11401593577176906 : -2.629823535332206e-16
+noCorrStats hc len:min:max 			100 : 1.5988240414916108 : 13.909023986761925
+ELL-0.1 mu:0.5-eps:12-1	len:min:max 	100 : -0.11436082 : -1.0165344e-09
+# indices >=1 off : 87 of 91		% indices off : 2.89
+noCorrStats mu:0.5-eps:12-4
+noCorrStats score len:min:max 		100 : 803.4699704570967 : 1370.8509734012962
+noCorrStats bj len:min:max 			100 : 3.305661637213939 : 42.24302058610748
+noCorrStats gnull len:min:max 		100 : -0.008311409987853341 : -2.9486424389061524e-20
+noCorrStats hc len:min:max 			100 : 1.6980835810793737 : 14.165251316169806
+ELL-0.1 mu:0.5-eps:12-4	len:min:max 	100 : -0.00861362 : -1.0165344e-09
+# indices >=1 off : 90 of 91		% indices off : 2.81
+noCorrStats mu:0.5-eps:12-5
+noCorrStats score len:min:max 		100 : 872.6886389780614 : 1419.7121643042149
+noCorrStats bj len:min:max 			100 : 2.00539349946483 : 44.61283084695527
+noCorrStats gnull len:min:max 		100 : -0.029597116956493377 : -2.0820076803394083e-21
+noCorrStats hc len:min:max 			100 : 2.3028665262352868 : 10.705711670734999
+ELL-0.1 mu:0.5-eps:12-5	len:min:max 	100 : -0.029964833 : -1.0165344e-09
+# indices >=1 off : 76 of 91		% indices off : 2.11
+noCorrStats mu:0.5-eps:12-0
+noCorrStats score len:min:max 		100 : 790.3249685065634 : 1404.4660337568616
+noCorrStats bj len:min:max 			100 : 2.4127376554441193 : 33.77313961257626
+noCorrStats gnull len:min:max 		100 : -0.018753825409888576 : -1.1569134059342564e-16
+noCorrStats hc len:min:max 			100 : 2.3114938293201726 : 11.731082822174494
+ELL-0.1 mu:0.5-eps:12-0	len:min:max 	100 : -0.018909644 : -1.0222522e-09
+# indices >=1 off : 86 of 91		% indices off : 2.66
+noCorrStats mu:0.5-eps:12-8
+noCorrStats score len:min:max 		100 : 848.0633194083376 : 1469.4434752249722
+noCorrStats bj len:min:max 			100 : 2.3399662830616914 : 41.78640518859817
+noCorrStats gnull len:min:max 		100 : -0.05603003218899664 : -4.8319510615139954e-20
+noCorrStats hc len:min:max 			100 : 1.8396830788344298 : 15.776076463821962
+ELL-0.1 mu:0.5-eps:12-8	len:min:max 	100 : -0.056357894 : -1.0165344e-09
+# indices >=1 off : 91 of 91		% indices off : 5.25
+noCorrStats mu:0.5-eps:12-7
+noCorrStats score len:min:max 		100 : 769.9146721333501 : 1312.9192449778236
+noCorrStats bj len:min:max 			100 : 4.028646750091905 : 29.667679663368745
+noCorrStats gnull len:min:max 		100 : -0.0063241403402565415 : -2.0933817039296538e-14
+noCorrStats hc len:min:max 			100 : 1.1759600684511837 : 10.422931352487485
+ELL-0.1 mu:0.5-eps:12-7	len:min:max 	100 : -0.0064545586 : -1.0165344e-09
+# indices >=1 off : 63 of 91		% indices off : 0.96
+noCorrStats mu:0.5-eps:12-3
+noCorrStats score len:min:max 		100 : 740.3418226319181 : 1420.587183950659
+noCorrStats bj len:min:max 			100 : 1.3502605966635537 : 34.91753063688865
+noCorrStats gnull len:min:max 		100 : -0.08812809098063415 : -5.2306401644692226e-17
+noCorrStats hc len:min:max 			100 : 1.9166011630573931 : 12.061037026092515
+ELL-0.1 mu:0.5-eps:12-3	len:min:max 	100 : -0.09027865 : -1.0165344e-09
+# indices >=1 off : 91 of 91		% indices off : 2.79
+noCorrStats mu:0.5-eps:12-6
+noCorrStats score len:min:max 		100 : 822.5372961832509 : 1343.2724483694058
+noCorrStats bj len:min:max 			100 : 1.9763366584962494 : 30.579949399609482
+noCorrStats gnull len:min:max 		100 : -0.029776191054974095 : -8.404575888212481e-15
+noCorrStats hc len:min:max 			100 : 1.3806658428005292 : 13.97124467809897
+ELL-0.1 mu:0.5-eps:12-6	len:min:max 	100 : -0.030279553 : -1.0165344e-09
+# indices >=1 off : 73 of 91		% indices off : 1.86
+cpma mu:0-eps:0-0	len:min:max 	100 : 2.5619003281462938e-05 : 68.6206824593537
+cpma mu:0-eps:0-1	len:min:max 	100 : 0.002828929020324722 : 47.502980288063554
+cpma mu:0-eps:0-2	len:min:max 	100 : 5.748136936745141e-05 : 39.494821803744344
+cpma mu:0-eps:0-3	len:min:max 	100 : 0.00015658766642445698 : 66.3578617343228
+cpma mu:0-eps:0-4	len:min:max 	100 : 0.0035823177568090614 : 52.751837296051235
+cpma mu:0-eps:0-5	len:min:max 	100 : 0.0010348689302190905 : 75.85568886903093
+cpma mu:0-eps:0-6	len:min:max 	100 : 0.007474783564248355 : 48.1508680642055
+cpma mu:0-eps:0-7	len:min:max 	100 : 0.0022484652981802355 : 37.31727230694196
+cpma mu:0-eps:0-8	len:min:max 	100 : 0.00033318948408123106 : 64.82986509521834
+cpma mu:0-eps:0-9	len:min:max 	100 : 0.0009868210345302941 : 56.25267428895313
+noCorrStats mu:0-eps:0-0
+noCorrStats score len:min:max 		100 : 692.5965894924789 : 1308.5348047893438
+noCorrStats bj len:min:max 			100 : 0.910346286094518 : 30.596212678828024
+noCorrStats gnull len:min:max 		100 : -0.8583191367818259 : -2.899592826124384e-15
+noCorrStats hc len:min:max 			100 : -0.8570156941417076 : 8.38576091312304
+ELL-0.1 mu:0-eps:0-0	len:min:max 	100 : -0.96834266 : -1.0438862e-09
+# indices >=1 off : 39 of 91		% indices off : 0.6
+noCorrStats mu:0-eps:0-2
+noCorrStats score len:min:max 		100 : 671.0817101890727 : 1133.312293485616
+noCorrStats bj len:min:max 			100 : 0.6955311387332758 : 20.63061668370872
+noCorrStats gnull len:min:max 		100 : -0.9833278298151474 : -1.2857812287811788e-06
+noCorrStats hc len:min:max 			100 : -1.5311296223505972 : 5.996832433223287
+ELL-0.1 mu:0-eps:0-2	len:min:max 	100 : -0.9834683 : -1.3443403e-06
+# indices >=1 off : 0 of 91		% indices off : 0.0
+noCorrStats mu:0-eps:0-3
+noCorrStats score len:min:max 		100 : 651.9932271967007 : 1316.1165712839525
+noCorrStats bj len:min:max 			100 : 0.7350833176418073 : 26.69686791126517
+noCorrStats gnull len:min:max 		100 : -0.9818907945023895 : -1.6256058435846527e-13
+noCorrStats hc len:min:max 			100 : -1.5054667545427385 : 8.972494875396547
+ELL-0.1 mu:0-eps:0-3	len:min:max 	100 : -0.98208034 : -1.0301621e-09
+# indices >=1 off : 58 of 91		% indices off : 0.65
+noCorrStats mu:0-eps:0-5
+noCorrStats score len:min:max 		100 : 765.8751613058586 : 1321.333518159903
+noCorrStats bj len:min:max 			100 : 0.5576740456760025 : 35.33911221206994
+noCorrStats gnull len:min:max 		100 : -0.8938801619120817 : -2.4573123139168955e-17
+noCorrStats hc len:min:max 			100 : -1.164134683908371 : 9.259568758736847
+ELL-0.1 mu:0-eps:0-5	len:min:max 	100 : -0.96171916 : -1.0377406e-09
+# indices >=1 off : 54 of 91		% indices off : 0.59
+noCorrStats mu:0-eps:0-1
+noCorrStats score len:min:max 		100 : 647.0957715982179 : 1242.6927095180174
+noCorrStats bj len:min:max 			100 : 0.5109172061408094 : 22.23308464046819
+noCorrStats gnull len:min:max 		100 : -0.9859787530381525 : -1.9859326569751038e-10
+noCorrStats hc len:min:max 			100 : -1.5837388103086436 : 7.257810632291535
+ELL-0.1 mu:0-eps:0-1	len:min:max 	100 : -0.9860714 : -8.682678e-09
+# indices >=1 off : 0 of 91		% indices off : 0.0
+noCorrStats mu:0-eps:0-9
+noCorrStats score len:min:max 		100 : 729.8097314010756 : 1267.34377603077
+noCorrStats bj len:min:max 			100 : 0.6318285187565111 : 26.594218541564864
+noCorrStats gnull len:min:max 		100 : -0.9895573234173844 : -1.8249583068198352e-13
+noCorrStats hc len:min:max 			100 : -2.3079351667249908 : 8.19266796836291
+ELL-0.1 mu:0-eps:0-9	len:min:max 	100 : -0.996183 : -1.0533898e-09
+# indices >=1 off : 10 of 91		% indices off : 0.11
+noCorrStats mu:0-eps:0-4
+noCorrStats score len:min:max 		100 : 708.2763462393573 : 1265.7892415125837
+noCorrStats bj len:min:max 			100 : 0.638711304225866 : 27.945951096737517
+noCorrStats gnull len:min:max 		100 : -0.982580576619973 : -5.1676639614928896e-14
+noCorrStats hc len:min:max 			100 : -2.1129909099405815 : 9.382809152996952
+ELL-0.1 mu:0-eps:0-4	len:min:max 	100 : -0.9962251 : -1.0306137e-09
+# indices >=1 off : 57 of 91		% indices off : 0.75
+noCorrStats mu:0-eps:0-7
+noCorrStats score len:min:max 		100 : 700.0476847737801 : 1194.9453285669547
+noCorrStats bj len:min:max 			100 : 0.8150467720749343 : 17.748723397596674
+noCorrStats gnull len:min:max 		100 : -0.9946084030370211 : -1.4462482142157418e-09
+noCorrStats hc len:min:max 			100 : -1.8506913534121745 : 6.400192775228555
+ELL-0.1 mu:0-eps:0-7	len:min:max 	100 : -0.9946565 : -7.432569e-08
+# indices >=1 off : 0 of 91		% indices off : 0.0
+noCorrStats mu:0-eps:0-8
+noCorrStats score len:min:max 		100 : 737.0047222103982 : 1334.2145545524659
+noCorrStats bj len:min:max 			100 : 0.5554430573540828 : 31.606739163453057
+noCorrStats gnull len:min:max 		100 : -0.9224571931963165 : -1.3408518288671941e-15
+noCorrStats hc len:min:max 			100 : -1.1605251443034317 : 10.57908093567093
+ELL-0.1 mu:0-eps:0-8	len:min:max 	100 : -0.923246 : -1.0222522e-09
+# indices >=1 off : 74 of 91		% indices off : 1.1
+noCorrStats mu:0-eps:0-6
+noCorrStats score len:min:max 		100 : 708.8925987671137 : 1219.461620703369
+noCorrStats bj len:min:max 			100 : 0.630824199083667 : 22.7467355642594
+noCorrStats gnull len:min:max 		100 : -0.974698869219373 : -8.250045505752291e-12
+noCorrStats hc len:min:max 			100 : -1.7403230539515286 : 7.054650265129272
+ELL-0.1 mu:0-eps:0-6	len:min:max 	100 : -0.9985178 : -1.5547238e-09
+# indices >=1 off : 0 of 91		% indices off : 0.0

@@ -1,0 +1,109 @@
+
+{
+   "process": false,
+   "score": false,
+   "corr": false,
+   "qq": false,
+   "z2": false,
+   "man": false,
+   "minP": false,
+   "usThem": false,
+   "genOffDiag": false,
+   "setupELL": false,
+   "genIIDStats": false,
+   "genSimStats": false,
+   "makePVals": true,
+   "plotPVals": false,
+   "local": "/home/tayo/ail/dp/",
+   "name": "analysisChr1/",
+   "numCores": 34,
+   "numPCs": 10,
+   "smallNumCores": 3,
+   "snpChr": [
+      "chr1",
+      "chr2",
+      "chr3",
+      "chr4",
+      "chr5",
+      "chr6",
+      "chr7",
+      "chr8",
+      "chr9",
+      "chr10",
+      "chr11",
+      "chr12",
+      "chr13",
+      "chr14",
+      "chr15",
+      "chr16",
+      "chr17",
+      "chr18",
+      "chr19"
+   ],
+   "snpFile": "ail.genos.dosage.gwasSNPs.txt",
+   "numDecScore": 3,
+   "dbToken": "YIjLc0Jkc2QAAAAAAAAELhNPLYwqK53qaNPZqrkPIgHhe6n--GwXZbmgkQwbOQMo",
+   "allChrGRM": false,
+   "cisMean": false,
+   "numQSnps": 3000000000.0,
+   "ellEps": 1e-09,
+   "ellDSet": [
+      0.1
+   ],
+   "binsPerIndex": 500,
+   "grmSnpChr": [
+      "chr1",
+      "chr2",
+      "chr3",
+      "chr4",
+      "chr5",
+      "chr6",
+      "chr7",
+      "chr8",
+      "chr9",
+      "chr10",
+      "chr11",
+      "chr12",
+      "chr13",
+      "chr14",
+      "chr15",
+      "chr16",
+      "chr17",
+      "chr18",
+      "chr19"
+   ],
+   "IIDReps": 5000000,
+   "Types": [
+      "ell-0.1"
+   ],
+   "firstEntry": true,
+   "logName": "ga/log/makePVals-2019-10-17 07:02:02.467542",
+   "muEpsRange": [],
+   "response": "hipRaw",
+   "quantNormalizeExpr": true,
+   "remPCFromSnp": false,
+   "remPCFromTraits": false,
+   "remPCCorrSnp": false,
+   "PCIsPreds": true,
+   "CovIsPreds": false,
+   "remCovFromTraits": true,
+   "grmParm": "s",
+   "linBatch": false,
+   "wald": true,
+   "traitChr": [
+      "chr1"
+   ],
+   "numIIDSegments": 1000,
+   "numSimStatSegments": 10
+}
+ell-0.1 len(iidStats) 5100000
+ell-0.1-chr19-0 stat [1376,-0.8896913,-0.0032687036] pval [1376,0.0188450943440992,0.9822821603368314]
+ell-0.1-chr19-1 stat [1376,-0.49411207,-0.006766044] pval [1376,0.03580489494021666,0.787321610329096]
+ell-0.1-chr19-7 stat [1376,-0.47513413,-6.5706074e-05] pval [1376,0.0005376469534025263,0.7720449466578536]
+ell-0.1-chr19-6 stat [1376,-0.25812697,-0.0138657605] pval [1376,0.0642578305376803,0.5479520494211667]
+ell-0.1-chr19-9 stat [1370,-0.45728868,-0.000961692] pval [1370,0.0061823517289506524,0.7573447534618131]
+ell-0.1-chr19-8 stat [1376,-0.36665624,-6.5706074e-05] pval [1376,0.0005376469534025263,0.6735371228358582]
+ell-0.1-chr19-4 stat [1376,-0.6064308,-0.072575] pval [1376,0.22642152423107365,0.8641584580081455]
+ell-0.1-chr19-5 stat [1376,-0.45007536,-0.046832416] pval [1376,0.1660805556704793,0.7511678919278644]
+ell-0.1-chr19-3 stat [1376,-0.46718594,-0.11684274] pval [1376,0.3233407209135841,0.765603379293455]
+ell-0.1-chr19-2 stat [1376,-0.45375854,-0.028730594] pval [1376,0.11393546785579056,0.754202401136784]

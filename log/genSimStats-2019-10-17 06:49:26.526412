@@ -1,0 +1,458 @@
+
+{
+   "process": false,
+   "score": false,
+   "corr": false,
+   "qq": false,
+   "z2": false,
+   "man": false,
+   "minP": false,
+   "usThem": false,
+   "genOffDiag": false,
+   "setupELL": false,
+   "genIIDStats": false,
+   "genSimStats": true,
+   "makePVals": false,
+   "plotPVals": false,
+   "local": "/home/tayo/ail/dp/",
+   "name": "analysisChr1/",
+   "numCores": 34,
+   "numPCs": 10,
+   "smallNumCores": 3,
+   "snpChr": [
+      "chr1",
+      "chr2",
+      "chr3",
+      "chr4",
+      "chr5",
+      "chr6",
+      "chr7",
+      "chr8",
+      "chr9",
+      "chr10",
+      "chr11",
+      "chr12",
+      "chr13",
+      "chr14",
+      "chr15",
+      "chr16",
+      "chr17",
+      "chr18",
+      "chr19"
+   ],
+   "snpFile": "ail.genos.dosage.gwasSNPs.txt",
+   "numDecScore": 3,
+   "dbToken": "YIjLc0Jkc2QAAAAAAAAELhNPLYwqK53qaNPZqrkPIgHhe6n--GwXZbmgkQwbOQMo",
+   "allChrGRM": false,
+   "cisMean": false,
+   "numQSnps": 3000000000.0,
+   "ellEps": 1e-09,
+   "ellDSet": [
+      0.1
+   ],
+   "binsPerIndex": 500,
+   "grmSnpChr": [
+      "chr1",
+      "chr2",
+      "chr3",
+      "chr4",
+      "chr5",
+      "chr6",
+      "chr7",
+      "chr8",
+      "chr9",
+      "chr10",
+      "chr11",
+      "chr12",
+      "chr13",
+      "chr14",
+      "chr15",
+      "chr16",
+      "chr17",
+      "chr18",
+      "chr19"
+   ],
+   "IIDReps": 5000000,
+   "Types": [
+      "ell-0.1"
+   ],
+   "firstEntry": true,
+   "logName": "ga/log/genSimStats-2019-10-17 06:49:26.526412",
+   "muEpsRange": [],
+   "response": "hipRaw",
+   "quantNormalizeExpr": true,
+   "remPCFromSnp": false,
+   "remPCFromTraits": false,
+   "remPCCorrSnp": false,
+   "PCIsPreds": true,
+   "CovIsPreds": false,
+   "remCovFromTraits": true,
+   "grmParm": "s",
+   "linBatch": false,
+   "wald": true,
+   "traitChr": [
+      "chr1"
+   ],
+   "numIIDSegments": 1000,
+   "numSimStatSegments": 10
+}
+ELL-0.1 chr2-0	len:min:max 	2486 : -0.52964395 : -0.0023165997
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr2-1	len:min:max 	2486 : -0.40322614 : -0.005517452
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr2-2	len:min:max 	2486 : -0.47174373 : -0.01090568
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr2-3	len:min:max 	2486 : -0.34300476 : -0.0009217211
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr2-4	len:min:max 	2486 : -0.30690664 : -0.013534636
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr2-5	len:min:max 	2486 : -0.46507534 : -0.0021189454
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr2-6	len:min:max 	2486 : -0.31013128 : -0.0072032493
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr2-7	len:min:max 	2486 : -0.4828575 : -0.0026936405
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr2-8	len:min:max 	2486 : -0.6111752 : -0.008491238
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr2-9	len:min:max 	2483 : -0.627755 : -0.0012984547
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr3-0	len:min:max 	2054 : -0.30166236 : -0.032150302
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr3-1	len:min:max 	2054 : -0.47802752 : -0.0053208554
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr3-2	len:min:max 	2054 : -0.5723993 : -0.0021189454
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr3-3	len:min:max 	2054 : -0.5680202 : -0.020704197
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr3-4	len:min:max 	2054 : -0.6440555 : -0.0072032493
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr3-5	len:min:max 	2054 : -0.65656954 : -0.0006417068
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr3-6	len:min:max 	2054 : -0.37232378 : -0.029994031
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr3-7	len:min:max 	2054 : -0.3362357 : -0.01944281
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr3-8	len:min:max 	2054 : -0.66157067 : -0.00024096052
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr3-9	len:min:max 	2046 : -0.82505924 : -0.027061583
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr4-0	len:min:max 	2050 : -0.54773575 : -0.0014806549
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr4-2	len:min:max 	2050 : -0.58829576 : -0.0020107413
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr4-1	len:min:max 	2050 : -0.43406963 : -0.0114396075
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr4-3	len:min:max 	2050 : -0.3763618 : -0.046078376
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr4-4	len:min:max 	2050 : -0.4325637 : -0.0041781245
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr4-5	len:min:max 	2050 : -0.54145694 : -0.014134373
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr4-6	len:min:max 	2050 : -0.45525908 : -0.01547547
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr4-7	len:min:max 	2050 : -0.3791049 : -0.00509248
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr4-8	len:min:max 	2050 : -0.44459322 : -0.003734265
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr4-9	len:min:max 	2047 : -0.5474961 : -0.0055960566
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr5-1	len:min:max 	1269 : -0.14330488 : -0.0006059277
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr5-3	len:min:max 	1269 : -0.34940308 : -0.012246391
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr5-0	len:min:max 	1269 : -0.24748376 : -0.008358294
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr5-2	len:min:max 	1269 : -0.6286822 : -0.006766044
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr5-4	len:min:max 	1269 : -0.33996463 : -0.0642589
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr5-5	len:min:max 	1269 : -0.45029315 : -0.0131029375
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr5-6	len:min:max 	1269 : -0.7668125 : -0.01090568
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr5-7	len:min:max 	1269 : -0.3645267 : -0.001878957
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr5-8	len:min:max 	1269 : -0.6577752 : -0.0028294483
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr5-9	len:min:max 	1263 : -0.4682848 : -0.0022255774
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr6-1	len:min:max 	2312 : -0.5690465 : -0.0039016444
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr6-0	len:min:max 	2312 : -0.6012383 : -0.0062634163
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr6-2	len:min:max 	2312 : -0.5869699 : -0.00022925355
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr6-3	len:min:max 	2312 : -0.53120655 : -0.0053281644
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr6-4	len:min:max 	2312 : -0.4948315 : -0.0008817425
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr6-5	len:min:max 	2312 : -0.27227715 : -0.003743539
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr6-6	len:min:max 	2312 : -0.4858941 : -0.009337045
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr6-7	len:min:max 	2312 : -0.5693905 : -0.009798023
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr6-8	len:min:max 	2312 : -0.65692973 : -0.028730594
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr6-9	len:min:max 	2307 : -0.7421548 : -0.09256574
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr7-0	len:min:max 	4858 : -0.70239043 : -0.0041781245
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr7-1	len:min:max 	4858 : -0.47280425 : -0.0045726527
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr7-2	len:min:max 	4858 : -0.2840538 : -0.014897481
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr7-3	len:min:max 	4858 : -0.47023353 : -0.00036128276
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr7-4	len:min:max 	4858 : -0.43495414 : -0.027476646
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr7-5	len:min:max 	4858 : -0.5223309 : -0.0538045
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr7-6	len:min:max 	4858 : -0.42395335 : -0.025334705
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr7-7	len:min:max 	4858 : -0.26639286 : -0.013594236
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr7-8	len:min:max 	4858 : -0.61074966 : -0.004335998
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr7-9	len:min:max 	4852 : -0.66050017 : -0.0007617606
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr8-0	len:min:max 	2418 : -0.55754125 : -0.01513043
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr8-1	len:min:max 	2418 : -0.61815554 : -0.020341782
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr8-2	len:min:max 	2418 : -0.6339918 : -0.035214398
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr8-3	len:min:max 	2418 : -0.37209326 : -0.020624505
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr8-4	len:min:max 	2418 : -0.4573191 : -0.0020651335
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr8-5	len:min:max 	2418 : -0.2857486 : -0.12819271
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr8-6	len:min:max 	2418 : -0.26578146 : -0.011386788
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr8-7	len:min:max 	2418 : -0.6036729 : -0.0039016444
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr8-8	len:min:max 	2418 : -0.5358246 : -0.0021189454
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr8-9	len:min:max 	2417 : -0.38395998 : -0.0030896096
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr9-0	len:min:max 	4188 : -0.5898166 : -4.019745e-05
+# indices >=1 off : 1 of 91		% indices off : 0.02
+ELL-0.1 chr9-1	len:min:max 	4188 : -0.36374152 : -0.0030896096
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr9-2	len:min:max 	4188 : -0.5267028 : -0.009151162
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr9-3	len:min:max 	4188 : -0.42564902 : -0.00016069258
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr9-4	len:min:max 	4188 : -0.25144187 : -0.00012054103
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr9-5	len:min:max 	4188 : -0.6724862 : -0.0014407765
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr9-6	len:min:max 	4188 : -0.35019118 : -0.020936824
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr9-7	len:min:max 	4188 : -0.48226547 : -0.0040991562
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr9-8	len:min:max 	4188 : -0.4932663 : -0.028730594
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr9-9	len:min:max 	4181 : -0.5482365 : -0.00088625564
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr10-0	len:min:max 	3958 : -0.52409023 : -0.0011045128
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr10-1	len:min:max 	3958 : -0.44929868 : -0.00055262126
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr10-2	len:min:max 	3958 : -0.5305055 : -0.019497393
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr10-3	len:min:max 	3958 : -0.52526456 : -0.01870243
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr10-4	len:min:max 	3958 : -0.5104052 : -0.00038140066
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr10-5	len:min:max 	3958 : -0.60770154 : -0.007897908
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr10-6	len:min:max 	3958 : -0.31725788 : -0.0097544575
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr10-7	len:min:max 	3958 : -0.543149 : -0.006616168
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr10-8	len:min:max 	3958 : -0.5145949 : -0.00068173296
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr10-9	len:min:max 	3955 : -0.49739808 : -0.047870994
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr11-0	len:min:max 	3253 : -0.5417969 : -0.0053281644
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr11-1	len:min:max 	3253 : -0.43431857 : -0.02959886
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr11-2	len:min:max 	3253 : -0.30234218 : -0.0024489032
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr11-3	len:min:max 	3253 : -0.5797412 : -0.006545161
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr11-4	len:min:max 	3253 : -0.48713708 : -0.008352769
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr11-5	len:min:max 	3253 : -0.3509716 : -0.0047656666
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr11-6	len:min:max 	3253 : -0.71694684 : -0.06080855
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr11-7	len:min:max 	3253 : -0.43457866 : -0.019285738
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr11-8	len:min:max 	3253 : -0.5510319 : -0.0012984547
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr11-9	len:min:max 	3247 : -0.692772 : -0.00080176233
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr12-0	len:min:max 	3440 : -0.3741435 : -0.015665712
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr12-1	len:min:max 	3440 : -0.5271951 : -0.0097544575
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr12-2	len:min:max 	3440 : -0.6147652 : -0.017076861
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr12-3	len:min:max 	3440 : -0.36544403 : -0.015304307
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr12-4	len:min:max 	3440 : -0.42395335 : -0.002356338
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr12-5	len:min:max 	3440 : -0.3303035 : -0.0030896096
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr12-6	len:min:max 	3440 : -0.6777009 : -0.009968464
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr12-7	len:min:max 	3440 : -0.3034355 : -0.0026936405
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr12-8	len:min:max 	3440 : -0.39693344 : -4.361332e-05
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr12-9	len:min:max 	3438 : -0.40337437 : -0.00043597334
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr13-0	len:min:max 	2765 : -0.45447636 : -0.072442226
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr13-2	len:min:max 	2765 : -0.3998304 : -0.0062634163
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr13-1	len:min:max 	2765 : -0.38685206 : -0.024887182
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr13-3	len:min:max 	2765 : -0.37655157 : -0.0041954354
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr13-4	len:min:max 	2765 : -0.2050646 : -0.0003009735
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr13-5	len:min:max 	2765 : -0.39795116 : -0.06810323
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr13-6	len:min:max 	2765 : -0.38319668 : -0.007882468
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr13-7	len:min:max 	2765 : -0.44611722 : -0.0054242997
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr13-8	len:min:max 	2765 : -0.53366107 : -0.0014052353
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr13-9	len:min:max 	2760 : -0.4253357 : -0.016808521
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr14-1	len:min:max 	2574 : -0.37994233 : -0.0053281644
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr14-0	len:min:max 	2574 : -0.48715332 : -0.018900102
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr14-2	len:min:max 	2574 : -0.7741215 : -0.00073051784
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr14-3	len:min:max 	2574 : -0.7915136 : -0.28353745
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr14-4	len:min:max 	2574 : -0.57154655 : -0.081084244
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr14-5	len:min:max 	2574 : -0.52996635 : -0.24152453
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr14-6	len:min:max 	2574 : -0.37414107 : -0.044399768
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr14-7	len:min:max 	2574 : -0.5147561 : -0.117320515
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr14-8	len:min:max 	2574 : -0.25174162 : -0.008958401
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr14-9	len:min:max 	2567 : -0.46372768 : -0.0047458066
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr15-0	len:min:max 	2830 : -0.56622875 : -0.00509248
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr15-1	len:min:max 	2830 : -0.47003108 : -0.0041954354
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr15-2	len:min:max 	2830 : -0.51430875 : -0.008211968
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr15-3	len:min:max 	2830 : -0.8259439 : -0.121985205
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr15-4	len:min:max 	2830 : -0.54105014 : -0.023268847
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr15-5	len:min:max 	2830 : -0.46523193 : -0.010562501
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr15-6	len:min:max 	2830 : -0.42954957 : -0.008530191
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr15-7	len:min:max 	2830 : -0.61619353 : -0.0047656666
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr15-8	len:min:max 	2830 : -0.3155138 : -0.0022255774
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr15-9	len:min:max 	2829 : -0.37273613 : -0.0138657605
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr16-0	len:min:max 	1906 : -0.575041 : -0.08294596
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr16-1	len:min:max 	1906 : -0.39748567 : -0.000961692
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr16-3	len:min:max 	1906 : -0.4427728 : -0.055624813
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr16-2	len:min:max 	1906 : -0.34635547 : -0.0012984547
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr16-4	len:min:max 	1906 : -0.70878613 : -0.11471935
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr16-5	len:min:max 	1906 : -0.6355115 : -0.23794317
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr16-6	len:min:max 	1906 : -0.74319357 : -0.046832416
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr16-7	len:min:max 	1906 : -0.40544808 : -0.038645968
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr16-8	len:min:max 	1906 : -0.63264453 : -0.010132979
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr16-9	len:min:max 	1904 : -0.3074277 : -0.0047656666
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr17-0	len:min:max 	2777 : -0.55558556 : -0.07892287
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr17-1	len:min:max 	2777 : -0.5426904 : -0.0038621263
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr17-2	len:min:max 	2777 : -0.33979237 : -0.028730594
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr17-3	len:min:max 	2777 : -0.6809371 : -0.016734073
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr17-4	len:min:max 	2777 : -0.64529806 : -0.010162379
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr17-5	len:min:max 	2777 : -0.45153865 : -0.01290488
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr17-6	len:min:max 	2777 : -0.4765979 : -0.011386788
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr17-7	len:min:max 	2777 : -0.5219656 : -0.0019839746
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr17-8	len:min:max 	2777 : -0.37467337 : -0.028730594
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr17-9	len:min:max 	2775 : -0.48423177 : -0.022766959
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr18-0	len:min:max 	2358 : -0.6449872 : -0.0075159385
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr18-2	len:min:max 	2358 : -0.5403437 : -0.072730824
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr18-1	len:min:max 	2358 : -0.58575493 : -0.019316763
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr18-3	len:min:max 	2358 : -0.6435282 : -0.006537812
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr18-4	len:min:max 	2358 : -0.4764363 : -0.031560905
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr18-5	len:min:max 	2358 : -0.30381557 : -0.010007256
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr18-6	len:min:max 	2358 : -0.39676204 : -0.016150517
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr18-7	len:min:max 	2358 : -0.68150365 : -0.007088038
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr18-8	len:min:max 	2358 : -0.61623776 : -0.005477427
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr18-9	len:min:max 	2354 : -0.5826397 : -0.0004444333
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr19-0	len:min:max 	1376 : -0.8896913 : -0.0032687036
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr19-2	len:min:max 	1376 : -0.45375854 : -0.028730594
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr19-1	len:min:max 	1376 : -0.49411207 : -0.006766044
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr19-3	len:min:max 	1376 : -0.46718594 : -0.11684274
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr19-4	len:min:max 	1376 : -0.6064308 : -0.072575
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr19-5	len:min:max 	1376 : -0.45007536 : -0.046832416
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr19-6	len:min:max 	1376 : -0.25812697 : -0.0138657605
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr19-7	len:min:max 	1376 : -0.47513413 : -6.5706074e-05
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr19-8	len:min:max 	1376 : -0.36665624 : -6.5706074e-05
+# indices >=1 off : 0 of 91		% indices off : 0.0
+ELL-0.1 chr19-9	len:min:max 	1370 : -0.45728868 : -0.000961692
+# indices >=1 off : 0 of 91		% indices off : 0.0
