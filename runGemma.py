@@ -28,7 +28,7 @@ opArgs={loc:opsList[loc] for loc in range(len(opsList))}
 
 parmsAll={}
 
-parmsAll['comparison/']={
+parmsAll['comparisonBatch/']={
     'response':'hipExp',
     'quantNormalizeExpr':False,
     'remPCFromSnp':False,
@@ -39,7 +39,7 @@ parmsAll['comparison/']={
     'remCovFromTraits':False,
     'grmParm':'c',
     'wald':False,
-    'linBatch':True,
+    'linBatch':False,
     'traitChr':['chr1']
 }
 
@@ -70,6 +70,7 @@ print(name,np.array(opsList)[args],flush=True)
 for arg in args:
     ops[opArgs[arg]]=True
 
+
 parms={
     **ops,
     'local':local,
@@ -86,9 +87,14 @@ parms={
     'cisMean':False,
     **parmsAll[name]
 }
+'''
+np.savetxt('p-chr1-chr1',DBRead(name+'score/p-chr1-chr1',parms,True),delimiter='\t')
+np.savetxt('p-chr1-chr1-fast',DBLocalRead('score/1-1',parms,True),
+           delimiter='\t')
+pdb.set_trace()
 
 with open(local+name+'op','w') as f:
     f.write(json.dumps(parms))
-
+'''
 callFuncs(parms)
 

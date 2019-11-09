@@ -5,6 +5,7 @@ def setupFolders(parms):
     local=parms['local']
     name=parms['name']
     dbToken=parms['dbToken']
+    pdb.set_trace()
 
     if not DBIsFile('',name[:-1],parms):
         DBCreateFolder(name[:-1],parms)
@@ -33,5 +34,6 @@ def setupFolders(parms):
         os.mkdir(local+name+'plots')
         os.mkdir(local+name+'geneDrop')
         os.mkdir(local+name+'H1')
+        os.mkdir(local+name+'op')
 
     DBSyncLocal('data',parms)
