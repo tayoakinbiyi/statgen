@@ -24,19 +24,7 @@ def process(parms):
     
     DBSyncLocal('data',parms)
 
-    numPCs=parms['numPCs']
-    
-    remPCFromTraits=parms['remPCFromTraits']
-    remCovFromTraits=parms['remCovFromTraits']
-
-    remPCFromSnp=parms['remPCFromSnp']
-    remPCCorrSnp=parms['remPCCorrSnp']
-
-    PCIsPreds=parms['PCIsPreds']
-    CovIsPreds=parms['CovIsPreds']
     quantNormalizeExpr=parms['quantNormalizeExpr']
-
-    linBatch=parms['linBatch']
     
     traits=pd.read_csv(local+'data/'+response+'.txt',sep='\t',index_col=0,header=0)
     mouseIds=traits.index.values.flatten().astype(int).tolist()
@@ -55,13 +43,11 @@ def process(parms):
     snpData=snps.loc[snps['chr'].isin(snpChr),['chr','Mbp']]    
     snps=snps.loc[snps['chr'].isin(snpChr),['Mbp','minor','major']+mouseIds]
             
+    np.savetxt(local+name+'process/preds.txt',np.ones([len(mouseIds),1]),delimiter='\t')
     np.savetxt(local+name+'process/dummy.txt',np.ones([len(mouseIds),1]),delimiter='\t')
-    DBUpload(name+'process/dummy.txt',parms,toPickle=False)
+    DBUpload(name+'process/preds.txt',parms,toPickle=False)
     
-    for snp in snpChr:
-        genGRM(snp,snps.loc[snpData['chr'].values.flatten()!=snp,:],parms)            
-    if allChrGRM:
-        genGRM('all',snps,parms)
+    genGRM('chr1',snps,parms)
 
     print('grm finished',flush=True)
 
@@ -75,53 +61,8 @@ def process(parms):
     if quantNormalizeExpr:
         traits=norm.ppf((np.argsort(traits,axis=0)+1)/(len(traits)+1))   
 
-    if not linBatch:
-        covariates=pd.concat([covariates[['Intercept','sex']],pd.get_dummies(covariates['batch'],drop_first=True)],axis=1)
-    
     DBWrite(mouseIds,name+'process/mouseIds',parms,toPickle=True)
-    DBWrite(allIds,name+'process/allIds',parms,toPickle=True)
-    
-    if remCovFromTraits:
-        reg=MultiOutputRegressor(LinearRegression(fit_intercept=False),n_jobs=-1).fit(covariates,traits)
-        traits=(traits-reg.predict(covariates))    
-    
-    if remPCFromTraits or remPCCorrSnp or PCIsPreds:
-        U,D,Vt=np.linalg.svd(traits)
-        PCs=np.concatenate([np.ones([len(traits),1]),U[:,0:numPCs]],axis=1)
-
-        if remPCFromTraits:
-            reg=MultiOutputRegressor(LinearRegression(fit_intercept=False),n_jobs=-1).fit(PCs,traits)
-            traits=(traits-reg.predict(PCs))    
-
-        header=snps.T.iloc[0:3,:]
-        snpY=snps.T.values[3:,:]
-
-        reg=MultiOutputRegressor(LinearRegression(fit_intercept=False),n_jobs=parms['cpu']).fit(PCs,snpY)
-        snpYHat=reg.predict(PCs)
-        R2=r2_score(snpY,snpYHat,multioutput='raw_values').flatten()
-        print('r2 calculated',flush=True)
-
-        toKeep=(R2<.9)
-        print(len(toKeep)-sum(toKeep),' snps removed')
-
-        if remPCFromSnp:
-            snps=pd.concat([header,pd.DataFrame(snpY-snpYHat)],axis=0).T
-
-        if remPCCorrSnp:
-            snps=snps.loc[toKeep,:]
-            R2=R2[toKeep]
-            snpData=snpData[toKeep]
-
-        DBWrite(R2.flatten(),name+'process/snpR2',parms,toPickle=True)
-        
-    if PCIsPreds:
-        np.savetxt(local+name+'process/preds.txt',PCs,delimiter='\t')
-    elif CovIsPreds:
-        np.savetxt(local+name+'process/preds.txt',covariates,delimiter='\t')
-    else:
-        np.savetxt(local+name+'process/preds.txt',np.ones([len(mouseIds),1]),delimiter='\t')    
-        
-    DBUpload(name+'process/preds.txt',parms,toPickle=False)
+    DBWrite(allIds,name+'process/allIds',parms,toPickle=True)    
 
     DBWrite(traitData,name+'process/traitData',parms,toPickle=True)
     DBWrite(np.array([traitData.shape[0]]),name+'process/N',parms,toPickle=True)

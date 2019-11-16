@@ -5,7 +5,6 @@ def setupFolders(parms):
     local=parms['local']
     name=parms['name']
     dbToken=parms['dbToken']
-    pdb.set_trace()
 
     if not DBIsFile('',name[:-1],parms):
         DBCreateFolder(name[:-1],parms)

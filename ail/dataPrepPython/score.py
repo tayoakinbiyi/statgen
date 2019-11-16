@@ -13,7 +13,6 @@ def score(parms):
     name=parms['name']
     snpChr=parms['snpChr']
     traitChr=parms['traitChr']
-    wald=parms['wald']
     
     DBSyncLocal(name+'process',parms)
 
@@ -34,7 +33,7 @@ def genScoresHelp(snp,trait,numSnps,numTraits,parms):
     numDecScore=parms['numDecScore']
     local=parms['local']
     name=parms['name']
-    wald=parms['wald']
+    pval=parms['pval']
         
     DBWrite(np.array([]),name+'score/p-'+snp+'-'+trait,parms,toPickle=True)
     
@@ -45,7 +44,7 @@ def genScoresHelp(snp,trait,numSnps,numTraits,parms):
     futures=[]
     with ProcessPoolExecutor(parms['cpu']) as executor: 
         for k in range(numTraits):
-            futures.append(executor.submit(gemma,snp,trait,k,local,name,wald))
+            futures.append(executor.submit(gemma,snp,trait,k,local,name,pval))
 
         for f in as_completed(futures):
             ans=f.result()
@@ -63,12 +62,11 @@ def genScoresHelp(snp,trait,numSnps,numTraits,parms):
     
     return()
     
-def gemma(snp,trait,k,local,name,wald):
+def gemma(snp,trait,k,local,name,pval):
     path=local+name
-    pval='1' if wald else '2'
     
     cmd=[local+'ext/gemma','-g',path+'process/geno-'+snp+'.txt','-p',path+'process/pheno-'+trait+'.txt',
-        '-lmm',pval,'-o',name[:-1]+'-'+snp+'-'+trait+'-'+str(k+1),'-k',path+'process/grm-'+snp+'.txt','-n',str(k+1),
+        '-lmm','4','-o',name[:-1]+'-'+snp+'-'+trait+'-'+str(k+1),'-k',path+'process/grm-'+snp+'.txt','-n',str(k+1),
         '-c',path+'process/preds.txt']
     subprocess.run(cmd) 
 
@@ -76,9 +74,11 @@ def gemma(snp,trait,k,local,name,wald):
     os.remove('output/'+name[:-1]+'-'+snp+'-'+trait+'-'+str(k+1)+'.assoc.txt')
     os.remove('output/'+name[:-1]+'-'+snp+'-'+trait+'-'+str(k+1)+'.log.txt')
     
-    if wald:
+    if pval=='z':
         val=(df['beta']/df['se']).values.flatten()
-    else:
+    elif pval=='lrt':
         val=df['p_lrt'].values.flatten()
+    else:
+        val=df['p_wald'].values.flatten()
     
     return(k,val,snp,trait,df['rs'])
