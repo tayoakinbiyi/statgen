@@ -5,59 +5,46 @@ from scipy.stats import norm, beta
 import numpy as np
 from concurrent.futures import ProcessPoolExecutor,wait,ALL_COMPLETED
 
-def genSimStats(parms,snp,Types,corr):
+def genSimStats(parms,Types,corrName,snpChr):
     traitChr=parms['traitChr']
-    name=parms['name']
     numCores=parms['numCores']
     numSimStatSegments=parms['numSimStatSegments']
-    muEpsRange=parms['muEpsRange']
-    wald=parms['wald']
-        
-    DBSyncLocal(name+'process',parms)
-            
+                    
     print('loading ELLAll',flush=True)
 
-    nameParms=['mu:'+str(x[0])+'-eps:'+str(x[1]) for x in muEpsRange]
-    if len(nameParms)==0:
-        nameParms=['']
-        
-    ELLAll=DBRead(name+'ELL/ELL-'+corr,parms,True)
-    offDiag=DBRead(name+'offDiag/offDiag-'+corr,parms,True)
-    
-    scoreFiles=pd.Series(DBListFolder(name+'score',parms),name='scoreFiles')
-    
+    L=DBRead('LZCorr/'+corrName,parms)
+    corr=np.matmul(L,L.T)
+    N=corr.shape[0]
+    offDiag=corr[np.triu_indices(N,1)].flatten()
+    ELLAll=DBRead('ELL/ELL-'+str(N),parms)
+
     print('loaded ELLAll',flush=True)
+    DBCreateFolder('stats',parms)
 
-    for nameParm in nameParms:
-        print(nameParm,flush=True)
-        if len(muEpsRange)==0:
-            fileParm=''
-            nameParm=snp
-        else:
-            fileParm='-'+nameParm
-
-        if sum(scoreFiles.str.contains('p-'+snp))==0:
-            continue
-
-        t=[]
+    for snp in snpChr:
+        df=[]
         for trait in traitChr:
-            t+=[DBRead(name+'score/p-'+snp+'-'+trait+fileParm,parms,True)]
+            df+=[DBRead('score/'+snp+'-'+trait,parms)]
 
-        if wald:
-            z=-np.sort(-np.abs(np.concatenate(t,axis=1)))
-            pval=2*norm.sf(np.abs(z))
-        else:
-            pval=np.sort(np.concatenate(t,axis=1))
-            z=norm.ppf(pval/2)
+        z=-np.sort(-np.abs(np.concatenate(df,axis=1)))
+        pval=2*norm.sf(np.abs(z))
 
         segLen=int(np.ceil(len(z)/numSimStatSegments))
         futures=[]
         with ProcessPoolExecutor(numCores) as executor: 
             for segment in range(numSimStatSegments):
                 snpRange=range(segment*segLen,min((segment+1)*segLen,len(z)))
-                futures+=[executor.submit(MCMCStats,z[snpRange],pval[snpRange],nameParm+'-'+str(segment),parms,'stats/',ELLAll,offDiag)]
+                futures+=[executor.submit(MCMCStats,z[snpRange],pval[snpRange],snp+'-'+str(segment),parms,ELLAll,
+                    offDiag,Types)]
 
-            wait(futures,return_when=ALL_COMPLETED)                        
+            mat=[]
+            for f in wait(futures,return_when=ALL_COMPLETED)[0]:
+                mat+=[f.result()]
+
+            mat=pd.concat(mat,axis=0)
+
+        for Type in mat['Type'].drop_duplicates().values:
+            DBWrite(mat[mat['Type']==Type]['Value'].reset_index(),'stats/'+Type,parms)
 
     return()
     

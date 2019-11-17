@@ -14,25 +14,26 @@ from ail.opPython.DB import *
 from ail.statsPython.noCorrStats import *
 from ail.statsPython.gbj import *
 
-def MCMCStats(z,pval,nameParm,parms,folder,ELLAll,offDiag):
+def MCMCStats(z,pval,nameParm,parms,ELLAll,offDiag,Types):
     ellDSet=parms['ellDSet']
     name=parms['name']
     local=parms['local']
-    Types=parms['Types']
     N=z.shape[1]
         
+    stats=[]
+    
     if ('cpma' in Types):
-        cpma(pval,nameParm,folder,parms)
+        stats+=[cpma(pval,nameParm,parms)]
         
-    if ('bj' in Types):
-        noCorrStats(z,pval,nameParm,parms,folder)
+    if ('noCorr' in Types):
+        stats+=[noCorrStats(z,pval,nameParm,parms)]
 
     for dParm in ellDSet:
-        stat='ell-'+str(dParm)
-        if (stat in Types):        
-            ELL(pval,nameParm,dParm,parms,folder,ELLAll)    
+        Type='ell-'+str(dParm)
+        if (Type in Types):        
+            stats+=[ELL(pval,nameParm,dParm,parms,ELLAll)]
     
     if ('gbj' in Types):
-        gbj(z,pval,nameParm,parms,folder,offDiag)
-      
-    return()
+        stats+[gbj(z,pval,nameParm,parms,offDiag)]
+    
+    return(pd.concat(stats,axis=0))

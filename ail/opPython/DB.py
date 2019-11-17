@@ -2,41 +2,52 @@ import pickle
 import os
 import dropbox
 import pdb
+from datetime import datetime
+from functools import partial
+import shutil
 
-def DBRead(path,parms):    
-    with open(path,'rb') as f:
-        data=pickle.loads(f.read())
+def DBWipe(path,parms):
+    for filename in os.listdir(path):
+        filepath = os.path.join(path, filename)
+        try:
+            shutil.rmtree(filepath)
+        except OSError:
+            os.remove(filepath)
         
-def DBWrite(data,path,parms): 
-    with open(path,'wb') as f:
-        f.write(pickle.dumps(data))
-        
-    return()
-        
-def DBIsFile(path,parms):
-    return(os.path.exists(path))
+def DBLogHelp(local,x):
+    return(os.path.getmtime(local+'log/'+x))
 
-def DBListFolder(path,parms):
-    return(os.listdir(path))
-
-def DBLog(msg,parms):
-    logName=parms['logName']
-    firstEntry=parms['firstEntry']
+def DBLogStart(arg,parms):
+    local=parms['local']
     
-    append='w+' if firstEntry else 'a'
-    #print(append,flush=True)   
-    pdb.set_trace()
-    with open(logName,append) as f:
+    logOp=input('log : ""->new, 1->last :')
+    if len(logOp)==0:
+        logName=local+'log/'+arg+'-'+str(datetime.now())
+    else:
+        partialDBLogHelp=partial(DBLogHelp,local)
+        logNames=os.listdir(local+'log')
+        logNames.sort(key=partialDBLogHelp)
+        logName=local+'log/'+logNames[-1]
+
+    parms['logName']=logName
+    
+    return()
+    
+def DBLog(msg,parms):
+    local=parms['local']
+    
+    logName=parms['logName']
+            
+    with open(logName,'a+') as f:
         f.write(msg+'\n')
-        
-    parms['firstEntry']=False
-        
+                
     return()
     
 def DBCreateFolder(path,parms):
-    if DBIsFile(path,parms):
-        os.rmtree(path)
+    if os.path.exists(path):
+        shutil.rmtree(path)
 
     os.mkdir(path)
     
     return()
+

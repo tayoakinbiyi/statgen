@@ -14,7 +14,7 @@ def genLZCorr(parms):
     name=parms['name']
     traitChr=parms['traitChr']
     
-    traitData=DBRead(name+'process/traitData',parms)
+    traitData=DBRead('ped/traitData',parms)
 
     corr=np.empty([traitData.shape[0],traitData.shape[0]])
 
@@ -34,10 +34,10 @@ def genLZCorr(parms):
     LZCorr=makePSD(corr)
     
     print('writing corr',flush=True)
-    DBWrite(LZCorr,name+'LZCorr/LZCorr',parms)
+    DBWrite(LZCorr,'LZCorr/LZCorr',parms)
     
     offDiag=corr[np.triu_indices(len(corr),1)].flatten()
 
-    DBWrite(offDiag,name+'offDiag/offDiag',parms,True)
+    DBWrite(offDiag,'offDiag/offDiag',parms)
 
     return()

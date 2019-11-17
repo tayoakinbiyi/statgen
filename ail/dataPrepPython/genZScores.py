@@ -5,8 +5,12 @@ import pdb
 import os
 import sys
 from concurrent.futures import ProcessPoolExecutor, wait, ALL_COMPLETED
+import time
+from functools import partial
+import datetime
 
 from ail.opPython.DB import *
+from ail.genPython.makePSD import *
 
 def genZScores(parms):
     local=parms['local']
@@ -14,31 +18,50 @@ def genZScores(parms):
     snpChr=parms['snpChr']
     traitChr=parms['traitChr']
     numCores=parms['numCores']
-    numMemGigs=parms['numMemGigs']
+    simLearnType=parms['simLearnType']
+    cisMean=parms['cisMean']
     
-    traitData=DBRead('process/traitData',parms)
-
+    DBLog('genZScores',parms)
+            
+    traitData=pd.read_csv('ped/traitData',sep='\t',header=0,index_col=None)
+    snpData=pd.read_csv('ped/snpData',sep='\t',header=0,index_col=None)
+    
     for trait in traitChr:
         for snp in snpChr:
-            if DBIsFile('holds/'+snp+'-'+trait,parms) or DBIsFile('finished',+snp+'-'+trait,parms):
+            nameParm=snp+'-'+trait
+
+            if os.path.exists('holds/genZScores-'+nameParm) or os.path.exists('score/'+nameParm):
                 continue
 
-            DBWrite(np.array([]),'holds/'+snp+'-'+trait,parms,True)
+            np.savetxt('holds/genZScores-'+nameParm,np.array([]),delimiter='\t')
 
             z=[]
-            for k in traitData[traitData['chr']==trait].index:
-                cmd=[local+'ext/fastlmmc','-file','ped/ail-'+snp,'-covar','ped/cov.phe','-pheno','ped/ail.phe',
-                     '-eigen','ped/eigen-'+snp,'-mpheno',str(k+1),'-out','fastlmm/'+snp+'-'+trait+'-'+str(k+1),
-                     '-maxThreads',str(numCores),'-simLearnType','Once']
-                subprocess.call(cmd)
-                
-                df=pd.read_csv('fastlmm/'+snp+'-'+trait+'-'+str(k+1),header=0,index_col=None)
+            M=sum(traitData['chr']==trait)
+            numLeft=M
+            with ProcessPoolExecutor(numCores) as executor:
+                k=0
+                while numLeft>0:
+                    futures=[]
+                    for core in range(min(numLeft,numCores)):
+                        print(nameParm+'-'+str(k+1)+' of '+str(M)+'\t'+str(datetime.now()),flush=True)
+                        DBLog(nameParm+'-'+str(k+1)+' of '+str(M),parms)
+                        cmd=[local+'ext/fastlmmc','-file','ped/ail-'+snp,'-covar','ped/cov.phe','-pheno','ped/ail.phe',
+                            '-eigen','ped/eigen-'+snp,'-mpheno',str(k+1),'-out','fastlmm/'+nameParm+'-'+str(k+1),
+                             '-maxThreads',str(1),'-simLearnType',simLearnType]
+                        futures+=[executor.submit(subprocess.call,cmd)]
+                        k+=1
+                        numLeft-=1
+                    
+                    wait(futures,return_when=ALL_COMPLETED)
+            
+            for k in range(M):
+                df=pd.read_csv('fastlmm/'+nameParm+'-'+str(k+1),header=0,index_col=None,sep='\t')
                 df.loc[:,'SNP']=df.loc[:,'SNP'].astype(int)
                 df=df.sort_values(by='SNP')
-                z+=[(df['SnpWeight']/df['SnpWeightSE']).values.flatten()]
+                z+=[(df['SNPWeight']/df['SNPWeightSE']).values.reshape(-1,1)]
 
-            DBWrite(np.concatenate(z,axis=1),'score/'+snp+'-'+trait,parms,True)
-        
+            np.savetxt('score/'+nameParm,np.concatenate(z,axis=1),delimiter='\t')
+            
     notDone=True
     while notDone:
         notDone=False
@@ -47,37 +70,36 @@ def genZScores(parms):
             if notDone:
                 continue
             for trait in traitChr:
-                if not DBIsFile('finished/'+snp+'-'+trait,parms):
+                if not os.path.exists('score/'+snp+'-'+trait):
+                    print('waiting for '+snp+'-'+trait+'\t'+str(datetime.now()),flush=True)
                     notDone=True
                     continue     
                     
         if notDone:
-            time.sleep(180)
+            time.sleep(60)
+    
+    if not (os.path.exists('holds/LZCorr') or os.path.exists('LZCorr/LZCorr')):
+        np.savetxt('holds/LZCorr',np.array([]),delimiter='\t')
         
-    if not (DBIsFile('holds/LZCorr',parms) or DBIsFile('finished/LZCorr',parms)):
-        DBWrite(np.array([]),'holds/LZCorr',parms)
+        snpLoc=snpData['chr'].values
+        traitLoc=traitData['chr'].values
+        
+        traitDF=pd.DataFrame(index=range(len(snpLoc)),columns=range(len(traitLoc)),dtype=float)        
 
-        df=[]
         for trait in traitChr:
-            snpDF=[]
             for snp in snpChr:
-                snpDF+=[DBRead('score/'+snp+'-'+trait,parms)]
-            df+=[np.concatenate(snpDF,axis=1)]
-        
-        df=np.concatenate(df,axis=0)
+                if trait==snp and (not cisMean):
+                    continue
+                traitDF.loc[snpLoc==snp,traitLoc==trait]=DBRead('score/'+snp+'-'+trait,parms)
 
-        corr=np.corrcoef(df,rowvar=False)
-
-        np.fill_diagonal(corr, 1)
-
+        corr=traitDF.corr().values
         LZCorr=makePSD(corr)
 
         print('writing corr',flush=True)
-        DBWrite(LZCorr,'LZCorr/LZCorr',parms)
-
-        offDiag=corr[np.triu_indices(len(corr),1)].flatten()
-
-        DBWrite(offDiag,'offDiag/offDiag',parms,True)
-        DBWrite(np.array([]),'finished/LZCorr',parms,True)
+        np.savetxt('LZCorr/LZCorr',LZCorr,delimiter='\t')
+        
+        np.savetxt('LZCorr/Leye',np.eye(LZCorr.shape[0]),delimiter='\t')
         
     return()
+
+

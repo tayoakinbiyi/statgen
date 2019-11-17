@@ -33,10 +33,9 @@ def plotOffDiag(source,parms):
     axs.set_ylabel(source[1])
     axs.set_xlim([-1,1])
     axs.set_ylim([-1,1])
+    axs.plot([-1,-1],[1,1],ls="--", c=".3")
 
-    fig.savefig(local+name+'plotOffDiag/'+plotName+'.png',bbox_inches='tight')
+    fig.savefig(local+name+'diagnostics/'+plotName+'.png')
     plt.close('all')        
     
-    DBUpload(name+'plotOffDiag/'+plotName+'.png',parms,toPickle=False)
-
     return()

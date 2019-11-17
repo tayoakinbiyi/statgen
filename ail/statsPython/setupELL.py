@@ -14,47 +14,36 @@ from ail.statsPython.qq_var import *
 from ail.statsPython.setupELLHelp import *
 from ail.opPython.DB import *
 
-def binsMinMax(df,B,N):
-    bins=np.array(range(int(max(0,df.bins.min()-N)),int(min(B-1,df.bins.max()+N))+1)).reshape(-1,1)
-    k=np.array([df.k.iloc[0]]*len(bins)).reshape(-1,1)
-    return(pd.DataFrame(np.concatenate([k,bins],axis=1),columns=['k','bins']))
-
-def kMinMax(df):
-    return(pd.DataFrame({'min':df.k.min(),'max':df.k.max()},index=[0]))
-
 def setupELL(parms):
-    name=parms['name']
+    cisMean=parms['cisMean']
 
-    DBCreateFolder(name,'ELL',parms)
+    DBCreateFolder('ELL',parms)
+    LZCorr=DBRead('LZCorr/LZCorr',parms)    
+    traitLoc=DBRead('ped/traitData',parms)['chr'].values
+    
+    if not cisMean:
+        for snp in snpChr:
+            setupELLSnp(LZCorr[traitLoc!=snp,traitLoc!=snp],parms)
+    else:
+        setupELLSnp(LZCorr,parms)
 
-    snps=pd.Series(DBListFolder(name+'offDiag',parms),name='traits')
-    snps=snps[snps.str.contains('offDiag-')].str.slice(8).values.tolist()
-    
-    DBSyncLocal(name+'process',parms)
-    
-    for snp in snps:
-        setupELLSnp(snp,parms)
-    
-def setupELLSnp(snp,parms):
+    return()
+
+def setupELLSnp(corr,parms):
     ellDSet=parms['ellDSet']
-    ellEps=parms['ellEps']
-    
+    ellEps=parms['ellEps']    
     binsPerIndex=parms['binsPerIndex']
-    name=parms['name']
-    local=parms['local']
     numCores=parms['numCores']
 
-    traitData=DBRead(name+'process/traitData',parms,True)
-
-    N=sum(traitData['chr']!=snp)
+    N=corr.shape[0]                   
     d=int(N*max(ellDSet))
+    offDiag=np.matmul(corr,corr.T)[np.triu_indices(N,1)].flatten()
 
-    print('loading offDiag '+snp,flush=True)
-    H0ZPairWiseCors=DBRead(name+'offDiag/offDiag-'+snp,parms,True)    
+    print('loading offDiag '+str(N),flush=True)
         
     numBins=int(d*binsPerIndex)
     t0=time.time()
-    print('bins '+snp,round((time.time()-t0),2))
+    print('bins '+str(N),round((time.time()-t0),2))
     
     bins=np.append(np.append(np.linspace(0,1/numBins,binsPerIndex),np.linspace(1/numBins,.5,numBins+1)[1:-1]),
        np.linspace(.5,1,binsPerIndex))
@@ -76,13 +65,13 @@ def setupELLSnp(snp,parms):
         'k':df.k.max()},index=[0])).reset_index(drop=True)
     minMaxK.insert(2,'maxK',maxK.k.iloc[maxK.minB.iloc[1:].searchsorted(range(numBins),side='right')].values)
    
-    print('minMaxK '+snp, psutil.virtual_memory().percent,round((time.time()-t0),2))
+    print('minMaxK '+str(N), psutil.virtual_memory().percent,round((time.time()-t0),2))
           
     end=np.cumsum(maxB-minB+1) 
     start=np.append([0],end[:-1])
     minMaxB=pd.DataFrame({'start':start,'end':end},dtype='int')
     
-    rhoBar=getRhoBar(H0ZPairWiseCors)
+    rhoBar=getRhoBar(offDiag)
     var=pd.DataFrame(columns=['binEdge','var'],dtype='float32')
     
     futures=[]
@@ -96,7 +85,7 @@ def setupELLSnp(snp,parms):
     
     var=var.sort_values(by='binEdge').reset_index(drop=True)   
     minMaxK.insert(minMaxK.shape[1],'var',var['var']) # binEdge,min,max, var
-    print('gamma '+snp, psutil.virtual_memory().percent,round((time.time()-t0),2))
+    print('gamma '+str(N), psutil.virtual_memory().percent,round((time.time()-t0),2))
 
     ebb=pd.DataFrame(columns=['binEdge','ell'],dtype='float32')
     
@@ -109,7 +98,7 @@ def setupELLSnp(snp,parms):
         for f in wait(futures,return_when=ALL_COMPLETED)[0]:
             ebb=ebb.append(f.result())
 
-    print('mp '+snp, psutil.virtual_memory().percent,round((time.time()-t0),2))
+    print('mp '+str(N), psutil.virtual_memory().percent,round((time.time()-t0),2))
 
     ebb=ebb.sort_values(by='binEdge')
     ELLAll={}
@@ -117,10 +106,10 @@ def setupELLSnp(snp,parms):
         ELL=ebb.iloc[minMaxB.loc[k,'start']:minMaxB.loc[k,'end']].reset_index(drop=True)
         ELL.loc[:,'binEdge']=(ELL.loc[:,'binEdge']-ELL.loc[:,'binEdge'].astype(int))
         ELLAll[k]=ELL
-        print('setupELL '+snp+' '+str(k+1)+' of '+str(d),flush=True)
+        print('setupELL '+str(N)+' '+str(k+1)+' of '+str(d),flush=True)
     
-    DBWrite(ELLAll,name+'ELL/ELL-'+snp,parms,toPickle=True)  
-    print('finished setupELL '+snp,flush=True)
+    DBWrite(ELLAll,'ELL/ELL-'+str(N),parms)  
+    print('finished setupELL '+str(N),flush=True)
     
     return()
                

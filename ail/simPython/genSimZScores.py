@@ -18,42 +18,18 @@ def genSimZScores(parms):
     traitChr=parms['traitChr']
     snpChr=parms['snpChr']
     numCores=parms['numCores']
-    numH2Segments=parms['numH2Segments']
 
-    DBCreateFolder(name,'simZScores',parms)
+    DBCreateFolder('holds',parms)
         
-    notDoneH0=True
-    doScore=True
-    while notDoneH0:
-        if doScore:
-            genZScores(parms)
+    genZScores(parms)
             
-        notDoneH0=False
-        doScore=False
-
-        for trait in traitChr:
-            if notDoneH0:
-                continue
-                
-            for snp in snpChr:
-                print('genHZScores checking '+snp+'-'+trait,flush=True)
-                if not DBIsFile(name+'score',snp+'-'+trait+'-'+nameParm,parms):
-                    notDoneH0=True
-                    continue     
-                    
-        if notDoneH0:
-            time.sleep(180)
-            
-    print('loading data',flush=True)
-    H2SnpSet=pd.read_csv('ped/ail-2.ped',sep='\t',header=None).iloc[:,3:].values
-    traitData=DBRead('process/traitData',parms)
-    Y=DBRead(name+'process/Y',parms)    
-    print('loaded data',flush=True)
+    H2SnpSet=pd.read_csv('ped/ail-2.ped',sep='\t',header=None)
+    H2Map=pd.read_csv('ped/ail-2.map',sep='\t',header=None).iloc[:,1].values.flatten()
+    
+    traitData=pd.read_csv('ped/traitData',index_col=None,header=0)
+    Y=np.loadtxt('ped/Y',delimiter='\t')    
 
     N=Y.shape[1]
-
-    segLen=int(np.ceil(H2SnpSize/numH2Segments))
-    numSnps,M=H2SnpSet.shape
 
     tmpTrait=traitData.copy()
     tmpTrait.insert(0,'loc',range(tmpTrait.shape[0]))
@@ -65,50 +41,70 @@ def genSimZScores(parms):
     for k in range(len(muEpsRange)):
         mu=muEpsRange[k][0]
         eps=muEpsRange[k][1]
-        nameParm=str(mu)+'-'+str(eps)
+        nameParm=str(k)
         
-        if DBIsFile('holds/genSimZScores-'+nameParm,parms) or DBIsFile('finished/genSimZScores-'+nameParm,parms):
+        if os.path.exists('holds/genSimZScores-'+nameParm) or os.path.exists('score/'+str(3+k)+'-1'):
             continue
 
-        DBWrite(np.array([]),name+'holds/genSimZScores-'+nameParm,parms,True)
+        np.savetxt('holds/genSimZScores-'+nameParm,np.array([]),delimiter='\t')
 
-        eqtlList=pd.DataFrame(columns=['snp','loc','z'])  
+        eqtlList=pd.DataFrame(columns=['snp','loc','z'],index=range(H2SnpSize*eps))  
         count=0
-        for snp in range(numSnps):
-            print('mu:'+str(mu)+'-eps:'+str(eps)+'\tsnp:'+str(snp),flush=True)
+        numLeft=len(H2Map)
+        eqtlList=[]
+        with ProcessPoolExecutor(numCores) as executor:
+            snp=0
+            while numLeft>0:
+                futures=[]
+                for core in range(min(numLeft,numCores)):
+                    futures+=[executor.submit(genSimZScoresHelp,parms,N,mu,eps,snp,H2SnpSet.iloc[:,6+snp],Y,H2Map[snp],nameParm)]
+                    snp+=1
+                    numLeft-=1
 
-            loc=np.random.choice(N,size=eps,replace=False)
-
-            pd.DataFrame({'Family ID':0,'Individual ID':range(numSnps),'Paternal ID':0,'Maternal ID':0,
-                'Sex':0,'Phenotype':0,'snp':H2SnpSet[snp]}).to_csv('ped/'+nameParm+'-'+snp,header=False,index=False)
-
-            f=np.mean(H2SnpSet[snp])/2
-            pd.concat([pd.DataFrame({'Family ID':0,'Individual ID':range(len(traits))}),pd.DataFrame(Y[:,loc]+
-                (mu/np.sqrt(2*eps*f*(1-f)))*np.matmul(H2SnpSet[snp].reshape(-1,1),np.random.choice([-1,1],size=eps                   
-                ).reshape(1,-1)))],axis=1).to_csv('ped/'+nameParm+'-'+snp+'.phe',header=False,index=False)
-
-            for ind in range(eps):
-                cmd=[local+'ext/fastlmmc','-file','ped/2','-pheno','ped/'+nameParm+'-'+snp+'.phe','-eigen','ped/eigen-all',
-                     '-simLearnType','Once','-mpheno',str(ind+1),'-out',
-                     'fastlmm/'+nameParm+'-'+snp+'-'+str(ind+1),'-maxThreads',str(numCores)]
-                subprocess.call(cmd)
-
-                df=pd.read_csv('fastlmm/'+nameParm+'-'+snp+'-'+str(ind+1),header=0,index_col=None)
-                eqtlList.iloc[count*eps+ind,:]=[snp,loc[ind],(df['SnpWeight']/df['SnpWeightSE']).values]
-            count+=1
-
+                for f in wait(futures,return_when=ALL_COMPLETED)[0]:
+                    eqtlList+=[f.result()]
+        
+        eqtlList=pd.concat(eqtlList,axis=0)
+        
         for trait in traitChr:
-            z=DBRead(name+'score/2-'+trait,parms,True)
+            z=np.loadtxt('score/2-'+trait,delimiter='\t')
             tmpEqtlList=eqtlList[traitData['chr'].iloc[eqtlList['loc']].values==trait]
             
             xLoc=tmpEqtlList['snp'].values.flatten().astype(int)
             yLoc=tmpTrait['chrLoc'].iloc[tmpEqtlList['loc']].values.flatten().astype(int)
             z[xLoc,yLoc]=tmpEqtlList['z'].values.flatten()
             
-            DBWrite(z,name+'score/'+str(3+k)+'-'+trait,parms,True)
-            
-        DBWrite(np.array([]),name+'finished/genSimZScores-'+nameParm,parms,True)
-        
+            np.savetxt('score/'+str(3+k)+'-'+trait,z,delimiter='\t')
+                    
         print('wrote '+nameParm+' trait',flush=True)
                 
     return()
+
+def genSimZScoresHelp(parms,N,mu,eps,snp,snpVec,Y,snpID,nameParm):
+    local=parms['local']
+    
+    eqtlList=pd.DataFrame(columns=['snp','loc','z'],index=range(eps))  
+    print('mu:'+str(mu)+'-eps:'+str(eps)+'\tsnp:'+str(snp),flush=True)
+
+    loc=np.random.choice(N,size=eps,replace=False)
+
+    open('ped/extract-'+str(snp),'w+').write(str(snpID)+'\n')
+    snpVec=snpVec.str.split(' ',expand=True).replace({'A':0,'G':1}).sum(axis=1).values.reshape(-1,1)         
+
+    f=np.mean(snpVec)/2
+    pd.concat([pd.DataFrame({'Family ID':0,'Individual ID':range(len(Y))}),pd.DataFrame(Y[:,loc]+
+        (mu/np.sqrt(2*eps*f*(1-f)))*np.matmul(snpVec,np.random.choice([-1,1],size=eps                   
+        ).reshape(1,-1)))],axis=1).to_csv('ped/'+nameParm+'-'+str(snp)+'.phe',header=False,index=False,sep='\t')
+
+    for ind in range(eps):
+        cmd=[local+'ext/fastlmmc','-file','ped/ail-2','-pheno','ped/'+nameParm+'-'+str(snp)+'.phe','-eigen','ped/eigen-all',
+             '-simLearnType','Once','-mpheno',str(ind+1),'-extract','ped/extract-'+str(snp),'-out',
+             'fastlmm/'+nameParm+'-'+str(snp)+'-'+str(ind+1),'-maxThreads',str(1)]
+        subprocess.call(cmd)
+
+        df=pd.read_csv('fastlmm/'+nameParm+'-'+str(snp)+'-'+str(ind+1),header=0,index_col=None,sep='\t')
+        eqtlList.iloc[ind,:]=[snp,loc[ind],(df['SNPWeight']/df['SNPWeightSE']).values[0]]
+        
+    DBLog(str(snp)+'\t'+str(mu)+'\t'+str(eps)+'\t'+str(eqtlList['z'].min())+'\t'+str(eqtlList['z'].max()),parms)
+    
+    return(eqtlList)

@@ -6,7 +6,7 @@ from scipy.stats import norm, beta
 from ail.statsPython.cpma import *
 from ail.opPython.DB import *
 
-def noCorrStats(z,pval,nameParm,parms,folder):
+def noCorrStats(z,pval,nameParm,parms):
     name=parms['name']
     
     N=pval.shape[1]
@@ -16,24 +16,18 @@ def noCorrStats(z,pval,nameParm,parms,folder):
     Fn=(np.array([range(d)]*Reps)+1)/N
     Fn0=Fn[0]
 
-    hc=[np.sqrt(N)*np.max(((Fn0 -p)/np.sqrt(p*(1-p)))[p>=1/N]) for p in pval]
-    bj=np.max(N*D(Fn,pval),axis=1)
-    gnull=np.max(-beta.cdf(pval,np.array([range(1,d+1)]*Reps),N-np.array([range(1,d+1)]*Reps)),axis=1)
-    score=np.sum(z**2,axis=1)
+    stats=pd.concat([pd.DataFrame({'Type':'hc','Value':[np.sqrt(N)*np.max(((Fn0 -p)/np.sqrt(p*(1-p)))[p>=1/N]) for p in pval]}),
+        pd.DataFrame({'Type':'bj','Value':np.max(N*D(Fn,pval),axis=1)}),
+        pd.DataFrame({'Type':'gnull','Value':np.max(-beta.cdf(pval,np.array([range(1,d+1)]*Reps),
+        N-np.array([range(1,d+1)]*Reps)),axis=1)}),
+        pd.DataFrame({'Type':'score','Value':np.sum(z**2,axis=1)})],axis=0)   
     
-    DBWrite(np.array(hc),name+folder+'hc-'+nameParm,parms,True)
-    DBWrite(np.array(bj),name+folder+'bj-'+nameParm,parms,True)
-    DBWrite(np.array(gnull),name+folder+'gnull-'+nameParm,parms,True)
-    DBWrite(np.array(score),name+folder+'score-'+nameParm,parms,True)
-
-    DBLog('noCorrStats '+nameParm+'\nnoCorrStats score len:min:max \t\t'+str(len(score))+' : '+str(min(score))+' : '+str(max(score))+
-          '\nnoCorrStats bj len:min:max \t\t\t'+str(len(bj))+' : '+str(min(bj))+' : '+str(max(bj))+
-          '\nnoCorrStats gnull len:min:max \t\t'+str(len(gnull))+' : '+str(min(gnull))+' : '+str(max(gnull))+
-          '\nnoCorrStats hc len:min:max \t\t\t'+str(len(hc))+' : '+str(min(hc))+' : '+str(max(hc)),parms)
+    DBLog(stats.groupby('Type').apply(lambda df: pd.DataFrame({'len':df.shape[0],'min':df['Value'].min(),'mean':df['Value'].mean(),
+        'max':df['Value'].max()},index=[0])).reset_index(level=1,drop=True).to_string(),parms)
 
     print('noCorrStats '+nameParm,flush=True)
     
-    return()
+    return(stats)
 
 def D(u,v):
     return(u*np.log(u/v)+(1-u)*np.log((1-u)/(1-v)))

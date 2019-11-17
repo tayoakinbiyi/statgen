@@ -29,17 +29,14 @@ def gbj(z,pval,nameParm,parms,folder,offDiag):
         
         ghcStats+=[max((i_vec - N*pval[row]) / np.sqrt(gbj.calc_var_nonzero_mu(d=d, mu=mu,t=z_vec,pairwise_cors=pairwise_cors)))]
 
-    gbjStats=np.array(gbjStats)
-    ghcStats=np.array(ghcStats)
+    stats=pd.concat([pd.DataFrame({'Type':'gbj','Value':np.array(gbjStats)}),
+        pd.DataFrame({'Type':'ghc','Value':np.array(ghcStats)})],axis=0)
     
     DBLog('gbj '+nameParm+' len:min:max '+str(sum(~np.isnan(gbjStats)))+' : '+str(min(gbjStats))+' : '+
              str(max(gbjStats))+'\nghc '+nameParm+' len:min:max '+str(sum(~np.isnan(ghcStats)))+' : '+str(min(ghcStats))+' : '+
              str(max(ghcStats)),parms)
-
-    DBWrite(gbjStats,name+folder+'gbj-'+nameParm,parms,True)
-    DBWrite(ghcStats,name+folder+'ghc-'+nameParm,parms,True)
         
     print('gbj '+nameParm,flush=True)
 
-    return()
+    return(stats)
         

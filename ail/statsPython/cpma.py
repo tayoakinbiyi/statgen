@@ -8,7 +8,7 @@ from rpy2.robjects.packages import importr
 import rpy2.robjects as ro
 from rpy2.robjects.packages import SignatureTranslatedAnonymousPackage
 
-def cpma(pval,nameParm,folder,parms):       
+def cpma(pval,nameParm,parms):       
     name=parms['name']
     
     N=pval.shape[1]
@@ -67,9 +67,9 @@ def cpma(pval,nameParm,folder,parms):
     
     DBLog('cpma '+nameParm+'\tlen:min:max \t'+str(len(stats))+' : '+str(min(stats))+' : '+str(max(stats)),parms)
     
-    DBWrite(stats,name+folder+'cpma-'+nameParm,parms,True)
+    stats=pd.DataFrame({'Type':'cpma','Value':stats})
     
     print('cpma '+nameParm,flush=True)
     
-    return()
+    return(stats)
         
