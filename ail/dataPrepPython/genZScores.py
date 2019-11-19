@@ -28,9 +28,9 @@ def genZScores(parms):
     
     for trait in traitChr:
         for snp in snpChr:
-            nameParm=snp+'-'+trait
+            nameParm=str(snp)+'-'+str(trait)
 
-            if os.path.exists('holds/genZScores-'+nameParm) or os.path.exists('score/'+nameParm):
+            if os.path.exists('holds/genZScores-'+nameParm):
                 continue
 
             np.savetxt('holds/genZScores-'+nameParm,np.array([]),delimiter='\t')
@@ -45,8 +45,9 @@ def genZScores(parms):
                     for core in range(min(numLeft,numCores)):
                         print(nameParm+'-'+str(k+1)+' of '+str(M)+'\t'+str(datetime.now()),flush=True)
                         DBLog(nameParm+'-'+str(k+1)+' of '+str(M),parms)
-                        cmd=[local+'ext/fastlmmc','-file','ped/ail-'+snp,'-covar','ped/cov.phe','-pheno','ped/ail.phe',
-                            '-eigen','ped/eigen-'+snp,'-mpheno',str(k+1),'-out','fastlmm/'+nameParm+'-'+str(k+1),
+                        
+                        cmd=[local+'ext/fastlmmc','-file','ped/ail-'+str(snp),'-covar','ped/cov.phe','-pheno','ped/ail.phe',
+                            '-eigen','ped/eigen-'+str(snp),'-mpheno',str(k+1),'-out','fastlmm/'+nameParm+'-'+str(k+1),
                              '-maxThreads',str(1),'-simLearnType',simLearnType]
                         futures+=[executor.submit(subprocess.call,cmd)]
                         k+=1
@@ -70,29 +71,32 @@ def genZScores(parms):
             if notDone:
                 continue
             for trait in traitChr:
-                if not os.path.exists('score/'+snp+'-'+trait):
-                    print('waiting for '+snp+'-'+trait+'\t'+str(datetime.now()),flush=True)
+                if not os.path.exists('score/'+str(snp)+'-'+str(trait)):
+                    print('waiting for '+str(snp)+'-'+str(trait)+'\t'+str(datetime.now()),flush=True)
                     notDone=True
                     continue     
                     
         if notDone:
             time.sleep(60)
     
-    if not (os.path.exists('holds/LZCorr') or os.path.exists('LZCorr/LZCorr')):
+    if not os.path.exists('holds/LZCorr'):
         np.savetxt('holds/LZCorr',np.array([]),delimiter='\t')
         
         snpLoc=snpData['chr'].values
         traitLoc=traitData['chr'].values
         
-        traitDF=pd.DataFrame(index=range(len(snpLoc)),columns=range(len(traitLoc)),dtype=float)        
+        traitDF=np.full([len(snpLoc),len(traitLoc)],np.nan)
 
         for trait in traitChr:
             for snp in snpChr:
                 if trait==snp and (not cisMean):
                     continue
-                traitDF.loc[snpLoc==snp,traitLoc==trait]=DBRead('score/'+snp+'-'+trait,parms)
+                
+                xLoc=np.arange(len(snpLoc))[snpLoc==snp].reshape(-1,1)
+                yLoc=np.arange(len(traitLoc))[traitLoc==trait].reshape(1,-1)
+                traitDF[xLoc,yLoc]=np.loadtxt('score/'+str(snp)+'-'+str(trait),delimiter='\t')
 
-        corr=traitDF.corr().values
+        corr=np.ma.corrcoef(traitDF,rowvar=False)
         LZCorr=makePSD(corr)
 
         print('writing corr',flush=True)

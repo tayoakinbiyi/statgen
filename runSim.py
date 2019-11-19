@@ -54,7 +54,7 @@ colors=[(0,0,0),(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5
 
 parms={
     **parms,
-    'etaGRM':.5,
+    'etaGRM':.3,
     'etaError':.5,
     'ellEps':1e-9,
     'ellDSet':ellDSet,
@@ -64,11 +64,11 @@ parms={
     'numCores':cpu_count(),
     'numPCs':10,
     'smallNumCores':3,
-    'snpChr':['1','2'],
-    'traitChr':['1'],
+    'snpChr':[1,2],
+    'traitChr':[1],
     'muEpsRange':[[mu,eps] for mu in muRange for eps in epsRange],
     'numDecScore':3,
-    'H1SnpSize':4000,
+    'H1SnpSize':400,
     'H2SnpSize':300,
     'RPath':'ga/ail/R/',
     'PCIsPreds':False,
@@ -98,8 +98,8 @@ if parms['genSimZScores']:
     genSimZScores(parms)
     
 if parms['diagnostics']:                 
-    plotOffDiag(['Lgrm-all','LsimGrm'],parms)
-    plotZ(parms,'simSnps',['1','2'])
+    #plotOffDiag(['Lgrm-all','LsimGrm'],parms)
+    plotZ(parms,'simSnps',[1])
 
 if parms['setupELL']:
     setupELL(parms)

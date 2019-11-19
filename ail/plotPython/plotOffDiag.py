@@ -19,8 +19,8 @@ def plotOffDiag(source,parms):
     fig.set_figwidth(20,forward=True)
     fig.set_figheight(20,forward=True)
     
-    LCorr1=DBRead('LZCorr/'+source[0],parms)
-    LCorr2=DBRead('LZCorr/'+source[1],parms)
+    LCorr1=np.loadtxt('LZCorr/'+source[0],delimiter='\t')
+    LCorr2=np.loadtxt('LZCorr/'+source[1],delimiter='\t')
     
     corr1=np.matmul(LCorr1,LCorr1.T)
     corr2=np.matmul(LCorr2,LCorr2.T)

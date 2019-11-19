@@ -21,16 +21,15 @@ def genSimZScores(parms):
 
     DBCreateFolder('holds',parms)
         
-    genZScores(parms)
+    #genZScores(parms)
             
     H2SnpSet=pd.read_csv('ped/ail-2.ped',sep='\t',header=None)
     H2Map=pd.read_csv('ped/ail-2.map',sep='\t',header=None).iloc[:,1].values.flatten()
     
-    traitData=pd.read_csv('ped/traitData',index_col=None,header=0)
-    Y=np.loadtxt('ped/Y',delimiter='\t')    
+    traitData=pd.read_csv('ped/traitData',index_col=None,header=0,sep='\t')
+    Y=np.loadtxt('ped/ail.phe',delimiter='\t')[:,2:]    
 
     N=Y.shape[1]
-
     tmpTrait=traitData.copy()
     tmpTrait.insert(0,'loc',range(tmpTrait.shape[0]))
     tmpTrait=tmpTrait.sort_values(by=['chr','loc'])
@@ -57,6 +56,7 @@ def genSimZScores(parms):
             while numLeft>0:
                 futures=[]
                 for core in range(min(numLeft,numCores)):
+                    genSimZScoresHelp(parms,N,mu,eps,snp,H2SnpSet.iloc[:,6+snp],Y,H2Map[snp],nameParm)
                     futures+=[executor.submit(genSimZScoresHelp,parms,N,mu,eps,snp,H2SnpSet.iloc[:,6+snp],Y,H2Map[snp],nameParm)]
                     snp+=1
                     numLeft-=1
@@ -67,16 +67,16 @@ def genSimZScores(parms):
         eqtlList=pd.concat(eqtlList,axis=0)
         
         for trait in traitChr:
-            z=np.loadtxt('score/2-'+trait,delimiter='\t')
+            z=np.loadtxt('score/2-'+str(trait),delimiter='\t')
             tmpEqtlList=eqtlList[traitData['chr'].iloc[eqtlList['loc']].values==trait]
             
             xLoc=tmpEqtlList['snp'].values.flatten().astype(int)
             yLoc=tmpTrait['chrLoc'].iloc[tmpEqtlList['loc']].values.flatten().astype(int)
             z[xLoc,yLoc]=tmpEqtlList['z'].values.flatten()
             
-            np.savetxt('score/'+str(3+k)+'-'+trait,z,delimiter='\t')
-                    
-        print('wrote '+nameParm+' trait',flush=True)
+            np.savetxt('score/'+str(3+k)+'-'+str(trait),z,delimiter='\t')
+                 
+        print('wrote '+str(mu)+' '+str(eps),flush=True)
                 
     return()
 

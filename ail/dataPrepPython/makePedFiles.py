@@ -87,7 +87,7 @@ def makePedFiles(parms):
     if not os.path.exists('ped/ail.ped'):
         snps=pd.read_csv(local+'data/ail.genos.ATGC.gwasSNPs.txt',sep='\t',header=None,index_col=None)
         snps.columns=['chr','Mbp','Minor','Major']+allIds
-        chromosome=snps.iloc[:,0].str.slice(3)
+        chromosome=snps.iloc[:,0].str.slice(3).astype(str)
         Mbp=snps.iloc[:,1]
         snps=snps[mouseIds].reset_index(drop=True).T
 

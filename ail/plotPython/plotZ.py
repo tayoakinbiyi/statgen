@@ -21,19 +21,24 @@ def plotZ(parms,title,snpChr=None,transCis='all'):
         snpChr=parms['snpChr']
     traitChr=parms['traitChr']
     
-    snpData=DBRead('ped/snpData',parms)
-    snpData[snpData['chr'].isin(snpChr)]
-    traitData=DBRead('ped/traitData',parms)
+    snpData=pd.read_csv('ped/snpData',sep='\t',index_col=None)
+    snpData=snpData[snpData['chr'].isin(snpChr)]
+    traitData=pd.read_csv('ped/traitData',sep='\t',index_col=None)
     
     col={'cis':'b','trans':'r'}
-    
-    data=pd.DataFrame(columns=traitData['trait'],index=range(len(snpData)))
-    
+
+    snpLoc=snpData['chr'].values
+    traitLoc=traitData['chr'].values
+    data=np.full([len(snpLoc),len(traitLoc)],np.nan)
+
     for trait in traitChr:
         for snp in snpChr:
-            print('loading snp '+snp+' trait '+trait,flush=True)
-            data.loc[snpData['chr'].values==snp,traitData['chr'].values==trait]=DBRead('score/'+snp+'-'+trait,parms)
+            print('loading snp '+str(snp)+' trait '+str(trait),flush=True)
+            xLoc=np.arange(len(snpLoc))[snpLoc==snp].reshape(-1,1)
+            yLoc=np.arange(len(traitLoc))[traitLoc==trait].reshape(1,-1)
+            data[xLoc,yLoc]=np.loadtxt('score/'+str(snp)+'-'+str(trait),delimiter='\t')
     
+    data=pd.DataFrame(data,columns=traitData['trait'])
     data.insert(0,'snp',range(len(snpData)))
     data.insert(0,'snpChr',snpData['chr'])
     data=pd.melt(data,id_vars=['snp','snpChr'],value_vars=traitData['trait'],var_name='trait',value_name='z')
@@ -45,6 +50,7 @@ def plotZ(parms,title,snpChr=None,transCis='all'):
     elif transCis=='trans':
         data[data['snpChr']!=data['traitChr']]
     
+    pdb.set_trace()
     fig,axs=plt.subplots(3,1,dpi=50,tight_layout=True)
     fig.set_figwidth(10,forward=True)
     fig.set_figheight(50,forward=True)
@@ -55,7 +61,7 @@ def plotZ(parms,title,snpChr=None,transCis='all'):
 
     y=np.sort(data.groupby('snp')['z'].mean())
     x=norm.ppf(np.arange(1,len(y)+1)/(1+len(y)))
-    myQQ(x,y,'1st moment-N('+str(np.round(np.mean(y),3))+' , '+str(np.round(np.std(y),3))+')',axs[1],True)
+    myQQ(x,y,'1st moment (one pt per snp)-N('+str(np.round(np.mean(y),3))+' , '+str(np.round(np.std(y),3))+')',axs[1],True)
     
     #pdb.set_trace()
     y=np.sort(data.groupby('trait')['z'].apply(lambda df:np.sum(df**2)))
