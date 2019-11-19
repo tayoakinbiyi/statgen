@@ -60,7 +60,7 @@ parms={
     'ellDSet':ellDSet,
     'binsPerIndex':500,
     'local':local,
-    'name':'sim/',
+    'name':'simReal/',
     'numCores':cpu_count(),
     'numPCs':10,
     'smallNumCores':3,
@@ -84,7 +84,9 @@ parms={
     'nameForGRM':'comparison',
     'simLearnType':'Full',
     'response':'hipRaw',
-    'simGRM':True
+    'simGRM':True,
+    'snpFile':'ail.genos.ATGC.gwasSNPs.txt',
+    'simSnps':False
 }
 
 print(np.array(parmsList)[args],flush=True)
