@@ -9,8 +9,8 @@ import pyreadr
 import subprocess
 from sklearn.metrics import r2_score
 
-from ail.opPython.DB import *
-from ail.genPython.makePSD import *
+from opPython.DB import *
+from genPython.makePSD import *
 
 from multiprocessing import cpu_count
 

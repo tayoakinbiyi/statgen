@@ -1,4 +1,4 @@
-from ail.opPython.DB import *
+from opPython.DB import *
 import matplotlib.pyplot as plt
 
 import pandas as pd

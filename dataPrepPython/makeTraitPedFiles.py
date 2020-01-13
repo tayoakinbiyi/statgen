@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from ail.genPython.makePSD import *
+from genPython.makePSD import *
 import pdb
 
 def makeTraitPedFiles(Y,traitData,mouseIds,parms):

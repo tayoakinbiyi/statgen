@@ -6,8 +6,8 @@ import subprocess
 import shutil
 import random
 
-from ail.opPython.DB import *
-from ail.genPython.makePSD import *
+from opPython.DB import *
+from genPython.makePSD import *
 
 def makeGrm(parms,snp,mouseIds,fastGrm,makeL):
     local=parms['local']

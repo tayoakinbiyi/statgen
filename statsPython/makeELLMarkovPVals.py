@@ -1,4 +1,4 @@
-from ail.opPython.DB import *
+from opPython.DB import *
 import numpy as np
 import pandas as pd
 from concurrent.futures import ProcessPoolExecutor, wait,ALL_COMPLETED
@@ -9,14 +9,12 @@ import rpy2.robjects as ro
 def makeELLMarkovPVals(parms):
     transOnly=parms['transOnly']
     numCores=parms['numCores']
-    muEpsRange=[[0,0]]+parms['muEpsRange']
     snpChr=parms['snpChr']
     traitChr=parms['traitChr']
     
     ellDSet=parms['ellDSet']
     traitData=pd.read_csv('ped/traitData',sep='\t',index_col=None,header=0)
-    traitData=traitData[traitData['chr'].isin(traitChr)]
-    traitLoc=traitData['chr'].values.flatten()
+    traitLoc=traitData.loc[traitData['chr'].isin(traitChr),'chr'].values.flatten()
 
     LZCorr=np.loadtxt('LZCorr/LZCorr',delimiter='\t')    
     
@@ -26,9 +24,6 @@ def makeELLMarkovPVals(parms):
         L=LZCorr
 
     for ind in range(len(snpChr)):
-        muEps=muEpsRange[ind]
-        mu=muEps[0]
-        eps=muEps[1]
         snp=snpChr[ind]
 
         if transOnly:
@@ -70,7 +65,7 @@ def makeELLMarkovPVals(parms):
 
             np.savetxt('pvals/ell_'+str(dParm)+'_Markov-'+str(snp),pval,delimiter='\t')
 
-            print('finished '+str(dParm)+'- mu: '+str(mu)+' - eps: '+str(eps),flush=True)
+            print('finished '+str(dParm)+' snp '+str(snp),flush=True)
         
     return()
 

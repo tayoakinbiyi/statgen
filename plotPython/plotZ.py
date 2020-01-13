@@ -5,10 +5,10 @@ import os
 import sys
 import matplotlib.pyplot as plt
 from scipy.stats import chi2, norm, t
-from ail.opPython.DB import *
+from opPython.DB import *
 import scipy.stats
 import statsmodels.api as sm
-from ail.dataPrepPython.genSnpMeans import *
+from dataPrepPython.genSnpMeans import *
 from functools import partial
 
 def plotZ(parms,title,snpChr=None,transCis='all'):

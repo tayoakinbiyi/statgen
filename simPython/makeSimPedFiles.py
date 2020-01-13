@@ -7,13 +7,13 @@ import shutil
 import random
 from scipy.stats import norm
 
-from ail.opPython.DB import *
-from ail.genPython.makePSD import *
+from opPython.DB import *
+from genPython.makePSD import *
 
-from ail.dataPrepPython.makeGrm import *
-from ail.dataPrepPython.makeTraitPedFiles import *
-from ail.dataPrepPython.initSnpTraits import *
-from ail.dataPrepPython.writeSnps import *
+from dataPrepPython.makeGrm import *
+from dataPrepPython.makeTraitPedFiles import *
+from dataPrepPython.initSnpTraits import *
+from dataPrepPython.writeSnps import *
 
 def makeSimPedFiles(parms):
     print('simSetup')
@@ -32,7 +32,8 @@ def makeSimPedFiles(parms):
     muEpsRange=parms['muEpsRange']
     fastGrm=parms['fastGrm']
     numSnpChr=parms['numSnpChr']
-    numTraitChr=parms['numTraitChr']    
+    numTraitChr=parms['numTraitChr']  
+    eyeTrait=parms['eyeTrait']
               
     DBCreateFolder('ped',parms)
     DBCreateFolder('geneDrop',parms)
@@ -78,6 +79,7 @@ def makeSimPedFiles(parms):
         snps+=[val]
     
     snps=pd.concat(snps,axis=0).T
+    pdb.set_trace()
         
     snpData=pd.DataFrame({'chr':[snp for snp,size in zip(snpChr,SnpSize) for ind in range(size)],
         'ID':range(np.sum(SnpSize)),'genetic dist': 0,'Mbp':range(np.sum(SnpSize))})
@@ -104,7 +106,11 @@ def makeSimPedFiles(parms):
         traits=norm.ppf((np.argsort(traits,axis=0)+1)/(len(traits)+1))
 
     traitCorr=np.corrcoef(traits,rowvar=False)
-    LTraitCorr=makePSD(traitCorr)
+    if eyeTrait:
+        LTraitCorr=np.eye(len(traits))
+    else:
+        LTraitCorr=makePSD(traitCorr)
+    
     traitSize=traits.shape
     
     Y=etaGRM*np.matmul(np.matmul(LgrmAll,norm.rvs(size=traitSize)),LTraitCorr.T)+etaError*np.matmul(

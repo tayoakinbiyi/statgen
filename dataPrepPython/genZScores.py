@@ -6,8 +6,8 @@ import os
 from concurrent.futures import ProcessPoolExecutor, wait, ALL_COMPLETED
 from scipy.stats import chi2
 
-from ail.opPython.DB import *
-from ail.opPython.verboseArrCheck import *
+from opPython.DB import *
+from opPython.verboseArrCheck import *
 
 def genZScores(parms):
     snpChr=parms['snpChr']

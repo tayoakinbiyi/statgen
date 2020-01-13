@@ -1,4 +1,4 @@
-from ail.opPython.DB import *
+from opPython.DB import *
 import numpy as np
 import pandas as pd
 from concurrent.futures import ProcessPoolExecutor, wait,ALL_COMPLETED

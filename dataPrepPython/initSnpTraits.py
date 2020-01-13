@@ -9,7 +9,7 @@ def initSnpTraits(parms,snps):
     response=parms['response']
     quantNormalizeExpr=parms['quantNormalizeExpr']
     local=parms['local']
-    chrLoc=parms['chrLoc'] if parms['chrLoc'] is not None else range(2000)
+    traitSubset=parms['traitSubset'] if parms['traitSubset'] is not None else range(2000)
     
     traits=pd.read_csv(local+'data/'+response+'.txt',sep='\t',index_col=0,header=0)
     mouseIds=traits.index.values.flatten().astype(int)
@@ -25,9 +25,9 @@ def initSnpTraits(parms,snps):
         'Mbp':((mouseGenes['cds_start']+mouseGenes['cds_end'])/2).astype(int)})
     traitData=traitData.loc[traitData['trait'].isin(traits.columns)]
     traitData=traitData.groupby('chr').apply(lambda df: pd.concat([df.reset_index(drop=True),
-        pd.DataFrame({'chrLoc':range(len(df))})],axis=1)).reset_index(drop=True)
-    traitData=traitData.sort_values(by=['chr','chrLoc'])
-    traitData=traitData[traitData['chrLoc'].isin(chrLoc)]
+        pd.DataFrame({'traitSubset':range(len(df))})],axis=1)).reset_index(drop=True)
+    traitData=traitData.sort_values(by=['chr','traitSubset'])
+    traitData=traitData[traitData['traitSubset'].isin(traitSubset)]
     traitData.insert(0,'loc',range(len(traitData)))
     
     traitData.to_csv('ped/traitData',index=False,sep='\t')

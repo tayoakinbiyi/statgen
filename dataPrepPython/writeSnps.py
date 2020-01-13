@@ -3,7 +3,7 @@ import subprocess
 import numpy as np
 import json
 
-from ail.opPython.DB import *
+from opPython.DB import *
 
 def writeSnps(snps,snpData,mouseIds,parms):
     snpChr=parms['snpChr']

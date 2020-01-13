@@ -93,6 +93,7 @@ parms={
     'snpChr':[str(x) for x in range(1,10)],
     'snpFile':'ail.genos.dosage.gwasSNPs.txt',
     'numDecScore':3,
+    'dbToken':'YIjLc0Jkc2QAAAAAAAAELhNPLYwqK53qaNPZqrkPIgHhe6n--GwXZbmgkQwbOQMo',
     'allChrGRM':False,
     'cisMean':False,
     'numQSnps':3e9,

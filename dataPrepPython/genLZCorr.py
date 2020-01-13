@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 import pdb
 
-from ail.genPython.makePSD import *
+from genPython.makePSD import *
 
 def genLZCorr(parms):
     transOnly=parms['transOnly']

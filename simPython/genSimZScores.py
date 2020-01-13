@@ -1,4 +1,4 @@
-from ail.opPython.DB import *
+from opPython.DB import *
 import numpy as np
 import pdb
 import pandas as pd
@@ -9,7 +9,7 @@ from statsmodels.regression.mixed_linear_model import MixedLM,MixedLMParams
 from statsmodels.regression.linear_model import OLS
 import warnings
 
-from ail.dataPrepPython.genZScores import *
+from dataPrepPython.genZScores import *
 
 def genSimZScores(parms):
     muEpsRange=parms['muEpsRange']
@@ -20,7 +20,9 @@ def genSimZScores(parms):
     numTraitChr=parms['numTraitChr']    
     numSnpChr=parms['numSnpChr']
         
-    snpSet=pd.read_csv('ped/snp-3.ped',sep='\t',header=None)
+    H0SnpChr=len(parms['SnpSize'])
+    
+    snpSet=pd.read_csv('ped/snp-'+str(H0SnpChr)+'.ped',sep='\t',header=None)
     snpSize=parms['SnpSize'][-1]
     
     traitData=pd.read_csv('ped/traitData',index_col=None,header=0,sep='\t')
@@ -70,7 +72,7 @@ def genSimZScores(parms):
             tmpEqtlList=eqtlList[traitData['chr'].iloc[eqtlList['loc']].values==trait]
             
             xLoc=tmpEqtlList['snp'].values.flatten().astype(int)
-            yLoc=traitData['chrLoc'].iloc[tmpEqtlList['loc']].values.flatten().astype(int)
+            yLoc=traitData['traitSubset'].iloc[tmpEqtlList['loc']].values.flatten().astype(int)
             z[xLoc,yLoc]=tmpEqtlList['z'].values.flatten()
             
             np.savetxt('score/waldStat-'+str(3+1+k)+'-'+str(trait),z,delimiter='\t')

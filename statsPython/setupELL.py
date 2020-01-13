@@ -2,11 +2,10 @@ import numpy as np
 import pandas as pd
 from concurrent.futures import ProcessPoolExecutor, wait, ALL_COMPLETED
 from scipy.stats import norm, beta, binom
-from scipy.interpolate import interp1d
 import pdb
 import sys
 
-from ail.opPython.DB import *
+from opPython.DB import *
 
 def setupELL(parms):
     transOnly=parms['transOnly']
@@ -30,6 +29,7 @@ def setupELLSnp(L,parms):
     ellBetaPpfEps=parms['ellBetaPpfEps']    
     ellKRanLowEps=parms['ellKRanLowEps']
     ellKRanHighEps=parms['ellKRanHighEps']
+    ellKRanNMult=parms['ellKRanNMult']
     binsPerIndex=parms['binsPerIndex']
     numCores=parms['numCores']
     minELLDecForInverse=parms['minELLDecForInverse']
@@ -40,14 +40,14 @@ def setupELLSnp(L,parms):
     dParm=max(ellDSet)
     d=int(N*dParm)
     offDiag=np.matmul(L,L.T)[np.triu_indices(N,1)].flatten()
-       
-    numBins=int(N*binsPerIndex)
-    
-    bins=np.concatenate([np.linspace(0,dParm/numBins,binsPerIndex),np.linspace(dParm/numBins,1,numBins+1)])
-    
+           
+    bins=np.linspace(0,1,int(N*binsPerIndex)+1)
+    bins=np.append(np.linspace(0,bins[1],binsPerIndex),bins[2:])
+    numBins=len(bins)-1
+
     kRan=np.arange(1,d+1)
-    kRanDown=np.maximum(1,kRan-N*ellKRanLowEps).astype(int)
-    kRanUp=np.minimum(N,kRan+N*ellKRanHighEps).astype(int)
+    kRanDown=np.maximum(1,np.minimum(kRan-ellKRanNMult*N,kRan*ellKRanLowEps)).astype(int)
+    kRanUp=np.minimum(N,np.maximum(kRan+ellKRanNMult*N,kRan*ellKRanHighEps)).astype(int)
 
     minLam=beta.ppf(ellBetaPpfEps,kRanDown,N+1-kRanDown)
     maxLam=beta.ppf(1-ellBetaPpfEps,kRanUp,N+1-kRanUp)
@@ -108,13 +108,21 @@ def setupELLSnp(L,parms):
     for core in range(numCores):
         ebb+=[pd.read_csv('ELL/ebb-'+str(core),index_col=None,header=0,sep='\t')]
     ebb=pd.concat(ebb,axis=0).sort_values(by=['k','binEdge']).reset_index(drop=True)
+    
+    minMaxEllPerK=ebb.groupby('k')['ell'].apply(lambda df: pd.DataFrame({'min':df.min(),'max':df.max()},index=[0])
+        ).reset_index().drop(columns='level_1')
+    
+    print('min Ell '+str(minMaxEllPerK['min'].min())+' max Ell '+str(minMaxEllPerK['max'].max()))
+    
+    minMaxEllPerK=minMaxEllPerK[(minMaxEllPerK['min']>10**(-minELLDecForInverse))|
+                                (minMaxEllPerK['max']<1-10**(-minELLDecForInverse))]
+    if len(minMaxEllPerK)>0:
+        print(minMaxEllPerK,flush=True)
+        sys.exit()
         
     ELLVals=np.arange(1,10**minELLDecForInverse)/10**minELLDecForInverse
     ELLInverse=pd.DataFrame(columns=range(d))
     ELLInverse.insert(0,'ell',ELLVals)
-    
-    minELLPerK=[]
-    maxELLPerK=[]
     
     print('setupELLInverseHelp',flush=True)
     futures=[]
@@ -130,13 +138,7 @@ def setupELLSnp(L,parms):
         for f in wait(futures,return_when=ALL_COMPLETED)[0]:
             ans=f.result()
             ELLInverse.loc[:,ans[0]]=ans[1]
-            minELLPerK+=ans[2]   
-            maxELLPerK+=ans[3]   
     
-    msg='setupELL N : '+str(N)+' maxMinELLPerK : '+str(max(minELLPerK))+' minMaxELLPerK : '+str(min(maxELLPerK))
-    DBLog(msg,parms)
-    print(msg,flush=True)
-
     ELLInverse.to_csv('ELL/ELLInverse-'+str(N),index=False,sep='\t')  
     print('finished setupELL '+str(N),flush=True)
     
@@ -150,9 +152,6 @@ def setupELLInverseHelp(core,kRange,ELLVals,N,d,parms):
     minELLForInverse=10**(-minELLDecForInverse)
     maxELLForInverse=1-10**(-minELLDecForInverse)
 
-    minELLPerK=[0]*len(kRange)
-    maxELLPerK=[0]*len(kRange)
-
     msg=''
     
     ELLInverse=np.empty([len(ELLVals),len(kRange)])
@@ -160,26 +159,18 @@ def setupELLInverseHelp(core,kRange,ELLVals,N,d,parms):
         k=kRange[kInd]
         ELL=ebb.loc[ebb['k']==k]
         
-        minELLPerK[kInd]=ELL.ell.min()
-        maxELLPerK[kInd]=ELL.ell.max()
-        
-        if minELLPerK[kInd]>minELLForInverse:
-            sys.exit('setupELL k: '+str(k)+' ELL min: '+str(minELLPerK[kInd])+' > '+str(minELLForInverse))
-        if maxELLPerK[kInd]<maxELLForInverse:
-            sys.exit('setupELL k: '+str(k)+' ELL max: '+str(maxELLPerK[kInd])+' < '+str(1-minELLForInverse))
-        
         t_ELL=ELL.sort_values(by='ell')
         ELLInverse[:,kInd]=t_ELL['z'].iloc[np.minimum(len(t_ELL)-1,t_ELL['ell'].searchsorted(ELLVals))]
         
         ELL[['binEdge','ell']].to_csv('ELL/ELL-'+str(N)+'-'+str(k),index=False,sep='\t')
         
-        t_msg='setupELL '+str(N)+' '+str(k+1)+' of '+str(d)+' min ELL : '+str(minELLPerK[kInd])+' max ELL : '+str(maxELLPerK[kInd])
+        t_msg='setupELL '+str(N)+' '+str(k+1)+' of '+str(d)
         msg+='\n'+t_msg
         
         print(t_msg,flush=True)
         
     DBLog(msg,parms)
-    return((kRange,ELLInverse,minELLPerK,maxELLPerK))
+    return((kRange,ELLInverse))
     
 def getRhoBar(pairwise_cors):
     return([np.mean(pairwise_cors), np.mean(pairwise_cors**2), np.mean(pairwise_cors**3), np.mean(pairwise_cors**4),

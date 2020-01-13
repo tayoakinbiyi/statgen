@@ -1,12 +1,10 @@
-from ail.opPython.DB import *
-from ail.statsPython.f_ELL import *
+from opPython.DB import *
+from statsPython.f_ELL import *
 
 import numpy as np
 from scipy.stats import norm
 
 def genELL(parms):
-    numCores=parms['numCores']
-    muEpsRange=[[0,0]]+parms['muEpsRange']
     transOnly=parms['transOnly']
     snpChr=parms['snpChr']
     traitChr=parms['traitChr']
@@ -16,9 +14,6 @@ def genELL(parms):
     ellDSet=parms['ellDSet']
     
     for ind in range(len(snpChr)):
-        muEps=muEpsRange[ind]
-        mu=muEps[0]
-        eps=muEps[1]
         snp=snpChr[ind]
 
         if transOnly:
@@ -39,7 +34,7 @@ def genELL(parms):
         
         for dParm in ellDSet:
             d=int(dParm*N)
-            np.savetxt('stats/'+str(dParm)+'-'+str(snp),np.amin(stats[:,0:d],axis=1),delimiter='\t')
+            np.savetxt('stats/'+str(dParm)+'-'+str(snp),stats[:,0:d].min(axis=1),delimiter='\t')
 
     return()
     

@@ -1,4 +1,4 @@
-from ail.opPython.DB import *
+from opPython.DB import *
 from scipy.stats import norm, beta
 
 import numpy as np

@@ -4,11 +4,11 @@ import numpy as np
 import pdb
 import subprocess
 
-from ail.opPython.DB import *
-from ail.dataPrepPython.makeGrm import *
-from ail.dataPrepPython.makeTraitPedFiles import *
-from ail.dataPrepPython.initSnpTraits import *
-from ail.dataPrepPython.writeSnps import *
+from opPython.DB import *
+from dataPrepPython.makeGrm import *
+from dataPrepPython.makeTraitPedFiles import *
+from dataPrepPython.initSnpTraits import *
+from dataPrepPython.writeSnps import *
 
 from multiprocessing import cpu_count
 
