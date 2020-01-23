@@ -1,0 +1,54 @@
+import numpy as np
+import pdb
+import ray
+from scipy.stats import norm
+import ray
+import pandas as pd
+
+from ELL.score.remotes import *
+from ELL.util import memory
+
+def score(self,testStats):
+    memory('score')
+
+    numCores=self.numCores  
+    dList=self.dList
+    maxD=dList[-1]
+    
+    r_lamEllByK=self.r_lamEllByK
+    r_pvals=ray.put(np.sort(2*norm.sf(np.abs(testStats))))
+    r_check=ray.put(np.zeros([3,maxD]),weakref=True)
+    
+    objectIds=[]
+    for core in range(numCores):
+        kRange=np.arange(core*int(np.ceil(maxD/numCores)),min(maxD,(core+1)*int(np.ceil(maxD/numCores))))
+        if len(kRange)==0:
+            continue
+            
+        objectIds+=[scoreHelp.remote(ray.put(kRange),r_pvals,r_lamEllByK,r_check)]
+
+    ready_ids, remaining_ids = ray.wait(objectIds, num_returns=len(objectIds))
+        
+    check=ray.get(r_check)
+    check=check[:,np.min(check[1:],axis=0)>0]
+    if len(check)>0:
+        print(pd.DataFrame(check[1:],columns=check[0],index=['below','above']),flush=True)
+    
+    self.scoreDone=True
+    self.reps=len(testStats)
+    
+    ellStats=np.zeros([self.reps,len(dList)],dtype=int)
+    for dInd in range(len(dList)):
+        ellStats[:,dInd]=np.min(ray.get(r_pvals)[:,0:dList[dInd]],axis=1)
+
+    ellGrid=ray.get(self.r_ellGrid)
+
+    ans=np.concatenate([ellGrid[loc].reshape(-1,1) for loc in ellStats.T],axis=1)
+    
+    self.r_ellStats=ray.put(ellStats)
+    memory('score')
+
+    return(ans)
+
+
+
