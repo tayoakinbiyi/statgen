@@ -1,6 +1,6 @@
 scenario,Type,.05,.01
-mu: 0- eps: 0,ell_0.3_Markov,0.09125,0.02
-mu: 0- eps: 0,ell_0.2_Markov,0.09625,0.01875
-mu: 0- eps: 0,ell_0.4_Markov,0.0925,0.0175
-mu: 0- eps: 0,ell_0.5_Markov,0.0925,0.01875
-mu: 0- eps: 0,ell_0.1_Markov,0.09625,0.01875
+mu: 0- eps: 0,ell_0.3_Markov,0.21875,0.15375
+mu: 0- eps: 0,ell_0.2_Markov,0.20625,0.13875
+mu: 0- eps: 0,ell_0.4_Markov,0.225,0.1525
+mu: 0- eps: 0,ell_0.5_Markov,0.2225,0.1625
+mu: 0- eps: 0,ell_0.1_Markov,0.18125,0.11375

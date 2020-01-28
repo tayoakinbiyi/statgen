@@ -70,7 +70,7 @@ parms={
     'muEpsRange':[],
     'fastlmm':True,
     'fastGrm':False,
-    'eyeTrait':True,
+    'eyeTrait':False,
     'traitSubset':traitSubset
 }
 
