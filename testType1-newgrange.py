@@ -147,13 +147,12 @@ for independence in [True,False]:
 '''
 refFiles=os.listdir('refs')
 fig,axs=plt.subplots(len(refFiles),1)
-fig.set_figwidth(10,forward=True)
+fig.set_figwidth(20,forward=True)
 fig.set_figheight(10*len(refFiles),forward=True)
-pdb.set_trace()    
 
 for fileInd in range(len(refFiles)):
     p=-np.log10(np.clip(np.loadtxt('refs/'+refFiles[fileInd],delimiter='\t'),1e-30,1))    
-    axs[fileInd].boxplot(p,labels=np.arange(p.shape[1]))
+    axs[fileInd].boxplot(p,labels=np.arange(p.shape[1]),sym='.')
     axs[fileInd].set_title(refFiles[fileInd])
 
 fig.savefig('diagnostics/refs.png')
