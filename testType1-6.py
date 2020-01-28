@@ -7,8 +7,7 @@ import pdb
 from multiprocessing import cpu_count
 import sys
 
-local=os.getcwd()+'/'
-sys.path=[local+'source']+sys.path
+sys.path[0]=sys.path[0][:-5]
 
 from opPython.setupFolders import *
 
@@ -34,7 +33,9 @@ from distutils.dir_util import copy_tree
 
 warnings.simplefilter("error")
 
-ellDSet=[.1,.2,.3,.4,.5]
+local=os.getcwd()+'/'
+
+ellDSet=[.25]
 colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,0,0),(0,0,.5)]
 SnpSize=[10000,10000,800]
 traitChr=[18]
@@ -43,8 +44,8 @@ traitSubset=list(range(1000))
 
 parms={
     'file':sys.argv[0],
-    'etaGRM':.5,
-    'etaError':.5,
+    'etaGRM':0,
+    'etaError':1,
     'ellBetaPpfEps':1e-12,
     'ellKRanLowEps':.1,
     'ellKRanHighEps':1.9,
@@ -69,61 +70,42 @@ parms={
     'numTraitChr':21,
     'muEpsRange':[],
     'fastlmm':True,
-    'fastGrm':False,
+    'grm':2,
+    'gemmaGrmType':2,
     'eyeTrait':False,
-    'traitSubset':traitSubset
+    'traitSubset':traitSubset,
+    'numSubjects':208*3
 }
 
 setupFolders(parms)
+
+DBLog('makeSimPedFiles')
+makeSimPedFiles(parms)
+
+DBLog('genZScores')
+DBCreateFolder('holds',parms)
+genZScores(parms)
+
 DBCreateFolder('diagnostics',parms)
-DBCreateFolder('ped',parms)
-DBCreateFolder('score',parms)
-DBCreateFolder('grm',parms)
 
-for numSubjects in [208,208*3]:
-    parms['numSubjects']=numSubjects
+DBLog('genLZCorr')
 
-    DBLog('makeSimPedFiles')
-    makeSimPedFiles(parms)
+genLZCorr({**parms,'snpChr':[2]})
 
-    DBLog('genZScores')
-    DBCreateFolder('holds',parms)
-    genZScores(parms)
+DBLog('setupELL')
+DBCreateFolder('ELL',parms)
+setupELL(parms)
 
-    for vzType in [1,2,'I']:
-        name=str(vzType)+'-'+str(numSubjects)
-        
-        DBLog('genLZCorr')
+DBLog('genELL')
+genELL(parms)
 
-        if vzType in [1,2]:
-            genLZCorr({**parms,'snpChr':[vzType]})
-        else:
-            N=pd.read_csv('ped/traitData',sep='\t',index_col=None,header=0).shape[0]
-            np.savetxt('LZCorr/LZCorr',np.eye(N),delimiter='\t')
+DBLog('makeELLMCPVals')
+DBCreateFolder('pvals',parms)
+makeELLMCPVals(parms)
 
-        DBLog('setupELL')
-        DBCreateFolder('ELL',parms)
-        setupELL(parms)
+makeELLMarkovPVals(parms)
 
-        DBLog('genELL')
-        genELL(parms)
-
-        DBLog('makeELLMCPVals')
-        DBCreateFolder('pvals',parms)
-        makeELLMCPVals(parms)
-
-        DBLog('plotPower')
-        plotPower(parms)
-        subprocess.call(['cp','diagnostics/power.png','diagnostics/power-mc-'+name+'.png'])
-        subprocess.call(['cp','diagnostics/exact.csv','diagnostics/exact-mc-'+name+'.csv'])
-
-        DBLog('makeELLMarkovPVals')
-        DBCreateFolder('pvals',parms)
-        makeELLMarkovPVals(parms)
-
-        DBLog('plotPower')
-        plotPower(parms)    
-        subprocess.call(['cp','diagnostics/power.png','diagnostics/power-markov-'+name+'.png'])
-        subprocess.call(['cp','diagnostics/exact.csv','diagnostics/exact-markov-'+name+'.csv'])
+DBLog('plotPower')
+plotPower(parms)
 
 DBFinish(parms)
