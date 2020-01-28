@@ -43,8 +43,8 @@ traitSubset=list(range(1000))
 
 parms={
     'file':sys.argv[0],
-    'etaGRM':0,
-    'etaError':1,
+    'etaGRM':0.5,
+    'etaError':0.5,
     'ellBetaPpfEps':1e-12,
     'ellKRanLowEps':.1,
     'ellKRanHighEps':1.9,
@@ -73,7 +73,7 @@ parms={
 }
 
 setupFolders(parms)
-'''
+
 DBCreateFolder('diagnostics',parms)
 DBCreateFolder('ped',parms)
 DBCreateFolder('score',parms)
@@ -144,7 +144,7 @@ for independence in [True,False]:
         plotPower(parms)
         subprocess.call(['mv','diagnostics/power.png','diagnostics/power-'+name+'.png'])
         subprocess.call(['mv','diagnostics/exact.csv','diagnostics/exact-'+name+'.csv'])
-'''
+
 refFiles=os.listdir('refs')
 fig,axs=plt.subplots(len(refFiles),1)
 fig.set_figwidth(20,forward=True)
