@@ -1,3 +1,0 @@
-scenario,Type,.05,.01
-mu: 0- eps: 0,ell_0.25_MC,0.035,0.005
-mu: 0- eps: 0,ell_0.25_Markov,0.02,0.005
