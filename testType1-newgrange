@@ -76,7 +76,7 @@ parms={
 }
 
 setupFolders(parms)
-
+'''
 DBCreateFolder('diagnostics',parms)
 DBCreateFolder('ped',parms)
 DBCreateFolder('score',parms)
@@ -88,7 +88,7 @@ makeSimPedFiles(parms)
 DBLog('genZScores')
 DBCreateFolder('holds',parms)
 genZScores(parms)
-
+'''
 N=pd.read_csv('ped/traitData',sep='\t',index_col=None,header=0).shape[0]
 
 DBLog('genLZCorr')
@@ -114,7 +114,7 @@ stat=ell(offDiag,N,np.array(ellDSet)*N,reportMem=True)
 
 #######################################################################################################
 
-stat.fit(10,700,1000,12,12) # initialNumLamPoints,finalNumLamPoints, numEllPoints,lamZeta,ellZeta
+stat.fit(10,700,700,15,15) # initialNumLamPoints,finalNumLamPoints, numEllPoints,lamZeta,ellZeta
 
 #######################################################################################################
 

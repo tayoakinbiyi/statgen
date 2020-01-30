@@ -48,7 +48,8 @@ def fit(self,initialNumLamPoints,finalNumLamPoints, numEllPoints,lamZeta,ellZeta
     if self.reportMem:
         memory('start fit')
 
-    ellGrid=makeBins(ellZeta,numEllPoints,0)[1:-1]
+    ellGrid=makeBins(ellZeta,numEllPoints,0)[1:]
+    ellGrid=np.append(ellGrid[ellGrid<.5],1-ellGrid[ellGrid<=.5][::-1])
 
     self.finalNumLamPoints=finalNumLamPoints*self.N
     self.initialNumLamPoints=initialNumLamPoints*self.N

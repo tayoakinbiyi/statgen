@@ -116,7 +116,7 @@ for i in range(len(zSet)):
     fig,axs=plt.subplots(1,1)
     fig.set_figwidth(10,forward=True)
     fig.set_figheight(10,forward=True)
-    y=np.sort(z[i].flatten())
+    y=np.sort(zSet[i].flatten())
     y/=np.std(y)
     x=norm.ppf(np.arange(1,len(y)+1)/(len(y)+1))
     axs.scatter(x,y)
@@ -127,7 +127,7 @@ for i in range(len(zSet)):
     fig,axs=plt.subplots(1,1)
     fig.set_figwidth(10,forward=True)
     fig.set_figheight(10,forward=True)
-    y=np.mean(z[i],axis=0)
+    y=np.mean(zSet[i],axis=0)
     y/=np.std(y)
     x=norm.ppf(np.arange(1,len(y)+1)/(len(y)+1))
     axs.scatter(x,y)
@@ -138,7 +138,7 @@ for i in range(len(zSet)):
     fig,axs=plt.subplots(1,1)
     fig.set_figwidth(10,forward=True)
     fig.set_figheight(10,forward=True)
-    y=np.mean(z[i],axis=1)
+    y=np.mean(zSet[i],axis=1)
     y/=np.std(y)
     x=norm.ppf(np.arange(1,len(y)+1)/(len(y)+1))
     axs.scatter(x,y)
@@ -157,7 +157,7 @@ stat=ell(offDiag,N,np.array([0.1])*N,reportMem=True)
 
 #######################################################################################################
 
-stat.fit(10,700,1000,12,12) # initialNumLamPoints,finalNumLamPoints, numEllPoints,lamZeta,ellZeta
+stat.fit(10,700,700,15,15) # initialNumLamPoints,finalNumLamPoints, numEllPoints,lamZeta,ellZeta
 
 #######################################################################################################
 
