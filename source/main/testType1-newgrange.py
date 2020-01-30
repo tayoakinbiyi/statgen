@@ -37,7 +37,7 @@ warnings.simplefilter("error")
 
 ellDSet=[.1,.5]
 colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,0,0),(0,0,.5)]
-SnpSize=[100,100,100]
+SnpSize=[10000,10000,1000]
 traitChr=[18]#,20,16,19]
 snpChr=[snp for snp in range(1,len(SnpSize)+1)]
 traitSubset=list(range(1000))
@@ -76,7 +76,7 @@ parms={
 }
 
 setupFolders(parms)
-'''
+
 DBCreateFolder('diagnostics',parms)
 DBCreateFolder('ped',parms)
 DBCreateFolder('score',parms)
@@ -88,7 +88,7 @@ makeSimPedFiles(parms)
 DBLog('genZScores')
 DBCreateFolder('holds',parms)
 genZScores(parms)
-'''
+
 N=pd.read_csv('ped/traitData',sep='\t',index_col=None,header=0).shape[0]
 
 DBLog('genLZCorr')

@@ -99,7 +99,7 @@ for eta in etaSet:
 
 #######################################################################################################
 
-offDiagSet=[np.corrcoef(z,rowvar=False)[np.triu_indices(N,1)] for z in zSet]
+offDiagSet=[np.corrcoef(z,rowvar=False)[np.triu_indices(z.shape[1],1)] for z in zSet]
 for i in range(len(offDiagSet)-1):
     for j in range(i+1,len(offDiagSet)):
         fig,axs=plt.subplots(1,1)
@@ -150,6 +150,7 @@ DBCreateFolder('pvals',parms)
 
 #######################################################################################################
 
+N=pd.read_csv('ped/traitData',sep='\t',index_col=None,header=0).shape[0]
 L=np.eye(N)
 offDiag=np.matmul(L,L.T)[np.triu_indices(N,1)]
 stat=ell(offDiag,N,np.array([0.1])*N,reportMem=True)
