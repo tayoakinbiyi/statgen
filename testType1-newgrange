@@ -114,7 +114,7 @@ stat=ell(offDiag,N,np.array(ellDSet)*N,reportMem=True)
 
 #######################################################################################################
 
-stat.fit(10,700,700,15,15) # initialNumLamPoints,finalNumLamPoints, numEllPoints,lamZeta,ellZeta
+stat.fit(20,800,1000,15,15) # initialNumLamPoints,finalNumLamPoints, numEllPoints,lamZeta,ellZeta
 
 #######################################################################################################
 
