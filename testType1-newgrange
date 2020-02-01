@@ -10,8 +10,8 @@ sys.path=['source']+sys.path
 
 from opPython.setupFolders import *
 
-#from simPython.makeSimPedFiles import *
-#from dataPrepPython.genZScores import *
+from simPython.makeSimPedFiles import *
+from dataPrepPython.genZScores import *
 from multiprocessing import cpu_count
 from plotPython.plotPower import *
 
@@ -30,24 +30,16 @@ traitSubset=list(range(1000))
 
 parms={
     'file':sys.argv[0],
-    'etaGRM':0,
-    'etaError':1,
-    'ellBetaPpfEps':1e-12,
-    'ellKRanLowEps':.1,
-    'ellKRanHighEps':1.9,
-    'ellKRanNMult':.4,
+    'etaGRM':0.5,
+    'etaError':.5,
     'ellDSet':ellDSet,
-    'minELLDecForInverse':4,
-    'binsPerIndex':500,
     'local':local,
     'numCores':cpu_count(),
     'snpChr':snpChr,
     'traitChr':traitChr,
     'SnpSize':SnpSize,
-    'transOnly':False,
     'colors':colors,
     'refReps':1e6,    
-    'maxSnpGen':5000,
     'simLearnType':'Full',
     'response':'hipRaw',
     'quantNormalizeExpr':False,
@@ -58,11 +50,12 @@ parms={
     'grm':2,#[1,2,'fast']
     'traitSubset':traitSubset,
     'numSubjects':208*3,
-    'indepTraits':True
+    'indepTraits':True,
+    'maxSnpGen':5000
 }
 
 setupFolders(parms)
-'''
+
 DBCreateFolder('diagnostics',parms)
 DBCreateFolder('ped',parms)
 DBCreateFolder('score',parms)
@@ -74,7 +67,7 @@ makeSimPedFiles(parms)
 DBLog('genZScores')
 DBCreateFolder('holds',parms)
 genZScores(parms)
-'''
+
 N=pd.read_csv('ped/traitData',sep='\t',index_col=None,header=0).shape[0]
 '''
 DBLog('genLZCorr')
@@ -100,7 +93,7 @@ stat=ell(offDiag,N,np.array(ellDSet)*N,reportMem=True)
 
 #######################################################################################################
 
-stat.fit(20,1000,1500,8,1e-6) # initialNumLamPoints,finalNumLamPoints, numEllPoints,lamZeta,ellZeta
+stat.fit(20,1000,2000,8,1e-7) # initialNumLamPoints,finalNumLamPoints, numEllPoints,lamZeta,ellZeta
 
 #######################################################################################################
 
