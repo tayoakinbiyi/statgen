@@ -8,7 +8,7 @@ from multiprocessing import cpu_count
 import sys
 
 local=os.getcwd()+'/'
-sys.path=[local+'ail']+sys.path
+sys.path=['source']+sys.path
 
 from opPython.setupFolders import *
 
@@ -30,21 +30,21 @@ from datetime import datetime
 import shutil
 import subprocess
 import psutil
-from distutils.dir_util import copy_tree
+
+from ELL.ell import *
 
 warnings.simplefilter("error")
 
-ellDSet=[.25]
+etaSet=[0,.5,.75]
+ellDSet=[.1,.5]
 colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,0,0),(0,0,.5)]
-SnpSize=[10000,10000,800]
-traitChr=[18]
+SnpSize=[100,100,100]
+traitChr=[18]#,20,16,19]
 snpChr=[snp for snp in range(1,len(SnpSize)+1)]
 traitSubset=list(range(1000))
 
 parms={
     'file':sys.argv[0],
-    'etaGRM':1.5,
-    'etaError':0.5,
     'ellBetaPpfEps':1e-12,
     'ellKRanLowEps':.1,
     'ellKRanHighEps':1.9,
@@ -59,7 +59,7 @@ parms={
     'SnpSize':SnpSize,
     'transOnly':False,
     'colors':colors,
-    'RefReps':100000,    
+    'refReps':1e6,    
     'maxSnpGen':5000,
     'simLearnType':'Full',
     'response':'hipRaw',
@@ -69,93 +69,110 @@ parms={
     'muEpsRange':[],
     'fastlmm':True,
     'grm':2,#[1,2,'fast']
-    'traitSubset':traitSubset
+    'traitSubset':traitSubset,
+    'numSubjects':208*3,
+    'indepTraits':True
 }
 
 setupFolders(parms)
+zSet=[]
 
-DBCreateFolder('diagnostics',parms)
-DBCreateFolder('ped',parms)
-DBCreateFolder('score',parms)
-DBCreateFolder('grm',parms)
-DBCreateFolder('refs',parms)
+#######################################################################################################
 
-for independence in [True,False]:
-    parms['eyeTrait']=independence
-    parms['numSubjects']=208*3
+for eta in etaSet:
+    parms['etaGRM']=eta
+    parms['etaError']=1-eta
     
+    #DBCreateFolder('diagnostics',parms)
+    #DBCreateFolder('ped',parms)
+    #DBCreateFolder('score',parms)
+    #DBCreateFolder('grm',parms)
+
     DBLog('makeSimPedFiles')
     makeSimPedFiles(parms)
 
     DBLog('genZScores')
-    DBCreateFolder('holds',parms)
+    #DBCreateFolder('holds',parms)
     genZScores(parms)
-    
-    N=pd.read_csv('ped/traitData',sep='\t',index_col=None,header=0).shape[0]
+
+    zSet+=[np.loadtxt('score/waldStat-3-18',delimiter='\t')]
+
+#######################################################################################################
+
+offDiagSet=[np.corrcoef(z,rowvar=False)[np.triu_indices(z.shape[1],1)] for z in zSet]
+for i in range(len(offDiagSet)-1):
+    for j in range(i+1,len(offDiagSet)):
+        fig,axs=plt.subplots(1,1)
+        fig.set_figwidth(10,forward=True)
+        fig.set_figheight(10,forward=True)
+        axs.scatter(offDiagSet[i],offDiagSet[j])
+        axs.set_title('x='+str(etaSet[i])+' y='+str(etaSet[j]))
+        fig.savefig('diagnostics/x='+str(etaSet[i])+',y='+str(etaSet[j])+'.png')
+        plt.close('all') 
         
-    DBLog('genLZCorr')
-    genLZCorr({**parms,'snpChr':[2]})
-    
-    LZCorr=np.loadtxt('LZCorr/LZCorr',delimiter='\t')
-    zOffDiag=np.matmul(LZCorr,LZCorr.T)[np.triu_indices(N,1)]
-    
-    LTraitCorr=np.loadtxt('LZCorr/LTraitCorr',delimiter='\t')
-    yOffDiag=np.matmul(LTraitCorr,LTraitCorr.T)[np.triu_indices(N,1)]
-    
+#######################################################################################################
+
+for i in range(len(zSet)):
     fig,axs=plt.subplots(1,1)
     fig.set_figwidth(10,forward=True)
     fig.set_figheight(10,forward=True)
-    axs.hist(zOffDiag,bins=30)
-    fig.savefig('diagnostics/zOffDiag-'+str(independence)+'.png')
+    y=np.sort(zSet[i].flatten())
+    y/=np.std(y)
+    x=norm.ppf(np.arange(1,len(y)+1)/(len(y)+1))
+    axs.scatter(x,y)
+    axs.set_title('eta '+str(etaSet[i]))
+    fig.savefig('eta '+str(etaSet[i])+'.png')
     plt.close('all') 
     
     fig,axs=plt.subplots(1,1)
     fig.set_figwidth(10,forward=True)
     fig.set_figheight(10,forward=True)
-    axs.scatter(zOffDiag,yOffDiag)
-    fig.savefig('diagnostics/zOffDiagVsyOffDiag-'+str(independence)+'.png')
+    y=np.mean(zSet[i],axis=0)
+    y/=np.std(y)
+    x=norm.ppf(np.arange(1,len(y)+1)/(len(y)+1))
+    axs.scatter(x,y)
+    axs.set_title('trait means eta '+str(etaSet[i]))
+    fig.savefig('eta '+str(etaSet[i])+'.png')
+    plt.close('all') 
+
+    fig,axs=plt.subplots(1,1)
+    fig.set_figwidth(10,forward=True)
+    fig.set_figheight(10,forward=True)
+    y=np.mean(zSet[i],axis=1)
+    y/=np.std(y)
+    x=norm.ppf(np.arange(1,len(y)+1)/(len(y)+1))
+    axs.scatter(x,y)
+    axs.set_title('snp means eta '+str(etaSet[i]))
+    fig.savefig('eta '+str(etaSet[i])+'.png')
     plt.close('all') 
     
-    for vzType in [2,'I']:
-        name=str(vzType)+'-'+str(independence)
-        print(name,flush=True)
-        
-        if vzType=='I':
-            np.savetxt('LZCorr/LZCorr',np.eye(N),delimiter='\t')
-        
-        DBCreateFolder('ELL',parms)
-        DBCreateFolder('stats',parms)
-        DBCreateFolder('pvals',parms)
-        
-        DBLog('setupELL')
-        setupELL(parms)
+DBCreateFolder('pvals',parms)
 
-        DBLog('genELL')
-        np.savetxt('refs/ell-'+name,genELL(parms),delimiter='\t')
+#######################################################################################################
 
-        DBCreateFolder('pvals',parms)
-        
-        
-        DBLog('makeELLMCPVals')
-        np.savetxt('refs/ref-'+name,makeELLMCPVals(parms),delimiter='\t')
-        makeELLMarkovPVals(parms)
+N=pd.read_csv('ped/traitData',sep='\t',index_col=None,header=0).shape[0]
+L=np.eye(N)
+offDiag=np.matmul(L,L.T)[np.triu_indices(N,1)]
+stat=ell(offDiag,N,np.array([0.1])*N,reportMem=True)
 
-        DBLog('plotPower')
-        plotPower(parms)
-        subprocess.call(['mv','diagnostics/power.png','diagnostics/power-'+name+'.png'])
-        subprocess.call(['mv','diagnostics/exact.csv','diagnostics/exact-'+name+'.csv'])
-    
-refFiles=os.listdir('refs')
-fig,axs=plt.subplots(len(refFiles),1)
-fig.set_figwidth(10,forward=True)
-fig.set_figheight(10*len(refFiles),forward=True)
+#######################################################################################################
 
-for fileInd in range(len(refFiles)):
-    p=-np.log10(np.clip(np.loadtxt('refs/'+refFiles[fileInd],delimiter='\t'),1e-30,1))    
-    axs[fileInd].boxplot(p,labels=np.arange(p.shape[1]))
-    axs[fileInd].set_title(refFiles[fileInd])
+stat.fit(10,700,700,15,15) # initialNumLamPoints,finalNumLamPoints, numEllPoints,lamZeta,ellZeta
 
-fig.savefig('diagnostics/refs.png')
-plt.close('all') 
+#######################################################################################################
+
+zRef=-np.sort(-np.abs(np.matmul(norm.rvs(size=[int(parms['refReps']),N]),L.T)))   
+ref=stat.score(zRef)
+
+#######################################################################################################
+
+for etaInd in range(len(etaSet)): 
+    ell=stat.score(zSet[etaInd])
+    monteCarlo=stat.monteCarlo(ref,ell)
+    markov=stat.markov(ell)
+    pvals=pd.DataFrame(-np.log10(np.sort(np.concatenate([monteCarlo,markov],axis=1),axis=0)),
+        columns=[nm+'-'+str(x) for nm in ['mc','markov'] for x in ellDSet])
+    plotPower(pvals)
+    pvals.quantile([.05,.01],axis=0).to_csv('diagnostics/exact-'+str(etaSet[etaInd])+'.csv',index=False)
 
 DBFinish(parms)

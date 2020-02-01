@@ -8,8 +8,6 @@ sys.path[0]=sys.path[0][:-5]
 
 token='YIjLc0Jkc2QAAAAAAAAELhNPLYwqK53qaNPZqrkPIgHhe6n--GwXZbmgkQwbOQMo'
 
-pdb.set_trace()
-
 dbx=dropbox.Dropbox(token)
 
 for chr in range(1,20):
@@ -17,17 +15,18 @@ for chr in range(1,20):
     md, data=dbx.files_download('/comparison/score/'+nm)
 
     data=pickle.loads(data.content)
-    np.savetxt('data/'+nm,data,delimiter='\t')
+    np.savetxt('data/'+nm,data,delimiter=',')
     
-    with open('tmp','rb') as f:
+    with open('data/'+nm,'rb') as f:
         data=f.read()
         
     size = len(data)
 
     chunkSize = 50*1024 * 1024
+    path='/comparison/score/yijia-chr'+str(chr)+'-chr1.csv'
 
     if size <= chunkSize:
-        dbx.files_upload(data, '/comparison/score/yijia-chr'+str(chr)+'-chr1', mode=dropbox.files.WriteMode.overwrite,mute=False)
+        dbx.files_upload(data, path, mode=dropbox.files.WriteMode.overwrite,mute=False)
     else:
         upload_session_start_result = dbx.files_upload_session_start(data[:chunkSize])
 

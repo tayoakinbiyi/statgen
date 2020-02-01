@@ -45,6 +45,7 @@ class ell:
     minMaxLamPerKFinal = fitClass.minMaxLamPerKFinal
     minMaxKPerBin = fitClass.minMaxKPerBin 
     callLamEllByK = fitClass.callLamEllByK
+    loopCallLamEllByK=fitClass.loopCallLamEllByK
     
     score=scoreClass.score
 

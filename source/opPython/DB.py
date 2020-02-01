@@ -17,7 +17,7 @@ def DBFinish(parms):
     local=parms['local']
     
     nm=local+'archive/'
-    pdb.set_trace()
+    
     subprocess.call(['rm','-rf',nm])
     subprocess.call(['cp','-rf','source',nm])
     subprocess.call(['cp',parms['file'],nm+parms['name']])

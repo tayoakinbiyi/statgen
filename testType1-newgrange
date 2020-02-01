@@ -1,10 +1,8 @@
 import matplotlib
 matplotlib.use('agg')
-import warnings
 import numpy as np
 import os
 import pdb
-from multiprocessing import cpu_count
 import sys
 
 local=os.getcwd()+'/'
@@ -12,28 +10,16 @@ sys.path=['source']+sys.path
 
 from opPython.setupFolders import *
 
-from simPython.makeSimPedFiles import *
-from simPython.genSimZScores import *
-from dataPrepPython.genZScores import *
-from dataPrepPython.genLZCorr import *
-
-from statsPython.setupELL import *
-from statsPython.genELL import*
-from statsPython.makeELLMCPVals_saveZ import*
-from statsPython.makeELLMarkovPVals import*
-from statsPython.makeGBJPValsSimple import *
-
+#from simPython.makeSimPedFiles import *
+#from dataPrepPython.genZScores import *
+from multiprocessing import cpu_count
 from plotPython.plotPower import *
-from genPython.makePSD import *
 
-from datetime import datetime
-import shutil
 import subprocess
-import psutil
+from scipy.stats import norm
 
 from ELL.ell import *
 
-warnings.simplefilter("error")
 
 ellDSet=[.1,.5]
 colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,0,0),(0,0,.5)]
@@ -90,7 +76,7 @@ DBCreateFolder('holds',parms)
 genZScores(parms)
 '''
 N=pd.read_csv('ped/traitData',sep='\t',index_col=None,header=0).shape[0]
-
+'''
 DBLog('genLZCorr')
 genLZCorr({**parms,'snpChr':[2]})
 
@@ -105,7 +91,7 @@ fig.savefig('diagnostics/v(z)OffDiag.png')
 plt.close('all') 
 
 DBCreateFolder('pvals',parms)
-
+'''
 #######################################################################################################
 
 L=np.eye(N)
@@ -114,7 +100,7 @@ stat=ell(offDiag,N,np.array(ellDSet)*N,reportMem=True)
 
 #######################################################################################################
 
-stat.fit(20,800,1000,15,15) # initialNumLamPoints,finalNumLamPoints, numEllPoints,lamZeta,ellZeta
+stat.fit(20,1000,1500,8,1e-6) # initialNumLamPoints,finalNumLamPoints, numEllPoints,lamZeta,ellZeta
 
 #######################################################################################################
 

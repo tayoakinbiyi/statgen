@@ -44,25 +44,25 @@ def makeBins(zeta,numSteps,minLam):
     b=1-a
     return(a*np.power(10,np.linspace(-np.log10(zeta),0,numSteps+1))+b)
 
-def fit(self,initialNumLamPoints,finalNumLamPoints, numEllPoints,lamZeta,ellZeta):
+def fit(self,initialNumLamPoints,finalNumLamPoints, numEllPoints,zeta,minEll):
     if self.reportMem:
         memory('start fit')
 
-    ellGrid=makeBins(ellZeta,numEllPoints,0)[1:]
-    ellGrid=np.append(ellGrid[ellGrid<.5],1-ellGrid[ellGrid<=.5][::-1])
+    ellGrid=makeBins(zeta,numEllPoints,2*minEll)/2
+    ellGrid=np.append(ellGrid[:-1],1-ellGrid[::-1])
 
     self.finalNumLamPoints=finalNumLamPoints*self.N
     self.initialNumLamPoints=initialNumLamPoints*self.N
-    self.ellZeta=ellZeta
-    self.lamZeta=lamZeta
+    self.ellZeta=zeta
+    self.lamZeta=zeta
         
-    self.minMaxLamPerKInitial(ellGrid[0])
+    self.minMaxLamPerKInitial(minEll)
     self.minMaxKPerBin()
-    self.callLamEllByK(ellGrid[[0,-1]])
+    self.loopCallLamEllByK(ellGrid[[0,-1]])
 
     self.minMaxLamPerKFinal()    
     self.minMaxKPerBin()
-    self.callLamEllByK(ellGrid)
+    self.loopCallLamEllByK(ellGrid)
     
     self.ellGrid=ellGrid
     
@@ -121,7 +121,7 @@ def minMaxKPerBin(self):
     
     maxBin=len(rightEdgePerBin)-1
     
-    minBinPerK=np.clip(np.searchsorted(rightEdgePerBin,minLamPerK),0,maxBin)
+    minBinPerK=np.clip(np.searchsorted(rightEdgePerBin,minLamPerK)-1,0,maxBin)
     minBinPerK[0]=0
 
     maxBinPerK=np.clip(np.searchsorted(rightEdgePerBin,maxLamPerK),0,maxBin)
@@ -142,24 +142,22 @@ def minMaxKPerBin(self):
     
     return()
 
-def callLamEllByK(self,ellGrid):
+def callLamEllByK(self):
     numCores=self.numCores
     N=self.N
-    maxBin=self.maxBin
+    maxBin=len(ray.get(self.r_rightEdgePerBin))
 
+    r_lamEllByK=self.r_lamEllByK
     r_minKPerBin=self.r_minKPerBin
     r_maxKPerBin=self.r_maxKPerBin
     r_rightEdgePerBin=self.r_rightEdgePerBin
     r_nCr=self.r_nCr
-    r_ellGrid=ray.put(ellGrid,weakref=True) 
+    r_ellGrid=self.r_ellGrid
     r_offDiagMeans=self.r_offDiagMeans
-    
-    maxD=self.dList[-1]
-    r_lamEllByK=ray.put(np.full([len(ellGrid),maxD],0.0),weakref=True)
     
     objectIds=[]
     for core in range(numCores):
-        binRange=np.arange(core*int(np.ceil((maxBin+1)/numCores)),min(maxBin+1,(core+1)*int(np.ceil((maxBin+1)/numCores))))
+        binRange=np.arange(core*int(np.ceil(maxBin/numCores)),min(maxBin,(core+1)*int(np.ceil(maxBin/numCores))))
         if len(binRange)==0:
             continue
         
@@ -168,10 +166,38 @@ def callLamEllByK(self,ellGrid):
         
     ready_ids, remaining_ids = ray.wait(objectIds, num_returns=len(objectIds))
    
-    self.r_rightEdgePerBin=None
-    self.r_minKPerBin=None
-    self.r_maxKPerBin=None
-    self.r_ellGrid=None
+    return()
+
+def loopCallLamEllByK(self,ellGrid):
+    maxD=self.dList[-1]
+    r_lamEllByK=ray.put(np.full([len(ellGrid),maxD],0.0),weakref=True)
+    
+    self.r_lamEllByK=r_lamEllByK
+    self.r_ellGrid=ray.put(ellGrid,weakref=True) 
+    self.callLamEllByK()
+        
+    kHas0=np.where(np.sum(ray.get(r_lamEllByK)==0,axis=0)>0)[0]
+    for k in kHas0:
+        is0=np.where(ray.get(r_lamEllByK)[:,k]==0)[0]
+        count=2
+        while len(is0)>0:
+            below=(is0-1)[~np.isin(is0-1,is0)]
+            above=(is0+1)[~np.isin(is0+1,is0)]
+            
+            self.r_rightEdgePerBin=ray.put(ray.get(r_lamEllByK)[below,k]+(ray.get(r_lamEllByK)[above,k]-
+                ray.get(r_lamEllByK)[below,k])/count)
+            self.r_minKPerBin=ray.put(np.array([k]*len(is0)))
+            self.r_maxKPerBin=ray.put(np.array([k]*len(is0)))
+            
+            self.callLamEllByK()
+
+            is0=np.where(ray.get(r_lamEllByK)[:,k]==0)[0]
+            count+=1
+            
+    del self.r_rightEdgePerBin
+    del self.r_minKPerBin
+    del self.r_maxKPerBin
+    del self.r_ellGrid
     
     self.r_lamEllByK=r_lamEllByK
     
@@ -179,4 +205,3 @@ def callLamEllByK(self,ellGrid):
         memory('callEllPerBinPerK')
 
     return()
-

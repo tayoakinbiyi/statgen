@@ -94,8 +94,11 @@ for eta in etaSet:
     DBLog('genZScores')
     DBCreateFolder('holds',parms)
     genZScores(parms)
+    
+    subprocess.call(['cp','score/waldStat-3-18','score/waldStat-3-18-'+str(eta)])
 
-    zSet+=[np.loadtxt('score/waldStat-3-18',delimiter='\t')]
+for eta in etaSet:
+    zSet+=[np.loadtxt('score/waldStat-3-18-'+str(eta),delimiter='\t')]
 
 #######################################################################################################
 
@@ -116,36 +119,44 @@ for i in range(len(zSet)):
     fig,axs=plt.subplots(1,1)
     fig.set_figwidth(10,forward=True)
     fig.set_figheight(10,forward=True)
-    y=np.sort(zSet[i].flatten())
-    y/=np.std(y)
+    y=np.sort(zSet[i].flatten()/np.std(zSet[i]))
     x=norm.ppf(np.arange(1,len(y)+1)/(len(y)+1))
     axs.scatter(x,y)
+    mMax=max(np.max(y),np.max(x))
+    mMin=min(np.min(y),np.min(x))
+    axs.plot([mMin,mMax], [mMin,mMax], ls="--", c=".3")   
     axs.set_title('eta '+str(etaSet[i]))
-    fig.savefig('eta '+str(etaSet[i])+'.png')
+    fig.savefig('diagnostics/eta '+str(etaSet[i])+'.png')
     plt.close('all') 
     
     fig,axs=plt.subplots(1,1)
     fig.set_figwidth(10,forward=True)
     fig.set_figheight(10,forward=True)
-    y=np.mean(zSet[i],axis=0)
+    y=np.sort(np.mean(zSet[i],axis=0))
     y/=np.std(y)
     x=norm.ppf(np.arange(1,len(y)+1)/(len(y)+1))
     axs.scatter(x,y)
+    mMax=max(np.max(y),np.max(x))
+    mMin=min(np.min(y),np.min(x))
+    axs.plot([mMin,mMax], [mMin,mMax], ls="--", c=".3")   
     axs.set_title('trait means eta '+str(etaSet[i]))
-    fig.savefig('eta '+str(etaSet[i])+'.png')
+    fig.savefig('diagnostics/traitMeans '+str(etaSet[i])+'.png')
     plt.close('all') 
 
     fig,axs=plt.subplots(1,1)
     fig.set_figwidth(10,forward=True)
     fig.set_figheight(10,forward=True)
-    y=np.mean(zSet[i],axis=1)
+    y=np.sort(np.mean(zSet[i],axis=1))
     y/=np.std(y)
     x=norm.ppf(np.arange(1,len(y)+1)/(len(y)+1))
     axs.scatter(x,y)
+    mMax=max(np.max(y),np.max(x))
+    mMin=min(np.min(y),np.min(x))
+    axs.plot([mMin,mMax], [mMin,mMax], ls="--", c=".3")   
     axs.set_title('snp means eta '+str(etaSet[i]))
-    fig.savefig('eta '+str(etaSet[i])+'.png')
+    fig.savefig('diagnostics/snpMeans '+str(etaSet[i])+'.png')
     plt.close('all') 
-    
+pdb.set_trace()    
 DBCreateFolder('pvals',parms)
 
 #######################################################################################################
