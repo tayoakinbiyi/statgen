@@ -23,8 +23,7 @@ def makeSimPedFiles(parms):
     traitChr=parms['traitChr']
     snpChr=parms['snpChr']
     SnpSize=parms['SnpSize']
-    etaGRM=parms['etaGRM']
-    etaError=parms['etaError']
+    etaSq=parms['etaSq']
     numCores=parms['numCores']
     response=parms['response']
     muEpsRange=parms['muEpsRange']
@@ -78,7 +77,7 @@ def makeSimPedFiles(parms):
     traitSize=[len(snps),traits.shape[1]]
     LTraitCorr=np.loadtxt('LZCorr/LTraitCorr',delimiter='\t')
     
-    Y=etaGRM*np.matmul(np.matmul(LgrmAll,norm.rvs(size=traitSize)),LTraitCorr.T)+etaError*np.matmul(
+    Y=np.sqrt(etaSq)*np.matmul(np.matmul(LgrmAll,norm.rvs(size=traitSize)),LTraitCorr.T)+np.sqrt(1-etaSq)*np.matmul(
         norm.rvs(size=traitSize),LTraitCorr.T)
     
     makeTraitPedFiles(Y,traitData,parms)

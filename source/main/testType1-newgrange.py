@@ -31,8 +31,7 @@ traitSubset=list(range(1000))
 
 parms={
     'file':sys.argv[0],
-    'etaGRM':0,
-    'etaError':1,
+    'etaSq':0,
     'ellDSet':ellDSet,
     'local':local,
     'numCores':cpu_count(),
