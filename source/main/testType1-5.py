@@ -67,7 +67,7 @@ parms={
     'numSnpChr':18,
     'numTraitChr':21,
     'muEpsRange':[],
-    'fastlmm':True,
+    'fastlmm':False,
     'grm':2,#[1,2,'fast']
     'traitSubset':traitSubset,
     'numSubjects':208*3,
@@ -78,27 +78,28 @@ setupFolders(parms)
 zSet=[]
 
 #######################################################################################################
+'''
+DBCreateFolder('diagnostics',parms)
+DBCreateFolder('ped',parms)
+DBCreateFolder('score',parms)
+DBCreateFolder('grm',parms)
+'''
+#######################################################################################################
 
 for eta in etaSet:
     parms['etaGRM']=eta
     parms['etaError']=1-eta
     
-    DBCreateFolder('diagnostics',parms)
-    DBCreateFolder('ped',parms)
-    DBCreateFolder('score',parms)
-    DBCreateFolder('grm',parms)
-
     DBLog('makeSimPedFiles')
-    makeSimPedFiles(parms)
+    #makeSimPedFiles(parms)
 
     DBLog('genZScores')
-    DBCreateFolder('holds',parms)
     genZScores(parms)
     
-    subprocess.call(['cp','score/waldStat-3-18','score/waldStat-3-18-'+str(eta)])
+    subprocess.call(['cp','-f','score/waldStat-3-18','waldStat-3-18-'+str(eta)])
 
 for eta in etaSet:
-    zSet+=[np.loadtxt('score/waldStat-3-18-'+str(eta),delimiter='\t')]
+    zSet+=[np.loadtxt('waldStat-3-18-'+str(eta),delimiter='\t')]
 
 #######################################################################################################
 

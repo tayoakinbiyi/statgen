@@ -12,9 +12,10 @@ dbx=dropbox.Dropbox(token)
 
 for chr in range(1,20):
     nm='p-chr'+str(chr)+'-chr1'
-    md, data=dbx.files_download('/comparison/score/'+nm)
+    md, data=dbx.files_download('/analysisChr1/score/'+nm)
 
     data=pickle.loads(data.content)
+    
     np.savetxt('data/'+nm,data,delimiter=',')
     
     with open('data/'+nm,'rb') as f:

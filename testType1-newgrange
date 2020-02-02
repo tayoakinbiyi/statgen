@@ -12,6 +12,7 @@ from opPython.setupFolders import *
 
 from simPython.makeSimPedFiles import *
 from dataPrepPython.genZScores import *
+from dataPrepPython.genLZCorr import *
 from multiprocessing import cpu_count
 from plotPython.plotPower import *
 
@@ -30,8 +31,8 @@ traitSubset=list(range(1000))
 
 parms={
     'file':sys.argv[0],
-    'etaGRM':0.5,
-    'etaError':.5,
+    'etaGRM':0,
+    'etaError':1,
     'ellDSet':ellDSet,
     'local':local,
     'numCores':cpu_count(),
@@ -50,12 +51,13 @@ parms={
     'grm':2,#[1,2,'fast']
     'traitSubset':traitSubset,
     'numSubjects':208*3,
-    'indepTraits':True,
-    'maxSnpGen':5000
+    'indepTraits':False,
+    'maxSnpGen':5000,
+    'transOnly':False
 }
 
 setupFolders(parms)
-
+'''
 DBCreateFolder('diagnostics',parms)
 DBCreateFolder('ped',parms)
 DBCreateFolder('score',parms)
@@ -65,17 +67,17 @@ DBLog('makeSimPedFiles')
 makeSimPedFiles(parms)
 
 DBLog('genZScores')
-DBCreateFolder('holds',parms)
+
 genZScores(parms)
-
-N=pd.read_csv('ped/traitData',sep='\t',index_col=None,header=0).shape[0]
 '''
-DBLog('genLZCorr')
-genLZCorr({**parms,'snpChr':[2]})
+N=pd.read_csv('ped/traitData',sep='\t',index_col=None,header=0).shape[0]
 
+DBLog('genLZCorr')
+#LZCorr=np.eye(N)
+genLZCorr({**parms,'snpChr':[2]})
 LZCorr=np.loadtxt('LZCorr/LZCorr',delimiter='\t')
 zOffDiag=np.matmul(LZCorr,LZCorr.T)[np.triu_indices(N,1)]
-
+'''
 fig,axs=plt.subplots(1,1)
 fig.set_figwidth(10,forward=True)
 fig.set_figheight(10,forward=True)
@@ -87,8 +89,7 @@ DBCreateFolder('pvals',parms)
 '''
 #######################################################################################################
 
-L=np.eye(N)
-offDiag=np.matmul(L,L.T)[np.triu_indices(N,1)]
+offDiag=np.matmul(LZCorr,LZCorr.T)[np.triu_indices(N,1)]
 stat=ell(offDiag,N,np.array(ellDSet)*N,reportMem=True)
 
 #######################################################################################################
@@ -102,7 +103,7 @@ ell=stat.score(zDat)
 
 #######################################################################################################
 
-zRef=-np.sort(-np.abs(np.matmul(norm.rvs(size=[int(parms['refReps']),N]),L.T)))   
+zRef=-np.sort(-np.abs(np.matmul(norm.rvs(size=[int(parms['refReps']),N]),LZCorr.T)))   
 ref=stat.score(zRef)
 
 #######################################################################################################

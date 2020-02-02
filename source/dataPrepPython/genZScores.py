@@ -4,7 +4,7 @@ import subprocess
 import pdb
 import os
 from concurrent.futures import ProcessPoolExecutor, wait, ALL_COMPLETED
-from scipy.stats import chi2
+from scipy.stats import chi2,t,norm
 
 from opPython.DB import *
 from opPython.verboseArrCheck import *
@@ -15,6 +15,7 @@ def genZScores(parms):
     numCores=parms['numCores']
     simLearnType=parms['simLearnType']
     fastlmm=parms['fastlmm']
+    N=parms['numSubjects']
     
     DBLog('genZScores')
     DBCreateFolder('output',parms)
@@ -29,11 +30,6 @@ def genZScores(parms):
     for trait in traitChr:
         for snp in snpChr:
             nameParm=str(snp)+'-'+str(trait)
-
-            if os.path.exists('holds/genZScores-'+nameParm):
-                continue
-
-            np.savetxt('holds/genZScores-'+nameParm,np.array([]),delimiter='\t')
 
             numTraits=sum(traitData['chr']==trait)
             numSnps=sum(snpData['chr']==snp)
@@ -51,7 +47,8 @@ def genZScores(parms):
                     futures=[]
                     
                     for core in range(min(numTraits-traitInd,numCores)):
-                        futures+=[executor.submit(genZScoresHelp,str(core),str(snp),str(trait),traitInd,parms,fastlmm)]
+                        genZScoresHelp(str(core),str(snp),str(trait),traitInd,parms,fastlmm,N)
+                        futures+=[executor.submit(genZScoresHelp,str(core),str(snp),str(trait),traitInd,parms,fastlmm,N)]
                         traitInd+=1
                     
                     for f in wait(futures,return_when=ALL_COMPLETED)[0]:
@@ -81,13 +78,13 @@ def genZScores(parms):
         
     return()
 
-def genZScoresHelp(core,snp,trait,traitInd,parms,fastlmm):    
+def genZScoresHelp(core,snp,trait,traitInd,parms,fastlmm,N):    
     if fastlmm:
-        return(runFastlmm(core,snp,trait,traitInd,parms))
+        return(runFastlmm(core,snp,trait,traitInd,parms,N))
     else:
-        return(runGemma(core,snp,trait,traitInd,parms))        
+        return(runGemma(core,snp,trait,traitInd,parms,N))        
 
-def runFastlmm(core,snp,trait,traitInd,parms):
+def runFastlmm(core,snp,trait,traitInd,parms,N):
     simLearnType=parms['simLearnType']
     local=parms['local']
     
@@ -113,7 +110,7 @@ def runFastlmm(core,snp,trait,traitInd,parms):
         'se':df['SNPWeightSE'].values.flatten()
     })
                                   
-def runGemma(core,snp,trait,traitInd,parms):
+def runGemma(core,snp,trait,traitInd,parms,N):
     local=parms['local']
     
     nameParm=snp+'-'+trait+'-'+core
@@ -123,7 +120,7 @@ def runGemma(core,snp,trait,traitInd,parms):
     subprocess.run(cmd) 
 
     df=pd.read_csv('output/gemma-'+nameParm+'.assoc.txt',header=0,index_col=None,sep='\t')
-    
+    pdb.set_trace()
     return({
         'traitInd':traitInd,
         'waldStat':(df['beta']/df['se']).values.flatten(),
