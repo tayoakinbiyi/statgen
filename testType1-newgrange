@@ -23,7 +23,7 @@ from ELL.ell import *
 
 ellDSet=[.1,.5]
 colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,0,0),(0,0,.5)]
-SnpSize=[1000,1000,100]
+SnpSize=[10000,10000,1000]
 traitChr=[18]#,20,16,19]
 snpChr=[snp for snp in range(1,len(SnpSize)+1)]
 traitSubset=list(range(1000))
@@ -57,7 +57,7 @@ ops={
 }
 
 parms=setupFolders(ctrl,ops)
-'''
+
 DBCreateFolder('diagnostics',parms)
 DBCreateFolder('ped',parms)
 DBCreateFolder('score',parms)
@@ -69,7 +69,7 @@ makeSimPedFiles(parms)
 DBLog('genZScores')
 
 genZScores(parms)
-'''
+
 N=pd.read_csv('ped/traitData',sep='\t',index_col=None,header=0).shape[0]
 
 DBLog('genLZCorr')
