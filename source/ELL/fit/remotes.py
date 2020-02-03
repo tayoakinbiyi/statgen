@@ -38,6 +38,7 @@ def f(N,lam,minK,maxK,nCr,offDiagMeans):
     
 @ray.remote
 def lamEllByK(core,binRange,N,rightEdgePerBin,minKPerBin,maxKPerBin,nCr,lamEllByK,ellGrid,offDiagMeans):
+    print('lamEllByK.remote ({}): lamEllByK {}'.format(os.getpid(), id(lamEllByK)))
     rightEdgePerBin=rightEdgePerBin[binRange]
     minKPerBin=minKPerBin[binRange]
     maxKPerBin=maxKPerBin[binRange]

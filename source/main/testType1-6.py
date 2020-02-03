@@ -29,11 +29,11 @@ snpChr=[snp for snp in range(1,len(SnpSize)+1)]
 traitSubset=list(range(1000))
 
 ctrl={
-    'etaSq':0.5,
+    'etaSq':0.75,
     'numSubjects':208*3,
     'YTraitIndep':True,
     'modelTraitIndep':True,
-    'fastlmm':False
+    'fastlmm':True
 }
 ops={
     'file':sys.argv[0],
@@ -50,7 +50,7 @@ ops={
     'numSnpChr':18,
     'numTraitChr':21,
     'muEpsRange':[],
-    'grm':'fast',#['gemmaNoStd','gemmaStd','fast']
+    'grm':'gemmaStd',#['gemmaNoStd','gemmaStd','fast']
     'traitSubset':traitSubset,
     'maxSnpGen':5000,
     'transOnly':False
@@ -73,7 +73,6 @@ genZScores(parms)
 N=pd.read_csv('ped/traitData',sep='\t',index_col=None,header=0).shape[0]
 
 DBLog('genLZCorr')
-#LZCorr=np.eye(N)
 genLZCorr({**parms,'snpChr':[2]})
 LZCorr=np.loadtxt('LZCorr/LZCorr',delimiter='\t')
 zOffDiag=np.matmul(LZCorr,LZCorr.T)[np.triu_indices(N,1)]
@@ -90,11 +89,11 @@ DBCreateFolder('pvals',parms)
 #######################################################################################################
 
 offDiag=np.matmul(LZCorr,LZCorr.T)[np.triu_indices(N,1)]
-stat=ell(offDiag,N,np.array(ellDSet)*N,reportMem=True)
+stat=ell(N,np.array(ellDSet)*N,parms['numCores'],True)
 
 #######################################################################################################
 
-stat.fit(20,1000,2000,8,1e-7) # initialNumLamPoints,finalNumLamPoints, numEllPoints,lamZeta,ellZeta
+stat.fit(20,1000,2000,8,1e-7,offDiag) # initialNumLamPoints,finalNumLamPoints, numEllPoints,lamZeta,ellZeta
 
 #######################################################################################################
 

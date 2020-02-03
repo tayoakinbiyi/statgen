@@ -33,7 +33,7 @@ ctrl={
     'numSubjects':208*3,
     'YTraitIndep':True,
     'modelTraitIndep':True,
-    'fastlmm':True
+    'fastlmm':False
 }
 ops={
     'file':sys.argv[0],
