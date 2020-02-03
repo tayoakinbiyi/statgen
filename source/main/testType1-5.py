@@ -29,7 +29,7 @@ snpChr=[snp for snp in range(1,len(SnpSize)+1)]
 traitSubset=list(range(1000))
 
 ctrl={
-    'etaSq':0.5,
+    'etaSq':0.75,
     'numSubjects':208*3,
     'YTraitIndep':True,
     'modelTraitIndep':True,
@@ -43,7 +43,7 @@ ops={
     'traitChr':traitChr,
     'SnpSize':SnpSize,
     'colors':colors,
-    'refReps':1e6,    
+    'refReps':1e5,    
     'simLearnType':'Full',
     'response':'hipRaw',
     'quantNormalizeExpr':False,

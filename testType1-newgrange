@@ -57,7 +57,7 @@ ops={
 }
 
 parms=setupFolders(ctrl,ops)
-
+'''
 DBCreateFolder('diagnostics',parms)
 DBCreateFolder('ped',parms)
 DBCreateFolder('score',parms)
@@ -69,7 +69,7 @@ makeSimPedFiles(parms)
 DBLog('genZScores')
 
 genZScores(parms)
-
+'''
 N=pd.read_csv('ped/traitData',sep='\t',index_col=None,header=0).shape[0]
 
 DBLog('genLZCorr')
@@ -102,7 +102,8 @@ ell=stat.score(zDat)
 
 #######################################################################################################
 
-zRef=-np.sort(-np.abs(np.matmul(norm.rvs(size=[int(parms['refReps']),N]),LZCorr.T)))   
+#zRef=-np.sort(-np.abs(np.matmul(norm.rvs(size=[int(parms['refReps']),N]),LZCorr.T)))  
+zRef=np.concatenate([np.loadtxt('score/waldStat-2-'+str(x),delimiter='\t') for x in traitChr],axis=1)
 ref=stat.score(zRef)
 
 #######################################################################################################
