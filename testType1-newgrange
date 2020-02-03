@@ -5,7 +5,6 @@ import os
 import pdb
 import sys
 
-local=os.getcwd()+'/'
 sys.path=['source']+sys.path
 
 from opPython.setupFolders import *
@@ -24,16 +23,21 @@ from ELL.ell import *
 
 ellDSet=[.1,.5]
 colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,0,0),(0,0,.5)]
-SnpSize=[10000,10000,1000]
+SnpSize=[1000,1000,100]
 traitChr=[18]#,20,16,19]
 snpChr=[snp for snp in range(1,len(SnpSize)+1)]
 traitSubset=list(range(1000))
 
-parms={
+ctrl={
+    'etaSq':0.5,
+    'numSubjects':208*3,
+    'YTraitIndep':True,
+    'modelTraitIndep':True,
+    'fastlmm':True
+}
+ops={
     'file':sys.argv[0],
-    'etaSq':0,
     'ellDSet':ellDSet,
-    'local':local,
     'numCores':cpu_count(),
     'snpChr':snpChr,
     'traitChr':traitChr,
@@ -46,16 +50,13 @@ parms={
     'numSnpChr':18,
     'numTraitChr':21,
     'muEpsRange':[],
-    'fastlmm':True,
-    'grm':2,#[1,2,'fast']
+    'grm':'gemmaStd',#['gemmaNoStd','gemmaStd','fast']
     'traitSubset':traitSubset,
-    'numSubjects':208*3,
-    'indepTraits':False,
     'maxSnpGen':5000,
     'transOnly':False
 }
 
-setupFolders(parms)
+parms=setupFolders(ctrl,ops)
 '''
 DBCreateFolder('diagnostics',parms)
 DBCreateFolder('ped',parms)
@@ -72,7 +73,6 @@ genZScores(parms)
 N=pd.read_csv('ped/traitData',sep='\t',index_col=None,header=0).shape[0]
 
 DBLog('genLZCorr')
-#LZCorr=np.eye(N)
 genLZCorr({**parms,'snpChr':[2]})
 LZCorr=np.loadtxt('LZCorr/LZCorr',delimiter='\t')
 zOffDiag=np.matmul(LZCorr,LZCorr.T)[np.triu_indices(N,1)]
@@ -89,11 +89,11 @@ DBCreateFolder('pvals',parms)
 #######################################################################################################
 
 offDiag=np.matmul(LZCorr,LZCorr.T)[np.triu_indices(N,1)]
-stat=ell(offDiag,N,np.array(ellDSet)*N,reportMem=True)
+stat=ell(N,np.array(ellDSet)*N,parms['numCores'],True)
 
 #######################################################################################################
 
-stat.fit(20,1000,2000,8,1e-7) # initialNumLamPoints,finalNumLamPoints, numEllPoints,lamZeta,ellZeta
+stat.fit(20,1000,2000,8,1e-7,offDiag) # initialNumLamPoints,finalNumLamPoints, numEllPoints,lamZeta,ellZeta
 
 #######################################################################################################
 

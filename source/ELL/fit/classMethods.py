@@ -8,7 +8,7 @@ import psutil
 import os
 
 from ELL.fit.remotes import *
-from ELL.util import memory
+from ELL.util import *
 
 # requires:
 # minY=0
@@ -44,10 +44,18 @@ def makeBins(zeta,numSteps,minLam):
     b=1-a
     return(a*np.power(10,np.linspace(-np.log10(zeta),0,numSteps+1))+b)
 
-def fit(self,initialNumLamPoints,finalNumLamPoints, numEllPoints,zeta,minEll):
+def fit(self,initialNumLamPoints,finalNumLamPoints, numEllPoints,zeta,minEll,offDiagVec):
     if self.reportMem:
         memory('start fit')
 
+    N=self.N
+
+    self.r_offDiagVec=ray.put(offDiagVec)
+    self.r_nCr=ray.put(nCr(N))
+    self.r_offDiagMeans=ray.put(np.array([np.mean(offDiagVec), np.mean(offDiagVec**2), np.mean(offDiagVec**3),
+        np.mean(offDiagVec**4),np.mean(offDiagVec**5), np.mean(offDiagVec**6), np.mean(offDiagVec**7),
+        np.mean(offDiagVec**8),np.mean(offDiagVec**9), np.mean(offDiagVec**10)]))
+    
     ellGrid=makeBins(zeta,numEllPoints,2*minEll)/2
     ellGrid=np.append(ellGrid[:-1],1-ellGrid[::-1])
 
@@ -65,7 +73,7 @@ def fit(self,initialNumLamPoints,finalNumLamPoints, numEllPoints,zeta,minEll):
     self.loopCallLamEllByK(ellGrid)
     
     self.ellGrid=ellGrid
-    
+        
     return()
 
 def minMaxLamPerKInitial(self,ell):
@@ -156,6 +164,7 @@ def callLamEllByK(self):
     r_offDiagMeans=self.r_offDiagMeans
     
     objectIds=[]
+    print('callLamEllByK ({}): r_lamEllByK {}, get(r_lamEllByK) {}'.format(os.getpid(), id(r_lamEllByK),id(ray.get(r_lamEllByK))))
     for core in range(numCores):
         binRange=np.arange(core*int(np.ceil(maxBin/numCores)),min(maxBin,(core+1)*int(np.ceil(maxBin/numCores))))
         if len(binRange)==0:
@@ -172,6 +181,8 @@ def loopCallLamEllByK(self,ellGrid):
     maxD=self.dList[-1]
     r_lamEllByK=ray.put(np.full([len(ellGrid),maxD],0.0),weakref=True)
     
+    print('loopCallLamEllByK ({}): r_lamEllByK {}, get(r_lamEllByK) {}'.format(os.getpid(), id(r_lamEllByK),id(ray.get(r_lamEllByK))))
+
     self.r_lamEllByK=r_lamEllByK
     self.r_ellGrid=ray.put(ellGrid,weakref=True) 
     self.callLamEllByK()
@@ -199,7 +210,7 @@ def loopCallLamEllByK(self,ellGrid):
     del self.r_maxKPerBin
     del self.r_ellGrid
     
-    self.r_lamEllByK=r_lamEllByK
+    self.lamEllByK=ray.get(r_lamEllByK)
     
     if self.reportMem:
         memory('callEllPerBinPerK')

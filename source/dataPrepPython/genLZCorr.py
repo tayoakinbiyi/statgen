@@ -8,9 +8,15 @@ from genPython.makePSD import *
 def genLZCorr(parms):
     transOnly=parms['transOnly']
     snpChr=parms['snpChr']
-    traitChr=parms['traitChr']        
+    traitChr=parms['traitChr']   
+    modelTraitIndep=parms['modelTraitIndep']
 
     traitData=pd.read_csv('ped/traitData',sep='\t',header=0,index_col=None)
+    
+    if modelTraitIndep:
+        np.savetxt('LZCorr/LZCorr',np.eye(traitData.shape[0]),delimiter='\t')
+        return()
+        
     snpData=pd.read_csv('ped/snpData',sep='\t',header=0,index_col=None)
     
     snpLoc=snpData['chr'][snpData['chr'].isin(snpChr)].values.flatten()
@@ -32,7 +38,5 @@ def genLZCorr(parms):
 
     print('writing corr',flush=True)
     np.savetxt('LZCorr/LZCorr',LZCorr,delimiter='\t')
-
-    np.savetxt('LZCorr/Leye',np.eye(LZCorr.shape[0]),delimiter='\t')
         
     return()

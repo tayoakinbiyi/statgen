@@ -4,6 +4,7 @@ import ray
 from scipy.stats import norm
 import ray
 import pandas as pd
+import os
 
 from ELL.score.remotes import *
 from ELL.util import memory
@@ -18,6 +19,8 @@ def score(self,testStats):
     r_lamEllByK=self.r_lamEllByK
     r_pvals=ray.put(np.sort(2*norm.sf(np.abs(testStats))))
     r_check=ray.put(np.zeros([3,maxD]),weakref=True)
+    
+    print('score ({}): r_lamEllByK {}, get(r_lamEllByK) {}'.format(os.getpid(), id(r_lamEllByK),id(ray.get(r_lamEllByK))))
     
     objectIds=[]
     for core in range(numCores):

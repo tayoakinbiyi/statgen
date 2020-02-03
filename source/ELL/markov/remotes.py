@@ -4,9 +4,12 @@ import rpy2.robjects as ro
 import numpy as np
 from scipy.stats import norm
 import pdb
+import os
 
 @ray.remote
 def markovHelp(repRange,markov,stats,lamEllByK,ellGrid,dList,N,offDiagVec):    
+    print('markovHelp ({}): lamEllByK {}'.format(os.getpid(), id(lamEllByK)))
+
     gbj=importr('GBJ')
     
     row=np.zeros(N)

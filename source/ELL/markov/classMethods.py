@@ -1,6 +1,7 @@
 import ray
 import numpy as np
 import pdb
+import os
 
 from ELL.markov.remotes import *
 from ELL.util import memory
@@ -22,6 +23,8 @@ def markov(self,ell):
     
     reps=len(ell)
     
+    print('markov ({}): r_lamEllByK {}, get(r_lamEllByK) {}'.format(os.getpid(), id(r_lamEllByK),id(ray.get(r_lamEllByK))))
+
     objectIds=[]
     for core in range(numCores):
         repRange=np.arange(core*int(np.ceil(reps/numCores)),min(reps,(core+1)*int(np.ceil(reps/numCores))))

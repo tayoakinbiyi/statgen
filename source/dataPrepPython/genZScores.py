@@ -120,7 +120,7 @@ def runGemma(core,snp,trait,traitInd,parms,N):
     subprocess.run(cmd) 
 
     df=pd.read_csv('output/gemma-'+nameParm+'.assoc.txt',header=0,index_col=None,sep='\t')
-    pdb.set_trace()
+    
     return({
         'traitInd':traitInd,
         'waldStat':(df['beta']/df['se']).values.flatten(),

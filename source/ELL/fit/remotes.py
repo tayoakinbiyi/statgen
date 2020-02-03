@@ -3,6 +3,8 @@ import ray
 from scipy.stats import norm
 import pdb
 import warnings
+import os
+import time
 
 #from ELL.fit.nonClassMethods import *
 
@@ -46,5 +48,5 @@ def lamEllByK(core,binRange,N,rightEdgePerBin,minKPerBin,maxKPerBin,nCr,lamEllBy
         gridLoc=np.searchsorted(ellGrid,fval[::-1])[::-1]
         upd=(gridLoc<len(ellGrid))        
         lamEllByK[gridLoc[upd],kList[upd]]=np.maximum(rightEdgePerBin[Bin],lamEllByK[gridLoc[upd],kList[upd]])
-
+        
     return()

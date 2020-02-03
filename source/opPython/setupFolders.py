@@ -5,7 +5,10 @@ import pdb
 import subprocess
 import numpy as np
 
-def setupFolders(parms):
+def setupFolders(ctrl,ops):
+    parms={**ctrl,**ops}
+
+    parms['local']=os.getcwd()+'/'
     local=parms['local']
     
     parms['name']=parms['file'][:-3]
@@ -28,6 +31,7 @@ def setupFolders(parms):
         os.chdir(local+name)    
     
     DBLogStart(parms)
-    DBLog(json.dumps(parms,indent=3))
+    DBLog(json.dumps(ctrl,indent=3))
+    DBLog(json.dumps(ops,indent=3))
         
     return(parms)

@@ -7,7 +7,6 @@ import pdb
 from multiprocessing import cpu_count
 import sys
 
-local=os.getcwd()+'/'
 sys.path=['source']+sys.path
 
 from opPython.setupFolders import *
@@ -43,55 +42,50 @@ traitChr=[18]#,20,16,19]
 snpChr=[snp for snp in range(1,len(SnpSize)+1)]
 traitSubset=list(range(1000))
 
-parms={
+ctrl={
+    'numSubjects':208*3,
+    'YTraitIndep':True,
+    'modelTraitIndep':True
+}
+ops={
     'file':sys.argv[0],
-    'ellBetaPpfEps':1e-12,
-    'ellKRanLowEps':.1,
-    'ellKRanHighEps':1.9,
-    'ellKRanNMult':.4,
     'ellDSet':ellDSet,
-    'minELLDecForInverse':4,
-    'binsPerIndex':500,
-    'local':local,
     'numCores':cpu_count(),
     'snpChr':snpChr,
     'traitChr':traitChr,
     'SnpSize':SnpSize,
-    'transOnly':False,
     'colors':colors,
     'refReps':1e6,    
-    'maxSnpGen':5000,
     'simLearnType':'Full',
     'response':'hipRaw',
     'quantNormalizeExpr':False,
     'numSnpChr':18,
     'numTraitChr':21,
     'muEpsRange':[],
-    'fastlmm':False,
+    'fastlmm':True,
     'grm':2,#[1,2,'fast']
     'traitSubset':traitSubset,
-    'numSubjects':208*3,
-    'indepTraits':True
+    'maxSnpGen':5000,
+    'transOnly':False
 }
 
-setupFolders(parms)
+parms=setupFolders(ctrl,ops)
 zSet=[]
 
 #######################################################################################################
-'''
+
 DBCreateFolder('diagnostics',parms)
 DBCreateFolder('ped',parms)
 DBCreateFolder('score',parms)
 DBCreateFolder('grm',parms)
-'''
+
 #######################################################################################################
 
 for eta in etaSet:
-    parms['etaGRM']=eta
-    parms['etaError']=1-eta
+    parms['etaSq']=eta
     
     DBLog('makeSimPedFiles')
-    #makeSimPedFiles(parms)
+    makeSimPedFiles(parms)
 
     DBLog('genZScores')
     genZScores(parms)
@@ -157,34 +151,5 @@ for i in range(len(zSet)):
     axs.set_title('snp means eta '+str(etaSet[i]))
     fig.savefig('diagnostics/snpMeans '+str(etaSet[i])+'.png')
     plt.close('all') 
-pdb.set_trace()    
-DBCreateFolder('pvals',parms)
-
-#######################################################################################################
-
-N=pd.read_csv('ped/traitData',sep='\t',index_col=None,header=0).shape[0]
-L=np.eye(N)
-offDiag=np.matmul(L,L.T)[np.triu_indices(N,1)]
-stat=ell(offDiag,N,np.array([0.1])*N,reportMem=True)
-
-#######################################################################################################
-
-stat.fit(10,700,700,15,15) # initialNumLamPoints,finalNumLamPoints, numEllPoints,lamZeta,ellZeta
-
-#######################################################################################################
-
-zRef=-np.sort(-np.abs(np.matmul(norm.rvs(size=[int(parms['refReps']),N]),L.T)))   
-ref=stat.score(zRef)
-
-#######################################################################################################
-
-for etaInd in range(len(etaSet)): 
-    ell=stat.score(zSet[etaInd])
-    monteCarlo=stat.monteCarlo(ref,ell)
-    markov=stat.markov(ell)
-    pvals=pd.DataFrame(-np.log10(np.sort(np.concatenate([monteCarlo,markov],axis=1),axis=0)),
-        columns=[nm+'-'+str(x) for nm in ['mc','markov'] for x in ellDSet])
-    plotPower(pvals)
-    pvals.quantile([.05,.01],axis=0).to_csv('diagnostics/exact-'+str(etaSet[etaInd])+'.csv',index=False)
 
 DBFinish(parms)

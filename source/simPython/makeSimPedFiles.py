@@ -30,6 +30,8 @@ def makeSimPedFiles(parms):
     numSnpChr=parms['numSnpChr']
     numTraitChr=parms['numTraitChr']  
     numSubjects=parms['numSubjects']
+    
+    YTraitIndep=parms['YTraitIndep']
               
     DBCreateFolder('ped',parms)
     DBCreateFolder('geneDrop',parms)
@@ -63,7 +65,7 @@ def makeSimPedFiles(parms):
 
     ################################################### grm sim ###################################################
         
-    makeGrm(parms,1,True)    
+    makeGrm(parms,1,np.array([1]))    
     
     M=len(muEpsRange)
     for snp in range(2,numSnpChr+M*numCores+1):
@@ -75,8 +77,12 @@ def makeSimPedFiles(parms):
     LgrmAll=np.loadtxt('LZCorr/Lgrm-1',delimiter='\t')
     
     traitSize=[len(snps),traits.shape[1]]
-    LTraitCorr=np.loadtxt('LZCorr/LTraitCorr',delimiter='\t')
     
+    if YTraitIndep:
+        LTraitCorr=np.eye(traits.shape[1])
+    else:
+        LTraitCorr=np.loadtxt('LZCorr/LTraitCorr',delimiter='\t')
+
     Y=np.sqrt(etaSq)*np.matmul(np.matmul(LgrmAll,norm.rvs(size=traitSize)),LTraitCorr.T)+np.sqrt(1-etaSq)*np.matmul(
         norm.rvs(size=traitSize),LTraitCorr.T)
     
