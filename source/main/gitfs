@@ -1,0 +1,2 @@
+gitfs -o log=log,allow_other=false,branch=archive,username=tayoakinbiyi,password=dwabbiT1836,fetch_timeout=5,min_idle_times=1000,idle_fetch_timeout=5 https://github.com/tayoakinbiyi/statgen mnt/archive
+gitfs -o log=log,allow_other=false,branch=source,username=tayoakinbiyi,password=dwabbiT1836,fetch_timeout=5,min_idle_times=1000,idle_fetch_timeout=5 https://github.com/tayoakinbiyi/statgen mnt/source

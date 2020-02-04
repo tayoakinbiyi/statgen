@@ -6,17 +6,17 @@ import os
 from ELL.markov.remotes import *
 from ELL.util import memory
 
-def markov(self,ell):
+def markov(self,ell,offDiag):
     memory('markov')
 
     numCores=self.numCores
     dList=self.dList
     
     r_ellStats=ray.put(ell)
-    r_lamEllByK=self.r_lamEllByK
+    r_lamEllByK=ray.put(self.lamEllByK)
     N=self.N
     
-    r_offDiagVec=ray.put(ro.FloatVector(tuple(ray.get(self.r_offDiagVec))),weakref=True)
+    r_offDiagVec=ray.put(ro.FloatVector(tuple(offDiag)),weakref=True)
     
     r_markov=ray.put(np.zeros(ell.shape),weakref=True)
     r_ellGrid=ray.put(self.ellGrid)

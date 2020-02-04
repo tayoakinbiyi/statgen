@@ -9,6 +9,7 @@ import ELL.fit.classMethods as fitClass
 import ELL.score.classMethods as scoreClass
 import ELL.monteCarlo.classMethods as monteCarloClass
 import ELL.markov.classMethods as markovClass
+import ELL.IO.classMethods as ioClass
 
 class ell:    
     __init__=initClass.__init__
@@ -24,3 +25,6 @@ class ell:
     markov=markovClass.markov
     
     monteCarlo=monteCarloClass.monteCarlo
+    
+    save=ioClass.save
+    load=ioClass.load

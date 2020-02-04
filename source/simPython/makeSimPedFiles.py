@@ -78,13 +78,15 @@ def makeSimPedFiles(parms):
     
     traitSize=[len(snps),traits.shape[1]]
     
-    if YTraitIndep:
-        LTraitCorr=np.eye(traits.shape[1])
+    if YTraitIndep in ['indep','dep']:
+        if YTraitIndep=='indep':
+            LTraitCorr=np.eye(traits.shape[1])
+        if YTraitIndep=='dep':
+            LTraitCorr=np.loadtxt('LZCorr/LTraitCorr',delimiter='\t')
+        Y=np.sqrt(etaSq)*np.matmul(np.matmul(LgrmAll,norm.rvs(size=traitSize)),LTraitCorr.T)+np.sqrt(1-etaSq)*np.matmul(
+            norm.rvs(size=traitSize),LTraitCorr.T)
     else:
-        LTraitCorr=np.loadtxt('LZCorr/LTraitCorr',delimiter='\t')
-
-    Y=np.sqrt(etaSq)*np.matmul(np.matmul(LgrmAll,norm.rvs(size=traitSize)),LTraitCorr.T)+np.sqrt(1-etaSq)*np.matmul(
-        norm.rvs(size=traitSize),LTraitCorr.T)
+        Y=traits    
     
     makeTraitPedFiles(Y,traitData,parms)
     

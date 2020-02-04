@@ -16,7 +16,7 @@ def score(self,testStats):
     dList=self.dList
     maxD=dList[-1]
     
-    r_lamEllByK=self.r_lamEllByK
+    r_lamEllByK=ray.put(self.lamEllByK)
     r_pvals=ray.put(np.sort(2*norm.sf(np.abs(testStats))))
     r_check=ray.put(np.zeros([3,maxD]),weakref=True)
     

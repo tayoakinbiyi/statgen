@@ -88,6 +88,7 @@ def minMaxLamPerKInitial(self,ell):
     while minF>=ell:
         x+=1
         minF=ray.get(f.remote(self.N,10**(-x),0,0,self.r_nCr,self.r_offDiagMeans))[0]
+        print(minF,x)
 
     self.minLam=10**(-x)
     
@@ -111,8 +112,8 @@ def minMaxLamPerKFinal(self):
     self.r_minLamPerK=ray.put(lamEllByK[0],weakref=True)
     self.r_maxLamPerK=ray.put(lamEllByK[-1],weakref=True)
         
-    bins=makeBins(zeta,finalNumLamPoints,minLam)
-    bins=bins[(bins<1)&(bins>0)]
+    bins=makeBins(zeta,finalNumLamPoints,minLam)[:-1]
+    bins[0]=minLam
 
     self.r_rightEdgePerBin=ray.put(bins,weakref=True)
 
