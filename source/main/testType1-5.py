@@ -37,7 +37,7 @@ warnings.simplefilter("error")
 etaSet=[0,.5,.75]
 ellDSet=[.1,.5]
 colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,0,0),(0,0,.5)]
-SnpSize=[100,100,100]
+SnpSize=[10000,10000,1002]
 traitChr=[18]#,20,16,19]
 snpChr=[snp for snp in range(1,len(SnpSize)+1)]
 traitSubset=list(range(1000))
@@ -45,7 +45,7 @@ traitSubset=list(range(1000))
 ctrl={
     'numSubjects':208*3,
     'YTraitIndep':'indep',#['indep','dep','real']
-    'modelTraitIndep':True,
+    'modelTraitIndep':'indep',
     'fastlmm':False
 }
 ops={
@@ -63,8 +63,7 @@ ops={
     'numSnpChr':18,
     'numTraitChr':21,
     'muEpsRange':[],
-    'fastlmm':True,
-    'grm':2,#[1,2,'fast']
+    'grm':'gemmaStd',#['gemmaNoStd','gemmaStd','fast']
     'traitSubset':traitSubset,
     'maxSnpGen':5000,
     'transOnly':False

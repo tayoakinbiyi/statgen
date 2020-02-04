@@ -21,7 +21,8 @@ def makeGrm(parms,name,snpSet):
         return()
         
     pd.DataFrame({'Family ID':snpIds,'Individual ID':0}).to_csv('ped/extract',sep='\t',index=False,header=False)
-                
+             
+    assert grm in ['fast','gemmaStd','gemmaNoStd']
     if grm=='fast':
         cmd=[local+'ext/fastlmmc','-bfile','ped/snp','-runGwasType','RUN','-extractSim','ped/extract',
              '-pheno','ped/snp.fam','-maxThreads',str(numCores),'-simOut','grm/fast-'+str(name),
