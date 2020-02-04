@@ -78,6 +78,7 @@ def makeSimPedFiles(parms):
     
     traitSize=[len(snps),traits.shape[1]]
     
+    assert YTraitIndep in ['indep','dep','real']
     if YTraitIndep in ['indep','dep']:
         if YTraitIndep=='indep':
             LTraitCorr=np.eye(traits.shape[1])

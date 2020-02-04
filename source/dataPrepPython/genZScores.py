@@ -47,7 +47,6 @@ def genZScores(parms):
                     futures=[]
                     
                     for core in range(min(numTraits-traitInd,numCores)):
-                        genZScoresHelp(str(core),str(snp),str(trait),traitInd,parms,fastlmm,N)
                         futures+=[executor.submit(genZScoresHelp,str(core),str(snp),str(trait),traitInd,parms,fastlmm,N)]
                         traitInd+=1
                     

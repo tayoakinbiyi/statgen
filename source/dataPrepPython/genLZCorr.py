@@ -13,7 +13,8 @@ def genLZCorr(parms):
 
     traitData=pd.read_csv('ped/traitData',sep='\t',header=0,index_col=None)
     
-    if modelTraitIndep:
+    assert modelTraitIndep in ['indep','dep']
+    if modelTraitIndep=='indep':
         np.savetxt('LZCorr/LZCorr',np.eye(traitData.shape[0]),delimiter='\t')
         return()
         
