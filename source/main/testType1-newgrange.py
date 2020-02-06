@@ -92,52 +92,61 @@ stat=ell(np.array(ellDSet),offDiag)
 stat.fit(20,1000,2000,8,1e-7) # initialNumLamPoints,finalNumLamPoints, numEllPoints,lamZeta,ellZeta
 stat.save()
 #stat.load()
+
 #######################################################################################################
 
 zDat3=np.concatenate([np.loadtxt('score/waldStat-3-'+str(x),delimiter='\t') for x in traitChr],axis=1)
-ell3=stat.score(zDat3)
-
 zDat2=np.concatenate([np.loadtxt('score/waldStat-2-'+str(x),delimiter='\t') for x in traitChr],axis=1)
-ell2=stat.score(zDat2)
-
-#######################################################################################################
-
-'''
-#zRef=np.concatenate([np.loadtxt('score/waldStat-2-'+str(x),delimiter='\t') for x in traitChr],axis=1)
-zNorm=np.matmul(norm.rvs(size=[int(1e6),int(N)]),LZCorr.T)
-
-fig,axs=plt.subplots(1,1)
-fig.set_figwidth(10,forward=True)
-fig.set_figheight(10,forward=True)
-axs.hist(np.mean(zNorm**2,axis=1),bins=60,density=True,alpha=.5,label='norm')
-axs.hist(np.mean(zRef**2,axis=1),bins=60,density=True,alpha=.5,label='ref')
-axs.legend()
-fig.savefig('diagnostics/snpMeans.png')
-plt.close('all') 
-
-fig,axs=plt.subplots(1,1)
-fig.set_figwidth(10,forward=True)
-fig.set_figheight(10,forward=True)
-y=np.sort(np.mean(zNorm**2,axis=0))
-x=np.sort(1+norm.rvs(size=(436,))*np.sqrt(2*1e-6))
-axs.scatter(x,y)
-mMax=max(np.max(x),np.max(y))
-mMin=max(np.min(x),np.min(y))
-axs.plot([mMin,mMax], [mMin,mMax], ls="--", c=".3")   
-fig.savefig('diagnostics/traitMeans.png')
-plt.close('all') 
-'''
-
-#######################################################################################################
-
 zNormLZ=np.matmul(norm.rvs(size=[int(1e6),int(N)]),LZCorr.T)
 zNormI=norm.rvs(size=[int(1e6),int(N)])
+
+#######################################################################################################
+
+zSet=[zDat2,zDat3]
+nm=['2','3']
+for i in [0,1]:
+    fig,axs=plt.subplots(1,1)
+    fig.set_figwidth(10,forward=True)
+    fig.set_figheight(10,forward=True)
+    y=np.sort(zSet[i].flatten()**2)
+    x=chi2.ppf(np.arange(1,len(y)+1)/(len(y)+1),1)
+    axs.scatter(x,y)
+    axs.set_title('eta sq-'+str(nm[i]))
+    fig.savefig('diagnostics/z^2 '+str(nm[i])+'.png')
+    plt.close('all') 
+
+    fig,axs=plt.subplots(1,1)
+    fig.set_figwidth(10,forward=True)
+    fig.set_figheight(10,forward=True)
+    y=np.mean(zSet[i]**2,axis=0).flatten()
+    x=chi2.ppf(np.arange(1,zSet[1].shape[1]+1)/(zSet[1].shape[1]+1),zSet[i].shape[0])/zSet[i].shape[0]
+    axs.scatter(x,y)
+    axs.set_title('eta '+str(nm[i]))
+    fig.savefig('diagnostics/traitMean z^2 '+str(nm[i])+'.png')
+    plt.close('all') 
+
+    fig,axs=plt.subplots(1,1)
+    fig.set_figwidth(10,forward=True)
+    fig.set_figheight(10,forward=True)
+    y=np.mean(zSet[i]**2,axis=1).flatten()
+    x=chi2.ppf(np.arange(1,zSet[1].shape[0]+1)/(zSet[1].shape[0]+1),zSet[i].shape[1])/zSet[i].shape[1]
+    axs.scatter(x,y)
+    axs.set_title('eta '+str(nm[i]))
+    fig.savefig('diagnostics/snpMean z^2 '+str(nm[i])+'.png')
+    plt.close('all') 
+
+#######################################################################################################
+
+ell3=stat.score(zDat3)
+ell2=stat.score(zDat2)
 refLZ=stat.score(zNormLZ)
 refI=stat.score(zNormI)
+
+#######################################################################################################
+
 monteCarlo2_3=stat.monteCarlo(ell2,ell3)
 monteCarloI_3=stat.monteCarlo(refI,ell3)
 monteCarloLZ_3=stat.monteCarlo(refLZ,ell3)
-#monteCarlo=stat.monteCarlo(ref,ell)
 
 #######################################################################################################
 
