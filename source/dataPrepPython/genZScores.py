@@ -9,8 +9,9 @@ from scipy.stats import chi2,t,norm
 from opPython.DB import *
 from opPython.verboseArrCheck import *
 
-def genZScores(parms):
-    snpChr=parms['snpChr']
+def genZScores(parms,snpChr=None):
+    if snpChr is None:
+        snpChr=parms['snpChr']
     traitChr=parms['traitChr']
     numCores=parms['numCores']
     simLearnType=parms['simLearnType']
@@ -89,7 +90,7 @@ def runFastlmm(core,snp,trait,traitInd,parms,N):
     
     nameParm=snp+'-'+trait+'-'+core
     cmd=[local+'ext/fastlmmc','-bfile','ped/snp-'+snp,'-covar','ped/cov.phe','-pheno','ped/Y-'+trait+'.phe',
-         '-eigen','grm/eigen-'+snp,'-mpheno',str(traitInd+1),'-out','output/fastlmm-'+nameParm, '-maxThreads','1',
+         '-eigen','grm/fast-eigen-'+snp,'-mpheno',str(traitInd+1),'-out','output/fastlmm-'+nameParm, '-maxThreads','1',
          '-simLearnType',simLearnType,'-ML','-Ftest']
     
     subprocess.call(cmd)
@@ -114,7 +115,8 @@ def runGemma(core,snp,trait,traitInd,parms,N):
     
     nameParm=snp+'-'+trait+'-'+core
     cmd=[local+'ext/gemma','-bfile','ped/snp-'+snp,'-lmm','4','-o','gemma-'+nameParm,
-         '-k','grm/gemma-'+snp,'-n',str(traitInd+1),'-c','ped/cov.txt','-p','ped/Y-'+trait+'.txt']
+         '-d','grm/gemma-eigen-'+snp+'/D','-u','grm/gemma-eigen-'+snp+'/U','-n',str(traitInd+1),'-c','ped/cov.txt',
+         '-p','ped/Y-'+trait+'.txt']
     
     subprocess.run(cmd) 
 

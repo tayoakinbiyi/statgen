@@ -6,11 +6,12 @@ import os
 from ELL.markov.remotes import *
 from ELL.util import memory
 
-def markov(self,ell,offDiag):
+def markov(self,ell):
     memory('markov')
 
     numCores=self.numCores
     dList=self.dList
+    offDiag=self.offDiag
     
     r_ellStats=ray.put(ell)
     r_lamEllByK=ray.put(self.lamEllByK)

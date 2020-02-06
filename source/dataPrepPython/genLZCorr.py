@@ -9,15 +9,9 @@ def genLZCorr(parms):
     transOnly=parms['transOnly']
     snpChr=parms['snpChr']
     traitChr=parms['traitChr']   
-    modelTraitIndep=parms['modelTraitIndep']
-
-    traitData=pd.read_csv('ped/traitData',sep='\t',header=0,index_col=None)
     
-    assert modelTraitIndep in ['indep','dep']
-    if modelTraitIndep=='indep':
-        np.savetxt('LZCorr/LZCorr',np.eye(traitData.shape[0]),delimiter='\t')
-        return()
-        
+    traitData=pd.read_csv('ped/traitData',sep='\t',header=0,index_col=None)
+            
     snpData=pd.read_csv('ped/snpData',sep='\t',header=0,index_col=None)
     
     snpLoc=snpData['chr'][snpData['chr'].isin(snpChr)].values.flatten()
@@ -36,8 +30,10 @@ def genLZCorr(parms):
 
     corr=np.ma.corrcoef(traitDF,rowvar=False,allow_masked=True).data
     LZCorr=makePSD(corr)
+    N=LZCorr.shape[1]
 
     print('writing corr',flush=True)
     np.savetxt('LZCorr/LZCorr',LZCorr,delimiter='\t')
+    offDiag=corr[np.triu_indices(N,1)]
         
-    return()
+    return(LZCorr,offDiag)

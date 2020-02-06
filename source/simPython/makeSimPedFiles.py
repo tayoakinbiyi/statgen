@@ -69,8 +69,8 @@ def makeSimPedFiles(parms):
     
     M=len(muEpsRange)
     for snp in range(2,numSnpChr+M*numCores+1):
-        os.symlink('eigen-1', 'grm/eigen-'+str(snp))
-        os.symlink('gemma-1', 'grm/gemma-'+str(snp))
+        os.symlink('fast-eigen-1', 'grm/fast-eigen-'+str(snp))
+        os.symlink('gemma-eigen-1', 'grm/gemma-eigen-'+str(snp))
     
     ################################################### gen Y ###################################################
     

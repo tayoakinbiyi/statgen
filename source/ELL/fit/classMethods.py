@@ -44,17 +44,17 @@ def makeBins(zeta,numSteps,minLam):
     b=1-a
     return(a*np.power(10,np.linspace(-np.log10(zeta),0,numSteps+1))+b)
 
-def fit(self,initialNumLamPoints,finalNumLamPoints, numEllPoints,zeta,minEll,offDiagVec):
+def fit(self,initialNumLamPoints,finalNumLamPoints, numEllPoints,zeta,minEll):
     if self.reportMem:
         memory('start fit')
 
     N=self.N
+    offDiag=self.offDiag
 
-    self.r_offDiagVec=ray.put(offDiagVec)
     self.r_nCr=ray.put(nCr(N))
-    self.r_offDiagMeans=ray.put(np.array([np.mean(offDiagVec), np.mean(offDiagVec**2), np.mean(offDiagVec**3),
-        np.mean(offDiagVec**4),np.mean(offDiagVec**5), np.mean(offDiagVec**6), np.mean(offDiagVec**7),
-        np.mean(offDiagVec**8),np.mean(offDiagVec**9), np.mean(offDiagVec**10)]))
+    self.r_offDiagMeans=ray.put(np.array([np.mean(offDiag), np.mean(offDiag**2), np.mean(offDiag**3),
+        np.mean(offDiag**4),np.mean(offDiag**5), np.mean(offDiag**6), np.mean(offDiag**7),
+        np.mean(offDiag**8),np.mean(offDiag**9), np.mean(offDiag**10)]))
     
     ellGrid=makeBins(zeta,numEllPoints,2*minEll)/2
     ellGrid=np.append(ellGrid[:-1],1-ellGrid[::-1])

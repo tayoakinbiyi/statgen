@@ -25,13 +25,11 @@ def makeGrm(parms,name,snpSet):
     assert grm in ['fast','gemmaStd','gemmaNoStd']
     if grm=='fast':
         cmd=[local+'ext/fastlmmc','-bfile','ped/snp','-runGwasType','RUN','-extractSim','ped/extract',
-             '-pheno','ped/snp.fam','-maxThreads',str(numCores),'-simOut','grm/fast-'+str(name),
-             '-eigenOut','grm/eigen-'+str(snp),'-mpheno','1']
+             '-pheno','ped/snp.fam','-maxThreads',str(numCores),'-simOut','grm/fast-'+str(name),'-mpheno','1']
         subprocess.call(cmd)
         grmVal=pd.read_csv('grm/fast-'+str(name),sep='\t',header=0,index_col=0)
         N=len(grmVal)
         np.savetxt('grm/gemma-'+str(name),grmVal.values,delimiter='\t')
-        os.symlink('fast-'+str(name),'grm/grm-'+str(name))
     else:
         if grm=='gemmaStd':
             op=2
@@ -42,7 +40,6 @@ def makeGrm(parms,name,snpSet):
 
         cmd=[local+'ext/gemma','-bfile','ped/snp','-o','gemma','-gk',str(op),'-snps','ped/extract']
         subprocess.call(cmd)     
-
         shutil.move('output/gemma.'+nm+'XX.txt','grm/gemma-'+str(name))
         grmVal=pd.read_csv('grm/gemma-'+str(name),sep='\t',index_col=None,header=None)
         N=len(grmVal)
@@ -52,10 +49,15 @@ def makeGrm(parms,name,snpSet):
         grmVal.index.name='var'
         
         grmVal.to_csv('grm/fast-'+str(name),sep='\t',header=True,index=True)       
-        cmd=[local+'ext/fastlmmc','-bfile','ped/snp','-pheno','ped/snp.fam','-mpheno','1','-maxThreads',str(numCores),
-             '-sim','grm/fast-'+str(name),'-eigenOut','grm/eigen-'+str(name)]
-        subprocess.call(cmd)
-        os.symlink('gemma-'+str(name),'grm/grm-'+str(name))        
+        
+    cmd=[local+'ext/fastlmmc','-bfile','ped/snp','-pheno','ped/snp.fam','-mpheno','1','-maxThreads',str(numCores),
+             '-sim','grm/fast-'+str(name),'-eigenOut','grm/fast-eigen-'+str(name)]
+    subprocess.call(cmd)
+    cmd=[local+'ext/gemma','-bfile','ped/snp','-k','grm/gemma-'+str(name),'-eigen','-o','gemma']
+    subprocess.call(cmd)
+    subprocess.call(['mkdir','-p','grm/gemma-eigen-'+str(name)])
+    subprocess.call(['mv','output/gemma.eigenU.txt','grm/gemma-eigen-'+str(name)+'/U'])
+    subprocess.call(['mv','output/gemma.eigenD.txt','grm/gemma-eigen-'+str(name)+'/D'])
         
     np.savetxt('LZCorr/Lgrm-'+str(name),makePSD(grmVal.values),delimiter='\t')        
 
