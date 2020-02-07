@@ -22,7 +22,7 @@ from ELL.ell import *
 
 ellDSet=[.1,.5]
 colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,0,0),(0,0,.5)]
-SnpSize=[100,100,100]
+SnpSize=[200,200,200]
 traitChr=[18]#,20,16,19]
 snpChr=[snp for snp in range(1,len(SnpSize)+1)]
 traitSubset=list(range(100))
@@ -56,7 +56,7 @@ ops={
 }
 
 parms=setupFolders(ctrl,ops)
-'''
+
 DBCreateFolder('diagnostics',parms)
 DBCreateFolder('ped',parms)
 DBCreateFolder('score',parms)
@@ -68,18 +68,27 @@ makeSimPedFiles(parms)
 DBLog('genZScores')
 
 genZScores(parms,[2,3])
-'''
+
 N=pd.read_csv('ped/traitData',sep='\t',index_col=None,header=0).shape[0]
 
 #######################################################################################################
 
-DBLog('genLZCorr')
-LZCorr,offDiag=genLZCorr({**parms,'snpChr':[3]})
+LZCorr3,offDiag=genLZCorr({**parms,'snpChr':[3]})
 fig,axs=plt.subplots(1,1)
 fig.set_figwidth(10,forward=True)
 fig.set_figheight(10,forward=True)
 axs.hist(offDiag,bins=60)
-fig.savefig('diagnostics/v(z)OffDiag.png')
+fig.savefig('diagnostics/v(z)OffDiag3.png')
+plt.close('all') 
+
+#######################################################################################################
+
+LZCorr2,offDiag=genLZCorr({**parms,'snpChr':[2]})
+fig,axs=plt.subplots(1,1)
+fig.set_figwidth(10,forward=True)
+fig.set_figheight(10,forward=True)
+axs.hist(offDiag,bins=60)
+fig.savefig('diagnostics/v(z)OffDiag2.png')
 plt.close('all') 
 
 #######################################################################################################
@@ -97,7 +106,8 @@ stat.save()
 
 zDat3=np.concatenate([np.loadtxt('score/waldStat-3-'+str(x),delimiter='\t') for x in traitChr],axis=1)
 zDat2=np.concatenate([np.loadtxt('score/waldStat-2-'+str(x),delimiter='\t') for x in traitChr],axis=1)
-zNormLZ=np.matmul(norm.rvs(size=[int(1e6),int(N)]),LZCorr.T)
+zNormLZ3=np.matmul(norm.rvs(size=[int(1e6),int(N)]),LZCorr3.T)
+zNormLZ2=np.matmul(norm.rvs(size=[int(1e6),int(N)]),LZCorr2.T)
 zNormI=norm.rvs(size=[int(1e6),int(N)])
 
 #######################################################################################################
@@ -122,7 +132,7 @@ for i in [0,1]:
     fig.set_figwidth(10,forward=True)
     fig.set_figheight(10,forward=True)
     y=np.sort(np.mean(zSet[i]**2,axis=0).flatten())
-    x=chi2.ppf(np.arange(1,zSet[1].shape[1]+1)/(zSet[1].shape[1]+1),zSet[i].shape[0])/zSet[i].shape[0]
+    x=chi2.ppf(np.arange(1,zSet[i].shape[1]+1)/(zSet[i].shape[1]+1),zSet[i].shape[0])/zSet[i].shape[0]
     axs.scatter(x,y)
     mMax=max(np.max(y),np.max(x))
     mMin=min(np.min(y),np.min(x))
@@ -135,7 +145,7 @@ for i in [0,1]:
     fig.set_figwidth(10,forward=True)
     fig.set_figheight(10,forward=True)
     y=np.sort(np.mean(zSet[i]**2,axis=1).flatten())
-    x=chi2.ppf(np.arange(1,zSet[1].shape[0]+1)/(zSet[1].shape[0]+1),zSet[i].shape[1])/zSet[i].shape[1]
+    x=chi2.ppf(np.arange(1,zSet[i].shape[0]+1)/(zSet[i].shape[0]+1),zSet[i].shape[1])/zSet[i].shape[1]
     axs.scatter(x,y)
     mMax=max(np.max(y),np.max(x))
     mMin=min(np.min(y),np.min(x))
@@ -148,14 +158,16 @@ for i in [0,1]:
 
 ell3=stat.score(zDat3)
 ell2=stat.score(zDat2)
-refLZ=stat.score(zNormLZ)
+refLZ2=stat.score(zNormLZ2)
+refLZ3=stat.score(zNormLZ3)
 refI=stat.score(zNormI)
 
 #######################################################################################################
 
 monteCarlo2_3=stat.monteCarlo(ell2,ell3)
 monteCarloI_3=stat.monteCarlo(refI,ell3)
-monteCarloLZ_3=stat.monteCarlo(refLZ,ell3)
+monteCarloLZ2_3=stat.monteCarlo(refLZ2,ell3)
+monteCarloLZ3_3=stat.monteCarlo(refLZ3,ell3)
 
 #######################################################################################################
 
@@ -166,7 +178,8 @@ markov2=stat.markov(ell2)
 
 plotPower(monteCarlo2_3,parms,'mc2_3',['mc2_3-'+str(x) for x in ellDSet])
 plotPower(monteCarloI_3,parms,'mcI_3',['mcI_3-'+str(x) for x in ellDSet])
-plotPower(monteCarloLZ_3,parms,'mcLZ_3',['mcLZ_3-'+str(x) for x in ellDSet])
+plotPower(monteCarloLZ2_3,parms,'mcLZ2_3',['mcLZ2_3-'+str(x) for x in ellDSet])
+plotPower(monteCarloLZ3_3,parms,'mcLZ3_3',['mcLZ3_3-'+str(x) for x in ellDSet])
 plotPower(markov3,parms,'markov3',['markov3-'+str(x) for x in ellDSet])
 plotPower(markov3,parms,'markov2',['markov2-'+str(x) for x in ellDSet])
 #pd.DataFrame(monteCarlo,columns=ellDSet).quantile([.05,.01],axis=0).to_csv('diagnostics/monteCarlo.csv',index=False)
