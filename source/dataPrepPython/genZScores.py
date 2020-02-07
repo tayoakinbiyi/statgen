@@ -42,26 +42,26 @@ def genZScores(parms):
             se=np.full([numSnps,numTraits],np.nan)
                         
             with ProcessPoolExecutor(numCores) as executor:
-                traitInd=0
-                while traitInd<numTraits:
-                    futures=[]
+                futures=[]
                     
-                    for core in range(min(numTraits-traitInd,numCores)):
-                        futures+=[executor.submit(genZScoresHelp,str(core),str(snp),str(trait),traitInd,parms,fastlmm,N)]
-                        traitInd+=1
+                for core in range(numCores):
+                    traitRange=np.arange(core*int(np.ceil(numTraits/numCores)),min(numTraits,(core+1)*int(
+                        np.ceil(numTraits/numCores))))
+                    if len(traitRange)==0:
+                        continue
+
+                    futures+=[executor.submit(genZScoresHelp,str(core),str(snp),str(trait),traitRange,parms,fastlmm,N)]
+
+                for f in wait(futures,return_when=ALL_COMPLETED)[0]:
+                    ans=f.result()
+                    traitRange=ans['traitRange']
                     
-                    for f in wait(futures,return_when=ALL_COMPLETED)[0]:
-                        ans=f.result()
-                        waldStat[:,ans['traitInd']]=ans['waldStat']
-                        pLRT[:,ans['traitInd']]=ans['pLRT']
-                        pWald[:,ans['traitInd']]=ans['pWald']
-                        AltLogLike[:,ans['traitInd']]=ans['AltLogLike']
-                        beta[:,ans['traitInd']]=ans['beta']
-                        se[:,ans['traitInd']]=ans['se']
-                        
-                        DBLog('genZScores '+nameParm+'-'+str(ans['traitInd']+1)+' of '+str(numTraits)+
-                              '\n waldStat '+verboseArrCheck(ans['waldStat'])+'\n pLRT '+verboseArrCheck(ans['pLRT'])+
-                              '\n pWald '+verboseArrCheck(ans['pWald']))
+                    waldStat[:,traitRange]=ans['waldStat']
+                    pLRT[:,traitRange]=ans['pLRT']
+                    pWald[:,traitRange]=ans['pWald']
+                    AltLogLike[:,traitRange]=ans['AltLogLike']
+                    beta[:,traitRange]=ans['beta']
+                    se[:,traitRange]=ans['se']
 
             np.savetxt('score/'+fileOp+'waldStat-'+nameParm,waldStat,delimiter='\t')
             np.savetxt('score/'+fileOp+'pLRT-'+nameParm,pLRT,delimiter='\t')
@@ -77,56 +77,103 @@ def genZScores(parms):
         
     return()
 
-def genZScoresHelp(core,snp,trait,traitInd,parms,fastlmm,N):    
+def genZScoresHelp(core,snp,trait,traitRange,parms,fastlmm,N):    
     if fastlmm:
-        return(runFastlmm(core,snp,trait,traitInd,parms,N))
+        return(runFastlmm(core,snp,trait,traitRange,parms,N))
     else:
-        return(runGemma(core,snp,trait,traitInd,parms,N))        
+        return(runGemma(core,snp,trait,traitRange,parms,N))        
 
-def runFastlmm(core,snp,trait,traitInd,parms,N):
+def runFastlmm(core,snp,trait,traitRange,parms,N):
     simLearnType=parms['simLearnType']
     local=parms['local']
     
     nameParm=snp+'-'+trait+'-'+core
-    cmd=[local+'ext/fastlmmc','-bfile','ped/snp-'+snp,'-covar','ped/cov.phe','-pheno','ped/Y-'+trait+'.phe',
-         '-eigen','grm/fast-eigen-'+snp,'-mpheno',str(traitInd+1),'-out','output/fastlmm-'+nameParm, '-maxThreads','1',
-         '-simLearnType',simLearnType,'-ML','-Ftest']
     
-    subprocess.call(cmd)
+    waldStat=[]
+    pLRT=[]
+    pWald=[]
+    AltLogLike=[]
+    beta=[]
+    se=[]
+
+    for traitInd in traitRange:
+        cmd=[local+'ext/fastlmmc','-bfile','ped/snp-'+snp,'-covar','ped/cov.phe','-pheno','ped/Y-'+trait+'.phe',
+             '-eigen','grm/fast-eigen-'+snp,'-mpheno',str(traitInd+1),'-out','output/fastlmm-'+nameParm, '-maxThreads','1',
+             '-simLearnType',simLearnType,'-ML','-Ftest']
+
+        subprocess.call(cmd)
+
+        df=pd.read_csv('output/fastlmm-'+nameParm,header=0,index_col=None,sep='\t')
+
+        df.loc[:,'SNP']=df.loc[:,'SNP'].astype(int)
+        df=df.sort_values(by='SNP')
     
-    df=pd.read_csv('output/fastlmm-'+nameParm,header=0,index_col=None,sep='\t')
+        waldStat+=[(df['SNPWeight']/df['SNPWeightSE']).values.reshape(-1,1)]
+        pLRT+=[chi2.sf(2*(df['AltLogLike']-df['NullLogLike']),1).reshape(-1,1)]
+        pWald+=[df['Pvalue'].values.reshape(-1,1)]
+        AltLogLike+=[df['AltLogLike'].values.reshape(-1,1)]
+        beta+=[df['SNPWeight'].values.reshape(-1,1)]
+        se+=[df['SNPWeightSE'].values.reshape(-1,1)]
     
-    df.loc[:,'SNP']=df.loc[:,'SNP'].astype(int)
-    df=df.sort_values(by='SNP')
+    waldStat=np.concatenate(waldStat,axis=1)
+    pLRT=np.concatenate(pLRT,axis=1)
+    pWald=np.concatenate(pWald,axis=1)
+    AltLogLike=np.concatenate(AltLogLike,axis=1)
+    beta=np.concatenate(beta,axis=1)
+    se=np.concatenate(se,axis=1)
     
-    return({
-        'traitInd':traitInd,
-        'waldStat':(df['SNPWeight']/df['SNPWeightSE']).values.flatten(),
-        'pLRT':chi2.sf(2*(df['AltLogLike']-df['NullLogLike']),1).flatten(),
-        'pWald':df['Pvalue'].values.flatten(),
-        'AltLogLike':df['AltLogLike'].values.flatten(),
-        'beta':df['SNPWeight'].values.flatten(),
-        'se':df['SNPWeightSE'].values.flatten()
-    })
+    return({'traitRange':traitRange,
+            'waldStat':waldStat,
+            'pLRT':pLRT,
+            'pWald':pWald,
+            'AltLogLike':AltLogLike,
+            'beta':beta,
+            'se':se
+           })
                                   
-def runGemma(core,snp,trait,traitInd,parms,N):
+def runGemma(core,snp,trait,traitRange,parms,N):
     local=parms['local']
     
     nameParm=snp+'-'+trait+'-'+core
-    cmd=[local+'ext/gemma','-bfile','ped/snp-'+snp,'-lmm','4','-o','gemma-'+nameParm,
-         '-d','grm/gemma-eigen-'+snp+'/D','-u','grm/gemma-eigen-'+snp+'/U','-n',str(traitInd+1),'-c','ped/cov.txt',
-         '-p','ped/Y-'+trait+'.txt']
     
-    subprocess.run(cmd) 
+    waldStat=[]
+    pLRT=[]
+    pWald=[]
+    AltLogLike=[]
+    beta=[]
+    se=[]
 
-    df=pd.read_csv('output/gemma-'+nameParm+'.assoc.txt',header=0,index_col=None,sep='\t')
+    for traitInd in traitRange:
+        cmd=[local+'ext/gemma','-bfile','ped/snp-'+snp,'-lmm','4','-o','gemma-'+nameParm,
+             '-d','grm/gemma-eigen-'+snp+'/D','-u','grm/gemma-eigen-'+snp+'/U','-n',str(traitInd+1),'-c','ped/cov.txt',
+             '-p','ped/Y-'+trait+'.txt']
+
+        subprocess.run(cmd) 
+
+        df=pd.read_csv('output/gemma-'+nameParm+'.assoc.txt',header=0,index_col=None,sep='\t')
+
+        df.loc[:,'SNP']=df.loc[:,'SNP'].astype(int)
+        df=df.sort_values(by='SNP')
     
-    return({
-        'traitInd':traitInd,
-        'waldStat':(df['beta']/df['se']).values.flatten(),
-        'pLRT':df['p_lrt'].values.flatten(),
-        'pWald':df['p_wald'].values.flatten(),
-        'AltLogLike':df['logl_H1'].values.flatten(),
-        'beta':df['beta'].values.flatten(),
-        'se':df['se'].values.flatten()
-    })
+        waldStat+=[(df['beta']/df['se']).values.reshape(-1,1)]
+        pLRT+=[df['p_lrt'].values.reshape(-1,1)]
+        pWald+=[df['p_wald'].values.reshape(-1,1)]
+        AltLogLike+=[df['logl_H1'].values.reshape(-1,1)]
+        beta+=[df['beta'].values.reshape(-1,1)]
+        se+=[df['se'].values.reshape(-1,1)]
+    
+    waldStat=np.concatenate(waldStat,axis=1)
+    pLRT=np.concatenate(pLRT,axis=1)
+    pWald=np.concatenate(pWald,axis=1)
+    AltLogLike=np.concatenate(AltLogLike,axis=1)
+    beta=np.concatenate(beta,axis=1)
+    se=np.concatenate(se,axis=1)
+    
+    return({'traitRange':traitRange,
+            'waldStat':waldStat,
+            'pLRT':pLRT,
+            'pWald':pWald,
+            'AltLogLike':AltLogLike,
+            'beta':beta,
+            'se':se
+           })
