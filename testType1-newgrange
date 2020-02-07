@@ -22,7 +22,7 @@ from ELL.ell import *
 
 ellDSet=[.1,.5]
 colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,0,0),(0,0,.5)]
-SnpSize=[2000,1000,100]
+SnpSize=[2000,1000,200]
 traitChr=[18]#,20,16,19]
 snpChr=[snp for snp in range(1,len(SnpSize)+1)]
 traitSubset=list(range(200))
@@ -114,7 +114,7 @@ zNormI=norm.rvs(size=[int(1e6),int(N)])
 
 zSet=[zDat2,zDat3,zNormI]
 nm=['2','3','I']
-for i in [0,1]:
+for i in range(len(nm)):
     fig,axs=plt.subplots(1,1)
     fig.set_figwidth(10,forward=True)
     fig.set_figheight(10,forward=True)
