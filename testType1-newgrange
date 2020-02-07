@@ -78,6 +78,7 @@ N=pd.read_csv('ped/traitData',sep='\t',index_col=None,header=0).shape[0]
 zDat3=np.concatenate([np.loadtxt('score/waldStat-3-'+str(x),delimiter='\t') for x in traitChr],axis=1)
 zDat2=np.concatenate([np.loadtxt('score/waldStat-2-'+str(x),delimiter='\t') for x in traitChr],axis=1)
 zNormI=norm.rvs(size=[len(zDat3),int(N)])
+yDat=np.loadtxt('ped/Y.txt',delimiter='\t')
 
 #######################################################################################################
 
@@ -127,10 +128,24 @@ stat.save()
 
 #######################################################################################################
 
-zSet=[zDat2,zDat3,zNormI]
-nm=['2','3','I']
+zSet=[zDat2,zDat3,zNormI,yDat]
+nm=['2','3','I','y']
 for i in range(len(nm)):
     print(i,nm[i])
+    
+    fig,axs=plt.subplots(1,1)
+    fig.set_figwidth(10,forward=True)
+    fig.set_figheight(10,forward=True)
+    y=np.sort(np.mean(zSet[i],axis=0))
+    x=norm.ppf(np.arange(1,len(y)+1)/(len(y)+1))*np.sqrt(1/zSet[i].shape[0])
+    axs.scatter(x,y)
+    mMax=max(np.max(y),np.max(x))
+    mMin=min(np.min(y),np.min(x))
+    axs.plot([mMin,mMax], [mMin,mMax], ls="--", c=".3")   
+    axs.set_title('traitMean-'+str(nm[i]))
+    fig.savefig('diagnostics/traitMean '+str(nm[i])+'.png')
+    plt.close('all') 
+
     fig,axs=plt.subplots(1,1)
     fig.set_figwidth(10,forward=True)
     fig.set_figheight(10,forward=True)
