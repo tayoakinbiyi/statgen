@@ -115,6 +115,7 @@ zNormI=norm.rvs(size=[int(1e6),int(N)])
 zSet=[zDat2,zDat3,zNormI]
 nm=['2','3','I']
 for i in range(len(nm)):
+    print(i,nm[i])
     fig,axs=plt.subplots(1,1)
     fig.set_figwidth(10,forward=True)
     fig.set_figheight(10,forward=True)
