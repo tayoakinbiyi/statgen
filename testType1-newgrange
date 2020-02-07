@@ -32,7 +32,8 @@ ctrl={
     'numSubjects':208*3,
     'YTraitIndep':'indep',#['indep','dep','real']
     'modelTraitIndep':'indep',#['indep','dep']
-    'fastlmm':False
+    'fastlmm':True,
+    'grm':'gemmaStd'#['gemmaNoStd','gemmaStd','fast']
 }
 ops={
     'file':sys.argv[0],
@@ -49,7 +50,6 @@ ops={
     'numSnpChr':18,
     'numTraitChr':21,
     'muEpsRange':[],
-    'grm':'gemmaStd',#['gemmaNoStd','gemmaStd','fast']
     'traitSubset':traitSubset,
     'maxSnpGen':5000,
     'transOnly':False
@@ -69,7 +69,7 @@ makeSimPedFiles(parms)
 
 DBLog('genZScores')
 
-genZScores(parms,[2,3])
+genZScores({**parms,'snpChr':[2,3]})
 
 N=pd.read_csv('ped/traitData',sep='\t',index_col=None,header=0).shape[0]
 

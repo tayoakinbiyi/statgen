@@ -9,9 +9,8 @@ from scipy.stats import chi2,t,norm
 from opPython.DB import *
 from opPython.verboseArrCheck import *
 
-def genZScores(parms,snpChr=None):
-    if snpChr is None:
-        snpChr=parms['snpChr']
+def genZScores(parms):
+    snpChr=parms['snpChr']
     traitChr=parms['traitChr']
     numCores=parms['numCores']
     simLearnType=parms['simLearnType']
