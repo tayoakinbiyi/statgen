@@ -30,7 +30,7 @@ traitSubset=list(range(200))
 ctrl={
     'etaSq':0,
     'numSubjects':208*3,
-    'YTraitIndep':'indep',#['indep','dep','real']
+    'YTraitIndep':'real',#['indep','dep','real']
     'modelTraitIndep':'indep',#['indep','dep']
     'fastlmm':False,
     'grm':'gemmaStd'#['gemmaNoStd','gemmaStd','fast']
@@ -186,7 +186,7 @@ for i in range(len(nm)):
     plt.close('all') 
 
 #######################################################################################################
-
+'''
 ell3=stat.score(zDat3)
 ell2=stat.score(zDat2)
 refLZ2=stat.score(zNormLZ2)
@@ -215,5 +215,5 @@ plotPower(markov3,parms,'markov3',['markov3-'+str(x) for x in ellDSet])
 plotPower(markov2,parms,'markov2',['markov2-'+str(x) for x in ellDSet])
 #pd.DataFrame(monteCarlo,columns=ellDSet).quantile([.05,.01],axis=0).to_csv('diagnostics/monteCarlo.csv',index=False)
 #pd.DataFrame(markov,columns=ellDSet).quantile([.05,.01],axis=0).to_csv('diagnostics/markov.csv',index=False)
-
+'''
 DBFinish(parms)
