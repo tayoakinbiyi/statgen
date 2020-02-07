@@ -30,6 +30,7 @@ def makeSimPedFiles(parms):
     numSnpChr=parms['numSnpChr']
     numTraitChr=parms['numTraitChr']  
     numSubjects=parms['numSubjects']
+    normalize=parms['normalize']
     
     YTraitIndep=parms['YTraitIndep']
               
@@ -78,7 +79,7 @@ def makeSimPedFiles(parms):
     
     traitSize=[len(snps),traits.shape[1]]
     
-    assert YTraitIndep in ['indep','dep','real']
+    assert YTraitIndep in ['indep','dep','real','Z']
     if YTraitIndep in ['indep','dep']:
         if YTraitIndep=='indep':
             LTraitCorr=np.eye(traits.shape[1])
@@ -86,8 +87,16 @@ def makeSimPedFiles(parms):
             LTraitCorr=np.loadtxt('LZCorr/LTraitCorr',delimiter='\t')
         Y=np.sqrt(etaSq)*np.matmul(np.matmul(LgrmAll,norm.rvs(size=traitSize)),LTraitCorr.T)+np.sqrt(1-etaSq)*np.matmul(
             norm.rvs(size=traitSize),LTraitCorr.T)
-    else:
+    elif YTraitIndep =='real':
         Y=traits    
+    else:
+        Y=norm.rvs(size=traitSize)        
+    
+    assert normalize in ['quant','none','std']
+    if normalize=='quant':
+        Y=norm.ppf((np.argsort(Y,axis=0)+1)/(len(Y)+1))
+    if normalize=='std':
+        Y=(Y-np.mean(Y,axis=0))/np.std(Y,axis=0)
     
     makeTraitPedFiles(Y,traitData,parms)
     

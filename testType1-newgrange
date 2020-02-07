@@ -46,7 +46,7 @@ ops={
     'refReps':1e6,    
     'simLearnType':'Full',
     'response':'hipRaw',
-    'quantNormalizeExpr':False,
+    'normalize':'std',#['quant','none','std']
     'numSnpChr':18,
     'numTraitChr':21,
     'muEpsRange':[],

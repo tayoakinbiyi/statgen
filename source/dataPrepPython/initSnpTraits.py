@@ -8,7 +8,6 @@ def initSnpTraits(parms,snps):
     traitChr=parms['traitChr']
     snpChr=parms['snpChr']
     response=parms['response']
-    quantNormalizeExpr=parms['quantNormalizeExpr']
     local=parms['local']
 
     traitSubset=parms['traitSubset'] if parms['traitSubset'] is not None else range(2000)
@@ -38,9 +37,6 @@ def initSnpTraits(parms,snps):
     
     traits=traits[traitData.trait].values
         
-    if quantNormalizeExpr:
-        traits=norm.ppf((np.argsort(traits,axis=0)+1)/(len(traits)+1))
-    
     LTraitCorr=makePSD(np.corrcoef(traits,rowvar=False))        
     np.savetxt('LZCorr/LTraitCorr',LTraitCorr,delimiter='\t')
     
