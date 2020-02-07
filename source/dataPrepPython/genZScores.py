@@ -142,23 +142,20 @@ def runGemma(core,snp,trait,traitRange,parms,N):
     AltLogLike=[]
     beta=[]
     se=[]
-
+    # '-d','grm/gemma-eigen-'+snp+'/D','-u','grm/gemma-eigen-'+snp+'/U',
     for traitInd in traitRange:
-        cmd=[local+'ext/gemma','-bfile','ped/snp-'+snp,'-lmm','4','-o','gemma-'+nameParm,
-             '-d','grm/gemma-eigen-'+snp+'/D','-u','grm/gemma-eigen-'+snp+'/U','-n',str(traitInd+1),'-c','ped/cov.txt',
+        cmd=[local+'ext/gemma','-bfile','ped/snp-'+snp,'-lm','4','-o','gemma-'+nameParm,
+             '-n',str(traitInd+1),'-c','ped/cov.txt',
              '-p','ped/Y-'+trait+'.txt']
 
         subprocess.run(cmd) 
 
         df=pd.read_csv('output/gemma-'+nameParm+'.assoc.txt',header=0,index_col=None,sep='\t')
 
-        df.loc[:,'SNP']=df.loc[:,'SNP'].astype(int)
-        df=df.sort_values(by='SNP')
-    
         waldStat+=[(df['beta']/df['se']).values.reshape(-1,1)]
         pLRT+=[df['p_lrt'].values.reshape(-1,1)]
         pWald+=[df['p_wald'].values.reshape(-1,1)]
-        AltLogLike+=[df['logl_H1'].values.reshape(-1,1)]
+        AltLogLike+=[df['p_wald'].values.reshape(-1,1)]#logl_H1
         beta+=[df['beta'].values.reshape(-1,1)]
         se+=[df['se'].values.reshape(-1,1)]
     

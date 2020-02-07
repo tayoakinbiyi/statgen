@@ -32,7 +32,7 @@ ctrl={
     'numSubjects':208*3,
     'YTraitIndep':'indep',#['indep','dep','real']
     'modelTraitIndep':'indep',#['indep','dep']
-    'fastlmm':True,
+    'fastlmm':False,
     'grm':'gemmaStd'#['gemmaNoStd','gemmaStd','fast']
 }
 ops={
