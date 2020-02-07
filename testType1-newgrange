@@ -22,10 +22,10 @@ from ELL.ell import *
 
 ellDSet=[.1,.5]
 colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,0,0),(0,0,.5)]
-SnpSize=[200,200,200]
+SnpSize=[2000,1000,100]
 traitChr=[18]#,20,16,19]
 snpChr=[snp for snp in range(1,len(SnpSize)+1)]
-traitSubset=list(range(100))
+traitSubset=list(range(200))
 
 ctrl={
     'etaSq':0,
@@ -112,8 +112,8 @@ zNormI=norm.rvs(size=[int(1e6),int(N)])
 
 #######################################################################################################
 
-zSet=[zDat2,zDat3]
-nm=['2','3']
+zSet=[zDat2,zDat3,zNormI]
+nm=['2','3','I']
 for i in [0,1]:
     fig,axs=plt.subplots(1,1)
     fig.set_figwidth(10,forward=True)
@@ -181,7 +181,7 @@ plotPower(monteCarloI_3,parms,'mcI_3',['mcI_3-'+str(x) for x in ellDSet])
 plotPower(monteCarloLZ2_3,parms,'mcLZ2_3',['mcLZ2_3-'+str(x) for x in ellDSet])
 plotPower(monteCarloLZ3_3,parms,'mcLZ3_3',['mcLZ3_3-'+str(x) for x in ellDSet])
 plotPower(markov3,parms,'markov3',['markov3-'+str(x) for x in ellDSet])
-plotPower(markov3,parms,'markov2',['markov2-'+str(x) for x in ellDSet])
+plotPower(markov2,parms,'markov2',['markov2-'+str(x) for x in ellDSet])
 #pd.DataFrame(monteCarlo,columns=ellDSet).quantile([.05,.01],axis=0).to_csv('diagnostics/monteCarlo.csv',index=False)
 #pd.DataFrame(markov,columns=ellDSet).quantile([.05,.01],axis=0).to_csv('diagnostics/markov.csv',index=False)
 
