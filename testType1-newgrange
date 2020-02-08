@@ -19,13 +19,13 @@ import subprocess
 from scipy.stats import norm
 
 from ELL.ell import *
-n=5
+n=1
 ellDSet=[.1,.5]
 colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,0,0),(0,0,.5)]
 SnpSize=[2000,208*n,208*n]
 traitChr=[18]#,20,16,19]
 snpChr=[snp for snp in range(1,len(SnpSize)+1)]
-traitSubset=list(range(100))
+traitSubset=list(range(10))
 
 ctrl={
     'etaSq':0,
@@ -33,9 +33,9 @@ ctrl={
     'YType':'simIndep',#['simDep','real','simIndep']
     'snpType':'sim',#['real','sim']
     'modelTraitIndep':'indep',#['indep','dep']
-    'fastlmm':False,
+    'lmm':'gemma-lm', #['gemma-lmm','gemma-lm','fastlmm']
     'grm':'gemmaStd',#['gemmaNoStd','gemmaStd','fast']
-    'normalize':'std'#['quant','none','std']
+    'normalize':'quant'#['quant','none','std']
 }
 ops={
     'file':sys.argv[0],
@@ -117,7 +117,7 @@ zNormLZ3=np.matmul(norm.rvs(size=[int(1e6),int(N)]),LZCorr3.T)
 zNormLZ2=np.matmul(norm.rvs(size=[int(1e6),int(N)]),LZCorr2.T)
 
 #######################################################################################################
-'''
+
 offDiag=np.array([0]*int(N*(N-1)/2))
 stat=ell(np.array(ellDSet),offDiag)
 
@@ -126,7 +126,7 @@ stat=ell(np.array(ellDSet),offDiag)
 stat.fit(20,1000,2000,8,1e-7) # initialNumLamPoints,finalNumLamPoints, numEllPoints,lamZeta,ellZeta
 stat.save()
 #stat.load()
-'''
+
 #######################################################################################################
 
 zSet=[zDat2,zDat3,zNormI,yDat]

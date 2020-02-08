@@ -13,8 +13,7 @@ def genZScores(parms):
     snpChr=parms['snpChr']
     traitChr=parms['traitChr']
     numCores=parms['numCores']
-    simLearnType=parms['simLearnType']
-    fastlmm=parms['fastlmm']
+    lmm=parms['lmm']
     N=parms['numSubjects']
     
     DBLog('genZScores')
@@ -24,9 +23,7 @@ def genZScores(parms):
     traitData=traitData[traitData['chr'].isin(traitChr)]
     snpData=pd.read_csv('ped/snpData',index_col=None,header=0,sep='\t')
     snpData=snpData[snpData['chr'].isin(snpChr)]
-    
-    fileOp='fast-' if fastlmm else 'gemma-'
-    
+        
     for trait in traitChr:
         for snp in snpChr:
             nameParm=str(snp)+'-'+str(trait)
@@ -49,7 +46,7 @@ def genZScores(parms):
                         np.ceil(numTraits/numCores))))
                     if len(traitRange)==0:
                         continue
-                    futures+=[executor.submit(genZScoresHelp,str(core),str(snp),str(trait),traitRange,parms,fastlmm,N)]
+                    futures+=[executor.submit(genZScoresHelp,str(core),str(snp),str(trait),traitRange,parms,lmm,N)]
 
                 for f in wait(futures,return_when=ALL_COMPLETED)[0]:
                     ans=f.result()
@@ -62,25 +59,27 @@ def genZScores(parms):
                     beta[:,traitRange]=ans['beta']
                     se[:,traitRange]=ans['se']
 
-            np.savetxt('score/'+fileOp+'waldStat-'+nameParm,waldStat,delimiter='\t')
-            np.savetxt('score/'+fileOp+'pLRT-'+nameParm,pLRT,delimiter='\t')
-            np.savetxt('score/'+fileOp+'pWald-'+nameParm,pWald,delimiter='\t') 
-            np.savetxt('score/'+fileOp+'AltLogLike-'+nameParm,AltLogLike,delimiter='\t') 
-            np.savetxt('score/'+fileOp+'beta-'+nameParm,beta,delimiter='\t') 
-            np.savetxt('score/'+fileOp+'se-'+nameParm,se,delimiter='\t') 
+            np.savetxt('score/'+lmm+'-waldStat-'+nameParm,waldStat,delimiter='\t')
+            np.savetxt('score/'+lmm+'-pLRT-'+nameParm,pLRT,delimiter='\t')
+            np.savetxt('score/'+lmm+'-pWald-'+nameParm,pWald,delimiter='\t') 
+            np.savetxt('score/'+lmm+'-AltLogLike-'+nameParm,AltLogLike,delimiter='\t') 
+            np.savetxt('score/'+lmm+'-beta-'+nameParm,beta,delimiter='\t') 
+            np.savetxt('score/'+lmm+'-se-'+nameParm,se,delimiter='\t') 
             
             for file in ['waldStat','pLRT','pWald']:
                 if os.path.exists('score/'+file+'-'+nameParm):
                     os.remove('score/'+file+'-'+nameParm)
-                os.symlink(fileOp+file+'-'+nameParm,'score/'+file+'-'+nameParm)
+                os.symlink(lmm+'-'+file+'-'+nameParm,'score/'+file+'-'+nameParm)
         
     return()
 
-def genZScoresHelp(core,snp,trait,traitRange,parms,fastlmm,N):    
-    if fastlmm:
+def genZScoresHelp(core,snp,trait,traitRange,parms,lmm,N):  
+    assert lmm in ['gemma-lmm','gemma-lm','fastlmm']
+    
+    if lmm=='fastlmm':
         return(runFastlmm(core,snp,trait,traitRange,parms,N))
     else:
-        return(runGemma(core,snp,trait,traitRange,parms,N))        
+        return(runGemma(core,snp,trait,traitRange,parms,N,lmm))        
 
 def runFastlmm(core,snp,trait,traitRange,parms,N):
     simLearnType=parms['simLearnType']
@@ -128,7 +127,7 @@ def runFastlmm(core,snp,trait,traitRange,parms,N):
             'se':se
            })
                                   
-def runGemma(core,snp,trait,traitRange,parms,N):
+def runGemma(core,snp,trait,traitRange,parms,N,lmm):
     local=parms['local']
         
     waldStat=[]
@@ -137,11 +136,14 @@ def runGemma(core,snp,trait,traitRange,parms,N):
     AltLogLike=[]
     beta=[]
     se=[]
-    # '-d','grm/gemma-eigen-'+snp+'/D','-u','grm/gemma-eigen-'+snp+'/U',
+    
     for traitInd in traitRange:
-        cmd=[local+'ext/gemma','-bfile','ped/snp-'+snp,'-lm','4','-o','gemma-'+core,
-             '-n',str(traitInd+1),'-c','ped/cov.txt',
-             '-p','ped/Y-'+trait+'.txt']
+        cmd=[local+'ext/gemma','-bfile','ped/snp-'+snp,'-o','gemma-'+core,'-n',str(traitInd+1),'-c','ped/cov.txt','-p',
+             'ped/Y-'+trait+'.txt']
+        if lmm=='gemma-lmm':
+            cmd+=['-lmm','4','-d','grm/gemma-eigen-'+snp+'/D','-u','grm/gemma-eigen-'+snp+'/U']
+        else:
+            cmd+=['-lm','4']
 
         subprocess.run(cmd) 
 

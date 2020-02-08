@@ -1,602 +1,12 @@
 {
    "etaSq": 0,
-   "numSubjects": 1040,
-   "YType": "real",
-   "snpType": "sim",
-   "modelTraitIndep": "indep",
-   "fastlmm": true,
-   "grm": "gemmaStd",
-   "normalize": "std"
-}
-{
-   "file": "testType1-newgrange.py",
-   "ellDSet": [
-      0.1,
-      0.5
-   ],
-   "numCores": 1,
-   "snpChr": [
-      1,
-      2,
-      3
-   ],
-   "traitChr": [
-      18
-   ],
-   "SnpSize": [
-      2000,
-      1040,
-      1040
-   ],
-   "colors": [
-      [
-         1,
-         0,
-         0
-      ],
-      [
-         0,
-         1,
-         0
-      ],
-      [
-         0,
-         0,
-         1
-      ],
-      [
-         1,
-         1,
-         0
-      ],
-      [
-         1,
-         0,
-         1
-      ],
-      [
-         0,
-         1,
-         1
-      ],
-      [
-         0.5,
-         0.5,
-         0.5
-      ],
-      [
-         0,
-         0.5,
-         0
-      ],
-      [
-         0.5,
-         0,
-         0
-      ],
-      [
-         0,
-         0,
-         0.5
-      ]
-   ],
-   "refReps": 1000000.0,
-   "simLearnType": "Full",
-   "response": "hipRaw",
-   "numSnpChr": 18,
-   "numTraitChr": 21,
-   "muEpsRange": [],
-   "traitSubset": [
-      0,
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
-      10,
-      11,
-      12,
-      13,
-      14,
-      15,
-      16,
-      17,
-      18,
-      19,
-      20,
-      21,
-      22,
-      23,
-      24,
-      25,
-      26,
-      27,
-      28,
-      29,
-      30,
-      31,
-      32,
-      33,
-      34,
-      35,
-      36,
-      37,
-      38,
-      39,
-      40,
-      41,
-      42,
-      43,
-      44,
-      45,
-      46,
-      47,
-      48,
-      49,
-      50,
-      51,
-      52,
-      53,
-      54,
-      55,
-      56,
-      57,
-      58,
-      59,
-      60,
-      61,
-      62,
-      63,
-      64,
-      65,
-      66,
-      67,
-      68,
-      69,
-      70,
-      71,
-      72,
-      73,
-      74,
-      75,
-      76,
-      77,
-      78,
-      79,
-      80,
-      81,
-      82,
-      83,
-      84,
-      85,
-      86,
-      87,
-      88,
-      89,
-      90,
-      91,
-      92,
-      93,
-      94,
-      95,
-      96,
-      97,
-      98,
-      99
-   ],
-   "maxSnpGen": 5000,
-   "transOnly": false
-}
-makeSimPedFiles
-number of snps by chromosome 
-{
-   "1": 2000,
-   "2": 1040,
-   "3": 1040
-}
-genZScores
-genZScores
-{
-   "etaSq": 0,
-   "numSubjects": 1040,
-   "YType": "real",
-   "snpType": "sim",
-   "modelTraitIndep": "indep",
-   "fastlmm": true,
-   "grm": "gemmaStd",
-   "normalize": "std"
-}
-{
-   "file": "testType1-newgrange.py",
-   "ellDSet": [
-      0.1,
-      0.5
-   ],
-   "numCores": 1,
-   "snpChr": [
-      1,
-      2,
-      3
-   ],
-   "traitChr": [
-      18
-   ],
-   "SnpSize": [
-      2000,
-      1040,
-      1040
-   ],
-   "colors": [
-      [
-         1,
-         0,
-         0
-      ],
-      [
-         0,
-         1,
-         0
-      ],
-      [
-         0,
-         0,
-         1
-      ],
-      [
-         1,
-         1,
-         0
-      ],
-      [
-         1,
-         0,
-         1
-      ],
-      [
-         0,
-         1,
-         1
-      ],
-      [
-         0.5,
-         0.5,
-         0.5
-      ],
-      [
-         0,
-         0.5,
-         0
-      ],
-      [
-         0.5,
-         0,
-         0
-      ],
-      [
-         0,
-         0,
-         0.5
-      ]
-   ],
-   "refReps": 1000000.0,
-   "simLearnType": "Full",
-   "response": "hipRaw",
-   "numSnpChr": 18,
-   "numTraitChr": 21,
-   "muEpsRange": [],
-   "traitSubset": [
-      0,
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
-      10,
-      11,
-      12,
-      13,
-      14,
-      15,
-      16,
-      17,
-      18,
-      19,
-      20,
-      21,
-      22,
-      23,
-      24,
-      25,
-      26,
-      27,
-      28,
-      29,
-      30,
-      31,
-      32,
-      33,
-      34,
-      35,
-      36,
-      37,
-      38,
-      39,
-      40,
-      41,
-      42,
-      43,
-      44,
-      45,
-      46,
-      47,
-      48,
-      49,
-      50,
-      51,
-      52,
-      53,
-      54,
-      55,
-      56,
-      57,
-      58,
-      59,
-      60,
-      61,
-      62,
-      63,
-      64,
-      65,
-      66,
-      67,
-      68,
-      69,
-      70,
-      71,
-      72,
-      73,
-      74,
-      75,
-      76,
-      77,
-      78,
-      79,
-      80,
-      81,
-      82,
-      83,
-      84,
-      85,
-      86,
-      87,
-      88,
-      89,
-      90,
-      91,
-      92,
-      93,
-      94,
-      95,
-      96,
-      97,
-      98,
-      99
-   ],
-   "maxSnpGen": 5000,
-   "transOnly": false
-}
-genZScores
-{
-   "etaSq": 0,
-   "numSubjects": 1040,
-   "YType": "real",
-   "snpType": "sim",
-   "modelTraitIndep": "indep",
-   "fastlmm": true,
-   "grm": "gemmaStd",
-   "normalize": "std"
-}
-{
-   "file": "testType1-newgrange.py",
-   "ellDSet": [
-      0.1,
-      0.5
-   ],
-   "numCores": 1,
-   "snpChr": [
-      1,
-      2,
-      3
-   ],
-   "traitChr": [
-      18
-   ],
-   "SnpSize": [
-      2000,
-      1040,
-      1040
-   ],
-   "colors": [
-      [
-         1,
-         0,
-         0
-      ],
-      [
-         0,
-         1,
-         0
-      ],
-      [
-         0,
-         0,
-         1
-      ],
-      [
-         1,
-         1,
-         0
-      ],
-      [
-         1,
-         0,
-         1
-      ],
-      [
-         0,
-         1,
-         1
-      ],
-      [
-         0.5,
-         0.5,
-         0.5
-      ],
-      [
-         0,
-         0.5,
-         0
-      ],
-      [
-         0.5,
-         0,
-         0
-      ],
-      [
-         0,
-         0,
-         0.5
-      ]
-   ],
-   "refReps": 1000000.0,
-   "simLearnType": "Full",
-   "response": "hipRaw",
-   "numSnpChr": 18,
-   "numTraitChr": 21,
-   "muEpsRange": [],
-   "traitSubset": [
-      0,
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
-      10,
-      11,
-      12,
-      13,
-      14,
-      15,
-      16,
-      17,
-      18,
-      19,
-      20,
-      21,
-      22,
-      23,
-      24,
-      25,
-      26,
-      27,
-      28,
-      29,
-      30,
-      31,
-      32,
-      33,
-      34,
-      35,
-      36,
-      37,
-      38,
-      39,
-      40,
-      41,
-      42,
-      43,
-      44,
-      45,
-      46,
-      47,
-      48,
-      49,
-      50,
-      51,
-      52,
-      53,
-      54,
-      55,
-      56,
-      57,
-      58,
-      59,
-      60,
-      61,
-      62,
-      63,
-      64,
-      65,
-      66,
-      67,
-      68,
-      69,
-      70,
-      71,
-      72,
-      73,
-      74,
-      75,
-      76,
-      77,
-      78,
-      79,
-      80,
-      81,
-      82,
-      83,
-      84,
-      85,
-      86,
-      87,
-      88,
-      89,
-      90,
-      91,
-      92,
-      93,
-      94,
-      95,
-      96,
-      97,
-      98,
-      99
-   ],
-   "maxSnpGen": 5000,
-   "transOnly": false
-}
-genZScores
-{
-   "etaSq": 0,
-   "numSubjects": 1040,
+   "numSubjects": 208,
    "YType": "simIndep",
    "snpType": "sim",
    "modelTraitIndep": "indep",
-   "fastlmm": false,
+   "lmm": "gemma-lm",
    "grm": "gemmaStd",
-   "normalize": "std"
+   "normalize": "quant"
 }
 {
    "file": "testType1-newgrange.py",
@@ -615,8 +25,8 @@ genZScores
    ],
    "SnpSize": [
       2000,
-      1040,
-      1040
+      208,
+      208
    ],
    "colors": [
       [
@@ -686,97 +96,7 @@ genZScores
       6,
       7,
       8,
-      9,
-      10,
-      11,
-      12,
-      13,
-      14,
-      15,
-      16,
-      17,
-      18,
-      19,
-      20,
-      21,
-      22,
-      23,
-      24,
-      25,
-      26,
-      27,
-      28,
-      29,
-      30,
-      31,
-      32,
-      33,
-      34,
-      35,
-      36,
-      37,
-      38,
-      39,
-      40,
-      41,
-      42,
-      43,
-      44,
-      45,
-      46,
-      47,
-      48,
-      49,
-      50,
-      51,
-      52,
-      53,
-      54,
-      55,
-      56,
-      57,
-      58,
-      59,
-      60,
-      61,
-      62,
-      63,
-      64,
-      65,
-      66,
-      67,
-      68,
-      69,
-      70,
-      71,
-      72,
-      73,
-      74,
-      75,
-      76,
-      77,
-      78,
-      79,
-      80,
-      81,
-      82,
-      83,
-      84,
-      85,
-      86,
-      87,
-      88,
-      89,
-      90,
-      91,
-      92,
-      93,
-      94,
-      95,
-      96,
-      97,
-      98,
-      99
+      9
    ],
    "maxSnpGen": 5000,
    "transOnly": false
@@ -785,8 +105,344 @@ makeSimPedFiles
 number of snps by chromosome 
 {
    "1": 2000,
-   "2": 1040,
-   "3": 1040
+   "2": 208,
+   "3": 208
+}
+genZScores
+genZScores
+{
+   "etaSq": 0,
+   "numSubjects": 208,
+   "YType": "simIndep",
+   "snpType": "sim",
+   "modelTraitIndep": "indep",
+   "lmm": "gemma-lm",
+   "grm": "gemmaStd",
+   "normalize": "quant"
+}
+{
+   "file": "testType1-newgrange.py",
+   "ellDSet": [
+      0.1,
+      0.5
+   ],
+   "numCores": 1,
+   "snpChr": [
+      1,
+      2,
+      3
+   ],
+   "traitChr": [
+      18
+   ],
+   "SnpSize": [
+      2000,
+      208,
+      208
+   ],
+   "colors": [
+      [
+         1,
+         0,
+         0
+      ],
+      [
+         0,
+         1,
+         0
+      ],
+      [
+         0,
+         0,
+         1
+      ],
+      [
+         1,
+         1,
+         0
+      ],
+      [
+         1,
+         0,
+         1
+      ],
+      [
+         0,
+         1,
+         1
+      ],
+      [
+         0.5,
+         0.5,
+         0.5
+      ],
+      [
+         0,
+         0.5,
+         0
+      ],
+      [
+         0.5,
+         0,
+         0
+      ],
+      [
+         0,
+         0,
+         0.5
+      ]
+   ],
+   "refReps": 1000000.0,
+   "simLearnType": "Full",
+   "response": "hipRaw",
+   "numSnpChr": 18,
+   "numTraitChr": 21,
+   "muEpsRange": [],
+   "traitSubset": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+   ],
+   "maxSnpGen": 5000,
+   "transOnly": false
+}
+makeSimPedFiles
+number of snps by chromosome 
+{
+   "1": 2000,
+   "2": 208,
+   "3": 208
+}
+genZScores
+genZScores
+{
+   "etaSq": 0,
+   "numSubjects": 208,
+   "YType": "simIndep",
+   "snpType": "sim",
+   "modelTraitIndep": "indep",
+   "lmm": "gemma-lm",
+   "grm": "gemmaStd",
+   "normalize": "quant"
+}
+{
+   "file": "testType1-newgrange.py",
+   "ellDSet": [
+      0.1,
+      0.5
+   ],
+   "numCores": 1,
+   "snpChr": [
+      1,
+      2,
+      3
+   ],
+   "traitChr": [
+      18
+   ],
+   "SnpSize": [
+      2000,
+      208,
+      208
+   ],
+   "colors": [
+      [
+         1,
+         0,
+         0
+      ],
+      [
+         0,
+         1,
+         0
+      ],
+      [
+         0,
+         0,
+         1
+      ],
+      [
+         1,
+         1,
+         0
+      ],
+      [
+         1,
+         0,
+         1
+      ],
+      [
+         0,
+         1,
+         1
+      ],
+      [
+         0.5,
+         0.5,
+         0.5
+      ],
+      [
+         0,
+         0.5,
+         0
+      ],
+      [
+         0.5,
+         0,
+         0
+      ],
+      [
+         0,
+         0,
+         0.5
+      ]
+   ],
+   "refReps": 1000000.0,
+   "simLearnType": "Full",
+   "response": "hipRaw",
+   "numSnpChr": 18,
+   "numTraitChr": 21,
+   "muEpsRange": [],
+   "traitSubset": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+   ],
+   "maxSnpGen": 5000,
+   "transOnly": false
+}
+makeSimPedFiles
+number of snps by chromosome 
+{
+   "1": 2000,
+   "2": 208,
+   "3": 208
+}
+genZScores
+genZScores
+{
+   "etaSq": 0,
+   "numSubjects": 208,
+   "YType": "simIndep",
+   "snpType": "sim",
+   "modelTraitIndep": "indep",
+   "lmm": "gemma-lm",
+   "grm": "gemmaStd",
+   "normalize": "quant"
+}
+{
+   "file": "testType1-newgrange.py",
+   "ellDSet": [
+      0.1,
+      0.5
+   ],
+   "numCores": 1,
+   "snpChr": [
+      1,
+      2,
+      3
+   ],
+   "traitChr": [
+      18
+   ],
+   "SnpSize": [
+      2000,
+      208,
+      208
+   ],
+   "colors": [
+      [
+         1,
+         0,
+         0
+      ],
+      [
+         0,
+         1,
+         0
+      ],
+      [
+         0,
+         0,
+         1
+      ],
+      [
+         1,
+         1,
+         0
+      ],
+      [
+         1,
+         0,
+         1
+      ],
+      [
+         0,
+         1,
+         1
+      ],
+      [
+         0.5,
+         0.5,
+         0.5
+      ],
+      [
+         0,
+         0.5,
+         0
+      ],
+      [
+         0.5,
+         0,
+         0
+      ],
+      [
+         0,
+         0,
+         0.5
+      ]
+   ],
+   "refReps": 1000000.0,
+   "simLearnType": "Full",
+   "response": "hipRaw",
+   "numSnpChr": 18,
+   "numTraitChr": 21,
+   "muEpsRange": [],
+   "traitSubset": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+   ],
+   "maxSnpGen": 5000,
+   "transOnly": false
+}
+makeSimPedFiles
+number of snps by chromosome 
+{
+   "1": 2000,
+   "2": 208,
+   "3": 208
 }
 genZScores
 genZScores
