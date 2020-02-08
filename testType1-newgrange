@@ -19,7 +19,7 @@ import subprocess
 from scipy.stats import norm
 
 from ELL.ell import *
-n=1
+n=5
 ellDSet=[.1,.5]
 colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,0,0),(0,0,.5)]
 SnpSize=[2000,208*n,208*n]
@@ -30,7 +30,7 @@ traitSubset=list(range(100))
 ctrl={
     'etaSq':0,
     'numSubjects':208*n,
-    'YType':'real',#['simDep','real','simIndep']
+    'YType':'simIndep',#['simDep','real','simIndep']
     'snpType':'sim',#['real','sim']
     'modelTraitIndep':'indep',#['indep','dep']
     'fastlmm':False,

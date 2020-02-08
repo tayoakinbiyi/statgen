@@ -49,7 +49,6 @@ def genZScores(parms):
                         np.ceil(numTraits/numCores))))
                     if len(traitRange)==0:
                         continue
-
                     futures+=[executor.submit(genZScoresHelp,str(core),str(snp),str(trait),traitRange,parms,fastlmm,N)]
 
                 for f in wait(futures,return_when=ALL_COMPLETED)[0]:
@@ -86,9 +85,7 @@ def genZScoresHelp(core,snp,trait,traitRange,parms,fastlmm,N):
 def runFastlmm(core,snp,trait,traitRange,parms,N):
     simLearnType=parms['simLearnType']
     local=parms['local']
-    
-    nameParm=snp+'-'+trait+'-'+core
-    
+        
     waldStat=[]
     pLRT=[]
     pWald=[]
@@ -98,12 +95,12 @@ def runFastlmm(core,snp,trait,traitRange,parms,N):
 
     for traitInd in traitRange:
         cmd=[local+'ext/fastlmmc','-bfile','ped/snp-'+snp,'-covar','ped/cov.phe','-pheno','ped/Y-'+trait+'.phe',
-             '-eigen','grm/fast-eigen-'+snp,'-mpheno',str(traitInd+1),'-out','output/fastlmm-'+nameParm, '-maxThreads','1',
+             '-eigen','grm/fast-eigen-'+snp,'-mpheno',str(traitInd+1),'-out','output/fastlmm-'+core, '-maxThreads','1',
              '-simLearnType',simLearnType,'-ML','-Ftest']
 
         subprocess.call(cmd)
-
-        df=pd.read_csv('output/fastlmm-'+nameParm,header=0,index_col=None,sep='\t')
+        
+        df=pd.read_csv('output/fastlmm-'+core,header=0,index_col=None,sep='\t')
 
         df.loc[:,'SNP']=df.loc[:,'SNP'].astype(int)
         df=df.sort_values(by='SNP')
@@ -133,9 +130,7 @@ def runFastlmm(core,snp,trait,traitRange,parms,N):
                                   
 def runGemma(core,snp,trait,traitRange,parms,N):
     local=parms['local']
-    
-    nameParm=snp+'-'+trait+'-'+core
-    
+        
     waldStat=[]
     pLRT=[]
     pWald=[]
@@ -144,15 +139,15 @@ def runGemma(core,snp,trait,traitRange,parms,N):
     se=[]
     # '-d','grm/gemma-eigen-'+snp+'/D','-u','grm/gemma-eigen-'+snp+'/U',
     for traitInd in traitRange:
-        cmd=[local+'ext/gemma','-bfile','ped/snp-'+snp,'-lm','4','-o','gemma-'+nameParm,
+        cmd=[local+'ext/gemma','-bfile','ped/snp-'+snp,'-lm','4','-o','gemma-'+core,
              '-n',str(traitInd+1),'-c','ped/cov.txt',
              '-p','ped/Y-'+trait+'.txt']
 
         subprocess.run(cmd) 
 
-        df=pd.read_csv('output/gemma-'+nameParm+'.assoc.txt',header=0,index_col=None,sep='\t')
-
-        waldStat+=[(df['beta']/df['se']).values.reshape(-1,1)]
+        df=pd.read_csv('output/gemma-'+core+'.assoc.txt',header=0,index_col=None,sep='\t')
+        tt=(df['beta']/df['se']).values
+        waldStat+=[norm.ppf(t.cdf(tt,N-2)).reshape(-1,1)]
         pLRT+=[df['p_lrt'].values.reshape(-1,1)]
         pWald+=[df['p_wald'].values.reshape(-1,1)]
         AltLogLike+=[df['p_wald'].values.reshape(-1,1)]#logl_H1
