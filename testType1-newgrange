@@ -25,7 +25,7 @@ colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,
 snpSize=[208*n,208*n,208*n]
 traitChr=[18]#,20,16,19]
 snpChr=[snp for snp in range(1,len(snpSize)+1)]
-traitSubset=list(range(110))
+traitSubset=list(range(200))
 
 ctrl={
     'etaSq':0,
@@ -80,7 +80,6 @@ zDat3=np.concatenate([np.loadtxt('score/waldStat-3-'+str(x),delimiter='\t') for 
 zDat2=np.concatenate([np.loadtxt('score/waldStat-2-'+str(x),delimiter='\t') for x in traitChr],axis=1)
 zDat1=np.concatenate([np.loadtxt('score/waldStat-1-'+str(x),delimiter='\t') for x in traitChr],axis=1)
 zNormI=norm.rvs(size=[len(zDat3),int(N)])
-yDat=np.loadtxt('ped/Y.txt',delimiter='\t')
 
 #######################################################################################################
 '''
@@ -95,8 +94,8 @@ stat.save()
 '''
 #######################################################################################################
 
-zSet=[zDat1,zDat2,zDat3,zNormI,yDat]
-nm=['1','2','3','I','y']
+zSet=[zDat1,zDat2,zDat3,zNormI]
+nm=['1','2','3','I']
 for i in range(len(nm)):
     print(i,nm[i],zSet[i].shape)
     
