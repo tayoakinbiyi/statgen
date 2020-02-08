@@ -55,7 +55,7 @@ def makeSimPedFiles(parms):
         snps=np.array(list(map(' '.join,zip(left,right)))).reshape(numSubjects,numSnps)
 
     snps=pd.DataFrame(snps)
-    pdb.set_trace()
+    
     snpData=pd.DataFrame({'chr':[snp for snp,size in zip(snpChr,snpSize) for ind in range(size)],
                           'ID':range(numSnps),'genetic dist': 0,'Mbp':range(numSnps)})
                 

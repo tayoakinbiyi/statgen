@@ -22,7 +22,7 @@ from ELL.ell import *
 n=1
 ellDSet=[.1,.5]
 colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,0,0),(0,0,.5)]
-snpSize=[2000,208*n,208*n]
+snpSize=[208*n,208*n,208*n]
 traitChr=[18]#,20,16,19]
 snpChr=[snp for snp in range(1,len(snpSize)+1)]
 traitSubset=list(range(110))
@@ -70,7 +70,7 @@ makeSimPedFiles(parms)
 
 DBLog('genZScores')
 
-genZScores({**parms,'snpChr':[2,3]})
+genZScores({**parms,'snpChr':[1,2,3]})
 
 N=pd.read_csv('ped/traitData',sep='\t',index_col=None,header=0).shape[0]
 
@@ -78,46 +78,12 @@ N=pd.read_csv('ped/traitData',sep='\t',index_col=None,header=0).shape[0]
 
 zDat3=np.concatenate([np.loadtxt('score/waldStat-3-'+str(x),delimiter='\t') for x in traitChr],axis=1)
 zDat2=np.concatenate([np.loadtxt('score/waldStat-2-'+str(x),delimiter='\t') for x in traitChr],axis=1)
+zDat1=np.concatenate([np.loadtxt('score/waldStat-1-'+str(x),delimiter='\t') for x in traitChr],axis=1)
 zNormI=norm.rvs(size=[len(zDat3),int(N)])
 yDat=np.loadtxt('ped/Y.txt',delimiter='\t')
 
 #######################################################################################################
-
-offDiagI=np.corrcoef(zNormI,rowvar=False)[np.triu_indices(N,1)]
-fig,axs=plt.subplots(1,1)
-fig.set_figwidth(10,forward=True)
-fig.set_figheight(10,forward=True)
-axs.hist(offDiagI,bins=60)
-fig.savefig('diagnostics/v(z)OffDiagI.png')
-plt.close('all') 
-
-#######################################################################################################
-
-LZCorr3,offDiag3=genLZCorr({**parms,'snpChr':[3]})
-fig,axs=plt.subplots(1,1)
-fig.set_figwidth(10,forward=True)
-fig.set_figheight(10,forward=True)
-axs.hist(offDiag3,bins=60)
-fig.savefig('diagnostics/v(z)OffDiag3.png')
-plt.close('all') 
-
-#######################################################################################################
-
-LZCorr2,offDiag2=genLZCorr({**parms,'snpChr':[2]})
-fig,axs=plt.subplots(1,1)
-fig.set_figwidth(10,forward=True)
-fig.set_figheight(10,forward=True)
-axs.hist(offDiag2,bins=60)
-fig.savefig('diagnostics/v(z)OffDiag2.png')
-plt.close('all') 
-
-#######################################################################################################
-
-zNormLZ3=np.matmul(norm.rvs(size=[int(1e6),int(N)]),LZCorr3.T)
-zNormLZ2=np.matmul(norm.rvs(size=[int(1e6),int(N)]),LZCorr2.T)
-
-#######################################################################################################
-
+'''
 offDiag=np.array([0]*int(N*(N-1)/2))
 stat=ell(np.array(ellDSet),offDiag)
 
@@ -126,11 +92,11 @@ stat=ell(np.array(ellDSet),offDiag)
 stat.fit(20,1000,2000,8,1e-7) # initialNumLamPoints,finalNumLamPoints, numEllPoints,lamZeta,ellZeta
 stat.save()
 #stat.load()
-
+'''
 #######################################################################################################
 
-zSet=[zDat2,zDat3,zNormI,yDat]
-nm=['2','3','I','y']
+zSet=[zDat1,zDat2,zDat3,zNormI,yDat]
+nm=['1','2','3','I','y']
 for i in range(len(nm)):
     print(i,nm[i],zSet[i].shape)
     
@@ -186,6 +152,13 @@ for i in range(len(nm)):
     fig.savefig('diagnostics/snpMean z^2 '+str(nm[i])+'.png')
     plt.close('all') 
 
+    fig,axs=plt.subplots(1,1)
+    fig.set_figwidth(10,forward=True)
+    fig.set_figheight(10,forward=True)
+    axs.hist(np.corrcoef(zSet[i],rowvar=False),bins=60)
+    fig.savefig('diagnostics/offDiag-'+str(nm[i])+'.png')
+    plt.close('all') 
+    
 #######################################################################################################
 '''
 ell3=stat.score(zDat3)
