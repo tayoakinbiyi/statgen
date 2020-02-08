@@ -54,7 +54,7 @@ def makeSimPedFiles(parms):
     t_num=0
     while t_num<numSubjects:
         if snpType=='sim':
-            snpList+=[makeSimSnps(parms).values[np.min(208,numSubjects-t_num),:]]
+            snpList+=[makeSimSnps(parms).values[np.arange(min(208,numSubjects-t_num)),:]]
         else:
             snpList+=[snps[np.arange(min(208,numSubjects-t_num))][:,random.sample(range(snps.shape[1]),np.sum(SnpSize))]]        
         t_num+=len(snpList[-1])
