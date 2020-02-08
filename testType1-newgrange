@@ -20,9 +20,10 @@ from scipy.stats import norm
 
 from ELL.ell import *
 n=3
+m=3
 ellDSet=[.1,.5]
 colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,0,0),(0,0,.5)]
-snpSize=(np.array([208*n,208*n,208*n])*3).tolist()
+snpSize=[208*n*m]*3
 traitChr=[18]#,20,16,19]
 snpChr=[snp for snp in range(1,len(snpSize)+1)]
 traitSubset=list(range(500))
@@ -59,7 +60,7 @@ ops={
 #######################################################################################################
 
 parms=setupFolders(ctrl,ops)
-
+'''
 DBCreateFolder('diagnostics',parms)
 DBCreateFolder('ped',parms)
 DBCreateFolder('score',parms)
@@ -71,8 +72,9 @@ makeSimPedFiles(parms)
 DBLog('genZScores')
 
 genZScores({**parms,'snpChr':[1,2,3]})
-
+'''
 N=pd.read_csv('ped/traitData',sep='\t',index_col=None,header=0).shape[0]
+numSnps=int(pd.read_csv('ped/snpData',sep='\t',index_col=None,header=0).shape[0]/3)
 
 #######################################################################################################
 
@@ -104,7 +106,7 @@ for i in range(len(nm)):
     fig.set_figwidth(10,forward=True)
     fig.set_figheight(10,forward=True)
     y=np.sort(np.mean(zSet[i],axis=0))
-    x=norm.ppf(np.arange(1,len(y)+1)/(len(y)+1))*np.sqrt(1/zSet[i].shape[0])
+    x=norm.ppf(np.arange(1,N+1)/(N+1))/np.sqrt(numSnps)
     axs.scatter(x,y)
     mMax=max(np.max(y),np.max(x))
     mMin=min(np.min(y),np.min(x))
@@ -117,7 +119,7 @@ for i in range(len(nm)):
     fig.set_figwidth(10,forward=True)
     fig.set_figheight(10,forward=True)
     y=np.sort(np.mean(zSet[i],axis=1))
-    x=norm.ppf(np.arange(1,len(y)+1)/(len(y)+1))*np.sqrt(1/zSet[i].shape[1])
+    x=norm.ppf(np.arange(1,numSnps+1)/(numSnps+1))/np.sqrt(N)
     axs.scatter(x,y)
     mMax=max(np.max(y),np.max(x))
     mMin=min(np.min(y),np.min(x))
@@ -143,7 +145,7 @@ for i in range(len(nm)):
     fig.set_figwidth(10,forward=True)
     fig.set_figheight(10,forward=True)
     y=np.sort(np.mean(zSet[i]**2,axis=0).flatten())
-    x=chi2.ppf(np.arange(1,zSet[i].shape[1]+1)/(zSet[i].shape[1]+1),zSet[i].shape[0])/zSet[i].shape[0]
+    x=chi2.ppf(np.arange(1,N+1)/(N+1),numSnps)/numSnps
     axs.scatter(x,y)
     mMax=max(np.max(y),np.max(x))
     mMin=min(np.min(y),np.min(x))
@@ -156,7 +158,7 @@ for i in range(len(nm)):
     fig.set_figwidth(10,forward=True)
     fig.set_figheight(10,forward=True)
     y=np.sort(np.mean(zSet[i]**2,axis=1).flatten())
-    x=chi2.ppf(np.arange(1,zSet[i].shape[0]+1)/(zSet[i].shape[0]+1),zSet[i].shape[1])/zSet[i].shape[1]
+    x=chi2.ppf(np.arange(1,numSnps+1)/(numSnps+1),N)/N
     axs.scatter(x,y)
     mMax=max(np.max(y),np.max(x))
     mMin=min(np.min(y),np.min(x))
