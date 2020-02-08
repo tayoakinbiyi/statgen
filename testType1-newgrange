@@ -30,7 +30,7 @@ traitSubset=list(range(200))
 ctrl={
     'etaSq':0,
     'numSubjects':208*n,
-    'YType':'real',#['simDep','real','simIndep']
+    'YType':'simIndep',#['simDep','real','simIndep']
     'snpType':'real',#['real','sim']
     'modelTraitIndep':'indep',#['indep','dep']
     'fastlmm':False,
