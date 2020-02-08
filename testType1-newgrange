@@ -22,7 +22,7 @@ from ELL.ell import *
 n=3
 ellDSet=[.1,.5]
 colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,0,0),(0,0,.5)]
-snpSize=[208*n,208*n,208*n]
+snpSize=(np.array([208*n,208*n,208*n])*3).tolist()
 traitChr=[18]#,20,16,19]
 snpChr=[snp for snp in range(1,len(snpSize)+1)]
 traitSubset=list(range(500))
@@ -154,7 +154,7 @@ for i in range(len(nm)):
     fig,axs=plt.subplots(1,1)
     fig.set_figwidth(10,forward=True)
     fig.set_figheight(10,forward=True)
-    axs.hist(np.corrcoef(zSet[i],rowvar=False),bins=60)
+    axs.hist(np.corrcoef(zSet[i],rowvar=False)[np.triu_indices(N,1)],bins=60)
     fig.savefig('diagnostics/offDiag-'+str(nm[i])+'.png')
     plt.close('all') 
     
