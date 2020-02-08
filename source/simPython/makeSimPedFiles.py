@@ -21,7 +21,7 @@ def makeSimPedFiles(parms):
     local=parms['local']
     traitChr=parms['traitChr']
     snpChr=parms['snpChr']
-    SnpSize=parms['SnpSize']
+    snpSize=parms['snpSize']
     etaSq=parms['etaSq']
     numCores=parms['numCores']
     response=parms['response']
@@ -40,29 +40,24 @@ def makeSimPedFiles(parms):
         
     ################################################### snps ped ###################################################
     
-    assert snpType in ['real','sim']
+    assert snpType in ['real','sim','random']
+    
+    numSnps=np.sum(snpSize)
     
     if snpType=='real':
-        snps=pd.read_csv(local+'data/snps.txt',sep='\t',header=0,index_col=None)
-        snps=snps.iloc[:,2:].T.values
+        snps=np.loadtxt(local+'data/snps.txt',delimiter='\t')[:,2:].T
+        snps=snps[np.mod(np.arange(numSubjects),len(snps)),random.sample(range(snps.shape[1]),numSnps)]        
+    elif snpType=='sim':
+        snps=makeSimSnps(parms)
     else:
-        subprocess.call(['cp',local+'ext/sampleIds.txt','geneDrop/sampleIds.txt'])
-        pd.DataFrame({'parms':[local+'ext/ail_revised.ped.txt','geneDrop/sampleIds.txt','geneDrop/map.txt',0,0]}).to_csv(
-            'geneDrop/parms.txt',index=False,header=None)
+        left=np.random.choice(['A','G'],numSubjects*numSnps,True)
+        right=np.random.choice(['A','G'],numSubjects*numSnps,True)
+        snps=np.array(list(map(' '.join,zip(left,right)))).reshape(numSubjects,numSnps)
 
-    snpList=[]
-    t_num=0
-    while t_num<numSubjects:
-        if snpType=='sim':
-            snpList+=[makeSimSnps(parms).values[np.arange(min(208,numSubjects-t_num)),:]]
-        else:
-            snpList+=[snps[np.arange(min(208,numSubjects-t_num))][:,random.sample(range(snps.shape[1]),np.sum(SnpSize))]]        
-        t_num+=len(snpList[-1])
-
-    snps=pd.DataFrame(np.concatenate(snpList,axis=0))
-
-    snpData=pd.DataFrame({'chr':[snp for snp,size in zip(snpChr,SnpSize) for ind in range(size)],
-                          'ID':range(np.sum(SnpSize)),'genetic dist': 0,'Mbp':range(np.sum(SnpSize))})
+    snps=pd.DataFrame(snps)
+    pdb.set_trace()
+    snpData=pd.DataFrame({'chr':[snp for snp,size in zip(snpChr,snpSize) for ind in range(size)],
+                          'ID':range(numSnps),'genetic dist': 0,'Mbp':range(numSnps)})
                 
     writeSnps(snps,snpData,parms)
 

@@ -4,34 +4,43 @@ import random
 import subprocess
 
 def makeSimSnps(parms): 
-    SnpSize=parms['SnpSize']
+    snpSize=parms['snpSize']
     maxSnpGen=parms['maxSnpGen']
     local=parms['local']
+    numSubjects=parms['numSubjects']
+    
+    numSnps=np.sum(snpSize)
+    subprocess.call(['cp',local+'ext/sampleIds.txt','geneDrop/sampleIds.txt'])
+    pd.DataFrame({'parms':[local+'ext/ail_revised.ped.txt','geneDrop/sampleIds.txt','geneDrop/map.txt',0,0]}).to_csv(
+        'geneDrop/parms.txt',index=False,header=None)
 
-    snps=[]
-    numSnps=0
-    size=np.sum(SnpSize)
-    while numSnps<size:
-        newAdd=min(maxSnpGen,size-numSnps)
+    cols=[]
+    t_numSnps=0
+    while t_numSnps<numSnps:
+        newAdd=min(maxSnpGen,t_numSnps-numSnps)
         pd.DataFrame({'# name':np.arange(1,newAdd+1),'length(cM)':1,'spacing(cM)':2,'MAF':.5}).to_csv(
             'geneDrop/map.txt',sep='\t',index=False)
-        cmd=[local+'ext/gdrop','-p','geneDrop/parms.txt','-s',str(random.randint(1,1e6)),'-o','geneDrop/geneDrop']
-        subprocess.run(cmd)
 
-        val=pd.read_csv('geneDrop/geneDrop.geno_true',header=0,sep='\t').iloc[:,4:]
+        rows=[]
+        t_numSubjects=0
+        while t_numSubjects<numSubjects:
+            cmd=[local+'ext/gdrop','-p','geneDrop/parms.txt','-s',str(random.randint(1,1e6)),'-o','geneDrop/geneDrop']
+            subprocess.run(cmd)
 
-        valMAF=np.concatenate([(col.str.split(' ',expand=True).astype(int)>2).sum(axis=1).values.reshape(-1,1) for ind,
-            col in val.iteritems()],axis=1)
-        val=pd.concat([col.str.split(' ',expand=True).replace({'1':'A','2':'A','3':'G','4':'G'}).apply(lambda x:' '.join(x),axis=1)
-            for ind,col in val.iteritems()],axis=1)
+            row+=[np.loadtxt('geneDrop/geneDrop.geno_true',delimiter='\t')[(numSnps-t_numSnps),4:4+(numSubjects-t_numSubjects)].T]
 
-        maf=np.mean(valMAF,axis=1)/2
+            t_numSubjects+=row[-1].shape[0]
+            
+        rows=np.concatenate(rows,axis=0)
+        
+        maf=np.mean(np.apply_over_axes(lambda string: np.sum(np.array(string.split(' ')).isin(['3','4'])),rows,[0,1]),axis=0)/2
         maf=np.minimum(maf,1-maf)
-        val=val.loc[maf>.1,:]
+        rows=rows[:,maf>.1]
+        rows=np.char.translate(rows,{'1':'A','2':'A','3':'G','4':'G'})
+        
+        cols+=[rows]
+        t_numSnps+=cols[-1].shape[1]
 
-        numSnps+=val.shape[0]
-        print('removed '+str(newAdd-val.shape[0])+' snps',flush=True)
-
-        snps+=[val]
+    snps=np.concatenate(cols,axis=1)
     
-    return(pd.concat(snps,axis=0).T.reset_index(drop=True))
+    return(snps)

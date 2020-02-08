@@ -22,16 +22,16 @@ from ELL.ell import *
 n=1
 ellDSet=[.1,.5]
 colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,0,0),(0,0,.5)]
-SnpSize=[2000,208*n,208*n]
+snpSize=[2000,208*n,208*n]
 traitChr=[18]#,20,16,19]
-snpChr=[snp for snp in range(1,len(SnpSize)+1)]
+snpChr=[snp for snp in range(1,len(snpSize)+1)]
 traitSubset=list(range(110))
 
 ctrl={
     'etaSq':0,
     'numSubjects':208*n,
     'YType':'simIndep',#['simDep','real','simIndep']
-    'snpType':'sim',#['real','sim']
+    'snpType':'random',#['real','sim','random']
     'modelTraitIndep':'indep',#['indep','dep']
     'lmm':'gemma-lm', #['gemma-lmm','gemma-lm','fastlmm']
     'grm':'gemmaStd',#['gemmaNoStd','gemmaStd','fast']
@@ -43,7 +43,7 @@ ops={
     'numCores':1,#cpu_count(),
     'snpChr':snpChr,
     'traitChr':traitChr,
-    'SnpSize':SnpSize,
+    'snpSize':snpSize,
     'colors':colors,
     'refReps':1e6,    
     'simLearnType':'Full',
