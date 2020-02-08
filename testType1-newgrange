@@ -25,7 +25,7 @@ colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,
 SnpSize=[2000,208*n,208*n]
 traitChr=[18]#,20,16,19]
 snpChr=[snp for snp in range(1,len(SnpSize)+1)]
-traitSubset=list(range(10))
+traitSubset=list(range(60))
 
 ctrl={
     'etaSq':0,
