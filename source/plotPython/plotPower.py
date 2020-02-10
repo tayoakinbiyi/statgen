@@ -36,6 +36,7 @@ def plotPower(pvals,parms,title,columns):
     pvals.plot(ax=axs,legend=True,xlim=[0,mMax],ylim=[0,mMax],color=colors[0:pvals.shape[1]])
     axs.plot([0,mMax], [0,mMax], ls="--", c=".3")   
     bounds.plot(ax=axs,legend=False,xlim=[0,mMax],ylim=[0,mMax],color='black')
+    axs.set_title(title)
             
     fig.savefig('diagnostics/'+title+'.png',bbox_inches='tight')
 

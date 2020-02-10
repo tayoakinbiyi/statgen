@@ -32,7 +32,7 @@ ctrl={
     'etaSq':0,
     'numSubjects':208*n,
     'YType':'simIndep',#['simDep','real','simIndep']
-    'snpType':'sim',#['real','sim','random']
+    'snpType':'random',#['real','sim','random']
     'modelTraitIndep':'indep',#['indep','dep']
     'lmm':'gemma-lm', #['gemma-lmm','gemma-lm','fastlmm']
     'grm':'gemmaStd',#['gemmaNoStd','gemmaStd','fast']
@@ -60,7 +60,7 @@ ops={
 #######################################################################################################
 
 parms=setupFolders(ctrl,ops)
-''' # unchanged parms from when run
+# unchanged parms from when run
 DBCreateFolder('diagnostics',parms)
 DBCreateFolder('ped',parms)
 DBCreateFolder('score',parms)
@@ -72,7 +72,7 @@ makeSimPedFiles(parms)
 DBLog('genZScores')
 
 genZScores({**parms,'snpChr':[1,2,3]})
-'''
+
 N=pd.read_csv('ped/traitData',sep='\t',index_col=None,header=0).shape[0]
 numSnps=int(pd.read_csv('ped/snpData',sep='\t',index_col=None,header=0).shape[0]/3)
 
@@ -178,7 +178,7 @@ stat=ell(np.array(ellDSet),offDiag)
 
 #######################################################################################################
 
-stat.fit(10*N,1000*N,2000,1e-6) # numLamSteps0,numLamSteps1,numEllSteps,minEll
+stat.fit(10*N,1000*N,3000,1e-6) # numLamSteps0,numLamSteps1,numEllSteps,minEll
 #stat.load()
 
 #######################################################################################################
