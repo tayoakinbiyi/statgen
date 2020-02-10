@@ -32,7 +32,7 @@ ctrl={
     'etaSq':0,
     'numSubjects':208*n,
     'YType':'simIndep',#['simDep','real','simIndep']
-    'snpType':'random',#['real','sim','random']
+    'snpType':'sim',#['real','sim','random']
     'modelTraitIndep':'indep',#['indep','dep']
     'lmm':'gemma-lmm', #['gemma-lmm','gemma-lm','fastlmm']
     'grm':'gemmaStd',#['gemmaNoStd','gemmaStd','fast']

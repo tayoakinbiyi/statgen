@@ -2,7 +2,7 @@
    "etaSq": 0,
    "numSubjects": 624,
    "YType": "simIndep",
-   "snpType": "random",
+   "snpType": "sim",
    "modelTraitIndep": "indep",
    "lmm": "gemma-lmm",
    "grm": "gemmaStd",
