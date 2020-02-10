@@ -20,7 +20,7 @@ from scipy.stats import norm
 
 from ELL.ell import *
 n=3
-m=1
+m=2
 ellDSet=[.1,.5]
 colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,0,0),(0,0,.5)]
 snpSize=[208*n*m]*3
@@ -34,9 +34,10 @@ ctrl={
     'YType':'simIndep',#['simDep','real','simIndep']
     'snpType':'random',#['real','sim','random']
     'modelTraitIndep':'indep',#['indep','dep']
-    'lmm':'gemma-lm', #['gemma-lmm','gemma-lm','fastlmm']
+    'lmm':'gemma-lmm', #['gemma-lmm','gemma-lm','fastlmm']
     'grm':'gemmaStd',#['gemmaNoStd','gemmaStd','fast']
-    'normalize':'quant'#['quant','none','std']
+    'normalize':'quant',#['quant','none','std']
+    'snpSize':snpSize
 }
 ops={
     'file':sys.argv[0],
@@ -44,7 +45,6 @@ ops={
     'numCores':1,#cpu_count(),
     'snpChr':snpChr,
     'traitChr':traitChr,
-    'snpSize':snpSize,
     'colors':colors,
     'refReps':1e6,    
     'simLearnType':'Full',
@@ -60,7 +60,7 @@ ops={
 #######################################################################################################
 
 parms=setupFolders(ctrl,ops)
-# unchanged parms from when run
+''' 3:18 2/10/2020 no parm change.
 DBCreateFolder('diagnostics',parms)
 DBCreateFolder('ped',parms)
 DBCreateFolder('score',parms)
@@ -72,7 +72,7 @@ makeSimPedFiles(parms)
 DBLog('genZScores')
 
 genZScores({**parms,'snpChr':[1,2,3]})
-
+'''
 N=pd.read_csv('ped/traitData',sep='\t',index_col=None,header=0).shape[0]
 numSnps=int(pd.read_csv('ped/snpData',sep='\t',index_col=None,header=0).shape[0]/3)
 
@@ -178,9 +178,11 @@ stat=ell(np.array(ellDSet),offDiag)
 
 #######################################################################################################
 
-stat.fit(10*N,1000*N,3000,1e-6) # numLamSteps0,numLamSteps1,numEllSteps,minEll
-#stat.load()
-
+stat.load()
+pdb.set_trace()
+if stat.N!=N or np.sum(stat.offDiag)!=np.sum(offDiag):
+    stat.fit(10*N,1000*N,3000,1e-6) # numLamSteps0,numLamSteps1,numEllSteps,minEll
+    
 #######################################################################################################
 
 ell3=stat.score(zDat3)

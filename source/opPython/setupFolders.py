@@ -32,6 +32,5 @@ def setupFolders(ctrl,ops):
     
     DBLogStart(parms)
     DBLog(json.dumps(ctrl,indent=3))
-    DBLog(json.dumps(ops,indent=3))
         
     return(parms)

@@ -10,6 +10,7 @@ def DBLogStart(parms):
         
     subprocess.call(['cp','-rLf',local+'source','.'])
     subprocess.call(['cp',local+'source/main/'+parms['file'],parms['file']])
+    subprocess.call(['rm','-f','log'])
     
     return()
 
