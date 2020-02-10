@@ -8,8 +8,17 @@
    "grm": "gemmaStd",
    "normalize": "quant",
    "snpSize": [
-      1248,
-      1248,
-      1248
+      6240,
+      6240,
+      6240
    ]
 }
+makeSimPedFiles
+number of snps by chromosome 
+{
+   "1": 6240,
+   "2": 6240,
+   "3": 6240
+}
+genZScores
+genZScores

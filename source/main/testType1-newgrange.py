@@ -20,7 +20,7 @@ from scipy.stats import norm
 
 from ELL.ell import *
 n=3
-m=2
+m=10
 ellDSet=[.1,.5]
 colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,0,0),(0,0,.5)]
 snpSize=[208*n*m]*3
@@ -42,7 +42,7 @@ ctrl={
 ops={
     'file':sys.argv[0],
     'ellDSet':ellDSet,
-    'numCores':1,#cpu_count(),
+    'numCores':cpu_count(),
     'snpChr':snpChr,
     'traitChr':traitChr,
     'colors':colors,
@@ -60,7 +60,7 @@ ops={
 #######################################################################################################
 
 parms=setupFolders(ctrl,ops)
-''' 3:18 2/10/2020 no parm change.
+
 DBCreateFolder('diagnostics',parms)
 DBCreateFolder('ped',parms)
 DBCreateFolder('score',parms)
@@ -72,7 +72,7 @@ makeSimPedFiles(parms)
 DBLog('genZScores')
 
 genZScores({**parms,'snpChr':[1,2,3]})
-'''
+
 N=pd.read_csv('ped/traitData',sep='\t',index_col=None,header=0).shape[0]
 numSnps=int(pd.read_csv('ped/snpData',sep='\t',index_col=None,header=0).shape[0]/3)
 
@@ -179,7 +179,6 @@ stat=ell(np.array(ellDSet),offDiag)
 #######################################################################################################
 
 stat.load()
-pdb.set_trace()
 if stat.N!=N or np.sum(stat.offDiag)!=np.sum(offDiag):
     stat.fit(10*N,1000*N,3000,1e-6) # numLamSteps0,numLamSteps1,numEllSteps,minEll
     
