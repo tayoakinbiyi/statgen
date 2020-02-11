@@ -34,7 +34,7 @@ ctrl={
     'YType':'simIndep',#['simDep','real','simIndep']
     'snpType':'sim',#['real','sim','random']
     'modelTraitIndep':'indep',#['indep','dep']
-    'lmm':'gemma-lmm', #['gemma-lmm','gemma-lm','fastlmm']
+    'lmm':'gemma-lm', #['gemma-lmm','gemma-lm','fastlmm']
     'grm':'gemmaStd',#['gemmaNoStd','gemmaStd','fast']
     'normalize':'quant',#['quant','none','std']
     'snpSize':snpSize
