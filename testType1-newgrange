@@ -32,7 +32,7 @@ ctrl={
     'etaSq':0,
     'numSubjects':208*n,
     'YType':'simIndep',#['simDep','real','simIndep']
-    'snpType':'sim',#['real','sim','random']
+    'snpType':'random',#['real','sim','random']
     'modelTraitIndep':'indep',#['indep','dep']
     'lmm':'gemma-lm', #['gemma-lmm','gemma-lm','fastlmm']
     'grm':'gemmaStd',#['gemmaNoStd','gemmaStd','fast']
@@ -60,7 +60,7 @@ ops={
 #######################################################################################################
 
 parms=setupFolders(ctrl,ops)
-
+'''
 DBCreateFolder('diagnostics',parms)
 DBCreateFolder('ped',parms)
 DBCreateFolder('score',parms)
@@ -71,8 +71,8 @@ makeSimPedFiles(parms)
 
 DBLog('genZScores')
 
-genZScores({**parms,'snpChr':[1,2,3]})
-
+genZScores(parms)
+'''
 N=pd.read_csv('ped/traitData',sep='\t',index_col=None,header=0).shape[0]
 numSnps=int(pd.read_csv('ped/snpData',sep='\t',index_col=None,header=0).shape[0]/3)
 
@@ -164,6 +164,13 @@ for i in range(len(nm)):
     fig.savefig('diagnostics/offDiag-'+str(nm[i])+'.png')
     plt.close('all') 
     
+    fig,axs=plt.subplots(1,1)
+    fig.set_figwidth(10,forward=True)
+    fig.set_figheight(10,forward=True)
+    axs.hist(np.corrcoef(zSet[i],rowvar=True)[np.triu_indices(numSnps,1)],bins=60)
+    fig.savefig('diagnostics/snp-offDiag-'+str(nm[i])+'.png')
+    plt.close('all') 
+
 fig,axs=plt.subplots(1,1)
 fig.set_figwidth(10,forward=True)
 fig.set_figheight(10,forward=True)
