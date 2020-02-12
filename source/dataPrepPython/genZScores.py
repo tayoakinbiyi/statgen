@@ -46,6 +46,7 @@ def genZScores(parms):
                         np.ceil(numTraits/numCores))))
                     if len(traitRange)==0:
                         continue
+                    #genZScoresHelp(str(core),str(snp),str(trait),traitRange,parms,lmm,N)
                     futures+=[executor.submit(genZScoresHelp,str(core),str(snp),str(trait),traitRange,parms,lmm,N)]
 
                 for f in wait(futures,return_when=ALL_COMPLETED)[0]:
@@ -58,7 +59,7 @@ def genZScores(parms):
                     AltLogLike[:,traitRange]=ans['AltLogLike']
                     beta[:,traitRange]=ans['beta']
                     se[:,traitRange]=ans['se']
-
+            
             np.savetxt('score/'+lmm+'-waldStat-'+nameParm,waldStat,delimiter='\t')
             np.savetxt('score/'+lmm+'-pLRT-'+nameParm,pLRT,delimiter='\t')
             np.savetxt('score/'+lmm+'-pWald-'+nameParm,pWald,delimiter='\t') 
@@ -146,7 +147,6 @@ def runGemma(core,snp,trait,traitRange,parms,N,lmm):
             cmd+=['-lm','4']
 
         subprocess.run(cmd) 
-
         df=pd.read_csv('output/gemma-'+core+'.assoc.txt',header=0,index_col=None,sep='\t')
         tt=(df['beta']/df['se']).values
         waldStat+=[norm.ppf(t.cdf(tt,N-2)).reshape(-1,1)]

@@ -1,89 +1,68 @@
 import pandas as pd
 import numpy as np
 import pdb
-import os
-import sys
 import matplotlib.pyplot as plt
-from scipy.stats import chi2, norm, t
-from opPython.DB import *
-import scipy.stats
-import statsmodels.api as sm
-from dataPrepPython.genSnpMeans import *
-from functools import partial
+from scipy.stats import chi2, norm
+from decimal import Decimal
 
-def plotZ(parms,title,snpChr=None,transCis='all'):
-    name=parms['name']
-    local=parms['local']
+def plotZ(z):
+    numSnps,N=z.shape
     
-    plt.rcParams.update({'font.size': 20})
-    
-    if snpChr is None:
-        snpChr=parms['snpChr']
-    traitChr=parms['traitChr']
-    
-    snpData=pd.read_csv('ped/snpData',sep='\t',index_col=None)
-    snpData=snpData[snpData['chr'].isin(snpChr)]
-    traitData=pd.read_csv('ped/traitData',sep='\t',index_col=None)
-    
-    col={'cis':'b','trans':'r'}
+    y=np.sort(np.mean(z,axis=0))
+    x=norm.ppf(np.arange(1,N+1)/(N+1))/np.sqrt(numSnps)
+    title='traitMean-theoretical std'
+    myQQ(x,y,title)
 
-    snpLoc=snpData['chr'].values
-    traitLoc=traitData['chr'].values
-    data=np.full([len(snpLoc),len(traitLoc)],np.nan)
+    y=np.sort(np.mean(z,axis=0))
+    x=norm.ppf(np.arange(1,N+1)/(N+1))*np.std(y)
+    title='traitMean-obs std'
+    myQQ(x,y,title)
 
-    for trait in traitChr:
-        for snp in snpChr:
-            print('loading snp '+str(snp)+' trait '+str(trait),flush=True)
-            xLoc=np.arange(len(snpLoc))[snpLoc==snp].reshape(-1,1)
-            yLoc=np.arange(len(traitLoc))[traitLoc==trait].reshape(1,-1)
-            data[xLoc,yLoc]=np.loadtxt('score/waldStat-'+str(snp)+'-'+str(trait),delimiter='\t')
-            
-    N,numPreds=pd.read_csv('ped/cov.phe',index_col=None,header=None,sep='\t').shape
-    numPreds-=2
-    
-    data=pd.DataFrame(data,columns=traitData['trait'])
-    data.insert(0,'snp',range(len(snpData)))
-    data.insert(0,'snpChr',snpData['chr'])
-    data=pd.melt(data,id_vars=['snp','snpChr'],value_vars=traitData['trait'],var_name='trait',value_name='z')
-    data.insert(0,'traitChr',traitData['chr'].values.flatten().tolist()*len(snpData))
-    data.loc[:,'z']=data.loc[:,'z'].astype(float)
-    data.insert(0,'tZ',norm.ppf(t.cdf(data['z'],N-numPreds)))
-    
-    if transCis=='cis':
-        data=data[data['snpChr']==data['traitChr']]
-    elif transCis=='trans':
-        data[data['snpChr']!=data['traitChr']]
-    
-    fig,axs=plt.subplots(3,1,dpi=50,tight_layout=True)
-    fig.set_figwidth(10,forward=True)
-    fig.set_figheight(50,forward=True)
+    y=np.sort(np.mean(z,axis=1))
+    x=norm.ppf(np.arange(1,numSnps+1)/(numSnps+1))/np.sqrt(N)
+    title='snpMean-theoretical std'
+    myQQ(x,y,title)
 
-    y=np.sort(data['z'].values.flatten())
-    x=norm.ppf(np.arange(1,len(y)+1)/(1+len(y)))
-    myQQ(x,y,'all Z-N('+str(np.round(np.mean(y),3))+' , '+str(np.round(np.std(y),3))+')',axs[0],True)
+    y=np.sort(np.mean(z,axis=1))
+    x=norm.ppf(np.arange(1,numSnps+1)/(numSnps+1))*np.std(y)
+    title='snpMean-obs std'
+    myQQ(x,y,title)
 
-    y=np.sort(data.groupby('snp')['z'].mean())
-    x=norm.ppf(np.arange(1,len(y)+1)/(1+len(y)))
-    myQQ(x,y,'1st moment (one pt per snp)-N('+str(np.round(np.mean(y),3))+' , '+str(np.round(np.std(y),3))+')',axs[1],True)
+    y=np.sort(z.flatten()**2)
+    x=chi2.ppf(np.arange(1,len(y)+1)/(len(y)+1),1)
+    title='z^2'
+    myQQ(x,y,title)
+
+    y=np.sort(np.mean(z**2,axis=0).flatten())
+    x=1+np.std(y)*norm.ppf(np.arange(1,N+1)/(N+1))
+    title='traitMean z^2 CLT std'
+    myQQ(x,y,title)
     
-    #pdb.set_trace()
-    y=np.sort(data.groupby('trait')['z'].apply(lambda df:np.sum(df**2)))
-    x=chi2.ppf(np.arange(1,len(y)+1)/(1+len(y)),len(snpData))
-    myQQ(x,y,'z^2 (one pt per trait)',axs[2],False)
+    y=np.sort(np.mean(z**2,axis=0).flatten())
+    x=chi2.ppf(np.arange(1,N+1)/(N+1),numSnps)/numSnps
+    title='traitMean z^2 theoretical'
+    myQQ(x,y,title)
     
-    pd.DataFrame({'Type':['Z','Z^2','Z^3','z^4'],'Value':[data['z'].mean(),(data['z']**2).mean(),(data['z']**3).mean(),
-        (data['z']**4).mean()],'tValue':[data['z'].mean(),(data['tZ']**2).mean(),(data['tZ']**3).mean(),
-        (data['tZ']**4).mean()]}).to_csv('diagnostics/'+title+'.tsv',index=False)
+    y=np.sort(np.mean(z**2,axis=1).flatten())
+    x=1+np.std(y)*norm.ppf(np.arange(1,numSnps+1)/(numSnps+1))     
+    title='snpMean z^2 CLT std'
+    myQQ(x,y,title)
+
+    y=np.sort(np.mean(z**2,axis=1).flatten())
+    x=chi2.ppf(np.arange(1,numSnps+1)/(numSnps+1),N)/N
+    title='snpMean z^2 theoretical'
+    myQQ(x,y,title)
+
+    myHist(np.corrcoef(z,rowvar=False)[np.triu_indices(N,1)],'between trait')
     
-    fig.savefig('diagnostics/'+title+'.png')
-    plt.close('all')
-    
-    print('finished plot Z',flush=True)
+    myHist(np.corrcoef(z,rowvar=True)[np.triu_indices(numSnps,1)],'between snp')
+
     return()
 
-def myQQ(x,y,title,axs,std=True):
-    if std:
-        y=(y-np.mean(y))/np.std(y)
+def myQQ(x,y,title):
+    fig,axs=plt.subplots(1,1)
+    fig.set_figwidth(10,forward=True)
+    fig.set_figheight(10,forward=True)
 
     labMax=max(max(x),max(y))
     labMin=min(min(x),min(y))
@@ -96,7 +75,22 @@ def myQQ(x,y,title,axs,std=True):
     axs.plot([labMin,labMax], [labMin,labMax], ls="--", c=".3")  
     axs.set_xlabel('theoretical')
     axs.set_ylabel('observed')
-    axs.set_title(title)
+    axs.set_title(title+' mu: '+('%.2E' % Decimal(np.mean(y)))+' std: '+('%.2E' % Decimal(np.std(y))))
     
+    fig.savefig('diagnostics/'+title+'.png')
+    plt.close('all') 
+
     return()
+
+def myHist(x,title):
+    fig,axs=plt.subplots(1,1)
+    fig.set_figwidth(10,forward=True)
+    fig.set_figheight(10,forward=True)
+
+    axs.hist(x,bins=int(len(x)/8))
+    axs.set_title(title+' mu: '+('%.2E' % Decimal(np.mean(x)))+' std: '+('%.2E' % Decimal(np.std(x))))
     
+    fig.savefig('diagnostics/'+title+'.png')
+    plt.close('all') 
+
+    return()

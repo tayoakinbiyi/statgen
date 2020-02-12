@@ -44,16 +44,17 @@ def makeSimPedFiles(parms):
     
     numSnps=np.sum(snpSize)
     
+    np.random.seed(27)
+    
     if snpType=='real':
         snps=np.loadtxt(local+'data/snps.txt',delimiter='\t')[:,2:].T
         snps=snps[np.mod(np.arange(numSubjects),len(snps)),random.sample(range(snps.shape[1]),numSnps)]        
     elif snpType=='sim':
         snps=makeSimSnps(parms)
     else:
-        left=np.random.choice(['A','G'],numSubjects*numSnps,True)
-        right=np.random.choice(['A','G'],numSubjects*numSnps,True)
-        snps=np.array(list(map(' '.join,zip(left,right)))).reshape(numSubjects,numSnps)
-
+        snps=np.random.choice(['A','G'],2*numSubjects*numSnps,True).reshape(numSnps,-1)
+        snps=np.char.join(' ',np.char.add(snps[:,0:numSubjects],snps[:,numSubjects:])).T
+    
     snps=pd.DataFrame(snps)
     
     snpData=pd.DataFrame({'chr':[snp for snp,size in zip(snpChr,snpSize) for ind in range(size)],
@@ -62,13 +63,14 @@ def makeSimPedFiles(parms):
     writeSnps(snps,snpData,parms)
 
     ################################################### grm sim ###################################################
-        
-    makeGrm(parms,1,np.array([1]))    
     
-    M=len(muEpsRange)
-    for snp in range(2,20+M*numCores+1):
-        os.symlink('fast-eigen-1', 'grm/fast-eigen-'+str(snp))
-        os.symlink('gemma-eigen-1', 'grm/gemma-eigen-'+str(snp))
+    if parms['grm']!='none':
+        makeGrm(parms,1,np.array([1]))    
+
+        M=len(muEpsRange)
+        for snp in range(2,20+M*numCores+1):
+            os.symlink('fast-eigen-1', 'grm/fast-eigen-'+str(snp))
+            os.symlink('gemma-eigen-1', 'grm/gemma-eigen-'+str(snp))
     
     ################################################### gen Y ###################################################
         
@@ -98,6 +100,8 @@ def makeSimPedFiles(parms):
     traits=traits[traitData.trait].values
         
     traitSize=[len(snps),traits.shape[1]]
+    
+    np.random.seed(110)
     
     assert YType in ['simDep','real','simIndep']
     if YType =='simDep':

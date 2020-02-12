@@ -5,11 +5,9 @@
    "snpType": "random",
    "modelTraitIndep": "indep",
    "lmm": "gemma-lm",
-   "grm": "gemmaStd",
+   "grm": "none",
    "normalize": "quant",
    "snpSize": [
-      6240,
-      6240,
       6240
    ]
 }

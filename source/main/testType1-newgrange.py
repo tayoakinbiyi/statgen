@@ -14,16 +14,17 @@ from dataPrepPython.genZScores import *
 from dataPrepPython.genLZCorr import *
 from multiprocessing import cpu_count
 from plotPython.plotPower import *
+from plotPython.plotZ import *
 
 import subprocess
 from scipy.stats import norm
 
 from ELL.ell import *
 n=3
-m=10
+m=1/n
 ellDSet=[.1,.5]
 colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,0,0),(0,0,.5)]
-snpSize=[208*n*m]*3
+snpSize=[int(208*n*m)]
 traitChr=[18]#,20,16,19]
 snpChr=[snp for snp in range(1,len(snpSize)+1)]
 traitSubset=list(range(500))
@@ -35,7 +36,7 @@ ctrl={
     'snpType':'random',#['real','sim','random']
     'modelTraitIndep':'indep',#['indep','dep']
     'lmm':'gemma-lm', #['gemma-lmm','gemma-lm','fastlmm']
-    'grm':'gemmaStd',#['gemmaNoStd','gemmaStd','fast']
+    'grm':'none',#['gemmaNoStd','gemmaStd','fast']
     'normalize':'quant',#['quant','none','std']
     'snpSize':snpSize
 }
@@ -60,7 +61,7 @@ ops={
 #######################################################################################################
 
 parms=setupFolders(ctrl,ops)
-'''
+
 DBCreateFolder('diagnostics',parms)
 DBCreateFolder('ped',parms)
 DBCreateFolder('score',parms)
@@ -72,105 +73,15 @@ makeSimPedFiles(parms)
 DBLog('genZScores')
 
 genZScores(parms)
+
+#######################################################################################################
+
+for snp in parms['snpChr']:
+    plotZ(np.concatenate([np.loadtxt('score/waldStat-'+str(snp)+'-'+str(trait),delimiter='\t') for trait in traitChr],axis=1))
+
+#######################################################################################################
+
 '''
-N=pd.read_csv('ped/traitData',sep='\t',index_col=None,header=0).shape[0]
-numSnps=int(pd.read_csv('ped/snpData',sep='\t',index_col=None,header=0).shape[0]/3)
-
-#######################################################################################################
-
-zDat3=np.concatenate([np.loadtxt('score/waldStat-3-'+str(x),delimiter='\t') for x in traitChr],axis=1)
-zDat2=np.concatenate([np.loadtxt('score/waldStat-2-'+str(x),delimiter='\t') for x in traitChr],axis=1)
-zDat1=np.concatenate([np.loadtxt('score/waldStat-1-'+str(x),delimiter='\t') for x in traitChr],axis=1)
-zDatI=norm.rvs(size=[len(zDat3),int(N)])
-zRef=norm.rvs(size=[int(1e6),int(N)])
-Y=np.loadtxt('ped/Y.txt',delimiter='\t')
-
-#######################################################################################################
-
-zSet=[zDat1,zDat2,zDat3,zDatI]
-nm=['1','2','3','I']
-for i in range(len(nm)):
-    print(i,nm[i],zSet[i].shape)
-    
-    fig,axs=plt.subplots(1,1)
-    fig.set_figwidth(10,forward=True)
-    fig.set_figheight(10,forward=True)
-    y=np.sort(np.mean(zSet[i],axis=0))
-    x=norm.ppf(np.arange(1,N+1)/(N+1))*np.std(y)
-    axs.scatter(x,y)
-    mMax=max(np.max(y),np.max(x))
-    mMin=min(np.min(y),np.min(x))
-    axs.plot([mMin,mMax], [mMin,mMax], ls="--", c=".3")   
-    axs.set_title('traitMean-'+str(nm[i]))
-    fig.savefig('diagnostics/traitMean '+str(nm[i])+'.png')
-    plt.close('all') 
-
-    fig,axs=plt.subplots(1,1)
-    fig.set_figwidth(10,forward=True)
-    fig.set_figheight(10,forward=True)
-    y=np.sort(np.mean(zSet[i],axis=1))
-    x=norm.ppf(np.arange(1,numSnps+1)/(numSnps+1))*np.std(y)
-    axs.scatter(x,y)
-    mMax=max(np.max(y),np.max(x))
-    mMin=min(np.min(y),np.min(x))
-    axs.plot([mMin,mMax], [mMin,mMax], ls="--", c=".3")   
-    axs.set_title('snpMean-'+str(nm[i]))
-    fig.savefig('diagnostics/snpMean '+str(nm[i])+'.png')
-    plt.close('all') 
-
-    fig,axs=plt.subplots(1,1)
-    fig.set_figwidth(10,forward=True)
-    fig.set_figheight(10,forward=True)
-    y=np.sort(zSet[i].flatten()**2)
-    x=chi2.ppf(np.arange(1,len(y)+1)/(len(y)+1),1)
-    axs.scatter(x,y)
-    mMax=max(np.max(y),np.max(x))
-    mMin=min(np.min(y),np.min(x))
-    axs.plot([mMin,mMax], [mMin,mMax], ls="--", c=".3")   
-    axs.set_title('sq-'+str(nm[i]))
-    fig.savefig('diagnostics/z^2 '+str(nm[i])+'.png')
-    plt.close('all') 
-
-    fig,axs=plt.subplots(1,1)
-    fig.set_figwidth(10,forward=True)
-    fig.set_figheight(10,forward=True)
-    y=np.sort(np.mean(zSet[i]**2,axis=0).flatten())
-    x=chi2.ppf(np.arange(1,N+1)/(N+1),numSnps)/numSnps
-    axs.scatter(x,y)
-    mMax=max(np.max(y),np.max(x))
-    mMin=min(np.min(y),np.min(x))
-    axs.plot([mMin,mMax], [mMin,mMax], ls="--", c=".3")   
-    axs.set_title('eta '+str(nm[i]))
-    fig.savefig('diagnostics/traitMean z^2 '+str(nm[i])+'.png')
-    plt.close('all') 
-
-    fig,axs=plt.subplots(1,1)
-    fig.set_figwidth(10,forward=True)
-    fig.set_figheight(10,forward=True)
-    y=np.sort(np.mean(zSet[i]**2,axis=1).flatten())
-    x=chi2.ppf(np.arange(1,numSnps+1)/(numSnps+1),N)/N
-    axs.scatter(x,y)
-    mMax=max(np.max(y),np.max(x))
-    mMin=min(np.min(y),np.min(x))
-    axs.plot([mMin,mMax], [mMin,mMax], ls="--", c=".3")   
-    axs.set_title('eta '+str(nm[i]))
-    fig.savefig('diagnostics/snpMean z^2 '+str(nm[i])+'.png')
-    plt.close('all') 
-
-    fig,axs=plt.subplots(1,1)
-    fig.set_figwidth(10,forward=True)
-    fig.set_figheight(10,forward=True)
-    axs.hist(np.corrcoef(zSet[i],rowvar=False)[np.triu_indices(N,1)],bins=60)
-    fig.savefig('diagnostics/offDiag-'+str(nm[i])+'.png')
-    plt.close('all') 
-    
-    fig,axs=plt.subplots(1,1)
-    fig.set_figwidth(10,forward=True)
-    fig.set_figheight(10,forward=True)
-    axs.hist(np.corrcoef(zSet[i],rowvar=True)[np.triu_indices(numSnps,1)],bins=60)
-    fig.savefig('diagnostics/snp-offDiag-'+str(nm[i])+'.png')
-    plt.close('all') 
-
 fig,axs=plt.subplots(1,1)
 fig.set_figwidth(10,forward=True)
 fig.set_figheight(10,forward=True)
@@ -221,5 +132,6 @@ plotPower(markov2,parms,'markov2',['markov2-'+str(x) for x in ellDSet])
 plotPower(markov1,parms,'markov1',['markov1-'+str(x) for x in ellDSet])
 #pd.DataFrame(monteCarlo,columns=ellDSet).quantile([.05,.01],axis=0).to_csv('diagnostics/monteCarlo.csv',index=False)
 #pd.DataFrame(markov,columns=ellDSet).quantile([.05,.01],axis=0).to_csv('diagnostics/markov.csv',index=False)
+'''
 
 DBFinish(parms)
