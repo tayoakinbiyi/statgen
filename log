@@ -8,6 +8,13 @@
    "grm": "none",
    "normalize": "quant",
    "snpSize": [
-      6240
+      208
    ]
 }
+makeSimPedFiles
+number of snps by chromosome 
+{
+   "1": 208
+}
+genZScores
+genZScores
