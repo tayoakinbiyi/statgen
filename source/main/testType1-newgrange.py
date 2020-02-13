@@ -62,7 +62,7 @@ ops={
 #######################################################################################################
 
 parms=setupFolders(ctrl,ops)
-
+'''
 DBCreateFolder('diagnostics',parms)
 DBCreateFolder('ped',parms)
 DBCreateFolder('score',parms)
@@ -74,7 +74,7 @@ makeSimPedFiles(parms)
 DBLog('genZScores')
 
 genZScores(parms)
-
+'''
 #######################################################################################################
 
 for snp in parms['snpChr']:

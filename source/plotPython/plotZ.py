@@ -10,7 +10,7 @@ def plotZ(z):
     
     y=np.sort(np.mean(z,axis=0))
     x=norm.ppf(np.arange(1,N+1)/(N+1))/np.sqrt(numSnps)
-    title='traitMean-theoretical std (ratio: %.2E' % Decimal(np.std(x)/np.sqrt(numSnps))+')'
+    title='traitMean-theoretical std (ratio: %.2E' % Decimal(np.std(y)/np.sqrt(numSnps))+')'
     myQQ(x,y,title)
 
     y=np.sort(np.mean(z,axis=0))
