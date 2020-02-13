@@ -1,6 +1,6 @@
 {
    "etaSq": 0,
-   "numSubjects": 4160,
+   "numSubjects": 10000,
    "YType": "simIndep",
    "snpType": "random",
    "modelTraitIndep": "indep",
@@ -8,13 +8,13 @@
    "grm": "none",
    "normalize": "quant",
    "snpSize": [
-      1000
+      200
    ]
 }
 makeSimPedFiles
 number of snps by chromosome 
 {
-   "1": 1000
+   "1": 200
 }
 genZScores
 genZScores

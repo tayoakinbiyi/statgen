@@ -20,17 +20,19 @@ import subprocess
 from scipy.stats import norm
 
 from ELL.ell import *
-n=20
+
+numSubjects=10000
+snpSize=[200]
+
 ellDSet=[.1,.5]
 colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,0,0),(0,0,.5)]
-snpSize=[1000]
 traitChr=[18]#,20,16,19]
 snpChr=[snp for snp in range(1,len(snpSize)+1)]
 traitSubset=list(range(500))
 
 ctrl={
     'etaSq':0,
-    'numSubjects':208*n,
+    'numSubjects':numSubjects,
     'YType':'simIndep',#['simDep','real','simIndep']
     'snpType':'random',#['real','sim','random']
     'modelTraitIndep':'indep',#['indep','dep']
