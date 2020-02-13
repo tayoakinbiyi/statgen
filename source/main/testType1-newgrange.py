@@ -20,11 +20,10 @@ import subprocess
 from scipy.stats import norm
 
 from ELL.ell import *
-n=3
-m=1/n
+n=20
 ellDSet=[.1,.5]
 colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,0,0),(0,0,.5)]
-snpSize=[int(208*n*m)]
+snpSize=[1000]
 traitChr=[18]#,20,16,19]
 snpChr=[snp for snp in range(1,len(snpSize)+1)]
 traitSubset=list(range(500))
