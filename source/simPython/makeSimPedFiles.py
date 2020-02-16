@@ -40,7 +40,7 @@ def makeSimPedFiles(parms):
         
     ################################################### snps ped ###################################################
     
-    assert snpType in ['real','sim','random']
+    assert snpType in ['real','sim','random','test']
     
     numSnps=np.sum(snpSize)
     
@@ -51,9 +51,12 @@ def makeSimPedFiles(parms):
         snps=snps[np.mod(np.arange(numSubjects),len(snps)),random.sample(range(snps.shape[1]),numSnps)]        
     elif snpType=='sim':
         snps=makeSimSnps(parms)
-    else:
+    elif snpType=='random':
         snps=np.random.choice(['A','G'],2*numSubjects*numSnps,True).reshape(numSnps,-1)
         snps=np.char.join(' ',np.char.add(snps[:,0:numSubjects],snps[:,numSubjects:])).T
+    elif snpType=='test':
+        snps=np.concatenate([np.array(['A A']*int(.5*numSubjects*numSnps)).reshape(-1,numSnps),
+                            np.array(['G G']*int(.5*numSubjects*numSnps)).reshape(-1,numSnps)],axis=0)
     
     snps=pd.DataFrame(snps)
     
