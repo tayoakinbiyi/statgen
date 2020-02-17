@@ -31,11 +31,11 @@ traitSubset=list(range(500))
 
 ctrl={
     'etaSq':0,
-    'YType':'simIndep',#['simDep','real','simIndep']
+    'YType':'simDep',#['simDep','real','simIndep']
     'snpType':'random',#['real','sim','random','test']
-    'modelTraitIndep':'indep',#['indep','dep']
-    'lmm':'gemma-lmm', #['gemma-lmm','gemma-lm','fastlmm']
-    'grm':'gemmaStd',#['gemmaNoStd','gemmaStd','fast','none']
+    'modelTraitIndep':'dep',#['indep','dep']
+    'lmm':'gemma-lm', #['gemma-lmm','gemma-lm','fastlmm']
+    'grm':'none',#['gemmaNoStd','gemmaStd','fast','none']
     'normalize':'none',#['quant','none','std']
     'snpSize':snpSize,
     'numSubjects':numSubjects
@@ -70,6 +70,8 @@ DBCreateFolder('grm',parms)
 makeSimPedFiles(parms)
 
 genZScores(parms)
+
+#######################################################################################################
 
 z=np.loadtxt('score/waldStat-1-18',delimiter='\t')
 N=z.shape[1]
