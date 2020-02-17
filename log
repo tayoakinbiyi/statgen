@@ -1,0 +1,13 @@
+{
+   "etaSq": 0,
+   "YType": "simIndep",
+   "snpType": "random",
+   "modelTraitIndep": "indep",
+   "lmm": "gemma-lm",
+   "grm": "none",
+   "normalize": "none",
+   "snpSize": [
+      5000
+   ],
+   "numSubjects": 600
+}
