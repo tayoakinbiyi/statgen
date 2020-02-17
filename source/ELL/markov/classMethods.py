@@ -22,8 +22,6 @@ def markov(self,ellStats):
     
     reps=len(ellStats)
     
-    print('markov ({}): r_lamEllByK {}, get(r_lamEllByK) {}'.format(os.getpid(), id(lamEllByK),id(lamEllByK)))
-
     pids=[]
     for core in range(numCores):
         repRange=np.arange(core*int(np.ceil(reps/numCores)),min(reps,(core+1)*int(np.ceil(reps/numCores))))
