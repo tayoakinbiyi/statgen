@@ -66,14 +66,14 @@ def makeSimPedFiles(parms):
     writeSnps(snps,snpData,parms)
 
     ################################################### grm sim ###################################################
-    
-    if parms['grm']!='none':
-        makeGrm(parms,1,np.array([1]))    
 
-        M=len(muEpsRange)
-        for snp in range(2,20+M*numCores+1):
-            os.symlink('fast-eigen-1', 'grm/fast-eigen-'+str(snp))
-            os.symlink('gemma-eigen-1', 'grm/gemma-eigen-'+str(snp))
+    assert parms['grm'] in ['gemmaNoStd','gemmaStd','fast']
+    makeGrm(parms,1,np.array([1]))    
+
+    M=len(muEpsRange)
+    for snp in range(2,20+M*numCores+1):
+        os.symlink('fast-eigen-1', 'grm/fast-eigen-'+str(snp))
+        os.symlink('gemma-eigen-1', 'grm/gemma-eigen-'+str(snp))
     
     ################################################### gen Y ###################################################
         
@@ -109,10 +109,7 @@ def makeSimPedFiles(parms):
     assert YType in ['simDep','real','simIndep']
     if YType =='simDep':
         LTraitCorr=makePSD(np.corrcoef(traits,rowvar=False))
-        if parms['grm']!='none':
-            LgrmAll=np.loadtxt('LZCorr/Lgrm-1',delimiter='\t')
-        else:
-            LgrmAll=np.eye(numSubjects)
+        LgrmAll=np.loadtxt('LZCorr/Lgrm-1',delimiter='\t')
         Y=np.sqrt(etaSq)*np.matmul(np.matmul(LgrmAll,norm.rvs(size=traitSize)),LTraitCorr.T)+np.sqrt(1-etaSq)*np.matmul(
             norm.rvs(size=traitSize),LTraitCorr.T)
     elif YType =='real':

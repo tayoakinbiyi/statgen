@@ -32,10 +32,10 @@ traitSubset=list(range(500))
 ctrl={
     'etaSq':0,
     'YType':'simIndep',#['simDep','real','simIndep']
-    'snpType':'sim',#['real','sim','random','test']
+    'snpType':'random',#['real','sim','random','test']
     'modelTraitIndep':'indep',#['indep','dep']
-    'lmm':'gemma-lmm', #['gemma-lmm','gemma-lm','fastlmm']
-    'grm':'gemmaStd',#['gemmaNoStd','gemmaStd','fast','none']
+    'lmm':'fastlmm', #['gemma-lmm','gemma-lm','fastlmm']
+    'grm':'gemmaStd',#['gemmaNoStd','gemmaStd','fast']
     'normalize':'none',#['quant','none','std']
     'snpSize':snpSize,
     'numSubjects':numSubjects
