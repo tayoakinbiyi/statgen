@@ -109,7 +109,10 @@ def makeSimPedFiles(parms):
     assert YType in ['simDep','real','simIndep']
     if YType =='simDep':
         LTraitCorr=makePSD(np.corrcoef(traits,rowvar=False))
-        LgrmAll=np.loadtxt('LZCorr/Lgrm-1',delimiter='\t')
+        if parms['grm']!='none':
+            LgrmAll=np.loadtxt('LZCorr/Lgrm-1',delimiter='\t')
+        else:
+            LgrmAll=np.eye(numSubjects)
         Y=np.sqrt(etaSq)*np.matmul(np.matmul(LgrmAll,norm.rvs(size=traitSize)),LTraitCorr.T)+np.sqrt(1-etaSq)*np.matmul(
             norm.rvs(size=traitSize),LTraitCorr.T)
     elif YType =='real':
@@ -120,7 +123,7 @@ def makeSimPedFiles(parms):
     assert normalize in ['quant','none','std']
     if normalize=='quant':
         Y=norm.ppf((np.argsort(Y,axis=0)+1)/(len(Y)+1))
-    if normalize=='std':
+    elif normalize=='std':
         Y=(Y-np.mean(Y,axis=0))/np.std(Y,axis=0)
     
     makeTraitPedFiles(Y,traitData,parms)

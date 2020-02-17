@@ -32,11 +32,10 @@ def f(N,lam,minK,maxK,nCr,offDiagMeans):
     return(1-np.cumsum(Pr)[minK:maxK+1])
     
 def getLamEllByK(core,binRange,N,rightEdgePerBin,minKPerBin,maxKPerBin,nCr,b_lamEllByK,ellGrid,offDiagMeans):
-    print(core,id(b_lamEllByK[0]))
     rightEdgePerBin=rightEdgePerBin[binRange]
     minKPerBin=minKPerBin[binRange]
     maxKPerBin=maxKPerBin[binRange]
-    res=[]
+
     for Bin in range(len(binRange)):  
         kList=np.arange(minKPerBin[Bin],maxKPerBin[Bin]+1).astype(int)
         fval=f(N,rightEdgePerBin[Bin],minKPerBin[Bin],maxKPerBin[Bin],nCr,offDiagMeans)

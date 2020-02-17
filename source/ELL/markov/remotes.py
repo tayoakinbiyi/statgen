@@ -6,8 +6,6 @@ import pdb
 import os
 
 def markovHelp(repRange,b_markov,stats,lamEllByK,ellGrid,dList,N,offDiagVec):    
-    print('markovHelp ({}): lamEllByK {}'.format(os.getpid(), id(lamEllByK)))
-
     gbj=importr('GBJ')
     
     row=np.zeros(N)
