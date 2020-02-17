@@ -20,7 +20,7 @@ from scipy.stats import norm
 
 from ELL.ell import *
 
-snpSize=[5000]
+snpSize=[500]
 numSubjects=600
 
 ellDSet=[.1,.5]
@@ -34,8 +34,8 @@ ctrl={
     'YType':'simIndep',#['simDep','real','simIndep']
     'snpType':'random',#['real','sim','random','test']
     'modelTraitIndep':'indep',#['indep','dep']
-    'lmm':'gemma-lm', #['gemma-lmm','gemma-lm','fastlmm']
-    'grm':'none',#['gemmaNoStd','gemmaStd','fast','none']
+    'lmm':'gemma-lmm', #['gemma-lmm','gemma-lm','fastlmm']
+    'grm':'gemmaStd',#['gemmaNoStd','gemmaStd','fast','none']
     'normalize':'none',#['quant','none','std']
     'snpSize':snpSize,
     'numSubjects':numSubjects
@@ -61,7 +61,7 @@ ops={
 #######################################################################################################
 
 parms=setupFolders(ctrl,ops)
-'''
+
 DBCreateFolder('diagnostics',parms)
 DBCreateFolder('ped',parms)
 DBCreateFolder('score',parms)
@@ -70,7 +70,6 @@ DBCreateFolder('grm',parms)
 makeSimPedFiles(parms)
 
 genZScores(parms)
-'''
 
 z=np.loadtxt('score/waldStat-1-18',delimiter='\t')
 N=z.shape[1]
@@ -83,9 +82,9 @@ stat=ell(np.array(ellDSet),offDiag)
 
 #######################################################################################################
 
-stat.load()
-#stat.fit(10*N,1000*N,3000,1e-6) # numLamSteps0,numLamSteps1,numEllSteps,minEll
-#stat.save()
+#stat.load()
+stat.fit(10*N,1000*N,3000,1e-6) # numLamSteps0,numLamSteps1,numEllSteps,minEll
+stat.save()
 
 #######################################################################################################
 

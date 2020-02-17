@@ -108,7 +108,7 @@ def makeSimPedFiles(parms):
     
     assert YType in ['simDep','real','simIndep']
     if YType =='simDep':
-        LTraitCorr=makePSD(traits)
+        LTraitCorr=makePSD(np.corrcoef(traits,rowvar=False))
         LgrmAll=np.loadtxt('LZCorr/Lgrm-1',delimiter='\t')
         Y=np.sqrt(etaSq)*np.matmul(np.matmul(LgrmAll,norm.rvs(size=traitSize)),LTraitCorr.T)+np.sqrt(1-etaSq)*np.matmul(
             norm.rvs(size=traitSize),LTraitCorr.T)
