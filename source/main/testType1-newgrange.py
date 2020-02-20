@@ -22,12 +22,12 @@ from ELL.ell import *
 
 snpSize=[500]
 numSubjects=600
+numTraits=400
 
 ellDSet=[.1,.5]
 colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,0,0),(0,0,.5)]
 traitChr=[18]#,20,16,19]
 snpChr=[snp for snp in range(1,len(snpSize)+1)]
-traitSubset=list(range(500))
 
 ctrl={
     'etaSq':0,
@@ -53,10 +53,9 @@ ops={
     'numSnpChr':18,
     'numTraitChr':21,
     'muEpsRange':[],
-    'traitSubset':traitSubset,
     'maxSnpGen':5000,
     'transOnly':False,
-    'numTraits':100
+    'numTraits':numTraits
 }
 
 #######################################################################################################

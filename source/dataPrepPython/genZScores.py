@@ -102,7 +102,7 @@ def runFastlmm(core,snp,traitRange,parms,N,lmm):
 
     for traitInd in traitRange:
         loopCmd=cmd+['-mpheno',str(traitInd+1)]
-        print('gemma {} of {}'.format(traitInd-min(traitRange),len(traitRange)),flush=True)
+        print('fastlmm core {} , {} of {}'.format(core,traitInd-min(traitRange),len(traitRange)),flush=True)
         subprocess.call(loopCmd)
         
         df=pd.read_csv('output/fastlmm-'+core,header=0,index_col=None,sep='\t')
@@ -156,7 +156,7 @@ def runGemma(core,snp,traitRange,parms,N,lmm):
     for traitInd in traitRange:
         loopCmd=cmd+['-n',str(traitInd+3)]
         
-        print('fastlmm {} of {}'.format(traitInd-min(traitRange),len(traitRange)),flush=True)
+        print('gemma core {} , {} of {}'.format(core,traitInd-min(traitRange),len(traitRange)),flush=True)
         subprocess.run(loopCmd) 
         df=pd.read_csv('output/gemma-'+core+'.assoc.txt',header=0,index_col=None,sep='\t')
         tt=(df['beta']/df['se']).values

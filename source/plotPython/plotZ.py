@@ -6,21 +6,21 @@ from scipy.stats import chi2, norm
 from decimal import Decimal
 
 def plotZ(z):
-    numSnps,N=z.shape
+    numSnps,numTraits=z.shape
     
     y=np.sort(np.mean(z,axis=0))
-    x=norm.ppf(np.arange(1,N+1)/(N+1))/np.sqrt(numSnps)
+    x=norm.ppf(np.arange(1,numTraits+1)/(numTraits+1))/np.sqrt(numSnps)
     title='traitMean-theoretical std (ratio: %.2E' % Decimal(np.std(y)*np.sqrt(numSnps))+')'
     myQQ(x,y,title)
 
     y=np.sort(np.mean(z,axis=0))
-    x=norm.ppf(np.arange(1,N+1)/(N+1))*np.std(y)
+    x=norm.ppf(np.arange(1,numTraits+1)/(numTraits+1))*np.std(y)
     title='traitMean-obs std'
     myQQ(x,y,title)
 
     y=np.sort(np.mean(z,axis=1))
-    x=norm.ppf(np.arange(1,numSnps+1)/(numSnps+1))/np.sqrt(N)
-    title='snpMean-theoretical std'
+    x=norm.ppf(np.arange(1,numSnps+1)/(numSnps+1))/np.sqrt(numTraits)
+    title='snpMean-theoretical std (ratio: %.2E'% Decimal(np.std(y)*np.sqrt(numTraits))+')'
     myQQ(x,y,title)
 
     y=np.sort(np.mean(z,axis=1))
@@ -34,12 +34,12 @@ def plotZ(z):
     myQQ(x,y,title)
 
     y=np.sort(np.mean(z**2,axis=0).flatten())
-    x=1+np.std(y)*norm.ppf(np.arange(1,N+1)/(N+1))
+    x=1+np.std(y)*norm.ppf(np.arange(1,numTraits+1)/(numTraits+1))
     title='traitMean z^2 CLT std'
     myQQ(x,y,title)
     
     y=np.sort(np.mean(z**2,axis=0).flatten())
-    x=chi2.ppf(np.arange(1,N+1)/(N+1),numSnps)/numSnps
+    x=chi2.ppf(np.arange(1,numTraits+1)/(numTraits+1),numSnps)/numSnps
     title='traitMean z^2 theoretical'
     myQQ(x,y,title)
     
@@ -49,11 +49,11 @@ def plotZ(z):
     myQQ(x,y,title)
 
     y=np.sort(np.mean(z**2,axis=1).flatten())
-    x=chi2.ppf(np.arange(1,numSnps+1)/(numSnps+1),N)/N
+    x=chi2.ppf(np.arange(1,numSnps+1)/(numSnps+1),numTraits)/numTraits
     title='snpMean z^2 theoretical'
     myQQ(x,y,title)
 
-    myHist(np.corrcoef(z,rowvar=False)[np.triu_indices(N,1)],'between trait')
+    myHist(np.corrcoef(z,rowvar=False)[np.triu_indices(numTraits,1)],'between trait')
     
     myHist(np.corrcoef(z,rowvar=True)[np.triu_indices(numSnps,1)],'between snp')
 

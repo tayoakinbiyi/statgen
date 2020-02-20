@@ -26,7 +26,7 @@ def makeGrm(parms,name,snpSet):
     
     if grm=='fast':
         cmd=[local+'ext/fastlmmc','-bfile','inputs/'+name,'-runGwasType','RUN','-extractSim','inputs/extract',
-             '-maxThreads',str(numCores),'-simOut','grm/fast-'+name,'-mpheno','1','-pheno','inputs/Y.fam']
+             '-maxThreads',str(numCores),'-simOut','grm/fast-'+name,'-mpheno','1','-pheno','inputs/Y.phe']
         subprocess.call(cmd)
         grmVal=pd.read_csv('grm/fast-'+name,sep='\t',header=0,index_col=0)
         N=len(grmVal)
@@ -51,7 +51,7 @@ def makeGrm(parms,name,snpSet):
         grmVal.to_csv('grm/fast-'+name,sep='\t',header=True,index=True)       
         
     cmd=[local+'ext/fastlmmc','-bfile','inputs/'+name,'-mpheno','1','-maxThreads',str(numCores),'-runGwasType','RUN', 
-         '-sim','grm/fast-'+name,'-eigenOut','grm/fast-eigen-'+name,'-pheno','inputs/Y.fam']
+         '-sim','grm/fast-'+name,'-eigenOut','grm/fast-eigen-'+name,'-pheno','inputs/Y.phe']
     subprocess.call(cmd)
     cmd=[local+'ext/gemma','-bfile','inputs/'+name,'-k','grm/gemma-'+name,'-eigen','-o','gemma']
     subprocess.call(cmd)
