@@ -21,68 +21,63 @@ def genZScores(parms):
     
     traitData=pd.read_csv('ped/traitData',index_col=None,header=0,sep='\t')
     traitData=traitData[traitData['chr'].isin(traitChr)]
+    
     snpData=pd.read_csv('ped/snpData',index_col=None,header=0,sep='\t')
     snpData=snpData[snpData['chr'].isin(snpChr)]
         
-    for trait in traitChr:
-        for snp in snpChr:
-            nameParm=str(snp)+'-'+str(trait)
+    numTraits=traitData.shape[0]
 
-            numTraits=sum(traitData['chr']==trait)
-            numSnps=sum(snpData['chr']==snp)
-            
-            pLRT=np.full([numSnps,numTraits],np.nan)
-            pWald=np.full([numSnps,numTraits],np.nan)
-            waldStat=np.full([numSnps,numTraits],np.nan)
-            AltLogLike=np.full([numSnps,numTraits],np.nan)
-            beta=np.full([numSnps,numTraits],np.nan)
-            se=np.full([numSnps,numTraits],np.nan)
+    for snp in snpChr:
+        numSnps=sum(snpData['chr']==snp)
+
+        pLRT=np.full([numSnps,numTraits],np.nan)
+        pWald=np.full([numSnps,numTraits],np.nan)
+        waldStat=np.full([numSnps,numTraits],np.nan)
+        AltLogLike=np.full([numSnps,numTraits],np.nan)
+        beta=np.full([numSnps,numTraits],np.nan)
+        se=np.full([numSnps,numTraits],np.nan)
                         
-            with ProcessPoolExecutor(numCores) as executor:
-                futures=[]
+        with ProcessPoolExecutor(numCores) as executor:
+            futures=[]
                     
-                for core in range(numCores):
-                    traitRange=np.arange(core*int(np.ceil(numTraits/numCores)),min(numTraits,(core+1)*int(
-                        np.ceil(numTraits/numCores))))
-                    if len(traitRange)==0:
-                        continue
-                    #genZScoresHelp(str(core),str(snp),str(trait),traitRange,parms,lmm,N)
-                    futures+=[executor.submit(genZScoresHelp,str(core),str(snp),str(trait),traitRange,parms,lmm,N)]
+            for core in range(numCores):
+                traitRange=np.arange(core*int(np.ceil(numTraits/numCores)),min(numTraits,(core+1)*int(
+                    np.ceil(numTraits/numCores))))
+                if len(traitRange)==0:
+                    continue
+                genZScoresHelp(str(core),str(snp),traitRange,parms,lmm,N)
+                futures+=[executor.submit(genZScoresHelp,str(core),str(snp),traitRange,parms,lmm,N)]
 
-                for f in wait(futures,return_when=ALL_COMPLETED)[0]:
-                    ans=f.result()
-                    traitRange=ans['traitRange']
+            for f in wait(futures,return_when=ALL_COMPLETED)[0]:
+                ans=f.result()
+                traitRange=ans['traitRange']
                     
-                    waldStat[:,traitRange]=ans['waldStat']
-                    pLRT[:,traitRange]=ans['pLRT']
-                    pWald[:,traitRange]=ans['pWald']
-                    AltLogLike[:,traitRange]=ans['AltLogLike']
-                    beta[:,traitRange]=ans['beta']
-                    se[:,traitRange]=ans['se']
+                waldStat[:,traitRange]=ans['waldStat']
+                pLRT[:,traitRange]=ans['pLRT']
+                pWald[:,traitRange]=ans['pWald']
+                AltLogLike[:,traitRange]=ans['AltLogLike']
+                beta[:,traitRange]=ans['beta']
+                se[:,traitRange]=ans['se']
+        
+        op='fast' if 'fast' in lmm else 'gemma'
+        np.savetxt('score/'+op+'-waldStat-'+str(snp),waldStat,delimiter='\t')
+        np.savetxt('score/'+op+'-pLRT-'+str(snp),pLRT,delimiter='\t')
+        np.savetxt('score/'+op+'-pWald-'+str(snp),pWald,delimiter='\t') 
+        np.savetxt('score/'+op+'-AltLogLike-'+str(snp),AltLogLike,delimiter='\t') 
+        np.savetxt('score/'+op+'-beta-'+str(snp),beta,delimiter='\t') 
+        np.savetxt('score/'+op+'-se-'+str(snp),se,delimiter='\t') 
             
-            np.savetxt('score/'+lmm+'-waldStat-'+nameParm,waldStat,delimiter='\t')
-            np.savetxt('score/'+lmm+'-pLRT-'+nameParm,pLRT,delimiter='\t')
-            np.savetxt('score/'+lmm+'-pWald-'+nameParm,pWald,delimiter='\t') 
-            np.savetxt('score/'+lmm+'-AltLogLike-'+nameParm,AltLogLike,delimiter='\t') 
-            np.savetxt('score/'+lmm+'-beta-'+nameParm,beta,delimiter='\t') 
-            np.savetxt('score/'+lmm+'-se-'+nameParm,se,delimiter='\t') 
-            
-            for file in ['waldStat','pLRT','pWald']:
-                if os.path.exists('score/'+file+'-'+nameParm):
-                    os.remove('score/'+file+'-'+nameParm)
-                os.symlink(lmm+'-'+file+'-'+nameParm,'score/'+file+'-'+nameParm)
+        os.symlink(op+'-waldStat-'+str(snp),'score/waldStat-'+str(snp))
         
     return()
 
-def genZScoresHelp(core,snp,trait,traitRange,parms,lmm,N):  
-    assert lmm in ['gemma-lmm','gemma-lm','fastlmm']
-    
-    if lmm=='fastlmm':
-        return(runFastlmm(core,snp,trait,traitRange,parms,N))
+def genZScoresHelp(core,snp,traitRange,parms,lmm,N):      
+    if 'fast' in lmm:
+        return(runFastlmm(core,snp,traitRange,parms,N,lmm))
     else:
-        return(runGemma(core,snp,trait,traitRange,parms,N,lmm))        
+        return(runGemma(core,snp,traitRange,parms,N,lmm))        
 
-def runFastlmm(core,snp,trait,traitRange,parms,N):
+def runFastlmm(core,snp,traitRange,parms,N,lmm):
     simLearnType=parms['simLearnType']
     local=parms['local']
         
@@ -92,20 +87,30 @@ def runFastlmm(core,snp,trait,traitRange,parms,N):
     AltLogLike=[]
     beta=[]
     se=[]
+    pdb.set_trace()
+    
+    cmd=[local+'ext/fastlmmc','-covar','inputs/cov.phe','-maxThreads','1','-simLearnType',simLearnType,
+         '-out','output/fastlmm-'+core,'-pheno','ped/'+snp+'.phe']
+    if 'ped' in lmm:
+        cmd+=['-file','inputs/'+snp]
+    if 'bed' in lmm:
+        cmd+=['-bfile','inputs/'+snp]
+    if 'lmm' in lmm:
+        cmd+=['-eigen','grm/fast-eigen-'+snp]
+    if 'lm' in lmm:
+        cmd+=['-linreg']        
 
     for traitInd in traitRange:
-        cmd=[local+'ext/fastlmmc','-bfile','ped/snp-'+snp,'-covar','ped/cov.phe','-pheno','ped/Y-'+trait+'.phe',
-             '-eigen','grm/fast-eigen-'+snp,'-mpheno',str(traitInd+1),'-out','output/fastlmm-'+core, '-maxThreads','1',
-             '-simLearnType',simLearnType,'-ML','-Ftest']
-
-        subprocess.call(cmd)
+        loopCmd=cmd+['-mpheno',str(traitInd+1)]
+        print('gemma {} of {}'.format(traitInd-min(traitRange),len(traitRange)),flush=True)
+        subprocess.call(loopCmd)
         
         df=pd.read_csv('output/fastlmm-'+core,header=0,index_col=None,sep='\t')
-
         df.loc[:,'SNP']=df.loc[:,'SNP'].astype(int)
         df=df.sort_values(by='SNP')
     
-        waldStat+=[(df['SNPWeight']/df['SNPWeightSE']).values.reshape(-1,1)]
+        tt=(df['SNPWeight']/df['SNPWeightSE']).values
+        waldStat+=[norm.ppf(t.cdf(tt,N-2)).reshape(-1,1)]
         pLRT+=[chi2.sf(2*(df['AltLogLike']-df['NullLogLike']),1).reshape(-1,1)]
         pWald+=[df['Pvalue'].values.reshape(-1,1)]
         AltLogLike+=[df['AltLogLike'].values.reshape(-1,1)]
@@ -128,7 +133,7 @@ def runFastlmm(core,snp,trait,traitRange,parms,N):
             'se':se
            })
                                   
-def runGemma(core,snp,trait,traitRange,parms,N,lmm):
+def runGemma(core,snp,traitRange,parms,N,lmm):
     local=parms['local']
         
     waldStat=[]
@@ -138,15 +143,21 @@ def runGemma(core,snp,trait,traitRange,parms,N,lmm):
     beta=[]
     se=[]
     
+    cmd=[local+'ext/gemma','-o','gemma-'+core,'-c','inputs/cov.txt','-p','inputs/Y.phe']
+    if 'bed' in lmm:
+        cmd+=['-bfile','inputs/'+snp]
+    if 'bimbam' in lmm:
+        cmd+=['-g','inputs/'+snp+'.bim']
+    if 'lmm' in lmm:
+        cmd+=['-lmm','4','-d','grm/gemma-eigen-'+snp+'/D','-u','grm/gemma-eigen-'+snp+'/U']
+    if 'lm' in lmm:
+        cmd+=['-lm','4']
+    
     for traitInd in traitRange:
-        cmd=[local+'ext/gemma','-bfile','ped/snp-'+snp,'-o','gemma-'+core,'-n',str(traitInd+1),'-c','ped/cov.txt','-p',
-             'ped/Y-'+trait+'.txt']
-        if lmm=='gemma-lmm':
-            cmd+=['-lmm','4','-d','grm/gemma-eigen-'+snp+'/D','-u','grm/gemma-eigen-'+snp+'/U']
-        else:
-            cmd+=['-lm','4']
-
-        subprocess.run(cmd) 
+        loopCmd=cmd+['-n',str(traitInd+3)]
+        
+        print('fastlmm {} of {}'.format(traitInd-min(traitRange),len(traitRange)),flush=True)
+        subprocess.run(loopCmd) 
         df=pd.read_csv('output/gemma-'+core+'.assoc.txt',header=0,index_col=None,sep='\t')
         tt=(df['beta']/df['se']).values
         waldStat+=[norm.ppf(t.cdf(tt,N-2)).reshape(-1,1)]

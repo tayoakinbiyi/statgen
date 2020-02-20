@@ -3,16 +3,16 @@
    "YType": "simIndep",
    "snpType": "sim",
    "modelTraitIndep": "indep",
-   "lmm": "gemma-lmm",
+   "lmm": [
+      "gemma",
+      "lmm",
+      "bed"
+   ],
    "grm": "gemmaStd",
    "normalize": "none",
    "snpSize": [
       500
    ],
    "numSubjects": 600
-}
-number of snps by chromosome 
-{
-   "1": 500
 }
 genZScores

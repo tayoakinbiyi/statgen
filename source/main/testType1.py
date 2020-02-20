@@ -1,118 +1,110 @@
 import matplotlib
 matplotlib.use('agg')
-import warnings
 import numpy as np
 import os
 import pdb
-from multiprocessing import cpu_count
 import sys
 
-sys.path[0]=sys.path[0][:-5]
+sys.path=['source']+sys.path
+# has ref allele line in plink
 
 from opPython.setupFolders import *
 
 from simPython.makeSimPedFiles import *
-from simPython.genSimZScores import *
 from dataPrepPython.genZScores import *
-from dataPrepPython.genLZCorr import *
-
-from statsPython.setupELL import *
-from statsPython.genELL import*
-from statsPython.makeELLMCPVals import*
-from statsPython.makeELLMarkovPVals import*
-from statsPython.makeGBJPValsSimple import *
-
+from multiprocessing import cpu_count
 from plotPython.plotPower import *
-from genPython.makePSD import *
+from plotPython.plotZ import *
 
-from datetime import datetime
-import shutil
 import subprocess
-import psutil
-from distutils.dir_util import copy_tree
+from scipy.stats import norm
 
-warnings.simplefilter("error")
+from ELL.ell import *
 
-local=os.getcwd()+'/'
+snpSize=[500]
+numSubjects=600
 
-ellDSet=[.2]
+ellDSet=[.1,.5]
 colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,0,0),(0,0,.5)]
-SnpSize=[4000,4000,300]
-traitChr=[18]
-snpChr=[snp for snp in range(1,len(SnpSize)+1)]
-traitSubset=list(range(1000))
+traitChr=[18]#,20,16,19]
+snpChr=[snp for snp in range(1,len(snpSize)+1)]
+traitSubset=list(range(500))
 
-parms={
-    'file':'testType1.py',
-    'etaGRM':.5,
-    'etaError':.5,
-    'ellBetaPpfEps':1e-12,
-    'ellKRanLowEps':.1,
-    'ellKRanHighEps':1.9,
-    'ellKRanNMult':.4,
+ctrl={
+    'etaSq':0,
+    'YType':'simIndep',#['simDep','real','simIndep']
+    'snpType':'random',#['real','sim','random','test']
+    'modelTraitIndep':'indep',#['indep','dep']
+    'lmm':'fastlmm-lm', #['gemma-lmm','gemma-lm','fastlmm-lmm','fastlmm-lm']
+    'grm':'gemmaStd',#['gemmaNoStd','gemmaStd','fast']
+    'normalize':'none',#['quant','none','std']
+    'snpSize':snpSize,
+    'numSubjects':numSubjects,
+    'refAllele':True,
+    'bed':True
+}
+ops={
+    'file':sys.argv[0],
     'ellDSet':ellDSet,
-    'minELLDecForInverse':4,
-    'binsPerIndex':700,
-    'local':local,
     'numCores':cpu_count(),
-    'numPCs':10,
     'snpChr':snpChr,
     'traitChr':traitChr,
-    'SnpSize':SnpSize,
-    'transOnly':False,
     'colors':colors,
-    'RefReps':1000000,    
-    'maxSnpGen':5000,
+    'refReps':1e6,    
     'simLearnType':'Full',
     'response':'hipRaw',
-    'quantNormalizeExpr':False,
     'numSnpChr':18,
     'numTraitChr':21,
     'muEpsRange':[],
-    'fastlmm':True,
-    'fastGrm':False,
-    'eyeTrait':False,
     'traitSubset':traitSubset,
-    'numSubjects':208*3
+    'maxSnpGen':5000,
+    'transOnly':False
 }
 
-parms['name']='testType1-'+str(traitChr)+'-eye:'+str(parms['eyeTrait'])+'-'+str(len(traitSubset))+'-type1only'
+#######################################################################################################
 
-setupFolders(parms,'testType1')
+parms=setupFolders(ctrl,ops)
 
-DBLog('makeSimPedFiles')
 makeSimPedFiles(parms)
 
-#N=pd.read_csv('ped/traitData',sep='\t',index_col=None,header=0).shape[0]
-#parms['muEpsRange']=[[.25,int(N*.01)]]
-
-DBLog('genZScores')
-DBCreateFolder('holds',parms)
 genZScores(parms)
 
-#DBLog('genSimZScores')
-#genSimZScores(parms)   
+#######################################################################################################
 
-DBLog('genLZCorr')
-genLZCorr({**parms,'snpChr':[2]})
+z=np.loadtxt('score/waldStat-1-18',delimiter='\t')
+N=z.shape[1]
+plotZ(z)
 
-DBLog('setupELL')
-DBCreateFolder('ELL',parms)
-setupELL(parms)
+#######################################################################################################
 
-DBLog('genELL')
-genELL(parms)
+offDiag=np.array([0]*int(N*(N-1)/2))
+stat=ell(np.array(ellDSet),offDiag)
 
-#DBLog('makeELLMCPVals')
-#makeELLMCPVals(parms)
+#######################################################################################################
 
-DBLog('makeELLMarkovPVals')
-makeELLMarkovPVals(parms)
+#stat.load()
+stat.fit(10*N,1000*N,3000,1e-6) # numLamSteps0,numLamSteps1,numEllSteps,minEll
+stat.save()
 
-#DBLog('makeGBJPVals')
-#makeGBJPVals(parms)
+#######################################################################################################
 
-DBLog('plotPower')
-plotPower(parms)
-    
+ell=stat.score(z)
+ref=stat.score(norm.rvs(size=[int(parms['refReps']),N]))
+
+#######################################################################################################
+
+monteCarlo=stat.monteCarlo(ref,ell)
+
+#######################################################################################################
+
+markov=stat.markov(ell)
+
+#######################################################################################################
+
+plotPower(monteCarlo,parms,'mc',['mc-'+str(x) for x in ellDSet])
+plotPower(markov,parms,'markov',['markov-'+str(x) for x in ellDSet])
+#pd.DataFrame(monteCarlo,columns=ellDSet).quantile([.05,.01],axis=0).to_csv('diagnostics/monteCarlo.csv',index=False)
+#pd.DataFrame(markov,columns=ellDSet).quantile([.05,.01],axis=0).to_csv('diagnostics/markov.csv',index=False)
+
+
 DBFinish(parms)

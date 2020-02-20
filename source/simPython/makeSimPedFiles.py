@@ -12,7 +12,7 @@ from genPython.makePSD import *
 
 from dataPrepPython.makeGrm import *
 from dataPrepPython.makeTraitPedFiles import *
-from dataPrepPython.writeSnps import *
+from dataPrepPython.writeInputs import *
 from simPython.makeSimSnps import *
 
 def makeSimPedFiles(parms):
@@ -28,6 +28,7 @@ def makeSimPedFiles(parms):
     muEpsRange=parms['muEpsRange']
     numSubjects=parms['numSubjects']
     normalize=parms['normalize']
+    maxTraitPerChr=parms['maxTraitPerChr']
     
     YType=parms['YType']
     snpType=parms['snpType']
@@ -47,62 +48,39 @@ def makeSimPedFiles(parms):
     np.random.seed(27)
     
     if snpType=='real':
-        snps=np.loadtxt(local+'data/snps.txt',delimiter='\t')[:,2:].T
-        snps=snps[np.mod(np.arange(numSubjects),len(snps)),random.sample(range(snps.shape[1]),numSnps)]        
+        bimBamFmt=np.loadtxt(local+'data/snps.txt',delimiter='\t')[:,2:].T
+        bimBamFmt=bimBamFmt[np.mod(np.arange(numSubjects),len(bimBamFmt)),random.sample(range(bimBamFmt.shape[1]),numSnps)]        
     elif snpType=='sim':
-        snps=makeSimSnps(parms)
+        bimBamFmt=makeSimSnps(parms)
     elif snpType=='random':
-        snps=np.random.choice(['A','G'],2*numSubjects*numSnps,True).reshape(numSnps,-1)
-        snps=np.char.join(' ',np.char.add(snps[:,0:numSubjects],snps[:,numSubjects:])).T
+        bimBamFmt=np.random.choice(['A','G'],2*numSubjects*numSnps,True).reshape(numSnps,-1)
+        bimBamFmt=np.char.join(' ',np.char.add(snps[:,0:numSubjects],bimBamFmt[:,numSubjects:])).T
     elif snpType=='test':
-        snps=np.concatenate([np.array(['A A']*int(.5*numSubjects*numSnps)).reshape(-1,numSnps),
-                            np.array(['G G']*int(.5*numSubjects*numSnps)).reshape(-1,numSnps)],axis=0)
-    
-    snps=pd.DataFrame(snps)
-    
-    snpData=pd.DataFrame({'chr':[snp for snp,size in zip(snpChr,snpSize) for ind in range(size)],
-                          'ID':range(numSnps),'genetic dist': 0,'Mbp':range(numSnps)})
-                
-    writeSnps(snps,snpData,parms)
-
-    ################################################### grm sim ###################################################
-
-    assert parms['grm'] in ['gemmaNoStd','gemmaStd','fast']
-    makeGrm(parms,1,np.array([1]))    
-
-    M=len(muEpsRange)
-    for snp in range(2,20+M*numCores+1):
-        os.symlink('fast-eigen-1', 'grm/fast-eigen-'+str(snp))
-        os.symlink('gemma-eigen-1', 'grm/gemma-eigen-'+str(snp))
-    
-    ################################################### gen Y ###################################################
-        
-    traitSubset=parms['traitSubset'] if parms['traitSubset'] is not None else range(2000)
+        bimBamFmt=np.concatenate([np.array(['A A']*int(.5*numSubjects*numSnps)).reshape(-1,numSnps),
+            np.array(['G G']*int(.5*numSubjects*numSnps)).reshape(-1,numSnps)],axis=0)
+    pdb.set_trace()
+    ################################################### gen Y ###################################################        
     
     traits=pd.read_csv(local+'data/'+response+'.txt',sep='\t',index_col=0,header=0)
 
     robjects=result = pyreadr.read_r(local+'data/allMouseGenesCoords.RData')
     mouseGenes=robjects['mouseGenes']
-    mouseGenes=mouseGenes[mouseGenes['chrom'].isin([str(x) for x in traitChr])]
+    mouseGenes=mouseGenes[(mouseGenes['chrom'].isin([str(x) for x in traitChr]))&(mouseGenes['gene_name'].isin(traits.columns))]
 
     traitData=pd.DataFrame({'trait':mouseGenes['gene_name'],'chr':mouseGenes['chrom'].astype(int),
         'Mbp':((mouseGenes['cds_start']+mouseGenes['cds_end'])/2).astype(int)})
-    traitData=traitData.loc[traitData['trait'].isin(traits.columns)]
     traitData=traitData.groupby('chr').apply(lambda df: pd.concat([df.reset_index(drop=True),
         pd.DataFrame({'traitSubset':range(len(df))})],axis=1)).reset_index(drop=True)
-    traitData=traitData.sort_values(by=['chr','traitSubset'])
-    traitData=traitData[traitData['traitSubset'].isin(traitSubset)]
+    traitData=traitData.merge(pd.DataFrame({'chr':traitChr,'chrLoc':range(len(traitChr))},index=range(len(traitChr))),
+        on='chr').sort_values(by=['chrLoc','traitSubset']).drop(columns='chrLoc')
+    traitData=traitData[traitData['traitSubset']<maxTraitPerChr]
     traitData.insert(0,'loc',range(len(traitData)))
-    traitDataMat=[]
-    for trait in traitChr:
-        traitDataMat+=[traitData[traitData['chr']==trait]]
-    traitData=pd.concat(traitDataMat,axis=0)
     
     traitData.to_csv('ped/traitData',index=False,sep='\t')
     
     traits=traits[traitData.trait].values
         
-    traitSize=[len(snps),traits.shape[1]]
+    traitSize=[numSubjects,traits.shape[1]]
     
     np.random.seed(110)
     
@@ -122,8 +100,20 @@ def makeSimPedFiles(parms):
         Y=norm.ppf((np.argsort(Y,axis=0)+1)/(len(Y)+1))
     elif normalize=='std':
         Y=(Y-np.mean(Y,axis=0))/np.std(Y,axis=0)
+
+    ################################################### writeInputs ###################################################
+
+    writeInputs(bimBamFmt,Y,parms)
     
-    makeTraitPedFiles(Y,traitData,parms)
+    ################################################### grm sim ###################################################
+
+    assert parms['grm'] in ['gemmaNoStd','gemmaStd','fast']
+    makeGrm(parms,1,np.array([1]))    
+
+    M=len(muEpsRange)
+    for snp in range(2,20+M*numCores+1):
+        subprocess.call(['ln','-s','fast-eigen-1', 'grm/fast-eigen-'+str(snp)])
+        subprocess.call(['ln','-s','gemma-eigen-1', 'grm/gemma-eigen-'+str(snp)])
     
     ################################################### cov ped ###################################################
         

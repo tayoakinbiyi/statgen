@@ -9,7 +9,7 @@ sys.path=['source']+sys.path
 
 from opPython.setupFolders import *
 
-from simPython.makeSimPedFiles import *
+from simPython.makeSimInputFiles import *
 from dataPrepPython.genZScores import *
 from multiprocessing import cpu_count
 from plotPython.plotPower import *
@@ -34,7 +34,7 @@ ctrl={
     'YType':'simIndep',#['simDep','real','simIndep']
     'snpType':'sim',#['real','sim','random','test']
     'modelTraitIndep':'indep',#['indep','dep']
-    'lmm':'gemma-lmm', #['gemma-lmm','gemma-lm','fastlmm']
+    'lmm':['gemma','lmm','bed'], #['gemma','fast','lmm','lm','bed','bimbam','ped']
     'grm':'gemmaStd',#['gemmaNoStd','gemmaStd','fast','none']
     'normalize':'none',#['quant','none','std']
     'snpSize':snpSize,
@@ -55,7 +55,8 @@ ops={
     'muEpsRange':[],
     'traitSubset':traitSubset,
     'maxSnpGen':5000,
-    'transOnly':False
+    'transOnly':False,
+    'numTraits':100
 }
 
 #######################################################################################################
@@ -63,17 +64,17 @@ ops={
 parms=setupFolders(ctrl,ops)
 
 DBCreateFolder('diagnostics',parms)
-DBCreateFolder('ped',parms)
+DBCreateFolder('inputs',parms)
 DBCreateFolder('score',parms)
 DBCreateFolder('grm',parms)
 
-makeSimPedFiles(parms)
+makeSimInputFiles(parms)
 
 genZScores(parms)
 
 #######################################################################################################
-
-z=np.loadtxt('score/waldStat-1-18',delimiter='\t')
+pdb.set_trace()
+z=np.loadtxt('score/waldStat-1',delimiter='\t')
 N=z.shape[1]
 plotZ(z)
 
