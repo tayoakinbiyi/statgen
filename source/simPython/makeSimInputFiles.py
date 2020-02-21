@@ -21,17 +21,15 @@ def makeSimInputFiles(parms):
     local=parms['local']
     traitChr=parms['traitChr']
     snpChr=parms['snpChr']
-    snpSize=parms['snpSize']
-    etaSq=parms['etaSq']
     numCores=parms['numCores']
     response=parms['response']
     muEpsRange=parms['muEpsRange']
-    numSubjects=parms['numSubjects']
-    normalize=parms['normalize']
-    numTraits=parms['numTraits']
     
-    YType=parms['YType']
-    snpType=parms['snpType']
+    sim=parms['sim']
+    etaSq=sim[-4]
+    numSubjects=sim[-3]
+    numTraits=sim[-2]
+    snpSize=sim[-1]
               
     DBCreateFolder('inputs',parms)
     DBCreateFolder('geneDrop',parms)
@@ -41,25 +39,33 @@ def makeSimInputFiles(parms):
         
     ################################################### snps ped ###################################################
     
-    assert snpType in ['real','sim','random','test']
-    
     numSnps=np.sum(snpSize)
     
     np.random.seed(27)
     
-    if snpType=='real':
+    if 'realSnps' in sim:
         bimBamFmt=np.loadtxt(local+'data/snps.txt',delimiter='\t')[:,2:].T
         bimBamFmt=bimBamFmt[np.mod(np.arange(numSubjects),len(bimBamFmt)),random.sample(range(bimBamFmt.shape[1]),numSnps)]        
-    elif snpType=='sim':
+    elif 'pedigreeSnps' in sim:
         bimBamFmt=makeSimSnps(parms)
-    elif snpType=='random':
-        bimBamFmt=np.random.choice(['A','G'],2*numSubjects*numSnps,True).reshape(numSnps,-1)
-        bimBamFmt=np.char.join(' ',np.char.add(snps[:,0:numSubjects],bimBamFmt[:,numSubjects:])).T
-    elif snpType=='test':
-        bimBamFmt=np.concatenate([np.array(['A A']*int(.5*numSubjects*numSnps)).reshape(-1,numSnps),
-            np.array(['G G']*int(.5*numSubjects*numSnps)).reshape(-1,numSnps)],axis=0)
-        
+    elif 'randSnps' in sim:
+        bimBamFmt=np.random.choice([0,1,2],numSubjects*numSnps,True,[.25,.5,.25]).reshape(numSnps,-1)
+
     bimBamFmt=np.round(bimBamFmt,0).astype(int)
+    
+    ################################################### writeInputs ###################################################
+
+    writeInputs(bimBamFmt,parms)
+    
+    ################################################### grm sim ###################################################
+
+    np.savetxt('inputs/Y.phe',np.array([['0',str(int(id_)),str(int(id_))] for id_ in range(numSubjects)]),delimiter='\t',fmt='%s')
+    makeGrm(parms,1,np.array([1]))    
+
+    M=len(muEpsRange)
+    for snp in range(2,20+M*numCores+1):
+        subprocess.call(['ln','-s','fast-eigen-1', 'grm/fast-eigen-'+str(snp)])
+        subprocess.call(['ln','-s','gemma-eigen-1', 'grm/gemma-eigen-'+str(snp)])
     
     ################################################### gen Y ###################################################        
     
@@ -75,48 +81,32 @@ def makeSimInputFiles(parms):
     traitData.to_csv('ped/traitData',index=False,sep='\t')    
     traits=traits[traitData.trait].values
         
-    traitSize=[numSubjects,traits.shape[1]]
+    traitSize=[numSubjects,numTraits]
     
     np.random.seed(110)
     
-    assert YType in ['simDep','real','simIndep']
-    if YType =='simDep':
-        LTraitCorr=makePSD(np.corrcoef(traits,rowvar=False))
+    if 'realTraits' in sim:
+        assert numSubjects==len(traits)
+        Y=traits    
+    elif 'depTraits' in sim or 'indepTraits' in sim:
+        if 'depTraits' in sim:
+            LTraitCorr=makePSD(np.corrcoef(traits,rowvar=False))
+        else:
+            LTraitCorr=np.eye(numTraits)
         LgrmAll=np.loadtxt('LZCorr/Lgrm-1',delimiter='\t')
         Y=np.sqrt(etaSq)*np.matmul(np.matmul(LgrmAll,norm.rvs(size=traitSize)),LTraitCorr.T)+np.sqrt(1-etaSq)*np.matmul(
             norm.rvs(size=traitSize),LTraitCorr.T)
-    elif YType =='real':
-        assert numSubjects==len(traits)
-        Y=traits    
-    else:
-        Y=norm.rvs(size=traitSize)        
     
-    assert normalize in ['quant','none','std']
-    if normalize=='quant':
+    if 'quantNormalize' in sim:
         Y=norm.ppf((np.argsort(Y,axis=0)+1)/(numSubjects+1))
-    elif normalize=='std':
+    if 'stdNormalize' in sim:
         Y=(Y-np.mean(Y,axis=0))/np.std(Y,axis=0)
 
-    ################################################### writeInputs ###################################################
+    np.savetxt('inputs/Y.phe',np.array([['0',str(int(id_))]+row for id_,row in enumerate(Y.tolist())]),delimiter='\t',fmt='%s')
 
-    writeInputs(bimBamFmt,Y,parms)
-    
-    ################################################### grm sim ###################################################
-
-    assert parms['grm'] in ['gemmaNoStd','gemmaStd','fast']
-    makeGrm(parms,1,np.array([1]))    
-
-    M=len(muEpsRange)
-    for snp in range(2,20+M*numCores+1):
-        subprocess.call(['ln','-s','fast-eigen-1', 'grm/fast-eigen-'+str(snp)])
-        subprocess.call(['ln','-s','gemma-eigen-1', 'grm/gemma-eigen-'+str(snp)])
-    
     ################################################### cov ped ###################################################
         
-    pd.DataFrame({'Family ID':0,'Individual ID':range(numSubjects),'Intercept':1}).to_csv('inputs/cov.phe',header=False,
-        index=False,sep='\t')
-    np.savetxt('inputs/cov.txt',np.array([[1]]*numSubjects),delimiter='\t')
-    
-    print('finished makeSimPedFiles',flush=True)
+    np.savetxt('inputs/cov.phe',np.array([[0,id_,1] for id_ in range(numSubjects)]),delimiter='\t',fmt='%s')
+    np.savetxt('inputs/cov.txt',np.ones([numSubjects,1]),delimiter='\t',fmt='%s')
 
     return()

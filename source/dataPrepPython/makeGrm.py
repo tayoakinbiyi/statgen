@@ -12,7 +12,7 @@ from genPython.makePSD import *
 def makeGrm(parms,name,snpSet):
     local=parms['local']
     numCores=parms['numCores']
-    grm=parms['grm']
+    data=parms['data']
 
     snpData=pd.read_csv('inputs/snpData',index_col=None,header=0,sep='\t')
     snpIds=snpData['ID'][snpData['chr'].isin(snpSet)].values.flatten()
@@ -24,7 +24,7 @@ def makeGrm(parms,name,snpSet):
         
     pd.DataFrame({'Family ID':0,'Individual ID':snpIds}).to_csv('inputs/extract',sep='\t',index=False,header=False)
     
-    if grm=='fast':
+    if 'fastGrm' in data:
         cmd=[local+'ext/fastlmmc','-bfile','inputs/'+name,'-runGwasType','RUN','-extractSim','inputs/extract',
              '-maxThreads',str(numCores),'-simOut','grm/fast-'+name,'-mpheno','1','-pheno','inputs/Y.phe']
         subprocess.call(cmd)
@@ -32,7 +32,7 @@ def makeGrm(parms,name,snpSet):
         N=len(grmVal)
         np.savetxt('grm/gemma-'+name,grmVal.values,delimiter='\t')
     else:
-        if grm=='gemmaStd':
+        if 'gemmaStdGrm' in data:
             op=2
             nm='s'
         else:

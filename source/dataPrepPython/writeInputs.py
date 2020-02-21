@@ -5,10 +5,10 @@ import json
 
 from opPython.DB import *
 
-def writeInputs(bimBamFmt,Y,parms):
+def writeInputs(bimBamFmt,parms):
     snpChr=parms['snpChr']
     local=parms['local']
-    snpSize=parms['snpSize']
+    snpSize=parms['sim'][-1]
     numSnps=len(bimBamFmt)
         
     mouseIds=np.arange(len(bimBamFmt))
@@ -29,9 +29,7 @@ def writeInputs(bimBamFmt,Y,parms):
     
     snpData.insert(snpData.shape[1],'maf',maf)
     snpData.to_csv('inputs/snpData',index=False,sep='\t')
-    
-    np.savetxt('inputs/Y.phe',np.array([['0',str(int(id_))]+row for id_,row in enumerate(Y.tolist())]),delimiter='\t',fmt='%s')
-                         
+                             
     return()
 
 def writeChr(snpData,snp,name,bimBamFmt,plinkFmt,parms):
@@ -43,7 +41,8 @@ def writeChr(snpData,snp,name,bimBamFmt,plinkFmt,parms):
         ].tolist())]),delimiter='\t',fmt='%s')
     np.savetxt('inputs/'+name+'.ped',np.concatenate([fam,plinkFmt],axis=1),delimiter='\t',fmt='%s')   
     snpData[snpData['chr'].isin(snp)].to_csv('inputs/'+name+'.map',header=False,index=False,sep='\t')  
-    np.savetxt('inputs/ref-'+name,np.array([[str(id_),'A'] for id_ in range(sum(snpData['chr'].isin(snp)))]),delimiter='\t',fmt='%s')
+    np.savetxt('inputs/ref-'+name,np.array([[str(id_),'A'] for id_ in range(sum(snpData['chr'].isin(snp)))]),
+        delimiter='\t',fmt='%s')
     subprocess.call([local+'ext/plink','--file','inputs/'+name,'--out','inputs/'+name,'--make-bed','--noweb',
         '--reference-allele','inputs/ref-'+name])
     

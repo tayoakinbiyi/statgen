@@ -1,18 +1,22 @@
 {
    "etaSq": 0,
-   "YType": "simIndep",
-   "snpType": "sim",
-   "modelTraitIndep": "indep",
-   "lmm": [
-      "gemma",
+   "sim": [
+      "indepTraits",
+      "randSnps",
+      "normalizeTraits",
+      0,
+      600,
+      400,
+      [
+         500
+      ]
+   ],
+   "model": "indepTraits",
+   "data": [
+      "gemmaLmm",
       "lmm",
-      "bed"
-   ],
-   "grm": "gemmaStd",
-   "normalize": "none",
-   "snpSize": [
-      500
-   ],
-   "numSubjects": 600
+      "bimbam",
+      "gemmaStdGrm"
+   ]
 }
 genZScores

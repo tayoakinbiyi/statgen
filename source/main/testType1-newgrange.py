@@ -1,7 +1,6 @@
 import matplotlib
 matplotlib.use('agg')
 import numpy as np
-import os
 import pdb
 import sys
 
@@ -15,7 +14,6 @@ from multiprocessing import cpu_count
 from plotPython.plotPower import *
 from plotPython.plotZ import *
 
-import subprocess
 from scipy.stats import norm
 
 from ELL.ell import *
@@ -23,6 +21,7 @@ from ELL.ell import *
 snpSize=[500]
 numSubjects=600
 numTraits=400
+etaSq=0
 
 ellDSet=[.1,.5]
 colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,0,0),(0,0,.5)]
@@ -31,14 +30,9 @@ snpChr=[snp for snp in range(1,len(snpSize)+1)]
 
 ctrl={
     'etaSq':0,
-    'YType':'simIndep',#['simDep','real','simIndep']
-    'snpType':'sim',#['real','sim','random','test']
-    'modelTraitIndep':'indep',#['indep','dep']
-    'lmm':['gemma','lmm','bed'], #['gemma','fast','lmm','lm','bed','bimbam','ped']
-    'grm':'gemmaStd',#['gemmaNoStd','gemmaStd','fast','none']
-    'normalize':'none',#['quant','none','std']
-    'snpSize':snpSize,
-    'numSubjects':numSubjects
+    'sim':['indepTraits','randSnps','normalizeTraits',etaSq,numSubjects,numTraits,snpSize],#['simDep','real','simIndep']
+    'model':'indepTraits',#['indep','dep']
+    'data':['gemmaLmm','lmm','bimbam','gemmaStdGrm'], #['gemmaLmm','fastLmm','lmm','lm','bed','bimbam','ped','gemmaGrm','fastGrm']
 }
 ops={
     'file':sys.argv[0],

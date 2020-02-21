@@ -13,8 +13,8 @@ def genZScores(parms):
     snpChr=parms['snpChr']
     traitChr=parms['traitChr']
     numCores=parms['numCores']
-    lmm=parms['lmm']
-    N=parms['numSubjects']
+    data=parms['data']
+    numSubjects=parms['sim'][-3]
     
     DBLog('genZScores')
     DBCreateFolder('output',parms)
@@ -45,8 +45,8 @@ def genZScores(parms):
                     np.ceil(numTraits/numCores))))
                 if len(traitRange)==0:
                     continue
-                genZScoresHelp(str(core),str(snp),traitRange,parms,lmm,N)
-                futures+=[executor.submit(genZScoresHelp,str(core),str(snp),traitRange,parms,lmm,N)]
+                genZScoresHelp(str(core),str(snp),traitRange,parms,data,numSubjects)
+                futures+=[executor.submit(genZScoresHelp,str(core),str(snp),traitRange,parms,data,numSubjects)]
 
             for f in wait(futures,return_when=ALL_COMPLETED)[0]:
                 ans=f.result()
@@ -59,7 +59,7 @@ def genZScores(parms):
                 beta[:,traitRange]=ans['beta']
                 se[:,traitRange]=ans['se']
         
-        op='fast' if 'fast' in lmm else 'gemma'
+        op='fast' if 'fast' in data else 'gemma'
         np.savetxt('score/'+op+'-waldStat-'+str(snp),waldStat,delimiter='\t')
         np.savetxt('score/'+op+'-pLRT-'+str(snp),pLRT,delimiter='\t')
         np.savetxt('score/'+op+'-pWald-'+str(snp),pWald,delimiter='\t') 
@@ -71,13 +71,13 @@ def genZScores(parms):
         
     return()
 
-def genZScoresHelp(core,snp,traitRange,parms,lmm,N):      
-    if 'fast' in lmm:
-        return(runFastlmm(core,snp,traitRange,parms,N,lmm))
+def genZScoresHelp(core,snp,traitRange,parms,data,numSubjects):      
+    if 'fastLmm' in data:
+        return(runFastlmm(core,snp,traitRange,parms,numSubjects,data))
     else:
-        return(runGemma(core,snp,traitRange,parms,N,lmm))        
+        return(runGemma(core,snp,traitRange,parms,numSubjects,data))        
 
-def runFastlmm(core,snp,traitRange,parms,N,lmm):
+def runFastlmm(core,snp,traitRange,parms,numSubjects,data):
     simLearnType=parms['simLearnType']
     local=parms['local']
         
@@ -87,17 +87,16 @@ def runFastlmm(core,snp,traitRange,parms,N,lmm):
     AltLogLike=[]
     beta=[]
     se=[]
-    pdb.set_trace()
     
     cmd=[local+'ext/fastlmmc','-covar','inputs/cov.phe','-maxThreads','1','-simLearnType',simLearnType,
          '-out','output/fastlmm-'+core,'-pheno','ped/'+snp+'.phe']
-    if 'ped' in lmm:
+    if 'ped' in data:
         cmd+=['-file','inputs/'+snp]
-    if 'bed' in lmm:
+    if 'bed' in data:
         cmd+=['-bfile','inputs/'+snp]
-    if 'lmm' in lmm:
+    if 'lmm' in data:
         cmd+=['-eigen','grm/fast-eigen-'+snp]
-    if 'lm' in lmm:
+    if 'lm' in data:
         cmd+=['-linreg']        
 
     for traitInd in traitRange:
@@ -110,7 +109,7 @@ def runFastlmm(core,snp,traitRange,parms,N,lmm):
         df=df.sort_values(by='SNP')
     
         tt=(df['SNPWeight']/df['SNPWeightSE']).values
-        waldStat+=[norm.ppf(t.cdf(tt,N-2)).reshape(-1,1)]
+        waldStat+=[norm.ppf(t.cdf(tt,numSubjects-2)).reshape(-1,1)]
         pLRT+=[chi2.sf(2*(df['AltLogLike']-df['NullLogLike']),1).reshape(-1,1)]
         pWald+=[df['Pvalue'].values.reshape(-1,1)]
         AltLogLike+=[df['AltLogLike'].values.reshape(-1,1)]
@@ -133,7 +132,7 @@ def runFastlmm(core,snp,traitRange,parms,N,lmm):
             'se':se
            })
                                   
-def runGemma(core,snp,traitRange,parms,N,lmm):
+def runGemma(core,snp,traitRange,parms,numSubjects,data):
     local=parms['local']
         
     waldStat=[]
@@ -144,13 +143,13 @@ def runGemma(core,snp,traitRange,parms,N,lmm):
     se=[]
     
     cmd=[local+'ext/gemma','-o','gemma-'+core,'-c','inputs/cov.txt','-p','inputs/Y.phe']
-    if 'bed' in lmm:
+    if 'bed' in data:
         cmd+=['-bfile','inputs/'+snp]
-    if 'bimbam' in lmm:
-        cmd+=['-g','inputs/'+snp+'.bim']
-    if 'lmm' in lmm:
+    if 'bimbam' in data:
+        cmd+=['-g','inputs/'+snp+'.bimbam']
+    if 'lmm' in data:
         cmd+=['-lmm','4','-d','grm/gemma-eigen-'+snp+'/D','-u','grm/gemma-eigen-'+snp+'/U']
-    if 'lm' in lmm:
+    if 'lm' in data:
         cmd+=['-lm','4']
     
     for traitInd in traitRange:
@@ -160,7 +159,7 @@ def runGemma(core,snp,traitRange,parms,N,lmm):
         subprocess.run(loopCmd) 
         df=pd.read_csv('output/gemma-'+core+'.assoc.txt',header=0,index_col=None,sep='\t')
         tt=(df['beta']/df['se']).values
-        waldStat+=[norm.ppf(t.cdf(tt,N-2)).reshape(-1,1)]
+        waldStat+=[norm.ppf(t.cdf(tt,numSubjects-2)).reshape(-1,1)]
         pLRT+=[df['p_lrt'].values.reshape(-1,1)]
         pWald+=[df['p_wald'].values.reshape(-1,1)]
         AltLogLike+=[df['p_wald'].values.reshape(-1,1)]#logl_H1
