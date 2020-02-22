@@ -12,9 +12,9 @@
    ],
    "model": "indepTraits",
    "data": [
-      "gemmaLmm",
+      "fast",
       "lm",
-      "bimbam",
+      "ped",
       "gemmaStdGrm"
    ]
 }

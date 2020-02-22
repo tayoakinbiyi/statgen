@@ -76,9 +76,9 @@ def genZScores(parms):
     return()
 
 def genZScoresHelp(core,snp,traitRange,parms,data,numSubjects):      
-    if 'fastLmm' in data:
+    if 'fast' in data:
         return(runFastlmm(core,snp,traitRange,parms,numSubjects,data))
-    else:
+    if 'gemma' in data:
         return(runGemma(core,snp,traitRange,parms,numSubjects,data))        
 
 def runFastlmm(core,snp,traitRange,parms,numSubjects,data):
@@ -93,7 +93,7 @@ def runFastlmm(core,snp,traitRange,parms,numSubjects,data):
     se=[]
     
     cmd=[local+'ext/fastlmmc','-covar','inputs/cov.phe','-maxThreads','1','-simLearnType',simLearnType,
-         '-out','output/fastlmm-'+core,'-pheno','ped/'+snp+'.phe']
+         '-out','output/fastlmm-'+core,'-pheno','inputs/Y.phe']
     if 'ped' in data:
         cmd+=['-file','inputs/'+snp]
     if 'bed' in data:
@@ -112,13 +112,13 @@ def runFastlmm(core,snp,traitRange,parms,numSubjects,data):
         df.loc[:,'SNP']=df.loc[:,'SNP'].astype(int)
         df=df.sort_values(by='SNP')
     
-        tt=(df['SNPWeight']/df['SNPWeightSE']).values
+        tt=(df['SnpWeight']/df['SnpWeightSE']).values
         waldStat+=[norm.ppf(t.cdf(tt,numSubjects-2)).reshape(-1,1)]
         pLRT+=[chi2.sf(2*(df['AltLogLike']-df['NullLogLike']),1).reshape(-1,1)]
         pWald+=[df['Pvalue'].values.reshape(-1,1)]
         AltLogLike+=[df['AltLogLike'].values.reshape(-1,1)]
-        beta+=[df['SNPWeight'].values.reshape(-1,1)]
-        se+=[df['SNPWeightSE'].values.reshape(-1,1)]
+        beta+=[df['SnpWeight'].values.reshape(-1,1)]
+        se+=[df['SnpWeightSE'].values.reshape(-1,1)]
     
     waldStat=np.concatenate(waldStat,axis=1)
     pLRT=np.concatenate(pLRT,axis=1)
@@ -147,7 +147,7 @@ def runGemma(core,snp,traitRange,parms,numSubjects,data):
     se=[]
     
     cmd=[local+'ext/gemma','-o','gemma-'+core,'-c','inputs/cov.txt','-p','inputs/Y.phe']
-    if 'bed' in data:
+    if 'ped' in data:
         cmd+=['-bfile','inputs/'+snp]
     if 'bimbam' in data:
         cmd+=['-g','inputs/'+snp+'.bimbam']
