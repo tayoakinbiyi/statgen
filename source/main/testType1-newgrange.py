@@ -20,7 +20,7 @@ from ELL.ell import *
 
 snpSize=[500]
 numSubjects=400
-numTraits=200
+numTraits=400
 etaSq=0
 
 ellDSet=[.1,.5]
@@ -75,19 +75,19 @@ plotZ(z)
 
 #######################################################################################################
 '''
-offDiag=np.array([0]*int(N*(N-1)/2))
+offDiag=np.array([0]*int(numTraits*(numTraits-1)/2))
 stat=ell(np.array(ellDSet),offDiag)
 
 #######################################################################################################
 
 #stat.load()
-stat.fit(10*N,1000*N,3000,1e-6) # numLamSteps0,numLamSteps1,numEllSteps,minEll
+stat.fit(10*numTraits,1000*numTraits,3000,1e-6) # numLamSteps0,numLamSteps1,numEllSteps,minEll
 stat.save()
 
 #######################################################################################################
 
 ell=stat.score(z)
-ref=stat.score(norm.rvs(size=[int(parms['refReps']),N]))
+ref=stat.score(norm.rvs(size=[int(parms['refReps']),numTraits]))
 
 #######################################################################################################
 
