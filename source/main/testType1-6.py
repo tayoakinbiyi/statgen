@@ -1,7 +1,6 @@
 import matplotlib
 matplotlib.use('agg')
 import numpy as np
-import os
 import pdb
 import sys
 
@@ -9,30 +8,33 @@ sys.path=['source']+sys.path
 
 from opPython.setupFolders import *
 
-from simPython.makeSimPedFiles import *
+from simPython.makeSimInputFiles import *
 from dataPrepPython.genZScores import *
-from dataPrepPython.genLZCorr import *
 from multiprocessing import cpu_count
 from plotPython.plotPower import *
+from plotPython.plotZ import *
 
-import subprocess
 from scipy.stats import norm
 
 from ELL.ell import *
 
+snpSize=[500]
+numSubjects=600
+numTraits=400
+etaSq=0
+
 ellDSet=[.1,.5]
 colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,0,0),(0,0,.5)]
-SnpSize=[10000,10000,1000]
 traitChr=[18]#,20,16,19]
-snpChr=[snp for snp in range(1,len(SnpSize)+1)]
-traitSubset=list(range(1000))
+snpChr=[snp for snp in range(1,len(snpSize)+1)]
+
+#['gemmaLmm','fastLmm','lmm','lm','bed','bimbam','ped','gemmaStdGrm','gemmaNoStdGrm','fastGrm']
 
 ctrl={
     'etaSq':0,
-    'numSubjects':208,
-    'YTraitIndep':'real',#['indep','dep','real']
-    'modelTraitIndep':'dep',
-    'fastlmm':False
+    'sim':['indepTraits','randSnps',etaSq,numSubjects,numTraits,snpSize],#['simDep','real','simIndep']
+    'model':'indepTraits',#['indep','dep']
+    'data':['gemma','lmm','bimbam','gemmaStdGrm'], 
 }
 ops={
     'file':sys.argv[0],
@@ -40,88 +42,52 @@ ops={
     'numCores':cpu_count(),
     'snpChr':snpChr,
     'traitChr':traitChr,
-    'SnpSize':SnpSize,
     'colors':colors,
     'refReps':1e6,    
     'simLearnType':'Full',
     'response':'hipRaw',
-    'quantNormalizeExpr':False,
     'numSnpChr':18,
     'numTraitChr':21,
     'muEpsRange':[],
-    'grm':'gemmaStd',#['gemmaNoStd','gemmaStd','fast']
-    'traitSubset':traitSubset,
     'maxSnpGen':5000,
-    'transOnly':False
+    'transOnly':False,
+    'numTraits':numTraits
 }
+
+#######################################################################################################
 
 parms=setupFolders(ctrl,ops)
 
 DBCreateFolder('diagnostics',parms)
-DBCreateFolder('ped',parms)
+DBCreateFolder('inputs',parms)
 DBCreateFolder('score',parms)
 DBCreateFolder('grm',parms)
 
-DBLog('makeSimPedFiles')
-makeSimPedFiles(parms)
-
-DBLog('genZScores')
+makeSimInputFiles(parms)
 
 genZScores(parms)
 
-N=pd.read_csv('ped/traitData',sep='\t',index_col=None,header=0).shape[0]
+#######################################################################################################
 
-DBLog('genLZCorr')
-genLZCorr({**parms,'snpChr':[2]})
-LZCorr=np.loadtxt('LZCorr/LZCorr',delimiter='\t')
-zOffDiag=np.matmul(LZCorr,LZCorr.T)[np.triu_indices(N,1)]
+z=np.loadtxt('score/waldStat-1',delimiter='\t')
+print(np.min(np.mean(z**2,axis=0)),np.max(np.mean(z**2,axis=0)))
+plotZ(z)
+
+#######################################################################################################
+'''
+offDiag=np.array([0]*int(numTraits*(numTraits-1)/2))
+stat=ell(np.array(ellDSet),offDiag)
 
 #######################################################################################################
 
-offDiag=np.matmul(LZCorr,LZCorr.T)[np.triu_indices(N,1)]
-stat=ell(N,np.array(ellDSet)*N,parms['numCores'],True)
-
-#######################################################################################################
-
-stat.fit(20,1000,2000,8,1e-7,offDiag) # initialNumLamPoints,finalNumLamPoints, numEllPoints,lamZeta,ellZeta
-stat.save()
 #stat.load()
-#######################################################################################################
-
-zDat=np.concatenate([np.loadtxt('score/waldStat-3-'+str(x),delimiter='\t') for x in traitChr],axis=1)
-ell=stat.score(zDat)
+stat.fit(10*numTraits,1000*numTraits,3000,1e-6) # numLamSteps0,numLamSteps1,numEllSteps,minEll
+stat.save()
 
 #######################################################################################################
 
-fig,axs=plt.subplots(1,1)
-fig.set_figwidth(10,forward=True)
-fig.set_figheight(10,forward=True)
-axs.hist(zOffDiag,bins=60)
-fig.savefig('diagnostics/v(z)OffDiag.png')
-plt.close('all') 
-
-zRef=np.concatenate([np.loadtxt('score/waldStat-2-'+str(x),delimiter='\t') for x in traitChr],axis=1)
-zNorm=np.matmul(norm.rvs(size=[len(zRef),N]),LZCorr.T)
-
-fig,axs=plt.subplots(1,1)
-fig.set_figwidth(10,forward=True)
-fig.set_figheight(10,forward=True)
-axs.hist(np.mean(zNorm**2,axis=1),bins=60,density=True,alpha=.5,label='norm')
-axs.hist(np.mean(zRef**2,axis=1),bins=60,density=True,alpha=.5,label='ref')
-axs.legend()
-fig.savefig('diagnostics/snpMeans.png')
-plt.close('all') 
-
-fig,axs=plt.subplots(1,1)
-fig.set_figwidth(10,forward=True)
-fig.set_figheight(10,forward=True)
-axs.hist(np.mean(zNorm**2,axis=0),bins=60,density=True,alpha=.5,label='norm')
-axs.hist(np.mean(zRef**2,axis=0),bins=60,density=True,alpha=.5,label='ref')
-axs.legend()
-fig.savefig('diagnostics/traitMeans.png')
-plt.close('all') 
-
-ref=stat.score(zNorm)
+ell=stat.score(z)
+ref=stat.score(norm.rvs(size=[int(parms['refReps']),numTraits]))
 
 #######################################################################################################
 
@@ -129,13 +95,14 @@ monteCarlo=stat.monteCarlo(ref,ell)
 
 #######################################################################################################
 
-markov=stat.markov(ell,offDiag)
+markov=stat.markov(ell)
 
 #######################################################################################################
 
 plotPower(monteCarlo,parms,'mc',['mc-'+str(x) for x in ellDSet])
 plotPower(markov,parms,'markov',['markov-'+str(x) for x in ellDSet])
-pd.DataFrame(monteCarlo,columns=ellDSet).quantile([.05,.01],axis=0).to_csv('diagnostics/monteCarlo.csv',index=False)
-pd.DataFrame(markov,columns=ellDSet).quantile([.05,.01],axis=0).to_csv('diagnostics/markov.csv',index=False)
+#pd.DataFrame(monteCarlo,columns=ellDSet).quantile([.05,.01],axis=0).to_csv('diagnostics/monteCarlo.csv',index=False)
+#pd.DataFrame(markov,columns=ellDSet).quantile([.05,.01],axis=0).to_csv('diagnostics/markov.csv',index=False)
+'''
 
 DBFinish(parms)
