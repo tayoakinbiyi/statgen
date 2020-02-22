@@ -34,7 +34,7 @@ ctrl={
     'etaSq':0,
     'sim':['indepTraits','randSnps',etaSq,numSubjects,numTraits,snpSize],#['simDep','real','simIndep']
     'model':'indepTraits',#['indep','dep']
-    'data':['fast','lmm','bed','gemmaStdGrm'], 
+    'data':['gemma','lmm','ped','gemmaStdGrm'], 
 }
 ops={
     'file':sys.argv[0],
