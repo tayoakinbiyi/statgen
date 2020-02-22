@@ -75,7 +75,7 @@ def myQQ(x,y,title):
     axs.plot([labMin,labMax], [labMin,labMax], ls="--", c=".3")  
     axs.set_xlabel('theoretical')
     axs.set_ylabel('observed')
-    axs.set_title(title+' mu: '+('%.2E' % np.mean(y))+' std: '+('%.2E' % np.std(y)))
+    axs.set_title(title+' mu: '+('%.3E' % np.mean(y))+' std: '+('%.3E' % np.std(y)))
     
     fig.savefig('diagnostics/'+title+'.png')
     plt.close('all') 
@@ -88,7 +88,7 @@ def myHist(x,title):
     fig.set_figheight(10,forward=True)
 
     axs.hist(x,bins=40)
-    axs.set_title(title+' mu: '+('%.2E' % Decimal(np.mean(x)))+' std: '+('%.2E' % Decimal(np.std(x))))
+    axs.set_title(title+' mu: '+('%.3E' % np.mean(x))+' std: '+('%.3E' % np.std(x)))
     
     fig.savefig('diagnostics/'+title+'.png')
     plt.close('all') 
