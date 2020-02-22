@@ -29,12 +29,11 @@ traitChr=[18]#,20,16,19]
 snpChr=[snp for snp in range(1,len(snpSize)+1)]
 
 #['gemmaLmm','fastLmm','lmm','lm','bed','bimbam','ped','gemmaStdGrm','gemmaNoStdGrm','fastGrm']
-
+#['quantNorm','stdNorm',etaSq,numSubjects,numTraits,snpSize]
 ctrl={
-    'etaSq':0,
-    'sim':['indepTraits','randSnps',etaSq,numSubjects,numTraits,snpSize],#['simDep','real','simIndep']
+    'sim':['indepTraits','randSnps',0.5,600,400,[500]],#['simDep','real','simIndep']
     'model':'indepTraits',#['indep','dep']
-    'data':['gemma','lmm','ped','gemmaNoStdGrm'], 
+    'data':['gemma','lmm','ped','gemmaStdGrm'], 
 }
 ops={
     'file':sys.argv[0],

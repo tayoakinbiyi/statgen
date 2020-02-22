@@ -3,14 +3,13 @@
       "gemma",
       "lmm",
       "ped",
-      "gemmaNoStdGrm"
+      "gemmaStdGrm"
    ],
-   "etaSq": 0,
    "model": "indepTraits",
    "sim": [
       "indepTraits",
       "randSnps",
-      0,
+      0.5,
       600,
       400,
       [

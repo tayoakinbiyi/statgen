@@ -88,18 +88,18 @@ def makeSimInputFiles(parms):
     if 'realTraits' in sim:
         assert numSubjects==len(traits)
         Y=traits    
-    elif 'depTraits' in sim or 'indepTraits' in sim:
+    else:
         if 'depTraits' in sim:
             LTraitCorr=makePSD(np.corrcoef(traits,rowvar=False))
-        else:
+        if 'indepTraits' in sim:
             LTraitCorr=np.eye(numTraits)
         LgrmAll=np.loadtxt('LZCorr/Lgrm-1',delimiter='\t')
         Y=np.sqrt(etaSq)*np.matmul(np.matmul(LgrmAll,norm.rvs(size=traitSize)),LTraitCorr.T)+np.sqrt(1-etaSq)*np.matmul(
             norm.rvs(size=traitSize),LTraitCorr.T)
     
-    if 'quantNormalize' in sim:
+    if 'quantNorm' in sim:
         Y=norm.ppf((np.argsort(Y,axis=0)+1)/(numSubjects+1))
-    if 'stdNormalize' in sim:
+    if 'stdNorm' in sim:
         Y=(Y-np.mean(Y,axis=0))/np.std(Y,axis=0)
 
     np.savetxt('inputs/Y.phe',np.array([['0',str(int(id_))]+row for id_,row in enumerate(Y.tolist())]),delimiter='\t',fmt='%s')
