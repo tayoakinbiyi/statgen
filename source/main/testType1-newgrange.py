@@ -19,7 +19,7 @@ from scipy.stats import norm
 from ELL.ell import *
 
 snpSize=[500]
-numSubjects=400
+numSubjects=600
 numTraits=400
 etaSq=0
 
@@ -70,7 +70,7 @@ genZScores(parms)
 #######################################################################################################
 
 z=np.loadtxt('score/waldStat-1',delimiter='\t')
-print(np.min(np.mean(z**2,axis=0)))
+print(np.min(np.mean(z**2,axis=0)),np.max(np.mean(z**2,axis=0)))
 plotZ(z)
 
 #######################################################################################################
