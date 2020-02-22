@@ -1,0 +1,1 @@
+__all__=['genTraits','genCorr','genCorrMats','genSnps','genZScores']
