@@ -1,5 +1,12 @@
 {
+   "data": [
+      "gemma",
+      "lmm",
+      "ped",
+      "gemmaNoStdGrm"
+   ],
    "etaSq": 0,
+   "model": "indepTraits",
    "sim": [
       "indepTraits",
       "randSnps",
@@ -9,13 +16,6 @@
       [
          500
       ]
-   ],
-   "model": "indepTraits",
-   "data": [
-      "gemma",
-      "lmm",
-      "ped",
-      "gemmaStdGrm"
    ]
 }
 genZScores

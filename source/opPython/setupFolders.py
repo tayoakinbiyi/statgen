@@ -30,6 +30,6 @@ def setupFolders(ctrl,ops):
         os.chdir(local+name)    
     
     DBLogStart(parms)
-    DBLog(json.dumps(ctrl,indent=3))
+    DBLog(json.dumps(ctrl, cls=MyEncoder, sort_keys=True, indent=3))
         
     return(parms)
