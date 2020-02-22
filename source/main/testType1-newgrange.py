@@ -19,8 +19,8 @@ from scipy.stats import norm
 from ELL.ell import *
 
 snpSize=[500]
-numSubjects=600
-numTraits=400
+numSubjects=400
+numTraits=200
 etaSq=0
 
 ellDSet=[.1,.5]
@@ -28,11 +28,13 @@ colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,
 traitChr=[18]#,20,16,19]
 snpChr=[snp for snp in range(1,len(snpSize)+1)]
 
+#['gemmaLmm','fastLmm','lmm','lm','bed','bimbam','ped','gemmaStdGrm','gemmaNoStdGrm','fastGrm']
+
 ctrl={
     'etaSq':0,
-    'sim':['indepTraits','randSnps','normalizeTraits',etaSq,numSubjects,numTraits,snpSize],#['simDep','real','simIndep']
+    'sim':['indepTraits','randSnps',etaSq,numSubjects,numTraits,snpSize],#['simDep','real','simIndep']
     'model':'indepTraits',#['indep','dep']
-    'data':['gemmaLmm','lmm','bimbam','gemmaStdGrm'], #['gemmaLmm','fastLmm','lmm','lm','bed','bimbam','ped','gemmaGrm','fastGrm']
+    'data':['gemmaLmm','lm','bimbam','gemmaStdGrm'], 
 }
 ops={
     'file':sys.argv[0],
@@ -66,13 +68,13 @@ makeSimInputFiles(parms)
 genZScores(parms)
 
 #######################################################################################################
-pdb.set_trace()
+
 z=np.loadtxt('score/waldStat-1',delimiter='\t')
-N=z.shape[1]
+print(np.min(np.mean(z**2,axis=0)))
 plotZ(z)
 
 #######################################################################################################
-
+'''
 offDiag=np.array([0]*int(N*(N-1)/2))
 stat=ell(np.array(ellDSet),offDiag)
 
@@ -101,6 +103,6 @@ plotPower(monteCarlo,parms,'mc',['mc-'+str(x) for x in ellDSet])
 plotPower(markov,parms,'markov',['markov-'+str(x) for x in ellDSet])
 #pd.DataFrame(monteCarlo,columns=ellDSet).quantile([.05,.01],axis=0).to_csv('diagnostics/monteCarlo.csv',index=False)
 #pd.DataFrame(markov,columns=ellDSet).quantile([.05,.01],axis=0).to_csv('diagnostics/markov.csv',index=False)
-
+'''
 
 DBFinish(parms)

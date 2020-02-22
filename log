@@ -3,10 +3,9 @@
    "sim": [
       "indepTraits",
       "randSnps",
-      "normalizeTraits",
       0,
-      600,
       400,
+      200,
       [
          500
       ]
@@ -14,7 +13,7 @@
    "model": "indepTraits",
    "data": [
       "gemmaLmm",
-      "lmm",
+      "lm",
       "bimbam",
       "gemmaStdGrm"
    ]

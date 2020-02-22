@@ -14,7 +14,11 @@ def genZScores(parms):
     traitChr=parms['traitChr']
     numCores=parms['numCores']
     data=parms['data']
-    numSubjects=parms['sim'][-3]
+    sim=parms['sim']
+    etaSq=sim[-4]
+    numSubjects=sim[-3]
+    numTraits=sim[-2]
+    snpSize=sim[-1]
     
     DBLog('genZScores')
     DBCreateFolder('output',parms)
@@ -28,7 +32,7 @@ def genZScores(parms):
     numTraits=traitData.shape[0]
 
     for snp in snpChr:
-        numSnps=sum(snpData['chr']==snp)
+        numSnps=snpSize[snp-1]
 
         pLRT=np.full([numSnps,numTraits],np.nan)
         pWald=np.full([numSnps,numTraits],np.nan)
@@ -45,13 +49,13 @@ def genZScores(parms):
                     np.ceil(numTraits/numCores))))
                 if len(traitRange)==0:
                     continue
-                genZScoresHelp(str(core),str(snp),traitRange,parms,data,numSubjects)
+                #genZScoresHelp(str(core),str(snp),traitRange,parms,data,numSubjects)
                 futures+=[executor.submit(genZScoresHelp,str(core),str(snp),traitRange,parms,data,numSubjects)]
 
             for f in wait(futures,return_when=ALL_COMPLETED)[0]:
                 ans=f.result()
                 traitRange=ans['traitRange']
-                    
+                   
                 waldStat[:,traitRange]=ans['waldStat']
                 pLRT[:,traitRange]=ans['pLRT']
                 pWald[:,traitRange]=ans['pWald']
