@@ -111,6 +111,8 @@ def runFastlmm(core,snp,traitRange,parms,numSubjects,data):
         df=pd.read_csv('output/fastlmm-'+core,header=0,index_col=None,sep='\t')
         df.loc[:,'SNP']=df.loc[:,'SNP'].astype(int)
         df=df.sort_values(by='SNP')
+        
+        df.rename(columns={'SNPWeight':'SnpWeight','SNPWeightSE':'SnpWeightSE'},inplace=True)
     
         tt=(df['SnpWeight']/df['SnpWeightSE']).values
         waldStat+=[norm.ppf(t.cdf(tt,numSubjects-2)).reshape(-1,1)]
