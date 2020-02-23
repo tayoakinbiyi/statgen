@@ -2,8 +2,8 @@
    "data": [
       "fast",
       "lmm",
-      "bed",
-      "gemmaStdGrm"
+      "ped",
+      "fastGrm"
    ],
    "model": "indepTraits",
    "sim": [

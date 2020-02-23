@@ -39,7 +39,7 @@ def genZScores(parms,snpChr):
                 if len(traitRange)==0:
                     continue
                 #genZScoresHelp(str(core),str(snp),traitRange,parms,data,numSubjects)
-                futures+=[executor.submit(genZScoresHelp,str(core),str(snp),traitRange,parms,data,numSubjects)]
+                futures+=[executor.submit(genZScoresHelp,str(core),str(snp),traitRange,parms,numSubjects)]
 
             for f in wait(futures,return_when=ALL_COMPLETED)[0]:
                 ans=f.result()
@@ -64,15 +64,18 @@ def genZScores(parms,snpChr):
         
     return()
 
-def genZScoresHelp(core,snp,traitRange,parms,data,numSubjects):      
+def genZScoresHelp(core,snp,traitRange,parms,numSubjects):
+    data=parms['data']
+    
     if 'fast' in data:
-        return(runFastlmm(core,snp,traitRange,parms,numSubjects,data))
+        return(runFastlmm(core,snp,traitRange,parms,numSubjects))
     if 'gemma' in data:
-        return(runGemma(core,snp,traitRange,parms,numSubjects,data))        
+        return(runGemma(core,snp,traitRange,parms,numSubjects))        
 
-def runFastlmm(core,snp,traitRange,parms,numSubjects,data):
+def runFastlmm(core,snp,traitRange,parms,numSubjects):
     simLearnType=parms['simLearnType']
     local=parms['local']
+    data=parms['data']
         
     waldStat=[]
     pLRT=[]
@@ -127,7 +130,7 @@ def runFastlmm(core,snp,traitRange,parms,numSubjects,data):
             'se':se
            })
                                   
-def runGemma(core,snp,traitRange,parms,numSubjects,data):
+def runGemma(core,snp,traitRange,parms,numSubjects):
     local=parms['local']
     data=parms['data']
         

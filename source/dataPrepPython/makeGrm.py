@@ -23,8 +23,13 @@ def makeGrm(parms,name,snpSet):
         return()
             
     if 'fastGrm' in data:
-        cmd=[local+'ext/fastlmmc','-bfile','inputs/'+name,'-runGwasType','RUN',
-             '-maxThreads',str(numCores),'-simOut','grm/fast-'+name,'-mpheno','1','-pheno','inputs/Y.phe']
+        cmd=[local+'ext/fastlmmc','-runGwasType','NORUN','-maxThreads',str(numCores),'-simOut','grm/fast-'+name,
+             '-mpheno','1','-pheno','inputs/Y.phe']
+        if 'ped' in data:
+            cmd+=['-filesim','inputs/'+name]
+        if 'bed' in data:
+            cmd+=['-bfilesim','inputs/'+name]
+        
         subprocess.call(cmd)
         grmVal=pd.read_csv('grm/fast-'+name,sep='\t',header=0,index_col=0)
         N=len(grmVal)
@@ -37,7 +42,11 @@ def makeGrm(parms,name,snpSet):
             op=1
             nm='c'
         
-        cmd=[local+'ext/gemma','-bfile','inputs/'+name,'-o','gemma','-gk',str(op)]
+        cmd=[local+'ext/gemma','-o','gemma','-gk',str(op)]
+        if 'bed' in data:
+            cmd+=['-bfile','inputs/'+snp]
+        if 'bimbam' in data:
+            cmd+=['-g','inputs/'+snp+'.bimbam']
         subprocess.call(cmd)     
         shutil.move('output/gemma.'+nm+'XX.txt','grm/gemma-'+name)
         grmVal=pd.read_csv('grm/gemma-'+name,sep='\t',index_col=None,header=None)

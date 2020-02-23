@@ -26,7 +26,7 @@ colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,
 ctrl={
     'sim':['indepTraits','randSnps',0.5,200,300,[5000,500]],#['simDep','real','simIndep']
     'model':'indepTraits',#['indep','dep']
-    'data':['fast','lmm','bed','gemmaStdGrm'], 
+    'data':['fast','lmm','ped','fastGrm'], 
 }
 ops={
     'file':sys.argv[0],
