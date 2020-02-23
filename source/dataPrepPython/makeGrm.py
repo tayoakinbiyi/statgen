@@ -21,11 +21,9 @@ def makeGrm(parms,name,snpSet):
     
     if len(snpIds)==0:
         return()
-        
-    pd.DataFrame({'Family ID':0,'Individual ID':snpIds}).to_csv('inputs/extract',sep='\t',index=False,header=False)
-    
+            
     if 'fastGrm' in data:
-        cmd=[local+'ext/fastlmmc','-bfile','inputs/'+name,'-runGwasType','RUN','-extractSim','inputs/extract',
+        cmd=[local+'ext/fastlmmc','-bfile','inputs/'+name,'-runGwasType','RUN',
              '-maxThreads',str(numCores),'-simOut','grm/fast-'+name,'-mpheno','1','-pheno','inputs/Y.phe']
         subprocess.call(cmd)
         grmVal=pd.read_csv('grm/fast-'+name,sep='\t',header=0,index_col=0)

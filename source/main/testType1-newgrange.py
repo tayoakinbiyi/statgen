@@ -63,6 +63,7 @@ z=np.loadtxt('score/waldStat-1',delimiter='\t')
 print(np.min(np.mean(z**2,axis=0)),np.max(np.mean(z**2,axis=0)))
 DBCreateFolder('diagnostics',parms)
 plotZ(z)
+myHist(np.loadtxt('LZCorr/Lgrm-1',delimiter='\t')[np.triu_indices(ctrl['sim'][-3],1)],'Grm')
 
 #######################################################################################################
 '''
