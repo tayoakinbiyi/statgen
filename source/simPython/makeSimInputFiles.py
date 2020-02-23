@@ -11,7 +11,6 @@ from opPython.DB import *
 from genPython.makePSD import *
 
 from dataPrepPython.makeGrm import *
-from dataPrepPython.makeTraitPedFiles import *
 from dataPrepPython.writeInputs import *
 from simPython.makeSimSnps import *
 

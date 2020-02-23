@@ -2,7 +2,7 @@
    "data": [
       "gemma",
       "lmm",
-      "ped",
+      "bimbam",
       "gemmaStdGrm"
    ],
    "model": "indepTraits",
