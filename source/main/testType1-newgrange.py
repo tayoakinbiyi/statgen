@@ -24,7 +24,7 @@ colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,
 #['gemmaLmm','fastLmm','lmm','lm','bed','bimbam','ped','gemmaStdGrm','gemmaNoStdGrm','fastGrm']
 #['quantNorm','stdNorm',etaSq,numSubjects,numTraits,numSnps]
 ctrl={
-    'sim':['indepTraits','randSnps',0.5,200,300,[5000]],#['simDep','real','simIndep']
+    'sim':['indepTraits','randSnps',0.5,200,300,[5000,500]],#['simDep','real','simIndep']
     'model':'indepTraits',#['indep','dep']
     'data':['gemma','lmm','ped','gemmaStdGrm'], 
 }

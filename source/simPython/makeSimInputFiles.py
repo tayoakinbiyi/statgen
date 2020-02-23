@@ -47,7 +47,7 @@ def makeSimInputFiles(parms):
         bimBamFmt=makeSimSnps(parms)
     elif 'randSnps' in sim:
         bimBamFmt=np.random.choice([0,1,2],numSubjects*sum(numSnps),True,[.25,.5,.25]).reshape(sum(numSnps),-1)
-
+    
     bimBamFmt=np.round(bimBamFmt,0).astype(int)
     
     ################################################### writeInputs ###################################################
