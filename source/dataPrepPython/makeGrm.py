@@ -29,11 +29,11 @@ def makeGrm(parms,name,snpSet):
         grmVal=pd.read_csv('grm/fast-'+name,sep='\t',header=0,index_col=0)
         N=len(grmVal)
         np.savetxt('grm/gemma-'+name,grmVal.values,delimiter='\t')
-    else:
+    if 'gemmaStdGrm' in data or 'gemmaCentralGrm' in data:
         if 'gemmaStdGrm' in data:
             op=2
             nm='s'
-        else:
+        if 'gemmaCentralGrm' in data:
             op=1
             nm='c'
         

@@ -129,6 +129,7 @@ def runFastlmm(core,snp,traitRange,parms,numSubjects,data):
                                   
 def runGemma(core,snp,traitRange,parms,numSubjects,data):
     local=parms['local']
+    data=parms['data']
         
     waldStat=[]
     pLRT=[]
@@ -137,13 +138,14 @@ def runGemma(core,snp,traitRange,parms,numSubjects,data):
     beta=[]
     se=[]
     
+    op=1 if 'gemmaCentralGrm' in data else 2
     cmd=[local+'ext/gemma','-o','gemma-'+core,'-c','inputs/cov.txt','-p','inputs/Y.phe']
-    if 'ped' in data:
+    if 'bed' in data:
         cmd+=['-bfile','inputs/'+snp]
     if 'bimbam' in data:
         cmd+=['-g','inputs/'+snp+'.bimbam']
     if 'lmm' in data:
-        cmd+=['-lmm','4','-d','grm/gemma-eigen-'+snp+'/D','-u','grm/gemma-eigen-'+snp+'/U']
+        cmd+=['-lmm','4','-d','grm/gemma-eigen-'+snp+'/D','-u','grm/gemma-eigen-'+snp+'/U','-km',str(op)]
     if 'lm' in data:
         cmd+=['-lm','4']
     
