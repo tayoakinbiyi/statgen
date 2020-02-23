@@ -9,7 +9,7 @@ from scipy.stats import chi2,t,norm
 from opPython.DB import *
 from opPython.verboseArrCheck import *
 
-def genZScores(parms):
+def genZScores(parms,snpChr):
     numCores=parms['numCores']
     data=parms['data']
     sim=parms['sim']
@@ -21,7 +21,7 @@ def genZScores(parms):
     DBLog('genZScores')
     DBCreateFolder('output',parms)
         
-    for snp in range(1,len(numSnps)+1):
+    for snp in snpChr:
         numSnp=numSnps[snp-1]
         pLRT=np.full([numSnp,numTraits],np.nan)
         pWald=np.full([numSnp,numTraits],np.nan)

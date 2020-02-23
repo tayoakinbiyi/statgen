@@ -53,13 +53,12 @@ DBCreateFolder('grm',parms)
 DBCreateFolder('inputs',parms)
 makeSimInputFiles(parms)
 
-
 DBCreateFolder('score',parms)
-genZScores(parms)
+genZScores(parms,[2])
 
 #######################################################################################################
 
-z=np.loadtxt('score/waldStat-1',delimiter='\t')
+z=np.loadtxt('score/waldStat-2',delimiter='\t')
 print(np.min(np.mean(z**2,axis=0)),np.max(np.mean(z**2,axis=0)))
 DBCreateFolder('diagnostics',parms)
 plotZ(z)
