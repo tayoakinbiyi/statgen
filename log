@@ -1,0 +1,20 @@
+{
+   "data": [
+      "gemma",
+      "lmm",
+      "ped",
+      "gemmaStdGrm"
+   ],
+   "model": "indepTraits",
+   "sim": [
+      "indepTraits",
+      "randSnps",
+      0.5,
+      200,
+      300,
+      [
+         5000
+      ]
+   ]
+}
+genZScores

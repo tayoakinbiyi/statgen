@@ -19,8 +19,6 @@ def makeSimInputFiles(parms):
     print('simSetup')
     
     local=parms['local']
-    traitChr=parms['traitChr']
-    snpChr=parms['snpChr']
     numCores=parms['numCores']
     response=parms['response']
     muEpsRange=parms['muEpsRange']
@@ -29,7 +27,7 @@ def makeSimInputFiles(parms):
     etaSq=sim[-4]
     numSubjects=sim[-3]
     numTraits=sim[-2]
-    snpSize=sim[-1]
+    numSnps=sim[-1]
               
     DBCreateFolder('inputs',parms)
     DBCreateFolder('geneDrop',parms)
@@ -38,18 +36,17 @@ def makeSimInputFiles(parms):
     DBCreateFolder('output',parms)
         
     ################################################### snps ped ###################################################
-    
-    numSnps=np.sum(snpSize)
-    
+        
     np.random.seed(27)
     
     if 'realSnps' in sim:
         bimBamFmt=np.loadtxt(local+'data/snps.txt',delimiter='\t')[:,2:].T
-        bimBamFmt=bimBamFmt[np.mod(np.arange(numSubjects),len(bimBamFmt)),random.sample(range(bimBamFmt.shape[1]),numSnps)]        
+        bimBamFmt=bimBamFmt[np.mod(np.arange(numSubjects),len(bimBamFmt)),random.sample(range(
+            bimBamFmt.shape[1]),sum(numSnps))]        
     elif 'pedigreeSnps' in sim:
         bimBamFmt=makeSimSnps(parms)
     elif 'randSnps' in sim:
-        bimBamFmt=np.random.choice([0,1,2],numSubjects*numSnps,True,[.25,.5,.25]).reshape(numSnps,-1)
+        bimBamFmt=np.random.choice([0,1,2],numSubjects*sum(numSnps),True,[.25,.5,.25]).reshape(sum(numSnps),-1)
 
     bimBamFmt=np.round(bimBamFmt,0).astype(int)
     
@@ -68,25 +65,25 @@ def makeSimInputFiles(parms):
         subprocess.call(['ln','-s','gemma-eigen-1', 'grm/gemma-eigen-'+str(snp)])
     
     ################################################### gen Y ###################################################        
-    
-    traits=pd.read_csv(local+'data/'+response+'.txt',sep='\t',index_col=0,header=0)
-
-    robjects=result = pyreadr.read_r(local+'data/allMouseGenesCoords.RData')
-    mouseGenes=robjects['mouseGenes']
-    mouseGenes=mouseGenes[(mouseGenes['chrom'].isin([str(x) for x in traitChr]))&(mouseGenes['gene_name'].isin(traits.columns))]
-
-    traitData=pd.DataFrame({'trait':mouseGenes['gene_name'],'chr':mouseGenes['chrom'].astype(int),
-        'Mbp':((mouseGenes['cds_start']+mouseGenes['cds_end'])/2).astype(int)})
-    traitData=traitData.iloc[:numTraits].sort_values(by=['chr','trait'])
-    traitData.to_csv('ped/traitData',index=False,sep='\t')    
-    traits=traits[traitData.trait].values
-        
+            
     traitSize=[numSubjects,numTraits]
     
     np.random.seed(110)
     
     if 'realTraits' in sim:
         assert numSubjects==len(traits)
+        traits=pd.read_csv(local+'data/'+response+'.txt',sep='\t',index_col=0,header=0)
+
+        robjects=result = pyreadr.read_r(local+'data/allMouseGenesCoords.RData')
+        mouseGenes=robjects['mouseGenes']
+        mouseGenes=mouseGenes[(mouseGenes['chrom'].isin(range(1,22)))&(mouseGenes['gene_name'].isin(traits.columns))]
+
+        traitData=pd.DataFrame({'trait':mouseGenes['gene_name'],'chr':mouseGenes['chrom'].astype(int),
+            'Mbp':((mouseGenes['cds_start']+mouseGenes['cds_end'])/2).astype(int)})
+        traitData=traitData.sort_values(by=['chr','trait']).iloc[:numTraits]
+        traitData.to_csv('ped/traitData',index=False,sep='\t')    
+        traits=traits[traitData.trait].values
+
         Y=traits    
     else:
         if 'depTraits' in sim:
