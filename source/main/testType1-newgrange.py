@@ -26,7 +26,7 @@ colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,
 ctrl={
     'sim':['indepTraits','randSnps',0.5,200,300,[5000,500]],#['simDep','real','simIndep']
     'model':'indepTraits',#['indep','dep']
-    'data':['fast','lmm','ped','gemmaStdGrm'], 
+    'data':['fast','lmm','bed','gemmaStdGrm'], 
 }
 ops={
     'file':sys.argv[0],
@@ -54,11 +54,11 @@ DBCreateFolder('inputs',parms)
 makeSimInputFiles(parms)
 
 DBCreateFolder('score',parms)
-genZScores(parms,[2])
+genZScores(parms,[len([ctrl['sim'][-1]])])
 
 #######################################################################################################
 
-z=np.loadtxt('score/waldStat-2',delimiter='\t')
+z=np.loadtxt('score/waldStat-'+str(len([ctrl['sim'][-1]])),delimiter='\t')
 print(np.min(np.mean(z**2,axis=0)),np.max(np.mean(z**2,axis=0)))
 DBCreateFolder('diagnostics',parms)
 plotZ(z)

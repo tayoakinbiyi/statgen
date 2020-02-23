@@ -3,7 +3,7 @@ import os
 import json
 import pdb
 import subprocess
-import numpy as np
+from opPython.MyEncoder import *
 
 def setupFolders(ctrl,ops):
     parms={**ctrl,**ops}
