@@ -2,14 +2,14 @@
    "data": [
       "gemma",
       "lmm",
-      "bimbam",
+      "bed",
       "gemmaStdGrm"
    ],
    "model": "indepTraits",
    "sim": [
       "indepTraits",
       "randSnps",
-      0.5,
+      0.75,
       200,
       300,
       [
