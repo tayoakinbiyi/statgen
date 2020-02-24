@@ -16,7 +16,7 @@
    "reg": [
       "fast",
       "lmm",
-      "ped"
+      "bed"
    ],
    "sim": [
       "indepTraits",
