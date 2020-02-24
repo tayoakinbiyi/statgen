@@ -5,7 +5,7 @@
       "std"
    ],
    "parms": [
-      0.25,
+      0.5,
       200,
       300,
       [
@@ -16,7 +16,7 @@
    "reg": [
       "fast",
       "lmm",
-      "bed"
+      "ped"
    ],
    "sim": [
       "indepTraits",
