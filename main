@@ -1,0 +1,71 @@
+def myMain(mainDef):
+    ellDSet=[.1,.5]
+    colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,0,0),(0,0,.5)]
+
+    #['etaSq','numSubjects','numTraits','numSnps']
+    #['realSnps','pedigreeSnps','randSnps','indepTraits','depTraits','quantNorm','stdNorm','noNorm']
+    #['indepTraits','depTraits']
+    #['gemma','fast','lmm','lm','ped','bimbam','bed']
+    #['gemmaStd','gemmaCentral','fast','bed','bimbam','ped']
+    ops={
+        'file':sys.argv[0],
+        'ellDSet':ellDSet,
+        'numCores':cpu_count(),
+        'colors':colors,
+        'refReps':1e6,    
+        'simLearnType':'Full',
+        'response':'hipRaw',
+        'numSnpChr':18,
+        'numTraitChr':21,
+        'muEpsRange':[],
+        'maxSnpGen':5000,
+        'transOnly':False,
+        'YSeed':0,
+        'snpsSeed':0,
+        'logSource':False
+    }
+    
+    local=os.getcwd()
+    #######################################################################################################
+
+    for exp in [{'soft':soft,'eta':eta,'fmt':fmt} for soft in ['gemma','fast'] for eta in [0,.25,.5,.75] for fmt in 
+                ['ped','bed','bimbam'] if not ((fmt=='ped' and soft=='gemma') or (fmt=='bimbam' and soft=='fast'))]:
+        os.chdir(local)
+        ctrl={
+            'parms':[exp['eta'],200,300,[5000,500]],
+            'sim':['indepTraits','randSnps','noNorm'],
+            'ell':'indepTraits',
+            'reg':[exp['soft'],'lmm',exp['fmt']],
+            'grm':['gemma','std']
+        }
+        parms=setupFolders(ctrl,ops)
+        
+        DBCreateFolder('grm',parms)
+        DBCreateFolder('inputs',parms)
+        makeSimInputFiles(parms)
+        
+        #######################################################################################################
+
+        DBCreateFolder('score',parms)
+        genZScores(parms,[len([ctrl['sim'][-1]])])
+
+        #######################################################################################################
+
+        z=np.loadtxt('score/waldStat-2',delimiter='\t')
+        eta=np.loadtxt('score/eta-2',delimiter='\t')
+
+        #######################################################################################################
+
+        DBCreateFolder('diagnostics',parms)
+        plotZ(z)
+        
+        fig,axs=plt.subplots(1,1)
+        fig.set_figwidth(10,forward=True)
+        fig.set_figheight(10,forward=True)
+        axs.scatter(np.log(np.mean(eta,axis=0)),np.mean(z**2,axis=0))
+        axs.set_title('traitMean z**2 ~ eta')
+        axs.axvline(x=exp['eta'])
+        axs.axhline(y=1)
+        fig.savefig('diagnostics/zVsEta.png')
+
+        DBFinish(parms,mainDef)

@@ -1,0 +1,27 @@
+{
+   "ell": "indepTraits",
+   "grm": [
+      "gemma",
+      "std"
+   ],
+   "parms": [
+      0,
+      200,
+      300,
+      [
+         5000,
+         500
+      ]
+   ],
+   "reg": [
+      "gemma",
+      "lmm",
+      "bed"
+   ],
+   "sim": [
+      "indepTraits",
+      "randSnps",
+      "noNorm"
+   ]
+}
+genZScores
