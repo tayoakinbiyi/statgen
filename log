@@ -16,7 +16,7 @@
    "reg": [
       "gemma",
       "lmm",
-      "bed"
+      "bimbam"
    ],
    "sim": [
       "indepTraits",
