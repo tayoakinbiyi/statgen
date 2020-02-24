@@ -21,6 +21,8 @@ def makeSimInputFiles(parms):
     numCores=parms['numCores']
     response=parms['response']
     muEpsRange=parms['muEpsRange']
+    snpsSeed=parms['snpsSeed']
+    YSeed=parms['YSeed']
     
     sim=parms['sim']
     etaSq=sim[-4]
@@ -36,7 +38,7 @@ def makeSimInputFiles(parms):
         
     ################################################### snps ped ###################################################
         
-    np.random.seed(27)
+    np.random.seed(snpsSeed)
     
     if 'realSnps' in sim:
         bimBamFmt=np.loadtxt(local+'data/snps.txt',delimiter='\t')[:,2:].T
@@ -67,7 +69,7 @@ def makeSimInputFiles(parms):
             
     traitSize=[numSubjects,numTraits]
     
-    np.random.seed(110)
+    np.random.seed(YSeed)
     
     if 'realTraits' in sim:
         assert numSubjects==len(traits)

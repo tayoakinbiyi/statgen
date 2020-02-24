@@ -7,7 +7,6 @@ def DBLogStart(parms):
     local=parms['local']
         
     subprocess.call(['cp','-rLf',local+'source','.'])
-    subprocess.call(['cp',local+'source/main/'+parms['file'],'diagnostics/'+parms['file']])
     subprocess.call(['rm','-f','log'])
     
     return()
@@ -19,7 +18,8 @@ def DBFinish(parms):
     
     subprocess.call(['rm','-rf',nm])
     subprocess.call(['cp','-rf','source',nm])
-    subprocess.call(['cp',parms['file'],nm+parms['name']])
+    with open(nm+'file','w+') as f:
+        f.write(getsource(main))
     subprocess.call(['cp','log',nm])
     subprocess.call(['cp','-rf','diagnostics',nm])  
     
