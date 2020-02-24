@@ -22,9 +22,7 @@ def setupFolders(ctrl,ops):
         os.mkdir('diagnostics')
         os.mkdir('grm')
         os.mkdir('output')
-        os.mkdir('ref')
         os.mkdir('power')
-        os.mkdir('holds')
         os.mkdir('inputs')
     else:
         os.chdir(local+name)    
