@@ -26,11 +26,13 @@ def myMain(mainDef):
     }
     
     local=os.getcwd()
+
     #######################################################################################################
 
     for exp in [{'soft':soft,'eta':eta,'fmt':fmt} for soft in ['gemma','fast'] for eta in [0,.25,.5,.75] for fmt in 
                 ['ped','bed','bimbam'] if not ((fmt=='ped' and soft=='gemma') or (fmt=='bimbam' and soft=='fast'))]:
         os.chdir(local)
+        np.random.seed(27)
         ctrl={
             'parms':[exp['eta'],200,300,[5000,500]],
             'sim':['indepTraits','randSnps','noNorm'],
