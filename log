@@ -5,7 +5,7 @@
       "std"
    ],
    "parms": [
-      0.75,
+      0,
       200,
       300,
       [
@@ -14,9 +14,9 @@
       ]
    ],
    "reg": [
-      "gemma",
+      "fast",
       "lmm",
-      "bimbam"
+      "ped"
    ],
    "sim": [
       "indepTraits",
