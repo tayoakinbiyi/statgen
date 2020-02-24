@@ -1,9 +1,9 @@
 {
    "data": [
-      "fast",
+      "gemma",
       "lmm",
-      "ped",
-      "fastGrm"
+      "bimbam",
+      "gemmaStdGrm"
    ],
    "model": "indepTraits",
    "sim": [

@@ -42,11 +42,11 @@ def makeGrm(parms,name,snpSet):
             op=1
             nm='c'
         
-        cmd=[local+'ext/gemma','-o','gemma','-gk',str(op)]
+        cmd=[local+'ext/gemma','-o','gemma','-gk',str(op),'-p','inputs/Y.phe']
         if 'bed' in data:
-            cmd+=['-bfile','inputs/'+snp]
+            cmd+=['-bfile','inputs/'+name]
         if 'bimbam' in data:
-            cmd+=['-g','inputs/'+snp+'.bimbam']
+            cmd+=['-g','inputs/'+name+'.bimbam']
         subprocess.call(cmd)     
         shutil.move('output/gemma.'+nm+'XX.txt','grm/gemma-'+name)
         grmVal=pd.read_csv('grm/gemma-'+name,sep='\t',index_col=None,header=None)

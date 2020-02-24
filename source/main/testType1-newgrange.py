@@ -23,16 +23,10 @@ colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,
 
 #['gemma','fast','lmm','lm','bed','bimbam','ped','gemmaStdGrm','gemmaCentralGrm','fastGrm']
 #['quantNorm','stdNorm',etaSq,numSubjects,numTraits,numSnps]
-ctrl={
-    'sim':['indepTraits','randSnps',0.5,200,300,[5000,500]],#['simDep','real','simIndep']
-    'model':'indepTraits',#['indep','dep']
-    'data':['fast','lmm','ped','fastGrm'], 
-}
 ops={
     'file':sys.argv[0],
     'ellDSet':ellDSet,
     'numCores':cpu_count(),
-    'snpChr':[x for x in range(1,len(ctrl['sim'][-1])+1)],
     'colors':colors,
     'refReps':1e6,    
     'simLearnType':'Full',
@@ -46,24 +40,34 @@ ops={
 
 #######################################################################################################
 
-parms=setupFolders(ctrl,ops)
+for exp in [['gemma','bimbam'],['gemma','bed'],['fast','bed'],['fast','ped']]:
+    ctrl={
+        'sim':['indepTraits','randSnps',0.5,200,300,[5000,500]],
+        'model':'indepTraits',
+        'data':[exp[0],'lmm',exp[1],'gemmaStdGrm']
+    }
+    parms=setupFolders(ctrl,ops)
 
+    DBCreateFolder('grm',parms)
+    DBCreateFolder('inputs',parms)
+    makeSimInputFiles(parms)
 
-DBCreateFolder('grm',parms)
-DBCreateFolder('inputs',parms)
-makeSimInputFiles(parms)
+    #######################################################################################################
 
-DBCreateFolder('score',parms)
-genZScores(parms,[len([ctrl['sim'][-1]])])
+    DBCreateFolder('score',parms)
+    genZScores(parms,[len([ctrl['sim'][-1]])])
 
-#######################################################################################################
+    #######################################################################################################
 
-z=np.loadtxt('score/waldStat-'+str(len([ctrl['sim'][-1]])),delimiter='\t')
-print(np.min(np.mean(z**2,axis=0)),np.max(np.mean(z**2,axis=0)))
-DBCreateFolder('diagnostics',parms)
-plotZ(z)
-myHist(np.loadtxt('LZCorr/Lgrm-1',delimiter='\t')[np.triu_indices(ctrl['sim'][-3],1)],'Grm')
+    z=np.loadtxt('score/waldStat-'+str(len([ctrl['sim'][-1]])),delimiter='\t')
 
+    #######################################################################################################
+
+    DBCreateFolder('diagnostics',parms)
+    plotZ(z)
+
+    DBFinish(parms)
+    
 #######################################################################################################
 '''
 offDiag=np.array([0]*int(numTraits*(numTraits-1)/2))
@@ -96,4 +100,3 @@ plotPower(markov,parms,'markov',['markov-'+str(x) for x in ellDSet])
 #pd.DataFrame(markov,columns=ellDSet).quantile([.05,.01],axis=0).to_csv('diagnostics/markov.csv',index=False)
 '''
 
-DBFinish(parms)
