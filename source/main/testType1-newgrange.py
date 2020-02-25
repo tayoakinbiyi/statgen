@@ -78,7 +78,7 @@ def myMain(mainDef):
         ctrl={
             'count':count,
             'parms':[exp['eta'],numSubjects,numTraits,[5000,500]],
-            'sim':['indepTraits','randSnps','noNorm'],
+            'sim':['indepTraits','pedigreeSnps','noNorm'],
             'ell':'indepTraits',
             'reg':[exp['soft'],'lmm',exp['fmt']],
             'grm':['gemma','std']

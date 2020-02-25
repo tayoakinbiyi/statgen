@@ -5,12 +5,11 @@ import subprocess
 import pdb
 
 def makeSimSnps(parms): 
-    snpSize=parms['snpSize']
+    numSnps=parms['parms'][-1]
     maxSnpGen=parms['maxSnpGen']
     local=parms['local']
-    numSubjects=parms['numSubjects']
+    numSubjects=parms['parms'][-3]
         
-    numSnps=np.sum(snpSize)
     subprocess.call(['cp',local+'ext/sampleIds.txt','geneDrop/sampleIds.txt'])
     pd.DataFrame({'parms':[local+'ext/ail_revised.ped.txt','geneDrop/sampleIds.txt','geneDrop/map.txt',0,0]}).to_csv(
         'geneDrop/parms.txt',index=False,header=None)
@@ -19,8 +18,8 @@ def makeSimSnps(parms):
 
     rows=[]
     t_numSnps=0
-    while t_numSnps<numSnps:
-        newAdd=min(maxSnpGen,numSnps-t_numSnps)
+    while t_numSnps<sum(numSnps):
+        newAdd=min(maxSnpGen,sum(numSnps)-t_numSnps)
         pd.DataFrame({'# name':np.arange(1,newAdd+1),'length(cM)':1,'spacing(cM)':2,'MAF':.5}).to_csv(
             'geneDrop/map.txt',sep='\t',index=False)
 
