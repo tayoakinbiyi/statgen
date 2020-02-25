@@ -1,0 +1,27 @@
+{
+   "count": 3,
+   "parms": [
+      0.25,
+      200,
+      300,
+      [
+         5000,
+         500
+      ]
+   ],
+   "sim": [
+      "indepTraits",
+      "randSnps",
+      "noNorm"
+   ],
+   "ell": "indepTraits",
+   "reg": [
+      "gemma",
+      "lmm",
+      "bimbam"
+   ],
+   "grm": [
+      "gemma",
+      "std"
+   ]
+}
