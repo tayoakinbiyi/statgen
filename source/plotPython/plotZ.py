@@ -53,8 +53,7 @@ def plotZ(z):
     title='snpMean z^2 theoretical'
     myQQ(x,y,title)
 
-    myHist(np.corrcoef(z,rowvar=False)[np.triu_indices(numTraits,1)],'between trait')
-    
+    myHist(np.corrcoef(z,rowvar=False)[np.triu_indices(numTraits,1)],'between trait')    
     myHist(np.corrcoef(z,rowvar=True)[np.triu_indices(numSnps,1)],'between snp')
 
     return()

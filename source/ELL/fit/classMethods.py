@@ -48,13 +48,15 @@ def geomBins(numSteps,minVal,maxVal):
     bins=np.append(np.array([maxVal]),maxVal*np.power(zeta,np.arange(1,numSteps+1)))[::-1]
     return(bins)
 
-def fit(self,numLamSteps0,numLamSteps1,numEllSteps,minEll):
+def fit(self,numLamSteps0,numLamSteps1,numEllSteps,minEll,offDiag=None):
     if self.reportMem:
         memory('start fit')
     
     N=self.N
-    offDiag=self.offDiag
-
+    if offDiag is None:
+        offDiag=np.array([0]*int(N*(N-1)/2))
+    
+    self.offDiag=offDiag
     self.nCr=nCr(N)
     self.offDiagMeans=np.array([np.mean(offDiag), np.mean(offDiag**2), np.mean(offDiag**3),
         np.mean(offDiag**4),np.mean(offDiag**5), np.mean(offDiag**6), np.mean(offDiag**7),

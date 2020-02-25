@@ -1,0 +1,1 @@
+"{\n   \"count\": 0,\n   \"parms\": [\n      0,\n      400,\n      300,\n      [\n         5000,\n         500\n      ]\n   ],\n   \"sim\": [\n      \"indepTraits\",\n      \"pedigreeSnps\",\n      \"noNorm\"\n   ],\n   \"ell\": \"indepTraits\",\n   \"reg\": [\n      \"gemma\",\n      \"lmm\",\n      \"bed\"\n   ],\n   \"grm\": [\n      \"gemma\",\n      \"std\"\n   ]\n}"

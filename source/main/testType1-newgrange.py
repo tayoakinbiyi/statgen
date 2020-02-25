@@ -48,44 +48,31 @@ def myMain(mainDef):
         'local':local
     }
     
-
-    #######################################################################################################
-    
-    offDiag=np.array([0]*int(numTraits*(numTraits-1)/2))
-    stat=ELL.ell.ell(np.array([.1,.5]),offDiag)
-
-    #######################################################################################################
-
-    #stat.load()
-    stat.fit(10*numTraits,1000*numTraits,3000,1e-6) # numLamSteps0,numLamSteps1,numEllSteps,minEll
-    stat.save('ref')
-
-    refELL=stat.score(norm.rvs(size=[int(1e6),numTraits]))
-    
-    #######################################################################################################
-
     count=0
     
     parms=setupFolders({},ops)
-    
-    ref={}
-    subprocess.call(['rm','-rf','diagnosticsAll'])
-    subprocess.call(['mkdir','diagnosticsAll'])
-    for exp in [{'soft':soft,'eta':eta,'fmt':fmt} for soft in ['gemma','fast'] for eta in [0,.25,.5,.75] for fmt in 
-                ['ped','bed','bimbam'] if not ((fmt=='ped' and soft=='gemma') or (fmt=='bimbam' and soft=='fast'))]:
+    stat=ELL.ell.ell(np.array([.1,.5]),numTraits)
+    stat.fit(10*numTraits,1000*numTraits,3000,1e-6) # numLamSteps0,numLamSteps1,numEllSteps,minEll
+    refELL=stat.score(norm.rvs(size=[int(1e6),numTraits]))
+        
+    ref=pd.DataFrame()
+    for exp in [{'count':count,'soft':soft,'eta':eta,'fmt':fmt,'numSubjects':numSubjects,'traits':traits,'cross':False} for 
+            soft in ['gemma','fast'] for traits in ['indepTraits'] for eta in 
+            [0,.33,.66] for fmt in ['ped','bed','bimbam'] for numSubjects in [400,2000,10000] 
+            if not ((fmt=='ped' and soft=='gemma') or (fmt=='bimbam' and soft=='fast'))]:
         os.chdir(local+ops['file'][:-3])
         np.random.seed(27)
         ctrl={
             'count':count,
-            'parms':[exp['eta'],numSubjects,numTraits,[5000,500]],
-            'sim':['indepTraits','pedigreeSnps','noNorm'],
-            'ell':'indepTraits',
+            'parms':[exp['eta'],exp['numSubjects'],numTraits,[5000,500]],
+            'sim':[exp['traits'],'pedigreeSnps','noNorm'],
+            'ell':exp['traits'],
             'reg':[exp['soft'],'lmm',exp['fmt']],
             'grm':['gemma','std']
         }
         parms={**ctrl,**ops}
         
-        ref[count]=ctrl.copy()
+        DBLog(ctrl)
 
         subprocess.call(['rm','-f','log'])
         DBLog(json.dumps(ctrl,indent=3))
@@ -97,12 +84,13 @@ def myMain(mainDef):
         #######################################################################################################
 
         DBCreateFolder('score',parms)
-        genZScores(parms,[len([ctrl['sim'][-1]])])
+        numSnps=ctrl['parms'][-1]
+        genZScores(parms,list(range(len(numSnps)-1,len(numSnps)+1)))
 
         #######################################################################################################
 
-        z=np.loadtxt('score/waldStat-2',delimiter='\t')
-        eta=np.loadtxt('score/eta-2',delimiter='\t')
+        z=np.loadtxt('score/waldStat-'+str(len(numSnps)),delimiter='\t')
+        eta=np.loadtxt('score/eta-'+str(len(numSnps)),delimiter='\t')
 
         #######################################################################################################
 
@@ -120,6 +108,14 @@ def myMain(mainDef):
         
         #######################################################################################################
 
+        #z=np.loadtxt('score/waldStat-2',delimiter='\t')
+        #offDiag=np.corrcoef(z,rowvar=False)[np.triu_indices(numTraits,1)]
+        #stat.fit(10*numTraits,1000*numTraits,3000,1e-6,offDiag) # numLamSteps0,numLamSteps1,numEllSteps,minEll
+
+        #refELL=stat.score(norm.rvs(size=[int(1e6),numTraits]))
+
+        #######################################################################################################
+
         score=stat.score(z)
 
         #######################################################################################################
@@ -132,24 +128,20 @@ def myMain(mainDef):
 
         #######################################################################################################
 
-        plotPower(monteCarlo,parms,'mc',['mc-'+str(x) for x in ellDSet])
+        cross=plotPower(monteCarlo,parms,'mc',['mc-'+str(x) for x in ellDSet])
         plotPower(markov,parms,'markov',['markov-'+str(x) for x in ellDSet])
 
         #######################################################################################################
+        
+        exp['cross']=cross[-1]
+        ref=ref.append(exp,ignore_index=True)
+        
+        subprocess.call(['touch','diagnostics/'+str(count)])
 
-        nm='diagnosticsAll/'+str(count)
-        subprocess.call(['rm','-rf',nm])
-        subprocess.call(['mv','-Tf','diagnostics',nm])
-        subprocess.call(['mv','log',nm])
-
+        DBFinish(local,mainDef)
         count+=1
 
-    with open('diagnosticsAll/log','w+') as f:
-        f.write(json.dumps(ref))
-
-    subprocess.call(['rm','-rf','diagnostics'])
-    subprocess.call(['mv','-T','diagnosticsAll','diagnostics'])
+    ref.to_csv(local+parms['file']+'-ref.tsv',delimiter='\t',index=False)
     
-    DBFinish(local,mainDef)
 
 myMain(getsource(myMain))

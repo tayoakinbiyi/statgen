@@ -40,5 +40,5 @@ def plotPower(pvals,parms,title,columns):
             
     fig.savefig('diagnostics/'+title+'.png',bbox_inches='tight')
 
-    return()
+    return(crossMetrics>0)
 

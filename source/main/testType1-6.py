@@ -3,11 +3,11 @@ matplotlib.use('agg')
 import numpy as np
 import pdb
 import sys
+import os
 
-sys.path=['source']+sys.path
-
+sys.path=[os.getcwd()+'/source']+sys.path
+from dill.source import getsource
 from opPython.setupFolders import *
-
 from simPython.makeSimInputFiles import *
 from dataPrepPython.genZScores import *
 from multiprocessing import cpu_count
@@ -15,94 +15,85 @@ from plotPython.plotPower import *
 from plotPython.plotZ import *
 
 from scipy.stats import norm
+import ELL.ell
 
-from ELL.ell import *
+def myMain(mainDef):
+    colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,0,0),(0,0,.5)]
+    ellDSet=[.1,.5]
+    
+    numSubjects=200
+    numTraits=300
 
-snpSize=[500]
-numSubjects=600
-numTraits=400
-etaSq=0
+    #['etaSq','numSubjects','numTraits','numSnps']
+    #['realSnps','pedigreeSnps','randSnps','indepTraits','depTraits','quantNorm','stdNorm','noNorm']
+    #['indepTraits','depTraits']
+    #['gemma','fast','lmm','lm','ped','bimbam','bed']
+    #['gemmaStd','gemmaCentral','fast','bed','bimbam','ped']
+    local=os.getcwd()+'/'
+    ops={
+        'file':sys.argv[0],
+        'numCores':cpu_count(),
+        'colors':colors,
+        'refReps':1e6,    
+        'simLearnType':'Full',
+        'response':'hipRaw',
+        'numSnpChr':18,
+        'numTraitChr':21,
+        'muEpsRange':[],
+        'maxSnpGen':5000,
+        'transOnly':False,
+        'YSeed':0,
+        'snpsSeed':0,
+        'logSource':True,
+        'local':local
+    }
+    
+    count=0
+    
+    parms=setupFolders({},ops)
+    z=[]
+    
+    ref=pd.DataFrame()
+    for exp in [{'count':count,'soft':soft,'eta':eta,'fmt':fmt,'numSubjects':400,'cross':False} for 
+            soft in ['gemma','fast'] for eta in [0,.5] for fmt in ['ped','bed','bimbam']  
+            if not ((fmt=='ped' and soft=='gemma') or (fmt=='bimbam' and soft=='fast'))]:
+        os.chdir(local+ops['file'][:-3])
+        np.random.seed(55923)
+        ctrl={
+            'count':count,
+            'parms':[exp['eta'],exp['numSubjects'],numTraits,[5000,500]],
+            'sim':['indepTraits','pedigreeSnps','noNorm'],
+            'ell':'indepTraits',
+            'reg':[exp['soft'],'lmm',exp['fmt']],
+            'grm':['gemma','std']
+        }
+        parms={**ctrl,**ops}
+        
+        DBLog(ctrl)
 
-ellDSet=[.1,.5]
-colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,0,0),(0,0,.5)]
-traitChr=[18]#,20,16,19]
-snpChr=[snp for snp in range(1,len(snpSize)+1)]
+        subprocess.call(['rm','-f','log'])
+        DBLog(json.dumps(ctrl,indent=3))
+        
+        DBCreateFolder('grm',parms)
+        DBCreateFolder('inputs',parms)
+        makeSimInputFiles(parms)
+        
+        #######################################################################################################
 
-#['gemmaLmm','fastLmm','lmm','lm','bed','bimbam','ped','gemmaStdGrm','gemmaNoStdGrm','fastGrm']
+        DBCreateFolder('score',parms)
+        numSnps=ctrl['parms'][-1]
+        genZScores(parms,list(range(len(numSnps)-1,len(numSnps)+1)))
 
-ctrl={
-    'etaSq':0,
-    'sim':['indepTraits','randSnps',etaSq,numSubjects,numTraits,snpSize],#['simDep','real','simIndep']
-    'model':'indepTraits',#['indep','dep']
-    'data':['gemma','lmm','bed','gemmaStdGrm'], 
-}
-ops={
-    'file':sys.argv[0],
-    'ellDSet':ellDSet,
-    'numCores':cpu_count(),
-    'snpChr':snpChr,
-    'traitChr':traitChr,
-    'colors':colors,
-    'refReps':1e6,    
-    'simLearnType':'Full',
-    'response':'hipRaw',
-    'numSnpChr':18,
-    'numTraitChr':21,
-    'muEpsRange':[],
-    'maxSnpGen':5000,
-    'transOnly':False,
-    'numTraits':numTraits
-}
+        #######################################################################################################
 
-#######################################################################################################
+        z+=[np.loadtxt('score/waldStat-2',delimiter='\t').reshape(1,-1)]
+        
+        ref=ref.append(exp,ignore_index=True)
+        
+        count+=1
+        
+    np.savetxt('score/z',np.concatenate(z,axis=0),delimiter='\t')
 
-parms=setupFolders(ctrl,ops)
+    ref.to_csv('diagnosticsAll/ref.tsv',delimiter='\t',index=False)
 
-DBCreateFolder('diagnostics',parms)
-DBCreateFolder('inputs',parms)
-DBCreateFolder('score',parms)
-DBCreateFolder('grm',parms)
-
-makeSimInputFiles(parms)
-
-genZScores(parms)
-
-#######################################################################################################
-
-z=np.loadtxt('score/waldStat-1',delimiter='\t')
-print(np.min(np.mean(z**2,axis=0)),np.max(np.mean(z**2,axis=0)))
-plotZ(z)
-
-#######################################################################################################
-'''
-offDiag=np.array([0]*int(numTraits*(numTraits-1)/2))
-stat=ell(np.array(ellDSet),offDiag)
-
-#######################################################################################################
-
-#stat.load()
-stat.fit(10*numTraits,1000*numTraits,3000,1e-6) # numLamSteps0,numLamSteps1,numEllSteps,minEll
-stat.save()
-
-#######################################################################################################
-
-ell=stat.score(z)
-ref=stat.score(norm.rvs(size=[int(parms['refReps']),numTraits]))
-
-#######################################################################################################
-
-monteCarlo=stat.monteCarlo(ref,ell)
-
-#######################################################################################################
-
-markov=stat.markov(ell)
-
-#######################################################################################################
-
-plotPower(monteCarlo,parms,'mc',['mc-'+str(x) for x in ellDSet])
-plotPower(markov,parms,'markov',['markov-'+str(x) for x in ellDSet])
-#pd.DataFrame(monteCarlo,columns=ellDSet).quantile([.05,.01],axis=0).to_csv('diagnostics/monteCarlo.csv',index=False)
-#pd.DataFrame(markov,columns=ellDSet).quantile([.05,.01],axis=0).to_csv('diagnostics/markov.csv',index=False)
-'''
-
-DBFinish(parms)
+myMain(getsource(myMain))
