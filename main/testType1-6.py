@@ -61,7 +61,7 @@ def myMain(mainDef):
         ctrl={
             'count':count,
             'parms':[exp['eta'],200,100,[1000,300]],
-            'sim':['indepTraits','grmSnps','noNorm'],
+            'sim':['indepTraits','randSnps','noNorm'],
             'ell':'indepTraits',
             'reg':[exp['soft'],'lmm',ex['fmt']],
             'grm':['fast','std']
@@ -107,8 +107,4 @@ def myMain(mainDef):
         
         count+=1
         
-    np.savetxt('score/z',np.concatenate(z,axis=0),delimiter='\t')
-
-    ref.to_csv('diagnosticsAll/ref.tsv',delimiter='\t',index=False)
-
 myMain(getsource(myMain))
