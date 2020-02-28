@@ -21,9 +21,6 @@ def myMain(mainDef):
     colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,0,0),(0,0,.5)]
     ellDSet=[.1,.5]
     
-    numSubjects=200
-    numTraits=300
-
     #['etaSq','numSubjects','numTraits','numSnps']
     #['realSnps','pedigreeSnps','randSnps','indepTraits','depTraits','quantNorm','stdNorm','noNorm']
     #['indepTraits','depTraits']
