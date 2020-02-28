@@ -1,4 +1,3 @@
-import ray
 import numpy as np
 import pdb
 import os
