@@ -60,7 +60,7 @@ def myMain(mainDef):
             'parms':[exp['eta'],200,100,[1000,300]],
             'sim':['indepTraits','randSnps','noNorm'],
             'ell':'indepTraits',
-            'reg':[exp['soft'],'lmm',ex['fmt']],
+            'reg':[exp['soft'],'lmm',exp['fmt']],
             'grm':['fast','std']
         }
         parms={**ctrl,**ops}
