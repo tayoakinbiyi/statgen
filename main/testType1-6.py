@@ -11,6 +11,7 @@ from opPython.setupFolders import *
 from simPython.makeSimInputFiles import *
 from dataPrepPython.genZScores import *
 from multiprocessing import cpu_count
+from plotPython.plotCorr import *
 from plotPython.plotPower import *
 from plotPython.plotZ import *
 
@@ -21,6 +22,8 @@ def myMain(mainDef):
     colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,0,0),(0,0,.5)]
     ellDSet=[.1,.5]
     
+    numTraits=200
+
     #['etaSq','numSubjects','numTraits','numSnps']
     #['realSnps','pedigreeSnps','randSnps','indepTraits','depTraits','quantNorm','stdNorm','noNorm']
     #['indepTraits','depTraits']
@@ -39,8 +42,8 @@ def myMain(mainDef):
         'muEpsRange':[],
         'maxSnpGen':5000,
         'transOnly':False,
-        'YSeed':973243,
-        'snpsSeed':23425,
+        'YSeed':0,
+        'snpsSeed':0,
         'logSource':True,
         'local':local
     }
@@ -48,60 +51,77 @@ def myMain(mainDef):
     count=0
     
     parms=setupFolders({},ops)
-    z=[]
+           
+    os.chdir(local+ops['file'][:-3])
+    ctrl={
+        'count':count,
+        'parms':[0.4,200,100,[200,200]],
+        'sim':['indepTraits','grmSnps','noNorm'],
+        'ell':'indepTraits',
+        'reg':['gemma','lmm','bimbam'],
+        'grm':['fast','std']
+    }
+    parms={**ctrl,**ops}
+    numSnps=ctrl['parms'][-1]
+
+    DBLog(ctrl)
+
+    subprocess.call(['rm','-f','log'])
+    DBLog(json.dumps(ctrl,indent=3))
     
-    ref=pd.DataFrame()
-    for exp in [{'count':count,'soft':soft,'eta':eta,'fmt':fmt,'numSubjects':200,'cross':False} for 
-            soft in ['gemma','fast'] for eta in [0,.2,.5] for fmt in ['ped','bed','bimbam']  
-            if not ((fmt=='ped' and soft=='gemma') or (fmt=='bimbam' and soft=='fast'))]:
-        os.chdir(local+ops['file'][:-3])
-        ctrl={
-            'count':count,
-            'parms':[exp['eta'],200,100,[1000,300]],
-            'sim':['indepTraits','randSnps','noNorm'],
-            'ell':'indepTraits',
-            'reg':[exp['soft'],'lmm',exp['fmt']],
-            'grm':['fast','std']
-        }
-        parms={**ctrl,**ops}
-        numSnps=ctrl['parms'][-1]
+    #DBCreateFolder('grm',parms)
+    #DBCreateFolder('inputs',parms)
+    makeSimInputFiles(parms)
+    
+    #######################################################################################################
 
-        DBLog(ctrl)
+    DBCreateFolder('score',parms)
+    genZScores(parms,list(range(len(numSnps)-1,len(numSnps)+1)))
+    z=np.loadtxt('score/waldStat-'+str(len(numSnps)),delimiter='\t')
+    eta=np.loadtxt('score/eta-'+str(len(numSnps)),delimiter='\t')[0]
+    Y=np.loadtxt('inputs/Y.phe',delimiter='\t')[:,2:]
 
-        subprocess.call(['rm','-f','log'])
-        DBLog(json.dumps(ctrl,indent=3))
+    #######################################################################################################
 
-        DBCreateFolder('grm',parms)
-        DBCreateFolder('inputs',parms)
-        makeSimInputFiles(parms)
+    DBCreateFolder('diagnostics',parms)
+    
+    plotZ(z,prefix='z-')
+    plotZ(Y,prefix='y-')
+    plotCorr(np.loadtxt('grm/gemma-1',delimiter='\t'),'grm')
 
-        #######################################################################################################
+    fig,axs = plt.subplots(1,1,dpi=50)   
+    fig.set_figwidth(10,forward=True)
+    fig.set_figheight(10,forward=True)
+    axs.hist(np.log(eta),bins=30)
+    axs.set_title('eta')
+    axs.set_xlabel('eta')
+    axs.axvline(x=np.log(parms['parms'][0]),color='k')
+    fig.savefig('diagnostics/eta.png')
+    
+    #######################################################################################################
+    '''
+    stat=ELL.ell.ell(np.array([.1,.5]),parms['parms'][2])
+    #offDiag=np.corrcoef(z,rowvar=False)[np.triu_indices(parms['parms'][2],1)]
+    offDiag=np.array([0]*int(parms['parms'][2]*(parms['parms'][2]-1)/2))
+    stat.fit(10*numTraits,1000*numTraits,3000,1e-6,offDiag) # numLamSteps0,numLamSteps1,numEllSteps,minEll
 
-        DBCreateFolder('score',parms)
-        genZScores(parms,list(range(len(numSnps)-1,len(numSnps)+1)))
-        z=np.loadtxt('score/waldStat-'+str(len(numSnps)),delimiter='\t')
-        eta=np.loadtxt('score/eta-'+str(len(numSnps)),delimiter='\t')[0]
-        Y=np.loadtxt('inputs/Y.phe',delimiter='\t')[:,2:]
+    #######################################################################################################
 
-        #######################################################################################################
+    refELL=stat.score(norm.rvs(size=[int(1e6),numTraits]))
+    score=stat.score(z)
 
-        DBCreateFolder('diagnostics',parms)
+    #######################################################################################################
 
-        plotZ(z,prefix='z-')
-        plotZ(Y,prefix='y-')
-        plotCorr(np.loadtxt('grm/gemma-1',delimiter='\t'),'grm')
+    monteCarlo=stat.monteCarlo(refELL,score)
 
-        fig,axs = plt.subplots(1,1,dpi=50)   
-        fig.set_figwidth(10,forward=True)
-        fig.set_figheight(10,forward=True)
-        axs.hist(np.log(eta),bins=30)
-        axs.set_title('eta')
-        axs.set_xlabel('eta')
-        axs.axvline(x=np.log(parms['parms'][0]),color='k')
-        fig.savefig('diagnostics/eta.png')
-        
-        ref=ref.append(exp,ignore_index=True)
-        
-        count+=1
-        
+    #######################################################################################################
+
+    markov=stat.markov(score)
+
+    #######################################################################################################
+
+    cross=plotPower(monteCarlo,parms,'mc',['mc-'+str(x) for x in ellDSet])
+    plotPower(markov,parms,'markov',['markov-'+str(x) for x in ellDSet])
+    '''
+
 myMain(getsource(myMain))
