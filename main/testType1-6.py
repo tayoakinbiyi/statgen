@@ -22,13 +22,6 @@ def myMain(mainDef):
     colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,0,0),(0,0,.5)]
     ellDSet=[.1,.5]
     
-    numTraits=200
-
-    #['etaSq','numSubjects','numTraits','numSnps']
-    #['realSnps','pedigreeSnps','randSnps','indepTraits','depTraits','quantNorm','stdNorm','noNorm']
-    #['indepTraits','depTraits']
-    #['gemma','fast','lmm','lm','ped','bimbam','bed']
-    #['gemmaStd','gemmaCentral','fast','bed','bimbam','ped']
     local=os.getcwd()+'/'
     ops={
         'file':sys.argv[0],
@@ -53,10 +46,15 @@ def myMain(mainDef):
     parms=setupFolders({},ops)
            
     os.chdir(local+ops['file'][:-3])
+    #['etaSq','numSubjects','numTraits','numSnps']
+    #['realSnps','pedigreeSnps','randSnps','iidSnps','grmSnps','indepTraits','depTraits','quantNorm','stdNorm','noNorm']
+    #['indepTraits','depTraits']
+    #['gemma','fast','lmm','lm','ped','bimbam','bed']
+    #['gemmaStd','gemmaCentral','fast','bed','bimbam','ped']
     ctrl={
         'count':count,
-        'parms':[0.4,200,100,[200,200]],
-        'sim':['indepTraits','grmSnps','noNorm'],
+        'parms':[0.3,600,300,[10000,500]],
+        'sim':['indepTraits','iidSnps','noNorm'],
         'ell':'indepTraits',
         'reg':['gemma','lmm','bimbam'],
         'grm':['fast','std']
@@ -68,18 +66,22 @@ def myMain(mainDef):
 
     subprocess.call(['rm','-f','log'])
     DBLog(json.dumps(ctrl,indent=3))
-    
-    #DBCreateFolder('grm',parms)
-    #DBCreateFolder('inputs',parms)
+    '''
+    DBCreateFolder('grm',parms)
+    DBCreateFolder('inputs',parms)
     makeSimInputFiles(parms)
     
     #######################################################################################################
 
     DBCreateFolder('score',parms)
-    genZScores(parms,list(range(len(numSnps)-1,len(numSnps)+1)))
+    genZScores(parms,[len(numSnps)])
+    '''
+    #######################################################################################################
+
     z=np.loadtxt('score/waldStat-'+str(len(numSnps)),delimiter='\t')
     eta=np.loadtxt('score/eta-'+str(len(numSnps)),delimiter='\t')[0]
     Y=np.loadtxt('inputs/Y.phe',delimiter='\t')[:,2:]
+    zRef=norm.rvs(size=[int(parms['parms'][-1][-1]),int(parms['parms'][2])])
 
     #######################################################################################################
 
@@ -99,15 +101,18 @@ def myMain(mainDef):
     fig.savefig('diagnostics/eta.png')
     
     #######################################################################################################
-    '''
+    
     stat=ELL.ell.ell(np.array([.1,.5]),parms['parms'][2])
-    #offDiag=np.corrcoef(z,rowvar=False)[np.triu_indices(parms['parms'][2],1)]
-    offDiag=np.array([0]*int(parms['parms'][2]*(parms['parms'][2]-1)/2))
-    stat.fit(10*numTraits,1000*numTraits,3000,1e-6,offDiag) # numLamSteps0,numLamSteps1,numEllSteps,minEll
+    if 'depTraits' in parms['ell']:
+        offDiag=np.corrcoef(z,rowvar=False)[np.triu_indices(parms['parms'][2],1)]
+    if 'indepTraits' in parms['ell']:
+        offDiag=np.array([0]*int(parms['parms'][2]*(parms['parms'][2]-1)/2))
+        
+    stat.fit(10*parms['parms'][2],1000*parms['parms'][2],3000,1e-6,offDiag) # numLamSteps0,numLamSteps1,numEllSteps,minEll
 
     #######################################################################################################
-
-    refELL=stat.score(norm.rvs(size=[int(1e6),numTraits]))
+    
+    refELL=stat.score(zRef)
     score=stat.score(z)
 
     #######################################################################################################
@@ -116,12 +121,12 @@ def myMain(mainDef):
 
     #######################################################################################################
 
-    markov=stat.markov(score)
+    markov=stat.markov(refELL)
 
     #######################################################################################################
 
     cross=plotPower(monteCarlo,parms,'mc',['mc-'+str(x) for x in ellDSet])
     plotPower(markov,parms,'markov',['markov-'+str(x) for x in ellDSet])
-    '''
+    
 
 myMain(getsource(myMain))
