@@ -28,6 +28,6 @@ def setupFolders(ctrl,ops):
     
     subprocess.call(['rm','-f','diagnostics/log'])
     subprocess.call(['cp','-rLf',local+'source','.'])
-    DBLog(json.dumps(ctrl, indent=3))
+    DBLog(ctrl)
         
     return(parms)
