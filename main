@@ -21,25 +21,19 @@ def myMain(mainDef):
         'local':local
     }
     
-    count=0
-    
-    parms=setupFolders({},ops)
-           
-    os.chdir(local+ops['file'][:-3])
     #['etaSq','numSubjects','numTraits','numSnps']
     #['realSnps','pedigreeSnps','randSnps','iidSnps','grmSnps','indepTraits','depTraits','quantNorm','stdNorm','noNorm']
     #['indepTraits','depTraits']
-    #['gemma','fast','lmm','lm','ped','bimbam','bed']
-    #['gemmaStd','gemmaCentral','fast','bed','bimbam','ped']
+    #['gemma','fast','limix','lmm','lm','ped','bimbam','bed']
+    #['gemmaStd','gemmaCentral','fast','limix','bed','bimbam','ped']
     ctrl={
-        'count':count,
-        'parms':[0.6,400,300,[2000,500]],
+        'parms':[0.6,600,300,[2000,500]],
         'sim':['indepTraits','iidSnps','noNorm'],
         'ell':'indepTraits',
         'reg':['gemma','lmm','bimbam'],
         'grm':['gemma','std']
     }
-    parms={**ctrl,**ops}
+    parms=setupFolders(ctrl,ops)
     numSnps=ctrl['parms'][-1]
 
     DBLog(ctrl)
