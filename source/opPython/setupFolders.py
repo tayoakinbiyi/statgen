@@ -26,7 +26,7 @@ def setupFolders(ctrl,ops):
     else:
         os.chdir(local+name)    
     
-    subprocess.call(['rm','-f','log'])
+    subprocess.call(['rm','-f','diagnostics/log'])
     subprocess.call(['cp','-rLf',local+'source','.'])
     DBLog(json.dumps(ctrl, indent=3))
         
