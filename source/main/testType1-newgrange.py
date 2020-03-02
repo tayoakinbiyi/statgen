@@ -57,7 +57,7 @@ def myMain(mainDef):
         'sim':['indepTraits','iidSnps','noNorm'],
         'ell':'indepTraits',
         'reg':['gemma','lmm','bimbam'],
-        'grm':['limix','std']
+        'grm':['gemma','std']
     }
     parms={**ctrl,**ops}
     numSnps=ctrl['parms'][-1]
