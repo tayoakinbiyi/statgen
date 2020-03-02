@@ -53,6 +53,7 @@ def myMain(mainDef):
         'reg':['gemma','lmm','bimbam'],
         'grm':['gemma','std']
     }
+    DBCreateFolder('diagnostics',parms)
     parms=setupFolders(ctrl,ops)
     numSnps=ctrl['parms'][-1]
 
@@ -78,8 +79,6 @@ def myMain(mainDef):
     zRef=norm.rvs(size=[int(parms['parms'][-1][-1]),int(parms['parms'][2])])
     
     #######################################################################################################
-
-    DBCreateFolder('diagnostics',parms)
     
     plotZ(z,prefix='z-')
     plotZ(Y,prefix='y-')

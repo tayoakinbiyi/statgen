@@ -27,13 +27,14 @@ def myMain(mainDef):
     #['gemma','fast','limix','lmm','lm','ped','bimbam','bed']
     #['gemmaStd','gemmaCentral','fast','limix','bed','bimbam','ped']
     ctrl={
-        'parms':[0,1000,300,[2000,500]],
-        'sim':['indepTraits','grmSnps','noNorm'],
+        'parms':[0.6,600,300,[2000,500]],
+        'sim':['indepTraits','pedigreeSnps','noNorm'],
         'ell':'indepTraits',
         'reg':['gemma','lmm','bimbam'],
         'grm':['gemma','std']
     }
     parms=setupFolders(ctrl,ops)
+    DBLog(ctrl)
     numSnps=ctrl['parms'][-1]
 
     DBCreateFolder('grm',parms)
@@ -53,9 +54,9 @@ def myMain(mainDef):
     zRef=norm.rvs(size=[int(parms['parms'][-1][-1]),int(parms['parms'][2])])
     
     #######################################################################################################
-
-    DBCreateFolder('diagnostics',parms)
     
+    DBCreateFolder('diagnostics',parms)
+
     plotZ(z,prefix='z-')
     plotZ(Y,prefix='y-')
     plotCorr(np.loadtxt('grm/gemma-1',delimiter='\t'),'grm')
