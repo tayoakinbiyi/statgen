@@ -39,8 +39,7 @@ def genZScores(parms,snpChr):
 
             for f in wait(futures,return_when=ALL_COMPLETED)[0]:
                 ans=f.result()
-                traitRange=ans['traitRange']
-                   
+                traitRange=ans['traitRange']                 
                 waldStat[:,traitRange]=ans['waldStat']
                 eta[:,traitRange]=ans['eta']
         
