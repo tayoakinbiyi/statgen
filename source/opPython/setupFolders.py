@@ -3,7 +3,6 @@ import os
 import json
 import pdb
 import subprocess
-from opPython.MyEncoder import *
 
 def setupFolders(ctrl,ops):
     parms={**ctrl,**ops}
@@ -29,6 +28,6 @@ def setupFolders(ctrl,ops):
     
     subprocess.call(['rm','-f','log'])
     subprocess.call(['cp','-rLf',local+'source','.'])
-    DBLog(json.dumps(ctrl, cls=MyEncoder, sort_keys=True, indent=3))
+    DBLog(json.dumps(ctrl, indent=3))
         
     return(parms)
