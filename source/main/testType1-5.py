@@ -41,25 +41,19 @@ def myMain(mainDef):
         'local':local
     }
     
-    count=0
-    
-    parms=setupFolders({},ops)
-           
-    os.chdir(local+ops['file'][:-3])
     #['etaSq','numSubjects','numTraits','numSnps']
     #['realSnps','pedigreeSnps','randSnps','iidSnps','grmSnps','indepTraits','depTraits','quantNorm','stdNorm','noNorm']
     #['indepTraits','depTraits']
-    #['gemma','fast','lmm','lm','ped','bimbam','bed']
-    #['gemmaStd','gemmaCentral','fast','bed','bimbam','ped']
+    #['gemma','fast','limix','lmm','lm','ped','bimbam','bed']
+    #['gemmaStd','gemmaCentral','fast','limix','bed','bimbam','ped']
     ctrl={
-        'count':count,
-        'parms':[0,600,300,[10000,500]],
-        'sim':['indepTraits','iidSnps','noNorm'],
+        'parms':[0.3,600,300,[2000,500]],
+        'sim':['indepTraits','pedigreeSnps','noNorm'],
         'ell':'indepTraits',
         'reg':['gemma','lmm','bimbam'],
-        'grm':['fast','std']
+        'grm':['gemma','std']
     }
-    parms={**ctrl,**ops}
+    parms=setupFolders(ctrl,ops)
     numSnps=ctrl['parms'][-1]
 
     DBLog(ctrl)
@@ -82,7 +76,7 @@ def myMain(mainDef):
     eta=np.loadtxt('score/eta-'+str(len(numSnps)),delimiter='\t')[0]
     Y=np.loadtxt('inputs/Y.phe',delimiter='\t')[:,2:]
     zRef=norm.rvs(size=[int(parms['parms'][-1][-1]),int(parms['parms'][2])])
-
+    
     #######################################################################################################
 
     DBCreateFolder('diagnostics',parms)
@@ -97,12 +91,33 @@ def myMain(mainDef):
     axs.hist(np.log(eta),bins=30)
     axs.set_title('eta')
     axs.set_xlabel('eta')
-    axs.axvline(x=np.log(parms['parms'][0]),color='k')
+    if parms['parms'][0]>0:
+        axs.axvline(x=np.log(parms['parms'][0]),color='k')
     fig.savefig('diagnostics/eta.png')
     
     #######################################################################################################
+    
+    maxD=int(np.max(ellDSet)*parms['parms'][2])
+    numTraits=parms['parms'][2]
+    ell=np.empty(shape=[parms['parms'][-1][-1],maxD])
+    pvals=np.sort(2*norm.sf(np.abs(z)))
+    for i in range(maxD):
+        ell[:,i]=beta.cdf(pvals[:,i],i+1,numTraits-i)
+    ell=np.min(ell,axis=1)
+    
+    ellRef=np.empty(shape=[parms['parms'][-1][-1],int(np.max(ellDSet)*parms['parms'][2])])
+    pvals=np.sort(2*norm.sf(np.abs(zRef)))
+    for i in range(maxD):
+        ellRef[:,i]=beta.cdf(pvals[:,i],i+1,numTraits-i)
+    ellRef=np.sort(np.min(ellRef,axis=1))
+        
+    monteCarlo=np.empty(shape=len(ell))
+    sortOrd=np.argsort(ell,axis=0)
+    monteCarlo[sortOrd]=(1+np.searchsorted(ellRef,ell[sortOrd]))/(len(ellRef)+1)
+    
     '''
     stat=ELL.ell.ell(np.array([.1,.5]),parms['parms'][2])
+    monteCarlo=stat.monteCarlo(ellRef,ell)
     if 'depTraits' in parms['ell']:
         offDiag=np.corrcoef(z,rowvar=False)[np.triu_indices(parms['parms'][2],1)]
     if 'indepTraits' in parms['ell']:
@@ -124,9 +139,10 @@ def myMain(mainDef):
     markov=stat.markov(refELL)
 
     #######################################################################################################
-
-    cross=plotPower(monteCarlo,parms,'mc',['mc-'+str(x) for x in ellDSet])
-    plotPower(markov,parms,'markov',['markov-'+str(x) for x in ellDSet])'''
+    '''
+    cross=plotPower(monteCarlo,parms,'mc',['mc'])
+    DBFinish(local,mainDef)
+    #plotPower(markov,parms,'markov',['markov-'+str(x) for x in ellDSet])
     
 
 myMain(getsource(myMain))
