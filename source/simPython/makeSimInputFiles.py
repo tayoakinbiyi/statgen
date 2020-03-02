@@ -57,8 +57,10 @@ def makeSimInputFiles(parms):
     elif 'grmSnps' in sim:        
         if 'gemma' in grm:
             L=makePSD(np.loadtxt(local+'data/gemmaGrm',delimiter='\t')[0:numSubjects,0:numSubjects],corr=True)
-        elif 'fast' in grm:
+        if 'fast' in grm:
             L=makePSD(np.loadtxt(local+'data/fastGrm',delimiter='\t')[0:numSubjects,0:numSubjects],corr=True)  
+        if 'limix' in grm:
+            L=makePSD(np.loadtxt(local+'data/gemmaGrm',delimiter='\t')[0:numSubjects,0:numSubjects],corr=True)  
         
         z=np.matmul(L,norm.rvs(size=[numSubjects,sum(numSnps)])).T
         bimBamFmt=1*(z>norm.ppf(.75))+1*(z>norm.ppf(.25))        
