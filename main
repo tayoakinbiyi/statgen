@@ -30,8 +30,8 @@ def myMain(mainDef):
         'parms':[0.3,600,300,[2000,500]],
         'sim':['indepTraits','grmSnps','noNorm'],
         'ell':'indepTraits',
-        'reg':['limix','lmm','bimbam'],
-        'grm':['limix','std']
+        'reg':['gemma','lmm','bimbam'],
+        'grm':['gemma','std']
     }
     parms=setupFolders(ctrl,ops)
     numSnps=ctrl['parms'][-1]

@@ -41,25 +41,19 @@ def myMain(mainDef):
         'local':local
     }
     
-    count=0
-    
-    parms=setupFolders({},ops)
-           
-    os.chdir(local+ops['file'][:-3])
     #['etaSq','numSubjects','numTraits','numSnps']
     #['realSnps','pedigreeSnps','randSnps','iidSnps','grmSnps','indepTraits','depTraits','quantNorm','stdNorm','noNorm']
     #['indepTraits','depTraits']
-    #['gemma','fast','lmm','lm','ped','bimbam','bed']
-    #['gemmaStd','gemmaCentral','fast','bed','bimbam','ped']
+    #['gemma','fast','limix','lmm','lm','ped','bimbam','bed']
+    #['gemmaStd','gemmaCentral','fast','limix','bed','bimbam','ped']
     ctrl={
-        'count':count,
-        'parms':[0.7,6000,300,[10000,500]],
-        'sim':['indepTraits','iidSnps','noNorm'],
+        'parms':[0.3,600,300,[2000,500]],
+        'sim':['indepTraits','pedigreeSnps','noNorm'],
         'ell':'indepTraits',
-        'reg':['gemma','lmm','bimbam'],
-        'grm':['fast','std']
+        'reg':['limix','lmm','bimbam'],
+        'grm':['limix','std']
     }
-    parms={**ctrl,**ops}
+    parms=setupFolders(ctrl,ops)
     numSnps=ctrl['parms'][-1]
 
     DBLog(ctrl)
@@ -82,7 +76,7 @@ def myMain(mainDef):
     eta=np.loadtxt('score/eta-'+str(len(numSnps)),delimiter='\t')[0]
     Y=np.loadtxt('inputs/Y.phe',delimiter='\t')[:,2:]
     zRef=norm.rvs(size=[int(parms['parms'][-1][-1]),int(parms['parms'][2])])
-
+    
     #######################################################################################################
 
     DBCreateFolder('diagnostics',parms)
@@ -147,7 +141,7 @@ def myMain(mainDef):
     #######################################################################################################
     '''
     cross=plotPower(monteCarlo,parms,'mc',['mc'])
-    DBFinish(parms)
+    DBFinish(local,mainDef)
     #plotPower(markov,parms,'markov',['markov-'+str(x) for x in ellDSet])
     
 
