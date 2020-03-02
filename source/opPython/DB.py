@@ -13,7 +13,7 @@ def DBFinish(local,mainDef):
     subprocess.call(['cp','-rf','source',nm])
     with open(nm+'main','w+') as f:
         f.write(mainDef)
-    subprocess.call(['cp','log',nm])
+    subprocess.call(['cp','diagnostics/log',nm])
     subprocess.call(['cp','-r','diagnostics',nm])  
     
     return()

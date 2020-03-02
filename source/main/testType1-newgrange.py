@@ -53,7 +53,7 @@ def myMain(mainDef):
     #['gemmaStd','gemmaCentral','fast','bed','bimbam','ped']
     ctrl={
         'count':count,
-        'parms':[0.6,600,300,[2000,500]],
+        'parms':[0.6,200,300,[2000,500]],
         'sim':['indepTraits','iidSnps','noNorm'],
         'ell':'indepTraits',
         'reg':['gemma','lmm','bimbam'],
