@@ -56,7 +56,7 @@ def myMain(mainDef):
         'parms':[0.6,600,300,[2000,500]],
         'sim':['indepTraits','iidSnps','noNorm'],
         'ell':'indepTraits',
-        'reg':['limix','lmm','bimbam'],
+        'reg':['gemma','lmm','bimbam'],
         'grm':['limix','std']
     }
     parms={**ctrl,**ops}
