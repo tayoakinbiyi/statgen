@@ -1,5 +1,9 @@
 {'ell': 'indepTraits',
  'grm': ['gemma', 'std'],
+<<<<<<< HEAD
  'parms': [0.3, 1000, 300, [2000, 500]],
+=======
+ 'parms': [0.3, 800, 300, [2000, 500]],
+>>>>>>> 5bbb6ea71bf403c7af4ceb802588b98c0f2c12b6
  'reg': ['gemma', 'lmm', 'bimbam'],
  'sim': ['indepTraits', 'pedigreeSnps', 'noNorm']}

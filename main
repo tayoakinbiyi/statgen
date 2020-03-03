@@ -27,7 +27,11 @@ def myMain(mainDef):
     #['gemma','fast','limix','lmm','lm','ped','bimbam','bed']
     #['gemmaStd','gemmaCentral','fast','limix','bed','bimbam','ped']
     ctrl={
+<<<<<<< HEAD
         'parms':[0.3,1000,300,[2000,500]],
+=======
+        'parms':[0.3,800,300,[2000,500]],
+>>>>>>> 5bbb6ea71bf403c7af4ceb802588b98c0f2c12b6
         'sim':['indepTraits','pedigreeSnps','noNorm'],
         'ell':'indepTraits',
         'reg':['gemma','lmm','bimbam'],
@@ -35,7 +39,7 @@ def myMain(mainDef):
     }
     parms=setupFolders(ctrl,ops)
     numSnps=ctrl['parms'][-1]
-
+    '''
     DBCreateFolder('grm',parms)
     DBCreateFolder('inputs',parms)
     makeSimInputFiles(parms)
@@ -44,7 +48,7 @@ def myMain(mainDef):
 
     DBCreateFolder('score',parms)
     genZScores(parms,[len(numSnps)])
-    
+    '''
     #######################################################################################################
 
     z=np.loadtxt('score/waldStat-'+str(len(numSnps)),delimiter='\t')
