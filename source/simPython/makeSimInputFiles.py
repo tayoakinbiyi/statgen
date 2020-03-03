@@ -54,8 +54,7 @@ def makeSimInputFiles(parms):
         bimBamFmt=makeSimSnps(parms)
     elif 'iidSnps' in sim:
         bimBamFmt=np.random.choice([0,1,2],numSubjects*sum(numSnps),True,[.25,.5,.25]).reshape(sum(numSnps),-1)
-    elif 'grmSnps' in sim:  
-        assert numSubjects<1063
+    elif 'grmSnps' in sim:        
         if 'gemma' in grm:
             L=makePSD(np.loadtxt(local+'data/gemmaGrm',delimiter='\t')[0:numSubjects,0:numSubjects],corr=True)
         if 'fast' in grm:
