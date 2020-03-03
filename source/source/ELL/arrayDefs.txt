@@ -1,0 +1,25 @@
+###### object store ########
+
+minKPerBin:       k
+maxKPerBin:       k
+
+midPointPerBin:   lam
+zPerBin:          z
+gammaPerBin:      gamma
+
+#####  local #######
+
+minLamPerK:       minLamPerK
+maxLamPerK:       maxLamPerK
+
+lamPerKPerEll:    lam, 0, 1, ... , d
+kPerKPerBin:      k
+ellPerKPerBin:    ell
+
+binPerKPerBin:    bin
+
+leftEdgePerBin:   lam
+rightEdgePerBin:  lam
+
+self.ell
+

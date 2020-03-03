@@ -55,7 +55,7 @@ def myMain(mainDef):
     }
     parms=setupFolders(ctrl,ops)
     numSnps=ctrl['parms'][-1]
-
+    '''
     DBCreateFolder('grm',parms)
     DBCreateFolder('inputs',parms)
     makeSimInputFiles(parms)
@@ -64,7 +64,7 @@ def myMain(mainDef):
 
     DBCreateFolder('score',parms)
     genZScores(parms,[len(numSnps)])
-    
+    '''
     #######################################################################################################
 
     z=np.loadtxt('score/waldStat-'+str(len(numSnps)),delimiter='\t')
