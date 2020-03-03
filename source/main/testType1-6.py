@@ -47,7 +47,7 @@ def myMain(mainDef):
     #['gemma','fast','limix','lmm','lm','ped','bimbam','bed']
     #['gemmaStd','gemmaCentral','fast','limix','bed','bimbam','ped']
     ctrl={
-        'parms':[0.8,600,300,[2000,500]],
+        'parms':[0.6,600,300,[2000,500]],
         'sim':['indepTraits','realSnps','noNorm'],
         'ell':'indepTraits',
         'reg':['limix','lmm','bimbam'],

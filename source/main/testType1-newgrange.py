@@ -47,11 +47,11 @@ def myMain(mainDef):
     #['gemma','fast','limix','lmm','lm','ped','bimbam','bed']
     #['gemmaStd','gemmaCentral','fast','limix','bed','bimbam','ped']
     ctrl={
-        'parms':[0.3,600,300,[2000,500]],
-        'sim':['indepTraits','realSnps','noNorm'],
+        'parms':[0.5,600,600,[2000,500]],
+        'sim':['indepTraits','pedigreeSnps','noNorm'],
         'ell':'indepTraits',
-        'reg':['gemma','lmm','bimbam'],
-        'grm':['gemma','std']
+        'reg':['limix','lmm','bimbam'],
+        'grm':['limix','std']
     }
     parms=setupFolders(ctrl,ops)
     numSnps=ctrl['parms'][-1]
