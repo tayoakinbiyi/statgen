@@ -27,15 +27,17 @@ def myMain(mainDef):
     #['gemma','fast','limix','lmm','lm','ped','bimbam','bed']
     #['gemmaStd','gemmaCentral','fast','limix','bed','bimbam','ped']
     ctrl={
-        'parms':[0,1000,300,[2000,500]],
-        'sim':['indepTraits','grmSnps','noNorm'],
+        'parms':[0.8,800,300,[2000,500]],
+        'sim':['indepTraits','pedigreeSnps','noNorm'],
         'ell':'indepTraits',
-        'reg':['gemma','lmm','bimbam'],
-        'grm':['gemma','std']
+        'reg':['limix','lmm','bimbam'],
+        'grm':['limix','std']
     }
     parms=setupFolders(ctrl,ops)
     numSnps=ctrl['parms'][-1]
 
+    subprocess.call(['rm','-f','log'])
+    
     DBCreateFolder('grm',parms)
     DBCreateFolder('inputs',parms)
     makeSimInputFiles(parms)
