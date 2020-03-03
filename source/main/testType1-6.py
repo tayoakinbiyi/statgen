@@ -42,22 +42,20 @@ def myMain(mainDef):
     }
     
     #['etaSq','numSubjects','numTraits','numSnps']
-    #['realSnps','pedigreeSnps','randSnps','iidSnps','grmSnps','indepTraits','depTraits','quantNorm','stdNorm','noNorm']
+    #['realSnps','pedigreeSnps','iidSnps','grmSnps','indepTraits','depTraits','quantNorm','stdNorm','noNorm']
     #['indepTraits','depTraits']
     #['gemma','fast','limix','lmm','lm','ped','bimbam','bed']
     #['gemmaStd','gemmaCentral','fast','limix','bed','bimbam','ped']
     ctrl={
-        'parms':[0.6,600,300,[2000,500]],
-        'sim':['indepTraits','realSnps','noNorm'],
+        'parms':[0.3,800,300,[2000,500]],
+        'sim':['indepTraits','pedigreeSnps','noNorm'],
         'ell':'indepTraits',
-        'reg':['limix','lmm','bimbam'],
-        'grm':['limix','std']
+        'reg':['gemma','lmm','bimbam'],
+        'grm':['gemma','std']
     }
     parms=setupFolders(ctrl,ops)
     numSnps=ctrl['parms'][-1]
 
-    subprocess.call(['rm','-f','log'])
-    
     DBCreateFolder('grm',parms)
     DBCreateFolder('inputs',parms)
     makeSimInputFiles(parms)
