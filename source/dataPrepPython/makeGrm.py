@@ -57,6 +57,11 @@ def makeGrm(parms,name,decomp=True):
         grmVal.index.name='var'
         
         grmVal.to_csv('grm/fast-'+name,sep='\t',header=True,index=True)  
+    
+    if 'gcta' in grm:
+        cmd=[local+'ext/gcta64','--bfile','inputs/'+name,'--make-grm','--out','grm/gcta-'+name]   
+        subprocess.call(cmd)
+        pdb.set_trace()
 
     if 'limNorm' in grm:
         np.savetxt('grm/gemma-'+name,normalise_covariance(np.loadtxt('grm/gemma-'+name,delimite='\t')),delimiter='\t')
