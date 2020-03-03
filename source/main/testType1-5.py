@@ -53,11 +53,9 @@ def myMain(mainDef):
         'reg':['gemma','lmm','bimbam'],
         'grm':['gemma','std']
     }
-    DBCreateFolder('diagnostics',parms)
     parms=setupFolders(ctrl,ops)
-    numSnps=ctrl['parms'][-1]
-
     DBLog(ctrl)
+    numSnps=ctrl['parms'][-1]
 
     subprocess.call(['rm','-f','log'])
     DBLog(json.dumps(ctrl,indent=3))
@@ -80,6 +78,9 @@ def myMain(mainDef):
     
     #######################################################################################################
     
+    DBCreateFolder('diagnostics',parms)
+    DBLog(ctrl)
+
     plotZ(z,prefix='z-')
     plotZ(Y,prefix='y-')
     plotCorr(np.loadtxt('grm/gemma-1',delimiter='\t'),'grm')

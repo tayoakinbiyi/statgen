@@ -53,7 +53,6 @@ def myMain(mainDef):
         'reg':['limix','lmm','bimbam'],
         'grm':['limix','std']
     }
-    DBCreateFolder('diagnostics',parms)
     parms=setupFolders(ctrl,ops)
     numSnps=ctrl['parms'][-1]
 
@@ -77,6 +76,9 @@ def myMain(mainDef):
     
     #######################################################################################################
     
+    DBCreateFolder('diagnostics',parms)
+    DBLog(ctrl)
+
     plotZ(z,prefix='z-')
     plotZ(Y,prefix='y-')
     plotCorr(np.loadtxt('grm/gemma-1',delimiter='\t'),'grm')
