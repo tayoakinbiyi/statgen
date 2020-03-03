@@ -2,4 +2,4 @@
  'grm': ['gemma', 'std'],
  'parms': [0.3, 600, 300, [2000, 500]],
  'reg': ['gemma', 'lmm', 'bimbam'],
- 'sim': ['indepTraits', 'pedigreeSnps', 'noNorm']}
+ 'sim': ['indepTraits', 'realSnps', 'noNorm']}

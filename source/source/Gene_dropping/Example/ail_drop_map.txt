@@ -1,4 +1,0 @@
-# name	length(cM)	spacing(cM)	MAF
-1  	1		2		0.5
-2	1		2		0.5
-3	1		2		0.5
