@@ -1,0 +1,5 @@
+ail_revised.ped.txt # pedigree file
+test_samp.txt       # file of sample IDs
+ail_drop_map.txt    # map of snps
+0                   # missing rate
+0                   # error rate

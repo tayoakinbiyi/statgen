@@ -146,7 +146,7 @@ def runGemma(core,snp,traitRange,parms,numSubjects):
     waldStat=[]
     eta=[]
     
-    cmd=[local+'ext/gemma','-o','gemma-'+core,'-c','inputs/cov.txt','-p','inputs/Y.phe']
+    cmd=[local+'ext/gemma','-o','gemma-'+core,'-c','inputs/cov.txt','-p','inputs/Y.phe','-vc','2']
     if 'bed' in reg:
         cmd+=['-bfile','inputs/'+snp]
     if 'bimbam' in reg:
