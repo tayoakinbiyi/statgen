@@ -9,6 +9,7 @@ from limix.qtl import scan
 from opPython.DB import *
 from opPython.verboseArrCheck import *
 from statsmodels.regression.mixed_linear_model import *
+from limix.io import plink
 
 def genZScores(parms,snpChr):
     numCores=parms['numCores']
@@ -146,7 +147,7 @@ def runGemma(core,snp,traitRange,parms,numSubjects):
     waldStat=[]
     eta=[]
     
-    cmd=[local+'ext/gemma','-o','gemma-'+core,'-c','inputs/cov.txt','-p','inputs/Y.phe','-vc','2']
+    cmd=[local+'ext/gemma','-o','gemma-'+core,'-c','inputs/cov.txt','-p','inputs/Y.phe']
     if 'bed' in reg:
         cmd+=['-bfile','inputs/'+snp]
     if 'bimbam' in reg:
@@ -228,7 +229,11 @@ def runLimix(core,snp,traitRange,parms,numSubjects):
     waldStat=[]
     eta=[]
         
-    bimBamFmt=np.loadtxt('inputs/'+snp+'.bimbam',delimiter='\t',dtype=str)[:,3:].T.astype(float)
+    if 'bed' in grm:
+        _,_,bed=plink.read('inputs/'+snp)
+        bimBamFmt=bed.compute().T
+    if 'bimbam' in grm:
+        bimBamFmt=np.loadtxt('inputs/'+snp+'.bimbam',delimiter='\t',dtype=str)[:,3:].T.astype(float)
     Y=np.loadtxt('inputs/Y.phe',delimiter='\t')[:,2:]
     K=np.loadtxt('grm/limix-'+snp,delimiter='\t')
     M=np.ones([numSubjects,1])
