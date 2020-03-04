@@ -59,7 +59,7 @@ def makeGrm(parms,name,decomp=True):
         grmVal.to_csv('grm/fast-'+name,sep='\t',header=True,index=True)  
     
     if 'gcta' in grm:
-        cmd=[local+'ext/gcta64','--bfile','inputs/'+name,'--make-grm','--out','grm/gcta-'+name]   
+        cmd=[local+'ext/gcta64','--bfile','inputs/'+name,'--make-grm','--out','grm/gcta-'+name,'-threads',str(numCores)]   
         subprocess.call(cmd)
         pdb.set_trace()
 

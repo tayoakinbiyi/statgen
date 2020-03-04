@@ -1,5 +1,5 @@
 {'ell': 'indepTraits',
- 'grm': ['limix', 'std'],
- 'parms': [0.5, 800, 600, [2000, 500]],
- 'reg': ['limix', 'lmm', 'bimbam'],
+ 'grm': ['gemma', 'std'],
+ 'parms': [0.3, 1200, 300, [2000, 500]],
+ 'reg': ['gemma', 'lmm', 'bimbam'],
  'sim': ['indepTraits', 'pedigreeSnps', 'noNorm']}
