@@ -27,19 +27,15 @@ def myMain(mainDef):
     #['gemma','fast','limix','lmm','lm','ped','bimbam','bed']
     #['gemmaStd','gemmaCentral','fast','limix','bed','bimbam','ped']
     ctrl={
-<<<<<<< HEAD
-        'parms':[0.5,1000,600,[2000,500]],
-=======
-        'parms':[0.3,1200,300,[2000,500]],
->>>>>>> 34185808b01eda82ac57dd5d6bfcb2a9925f49a0
+        'parms':[0.8,1000,600,[2000,500]],
         'sim':['indepTraits','pedigreeSnps','noNorm'],
         'ell':'indepTraits',
-        'reg':['gemma','lmm','bimbam'],
-        'grm':['gemma','std']
+        'reg':['limix','lmm','bimbam'],
+        'grm':['limix','std']
     }
     parms=setupFolders(ctrl,ops)
     numSnps=ctrl['parms'][-1]
-    
+
     DBCreateFolder('grm',parms)
     DBCreateFolder('inputs',parms)
     makeSimInputFiles(parms)

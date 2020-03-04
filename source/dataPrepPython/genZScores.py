@@ -59,7 +59,7 @@ def genZScoresHelp(core,snp,traitRange,parms,numSubjects):
         return(runMixedLM(core,snp,traitRange,parms,numSubjects))
     if 'limix' in reg:
         return(runLimix(core,snp,traitRange,parms,numSubjects))
-    if 'plink' in reg:
+    if 'gcta' in reg:
         return(runPlink(core,snp,traitRange,parms,numSubjects))
 
 def runFastlmm(core,snp,traitRange,parms,numSubjects):
@@ -70,7 +70,7 @@ def runFastlmm(core,snp,traitRange,parms,numSubjects):
     eta=[]
     
     cmd=[local+'ext/fastlmmc','-covar','inputs/cov.phe','-maxThreads','1','-out','output/fastlmm-'+core,'-pheno',
-         'inputs/Y.phe','-simLearnType','Full','-brentMinLogVal','-10','-brentMaxLogVal','10']
+         'inputs/Y.phe','-simLearnType','Full','-brentMinLogVal','-10','-brentMaxLogVal','10','-REML']
     if 'ped' in reg:
         cmd+=['-file','inputs/'+snp]
     if 'bed' in reg:
@@ -103,38 +103,33 @@ def runFastlmm(core,snp,traitRange,parms,numSubjects):
             'eta':eta
            })
                                   
-def runPlink(core,snp,traitRange,parms,numSubjects):
+def runGCTA(core,snp,traitRange,parms,numSubjects):
     local=parms['local']
     reg=parms['reg']
         
+    assert 'bed' in reg
     waldStat=[]
     eta=[]
-    
-    cmd=[local+'ext/plink','-covar','inputs/cov.phe','-out','output/fastlmm-'+core,'-pheno',
-         'inputs/Y.phe','-simLearnType','Full','-brentMinLogVal','-10','-brentMaxLogVal','10']
-    if 'ped' in reg:
-        cmd+=['-file','inputs/'+snp]
-    if 'bed' in reg:
-        cmd+=['-bfile','inputs/'+snp]
-    if 'lmm' in reg:
-        cmd+=['-eigen','grm/fast-eigen-'+snp]
-    if 'lm' in reg:
-        cmd+=['-linreg']        
+
+    cmd=[local+'ext/gcta64','--qcovar','inputs/cov.phe','--out','output/gcta-'+core,'--pheno','inputs/Y.phe','--threads','1',
+         '--bfile','inputs/'+snp,'--mlma','--grm','grm/gcta-'+snp+'/grm']
 
     for traitInd in traitRange:
         loopCmd=cmd+['-mpheno',str(traitInd+1)]
-        print('fastlmm core {} , {} of {}'.format(core,traitInd-min(traitRange),len(traitRange)),flush=True)
+        print('gcta core {} , {} of {}'.format(core,traitInd-min(traitRange),len(traitRange)),flush=True)
         subprocess.call(loopCmd)
         
-        df=pd.read_csv('output/fastlmm-'+core,header=0,index_col=None,sep='\t')
-        df.loc[:,'SNP']=df.loc[:,'SNP'].astype(int)
-        df=df.sort_values(by='SNP')
-        
-        df.rename(columns={'SNPWeight':'SnpWeight','SNPWeightSE':'SnpWeightSE'},inplace=True)
-
-        tt=(df['SnpWeight']/df['SnpWeightSE']).values
+        df=pd.read_csv('output/gcta-'+core+'.mlma',header=0,index_col=None,sep='\t')
+        tt=(df['b']/df['se']).values
         waldStat+=[norm.ppf(t.cdf(tt,numSubjects-2)).reshape(-1,1)]
-        eta+=[(df['NullGeneticVar']/(df['NullGeneticVar']+df['NullResidualVar'])).values.reshape(-1,1)]
+        
+        cmd=[local+'ext/gcta64','--qcovar','inputs/cov.phe','--out','output/gcta-'+core,'--pheno','inputs/Y.phe','--threads','1',
+             '--bfile','inputs/'+snp,'--reml','--grm','grm/gcta-'+snp+'/grm']
+        subprocess.call(cmd)
+        etaDF=pd.read_csv('output/gcta-'+core+'.hsq',header=0,index_col=None,nrows=2,sep='\t')
+        etaEst=etaDF.iloc[0,1]/(etaDF.iloc[1,0]+etaDF.iloc[1,1])
+        
+        eta+=[np.array([[etaEst]]*etaDF.shape[0])]
     
     waldStat=np.concatenate(waldStat,axis=1)
     eta=np.concatenate(eta,axis=1)
