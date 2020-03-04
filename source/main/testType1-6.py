@@ -47,11 +47,11 @@ def myMain(mainDef):
     #['gemma','fast','limix','lmm','lm','ped','bimbam','bed']
     #['gemmaStd','gemmaCentral','fast','limix','bed','bimbam','ped']
     ctrl={
-        'parms':[0.6,2000,300,[2000,500]],
+        'parms':[0.5,2000,2000,[2000,500]],
         'sim':['indepTraits','pedigreeSnps','noNorm'],
         'ell':'indepTraits',
-        'reg':['gemma','lmm','bimbam'],
-        'grm':['gemma','std']
+        'reg':['limix','lmm','bimbam'],
+        'grm':['limix','std']
     }
     parms=setupFolders(ctrl,ops)
     numSnps=ctrl['parms'][-1]
@@ -59,6 +59,7 @@ def myMain(mainDef):
     DBCreateFolder('grm',parms)
     DBCreateFolder('inputs',parms)
     makeSimInputFiles(parms)
+    YOne=np.loadtxt('inputs/Y.phe',delimiter='\t')[:,2:]
     
     #######################################################################################################
 
@@ -67,13 +68,31 @@ def myMain(mainDef):
     
     #######################################################################################################
 
-    z=np.loadtxt('score/waldStat-'+str(len(numSnps)),delimiter='\t')
-    eta=np.loadtxt('score/eta-'+str(len(numSnps)),delimiter='\t')[0]
-    Y=np.loadtxt('inputs/Y.phe',delimiter='\t')[:,2:]
-    zRef=norm.rvs(size=[int(parms['parms'][-1][-1]),int(parms['parms'][2])])
+    zOne=np.loadtxt('score/waldStat-'+str(len(numSnps)),delimiter='\t')
+    etaOne=np.loadtxt('score/eta-'+str(len(numSnps)),delimiter='\t')[0]
     
     #######################################################################################################
     
+    ctrl={
+        'parms':[0.5,2000,2000,[2000,500]],
+        'sim':['indepTraits','pedigreeSnps','noNorm'],
+        'ell':'indepTraits',
+        'reg':['limix','lmm','bimbam'],
+        'grm':['limix','std']
+    }
+
+    #######################################################################################################
+
+    DBCreateFolder('score',parms)
+    genZScores(parms,[len(numSnps)])
+    
+    #######################################################################################################
+
+    zOne=np.loadtxt('score/waldStat-'+str(len(numSnps)),delimiter='\t')
+    etaOne=np.loadtxt('score/eta-'+str(len(numSnps)),delimiter='\t')[0]
+    
+    #######################################################################################################
+    pdb.set_trace()
     DBCreateFolder('diagnostics',parms)
     DBLog(ctrl)
 

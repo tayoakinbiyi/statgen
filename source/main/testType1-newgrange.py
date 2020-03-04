@@ -47,15 +47,15 @@ def myMain(mainDef):
     #['gemma','fast','limix','lmm','lm','ped','bimbam','bed']
     #['gemmaStd','gemmaCentral','fast','limix','bed','bimbam','ped']
     ctrl={
-        'parms':[0.5,1000,2000,[2000,500]],
-        'sim':['indepTraits','pedigreeSnps','noNorm'],
-        'ell':'indepTraits',
-        'reg':['gemma','lmm','bimbam'],
-        'grm':['gemma','std']
+        'parms':[0.2,2000,300,[2000,500]],
+        'sim':['depTraits','pedigreeSnps','noNorm'],
+        'ell':'depTraits',
+        'reg':['limix','lmm','bimbam'],
+        'grm':['limix','std']
     }
     parms=setupFolders(ctrl,ops)
     numSnps=ctrl['parms'][-1]
-
+    '''
     DBCreateFolder('grm',parms)
     DBCreateFolder('inputs',parms)
     makeSimInputFiles(parms)
@@ -64,7 +64,7 @@ def myMain(mainDef):
 
     DBCreateFolder('score',parms)
     genZScores(parms,[len(numSnps)])
-    
+    '''
     #######################################################################################################
 
     z=np.loadtxt('score/waldStat-'+str(len(numSnps)),delimiter='\t')
@@ -92,7 +92,7 @@ def myMain(mainDef):
     fig.savefig('diagnostics/eta.png')
     
     #######################################################################################################
-    
+    '''
     maxD=int(np.max(ellDSet)*parms['parms'][2])
     numTraits=parms['parms'][2]
     ell=np.empty(shape=[parms['parms'][-1][-1],maxD])
@@ -101,7 +101,6 @@ def myMain(mainDef):
         ell[:,i]=beta.cdf(pvals[:,i],i+1,numTraits-i)
     ell=np.min(ell,axis=1)
     
-    ellRef=np.empty(shape=[parms['parms'][-1][-1],int(np.max(ellDSet)*parms['parms'][2])])
     pvals=np.sort(2*norm.sf(np.abs(zRef)))
     for i in range(maxD):
         ellRef[:,i]=beta.cdf(pvals[:,i],i+1,numTraits-i)
@@ -110,19 +109,19 @@ def myMain(mainDef):
     monteCarlo=np.empty(shape=len(ell))
     sortOrd=np.argsort(ell,axis=0)
     monteCarlo[sortOrd]=(1+np.searchsorted(ellRef,ell[sortOrd]))/(len(ellRef)+1)
-    
     '''
+    
     stat=ELL.ell.ell(np.array([.1,.5]),parms['parms'][2])
-    monteCarlo=stat.monteCarlo(ellRef,ell)
     if 'depTraits' in parms['ell']:
         offDiag=np.corrcoef(z,rowvar=False)[np.triu_indices(parms['parms'][2],1)]
     if 'indepTraits' in parms['ell']:
         offDiag=np.array([0]*int(parms['parms'][2]*(parms['parms'][2]-1)/2))
         
-    stat.fit(10*parms['parms'][2],1000*parms['parms'][2],3000,1e-6,offDiag) # numLamSteps0,numLamSteps1,numEllSteps,minEll
+    stat.fit(10,2000,4000,1e-7,offDiag) # numLamSteps0,numLamSteps1,numEllSteps,minEll
 
     #######################################################################################################
     
+    zRef=np.matmul(np.loadtxt('LZCorr/LTraitCorr',delimiter='\t'),norm.rvs(size=[numTraits,numTraits]))
     refELL=stat.score(zRef)
     score=stat.score(z)
 
@@ -135,10 +134,10 @@ def myMain(mainDef):
     markov=stat.markov(refELL)
 
     #######################################################################################################
-    '''
+    
     cross=plotPower(monteCarlo,parms,'mc',['mc'])
+    plotPower(markov,parms,'markov',['markov-'+str(x) for x in ellDSet])
     DBFinish(local,mainDef)
-    #plotPower(markov,parms,'markov',['markov-'+str(x) for x in ellDSet])
     
 
 myMain(getsource(myMain))

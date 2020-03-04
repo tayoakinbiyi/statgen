@@ -12,6 +12,7 @@ from genPython.makePSD import *
 
 from dataPrepPython.makeGrm import *
 from dataPrepPython.writeInputs import *
+from dataPrepPython.getRealTraits import *
 from simPython.makeSimSnps import *
 
 def makeSimInputFiles(parms):
@@ -89,22 +90,10 @@ def makeSimInputFiles(parms):
     np.random.seed(YSeed)
     
     if 'realTraits' in sim:
-        assert numSubjects==len(traits)
-        traits=pd.read_csv(local+'data/'+response+'.txt',sep='\t',index_col=0,header=0)
-
-        robjects=pyreadr.read_r(local+'data/allMouseGenesCoords.RData')
-        mouseGenes=robjects['mouseGenes']
-        mouseGenes=mouseGenes[(mouseGenes['chrom'].isin(range(1,22)))&(mouseGenes['gene_name'].isin(traits.columns))]
-
-        traitData=pd.DataFrame({'trait':mouseGenes['gene_name'],'chr':mouseGenes['chrom'].astype(int),
-            'Mbp':((mouseGenes['cds_start']+mouseGenes['cds_end'])/2).astype(int)})
-        traitData=traitData.sort_values(by=['chr','trait']).iloc[:numTraits]
-        traitData.to_csv('ped/traitData',index=False,sep='\t')    
-        traits=traits[traitData.trait].values
-
-        Y=traits    
+        Y=getRealTraits(parms)    
     else:
         if 'depTraits' in sim:
+            traits=getRealTraits(parms)  
             LTraitCorr=makePSD(np.corrcoef(traits,rowvar=False))
         if 'indepTraits' in sim:
             LTraitCorr=np.eye(numTraits)

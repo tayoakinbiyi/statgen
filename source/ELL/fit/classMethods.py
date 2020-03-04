@@ -64,8 +64,8 @@ def fit(self,numLamSteps0,numLamSteps1,numEllSteps,minEll,offDiag=None):
     
     ellGrid=geomBins(numEllSteps,minEll,1-minEll)
 
-    self.numLamSteps0=numLamSteps0
-    self.numLamSteps1=numLamSteps1
+    self.numLamSteps0=numLamSteps0*self.N
+    self.numLamSteps1=numLamSteps1*self.N
         
     self.minMaxLamPerKInitial(minEll)
     self.minMaxKPerBin()

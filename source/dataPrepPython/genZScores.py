@@ -51,6 +51,9 @@ def genZScores(parms,snpChr):
 
 def genZScoresHelp(core,snp,traitRange,parms,numSubjects):
     reg=parms['reg']
+    grm=parms['grm']
+    
+    assert ('fast' in reg) or ('gemma' in reg) or ('mixedLM' in reg) or ('limix' in reg) or ('gcta' in reg)
     
     if 'fast' in reg:
         return(runFastlmm(core,snp,traitRange,parms,numSubjects))
@@ -66,6 +69,8 @@ def genZScoresHelp(core,snp,traitRange,parms,numSubjects):
 def runFastlmm(core,snp,traitRange,parms,numSubjects):
     local=parms['local']
     reg=parms['reg']
+    
+    assert ('bed' in reg) or ('ped' in reg)
         
     waldStat=[]
     eta=[]
@@ -107,8 +112,9 @@ def runFastlmm(core,snp,traitRange,parms,numSubjects):
 def runGCTA(core,snp,traitRange,parms,numSubjects):
     local=parms['local']
     reg=parms['reg']
+    grm=parms['grm']
         
-    assert 'bed' in reg
+    assert ('bed' in reg) and ('gcta' in grm)
     waldStat=[]
     eta=[]
 
@@ -123,21 +129,12 @@ def runGCTA(core,snp,traitRange,parms,numSubjects):
         df=pd.read_csv('output/gcta-'+core+'.mlma',header=0,index_col=None,sep='\t')
         tt=(df['b']/df['se']).values
         waldStat+=[norm.ppf(t.cdf(tt,numSubjects-2)).reshape(-1,1)]
-        
-        loopCmd=cmd+['--reml','--mpheno',str(traitInd+1)]
-        subprocess.call(loopCmd)
-        pdb.set_trace()
-        etaDF=pd.read_csv('output/gcta-'+core+'.hsq',header=0,index_col=None,nrows=2,sep='\t')
-        etaEst=etaDF.iloc[0,1]/(etaDF.iloc[1,0]+etaDF.iloc[1,1])
-        
-        eta+=[np.array([[etaEst]]*etaDF.shape[0])]
-    
+            
     waldStat=np.concatenate(waldStat,axis=1)
-    eta=np.concatenate(eta,axis=1)
     
     return({'traitRange':traitRange,
             'waldStat':waldStat,
-            'eta':eta
+            'eta':np.ones([len(waldStat),len(traitRange)])
            })
 
 def runGemma(core,snp,traitRange,parms,numSubjects):
@@ -146,6 +143,7 @@ def runGemma(core,snp,traitRange,parms,numSubjects):
         
     waldStat=[]
     eta=[]
+    assert ('bed' in reg) or ('bimbam' in reg)
     
     cmd=[local+'ext/gemma','-o','gemma-'+core,'-c','inputs/cov.txt','-p','inputs/Y.phe']
     if 'bed' in reg:
@@ -183,6 +181,8 @@ def runMixedLM(core,snp,traitRange,parms,numSubjects):
     reg=parms['reg']
     numSnps=parms['parms'][-1][int(snp)-1]
         
+    assert 'bimbam' in reg
+
     waldStat=[]
     eta=[]
     
@@ -190,9 +190,7 @@ def runMixedLM(core,snp,traitRange,parms,numSubjects):
     vc={'genotype':'~0+'+'+'.join(cols)}
     L=np.loadtxt('LZCorr/Lgrm-1',delimiter='\t')
     y=np.loadtxt('inputs/Y.phe',delimiter='\t')[:,2+traitRange]
-    
-    assert 'bimbam' in reg
-    
+        
     snpData=pd.DataFrame(np.loadtxt('inputs/'+snp+'.bimbam',delimiter='\t',dtype=str)[:,3:].T,columns=['S'+str(i) for 
         i in range(numSnps)],dtype='int')
         
@@ -225,15 +223,19 @@ def runLimix(core,snp,traitRange,parms,numSubjects):
     local=parms['local']
     reg=parms['reg']
     numSnps=parms['parms'][-1][int(snp)-1]
+    grm=parms['grm']
+    
+    assert ('bed' in reg) or ('bimbam' in reg)
         
     waldStat=[]
     eta=[]
         
-    if 'bed' in grm:
+    if 'bed' in reg:
         _,_,bed=plink.read('inputs/'+snp)
         bimBamFmt=bed.compute().T
-    if 'bimbam' in grm:
+    if 'bimbam' in reg:
         bimBamFmt=np.loadtxt('inputs/'+snp+'.bimbam',delimiter='\t',dtype=str)[:,3:].T.astype(float)
+        
     Y=np.loadtxt('inputs/Y.phe',delimiter='\t')[:,2:]
     K=np.loadtxt('grm/limix-'+snp,delimiter='\t')
     M=np.ones([numSubjects,1])
