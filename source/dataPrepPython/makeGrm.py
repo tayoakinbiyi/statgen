@@ -10,6 +10,7 @@ from opPython.DB import *
 from genPython.makePSD import *
 from limix.qc import normalise_covariance
 from limix.stats import linear_kinship
+from rpy2.robjects.packages import SignatureTranslatedAnonymousPackage
 
 def makeGrm(parms,name,decomp=True):
     local=parms['local']
@@ -59,9 +60,47 @@ def makeGrm(parms,name,decomp=True):
         grmVal.to_csv('grm/fast-'+name,sep='\t',header=True,index=True)  
     
     if 'gcta' in grm:
-        cmd=[local+'ext/gcta64','--bfile','inputs/'+name,'--make-grm','--out','grm/gcta-'+name,'-threads',str(numCores)]   
+        subprocess.call(['mkdir','-p','grm/gcta-'+name])
+        cmd=[local+'ext/gcta64','--bfile','inputs/'+name,'--make-grm','--out','grm/gcta-'+name+'/grm','--threads',str(numCores)]   
         subprocess.call(cmd)
-        pdb.set_trace()
+
+        gctaString='''
+        ReadGRMBin=function(){
+          prefix=\'grm/gcta-'''+name+'''/grm\'
+          AllN=F
+          size=4
+          sum_i=function(i){
+            return(sum(1:i))
+          }
+          BinFileName=paste(prefix,".grm.bin",sep="")
+          NFileName=paste(prefix,".grm.N.bin",sep="")
+          IDFileName=paste(prefix,".grm.id",sep="")
+          id = read.table(IDFileName)
+          n=dim(id)[1]
+          BinFile=file(BinFileName, "rb");
+          grm=readBin(BinFile, n=n*(n+1)/2, what=numeric(0), size=size)
+          NFile=file(NFileName, "rb");
+          if(AllN==T){
+            N=readBin(NFile, n=n*(n+1)/2, what=numeric(0), size=size)
+          }
+          else N=readBin(NFile, n=1, what=numeric(0), size=size)
+          i=sapply(1:n, sum_i)
+          return(list(diag=grm[i], off=grm[-i], id=id, N=N))
+        }
+        '''
+        gctaF=SignatureTranslatedAnonymousPackage(gctaString,'ReadGRMBin')    
+        grmValList=gctaF.ReadGRMBin()
+        grmVal=np.diag(grmValList[0])
+        grmVal[np.triu_indices(numSubjects,1)]=grmValList[1]
+        grmVal[np.tril_indices(numSubjects,-1)]=grmValList[1][::-1]
+
+        np.savetxt('grm/gemma-'+name,grmVal,delimiter='\t')
+        grmVal=pd.DataFrame(grmVal)
+        grmVal.index=['0 '+str(x) for x in np.arange(numSubjects)]
+        grmVal.columns=['0 '+str(x) for x in np.arange(numSubjects)]
+        grmVal.index.name='var'
+        
+        grmVal.to_csv('grm/fast-'+name,sep='\t',header=True,index=True)  
 
     if 'limNorm' in grm:
         np.savetxt('grm/gemma-'+name,normalise_covariance(np.loadtxt('grm/gemma-'+name,delimite='\t')),delimiter='\t')

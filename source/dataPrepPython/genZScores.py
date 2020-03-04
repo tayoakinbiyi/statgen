@@ -60,7 +60,7 @@ def genZScoresHelp(core,snp,traitRange,parms,numSubjects):
     if 'limix' in reg:
         return(runLimix(core,snp,traitRange,parms,numSubjects))
     if 'gcta' in reg:
-        return(runPlink(core,snp,traitRange,parms,numSubjects))
+        return(runGCTA(core,snp,traitRange,parms,numSubjects))
 
 def runFastlmm(core,snp,traitRange,parms,numSubjects):
     local=parms['local']
@@ -112,10 +112,10 @@ def runGCTA(core,snp,traitRange,parms,numSubjects):
     eta=[]
 
     cmd=[local+'ext/gcta64','--qcovar','inputs/cov.phe','--out','output/gcta-'+core,'--pheno','inputs/Y.phe','--threads','1',
-         '--bfile','inputs/'+snp,'--mlma','--grm','grm/gcta-'+snp+'/grm']
+         '--bfile','inputs/'+snp,'--grm','grm/gcta-'+snp+'/grm','--reml-maxit','2000']
 
     for traitInd in traitRange:
-        loopCmd=cmd+['-mpheno',str(traitInd+1)]
+        loopCmd=cmd+['--mlma','--mpheno',str(traitInd+1)]
         print('gcta core {} , {} of {}'.format(core,traitInd-min(traitRange),len(traitRange)),flush=True)
         subprocess.call(loopCmd)
         
@@ -123,9 +123,9 @@ def runGCTA(core,snp,traitRange,parms,numSubjects):
         tt=(df['b']/df['se']).values
         waldStat+=[norm.ppf(t.cdf(tt,numSubjects-2)).reshape(-1,1)]
         
-        cmd=[local+'ext/gcta64','--qcovar','inputs/cov.phe','--out','output/gcta-'+core,'--pheno','inputs/Y.phe','--threads','1',
-             '--bfile','inputs/'+snp,'--reml','--grm','grm/gcta-'+snp+'/grm']
-        subprocess.call(cmd)
+        loopCmd=cmd+['--reml','--mpheno',str(traitInd+1)]
+        subprocess.call(loopCmd)
+        pdb.set_trace()
         etaDF=pd.read_csv('output/gcta-'+core+'.hsq',header=0,index_col=None,nrows=2,sep='\t')
         etaEst=etaDF.iloc[0,1]/(etaDF.iloc[1,0]+etaDF.iloc[1,1])
         
