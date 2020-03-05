@@ -4,6 +4,8 @@ import pdb
 import matplotlib.pyplot as plt
 from scipy.stats import chi2, norm
 from decimal import Decimal
+from plotPython.myQQ import *
+from plotPython.myHist import *
 
 def plotZ(z,prefix=''):
     numSnps,numTraits=z.shape
@@ -58,38 +60,3 @@ def plotZ(z,prefix=''):
 
     return()
 
-def myQQ(x,y,title):
-    fig,axs=plt.subplots(1,1)
-    fig.set_figwidth(10,forward=True)
-    fig.set_figheight(10,forward=True)
-
-    labMax=max(max(x),max(y))
-    labMin=min(min(x),min(y))
-    labMax+=.1*(labMax-labMin)
-    labMin-=.1*(labMax-labMin)
-
-    axs.set_xlim([labMin,labMax])
-    axs.set_ylim([labMin,labMax])
-    axs.scatter(x,y,c='.1')
-    axs.plot([labMin,labMax], [labMin,labMax], ls="--", c=".3")  
-    axs.set_xlabel('theoretical')
-    axs.set_ylabel('observed')
-    axs.set_title(title+' mu: '+('%.3E' % np.mean(y))+' std: '+('%.3E' % np.std(y)))
-    
-    fig.savefig('diagnostics/'+title+'.png')
-    plt.close('all') 
-
-    return()
-
-def myHist(x,title):
-    fig,axs=plt.subplots(1,1)
-    fig.set_figwidth(10,forward=True)
-    fig.set_figheight(10,forward=True)
-
-    axs.hist(x,bins=40)
-    axs.set_title(title+' mu: '+('%.3E' % np.mean(x))+' std: '+('%.3E' % np.std(x)))
-    
-    fig.savefig('diagnostics/'+title+'.png')
-    plt.close('all') 
-
-    return()

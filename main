@@ -27,7 +27,7 @@ def myMain(mainDef):
     #['gemma','fast','limix','lmm','lm','ped','bimbam','bed']
     #['gemmaStd','gemmaCentral','fast','limix','bed','bimbam','ped']
     ctrl={
-        'parms':[0.2,800,300,[2000,1000]],
+        'parms':[0.2,800,300,[10000,1000]],
         'sim':['indepTraits','pedigreeSnps','noNorm'],
         'ell':'indepTraits',
         'reg':['gemma','lmm','bimbam'],
@@ -35,28 +35,26 @@ def myMain(mainDef):
     }
     parms=setupFolders(ctrl,ops)
     numSnps=ctrl['parms'][-1]
-    '''
+    
     DBCreateFolder('grm',parms)
     DBCreateFolder('inputs',parms)
+    DBCreateFolder('score',parms)
     makeSimInputFiles(parms)
     
     #######################################################################################################
-
-    DBCreateFolder('score',parms)
-    genZScores(parms,[len(numSnps)])
     
-    #######################################################################################################
-
-    DBCreateFolder('diagnostics',parms)
-
-    z=np.loadtxt('score/waldStat-'+str(len(numSnps)),delimiter='\t')
-    plotZ(z,prefix='gemma-')
-    '''
-    #######################################################################################################
-
-    parms['reg']=['limix','lmm','bimbam']
+    parms['reg']=['gemma','lmm','bimbam']
     genZScores(parms,[len(numSnps)])
-    z=np.loadtxt('score/waldStat-'+str(len(numSnps)),delimiter='\t')
-    plotZ(z,prefix='limix-')
+    subprocess.call(['mv','score/waldStat-'+str(len(numSnps)),'score/gemma-'+str(len(numSnps))])
+    zGemma=np.loadtxt('score/gemma-'+str(len(numSnps)),delimiter='\t')
+    plotZ(zGemma,prefix='gemma-')
+    
+    parms['reg']=['limix','lmm','bimbam']
+    genZScores(parms,[len(numSnps)])    
+    subprocess.call(['mv','score/waldStat-'+str(len(numSnps)),'score/limix-'+str(len(numSnps))])
+    zLimix=np.loadtxt('score/limix-'+str(len(numSnps)),delimiter='\t')
+    plotZ(zLimix,prefix='limix-')
+        
+    myQQ(zGemma.flatten(),zLimix.flatten(),'y=limix , x=gemma',ylabel='limix',xlabel='gemma')
 
     DBFinish(local,mainDef)
