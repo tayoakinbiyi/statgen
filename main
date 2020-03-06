@@ -27,34 +27,37 @@ def myMain(mainDef):
     #['gemma','fast','limix','lmm','lm','ped','bimbam','bed']
     #['gemmaStd','gemmaCentral','fast','limix','bed','bimbam','ped']
     ctrl={
-        'parms':[0.2,800,300,[10000,1000]],
+        'parms':[0.3,800,300,[10000,1000]],
         'sim':['indepTraits','pedigreeSnps','noNorm'],
         'ell':'indepTraits',
-        'reg':['gemma','lmm','bimbam'],
         'grm':['gemma','std']
     }
     parms=setupFolders(ctrl,ops)
     numSnps=ctrl['parms'][-1]
-    
+    '''
     DBCreateFolder('grm',parms)
     DBCreateFolder('inputs',parms)
     DBCreateFolder('score',parms)
     makeSimInputFiles(parms)
-    
+    '''
     #######################################################################################################
     
-    parms['reg']=['gemma','lmm','bimbam']
-    genZScores(parms,[len(numSnps)])
-    subprocess.call(['mv','score/waldStat-'+str(len(numSnps)),'score/gemma-'+str(len(numSnps))])
-    zGemma=np.loadtxt('score/gemma-'+str(len(numSnps)),delimiter='\t')
-    plotZ(zGemma,prefix='gemma-')
+    DBCreateFolder('diagnostics',parms)
+    DBLog(ctrl)
     
-    parms['reg']=['limix','lmm','bimbam']
-    genZScores(parms,[len(numSnps)])    
-    subprocess.call(['mv','score/waldStat-'+str(len(numSnps)),'score/limix-'+str(len(numSnps))])
-    zLimix=np.loadtxt('score/limix-'+str(len(numSnps)),delimiter='\t')
-    plotZ(zLimix,prefix='limix-')
+    z={}
+    lmms=[['fast','ped'],['limix','bimbam'],['gemma','bimbam']]
+    
+    for lmm in lmms:
+        parms['reg']=[lmm[0],'lmm',lmm[1]]
+        genZScores(parms,[len(numSnps)])
+        subprocess.call(['mv','score/waldStat-'+str(len(numSnps)),'score/'+parms['reg'][0]+'-'+str(len(numSnps))])
+        z[parms['reg'][0]]=np.loadtxt('score/'+parms['reg'][0]+'-'+str(len(numSnps)),delimiter='\t')
+        plotZ(z[parms['reg'][0]],prefix=parms['reg'][0]+'-')
         
-    myQQ(zGemma.flatten(),zLimix.flatten(),'y=limix , x=gemma',ylabel='limix',xlabel='gemma')
+    for lmm1 in range(0,len(lmms)-1):
+        for lmm2 in range(1,len(lmms)):
+            myQQ(z[lmms[lmm1][0]].flatten(),z[lmms[lmm2][0]].flatten(),lmms[lmm1][0]+' vs '+lmms[lmm2][0],
+                 ylabel=lmms[lmm1][0],xlabel=lmms[lmm2][0])
 
     DBFinish(local,mainDef)

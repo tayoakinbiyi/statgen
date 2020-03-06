@@ -1,0 +1,4 @@
+{'ell': 'indepTraits',
+ 'grm': ['gemma', 'std'],
+ 'parms': [0.3, 800, 300, [10000, 1000]],
+ 'sim': ['indepTraits', 'pedigreeSnps', 'noNorm']}
