@@ -47,13 +47,13 @@ def myMain(mainDef):
     
     for lmm in lmms:
         parms['grmParm']=[lmm[0]]
-        makeSim(parms,genSnps=False,genGrm=True,genY=False,genCov=False)
+        #makeSim(parms,genSnps=False,genGrm=True,genY=False,genCov=False)
             
         parms['reg']=[lmm[0],'lmm',lmm[1]]
         genZScores(parms,[len(numSnps)])
-        subprocess.call(['mv','score/waldStat-'+str(len(numSnps)),'score/'+parms['reg'][0]+'-'+str(len(numSnps))])
-        z[parms['reg'][0]]=np.loadtxt('score/'+parms['reg'][0]+'-'+str(len(numSnps)),delimiter='\t')
-        plotZ(z[parms['reg'][0]],prefix=parms['reg'][0]+'-')
+        subprocess.call(['mv','score/waldStat-'+str(len(numSnps)),'score/'+lmm[0]+'-'+str(len(numSnps))])
+        z[lmm[0]]=np.loadtxt('score/'+parms['reg'][0]+'-'+str(len(numSnps)),delimiter='\t')
+        plotZ(z[lmm[0]],prefix=lmm[0]+'-')
         
     for lmm1 in range(0,len(lmms)-1):
         for lmm2 in range(lmm1+1,len(lmms)):
