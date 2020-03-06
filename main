@@ -15,8 +15,8 @@ def myMain(mainDef):
         'muEpsRange':[],
         'maxSnpGen':5000,
         'transOnly':False,
-        'YSeed':0,
-        'snpsSeed':0,
+        'ySeed':0,
+        'snpSeed':0,
         'logSource':True,
         'local':local
     }
@@ -27,19 +27,16 @@ def myMain(mainDef):
     #['gemma','fast','limix','lmm','lm','ped','bimbam','bed']
     #['gemmaStd','gemmaCentral','fast','limix','bed','bimbam','ped']
     ctrl={
-        'parms':[0.3,800,300,[10000,1000]],
-        'sim':['indepTraits','pedigreeSnps','noNorm'],
+        'parms':[0.3,400,200,[400,400]],
+        'snpParm':['pedigreeSnps'],
+        'yParm':['indepTraits','noNorm'],
         'ell':'indepTraits',
-        'grm':['gemma','std']
+        'grmParm':['gemma']
     }
     parms=setupFolders(ctrl,ops)
     numSnps=ctrl['parms'][-1]
-    '''
-    DBCreateFolder('grm',parms)
-    DBCreateFolder('inputs',parms)
-    DBCreateFolder('score',parms)
-    makeSimInputFiles(parms)
-    '''
+    makeSim(parms)
+
     #######################################################################################################
     
     DBCreateFolder('diagnostics',parms)
@@ -49,6 +46,9 @@ def myMain(mainDef):
     lmms=[['fast','ped'],['limix','bimbam'],['gemma','bimbam']]
     
     for lmm in lmms:
+        parms['grmParm']=[lmm[0]]
+        makeSim(parms,genSnps=False,genGrm=True,genY=False,genCov=False)
+            
         parms['reg']=[lmm[0],'lmm',lmm[1]]
         genZScores(parms,[len(numSnps)])
         subprocess.call(['mv','score/waldStat-'+str(len(numSnps)),'score/'+parms['reg'][0]+'-'+str(len(numSnps))])
@@ -57,7 +57,7 @@ def myMain(mainDef):
         
     for lmm1 in range(0,len(lmms)-1):
         for lmm2 in range(1,len(lmms)):
-            myQQ(z[lmms[lmm1][0]].flatten(),z[lmms[lmm2][0]].flatten(),lmms[lmm1][0]+' vs '+lmms[lmm2][0],
-                 ylabel=lmms[lmm1][0],xlabel=lmms[lmm2][0])
+            myQQ(z[lmms[lmm1][0]].flatten(),z[lmms[lmm2][0]].flatten(),lmms[lmm2][0]+' vs '+lmms[lmm1][0],
+                 ylabel=lmms[lmm2][0],xlabel=lmms[lmm1][0])
 
     DBFinish(local,mainDef)

@@ -10,6 +10,8 @@ def setupFolders(ctrl,ops):
     parms['local']=os.getcwd()+'/'
     local=parms['local']
     
+    DBCreateFolder('output',parms)
+
     parms['name']=parms['file'][:-3]
     name=parms['name']
     
@@ -17,12 +19,12 @@ def setupFolders(ctrl,ops):
         os.mkdir(local+name)
         os.chdir(local+name)
         os.mkdir('score')
-        os.mkdir('LZCorr')
         os.mkdir('diagnostics')
         os.mkdir('grm')
         os.mkdir('output')
-        os.mkdir('power')
-        os.mkdir('inputs')
+        os.mkdir('snps')
+        os.mkdir('Y')
+        os.mkdir('cov')
     else:
         os.chdir(local+name)    
     

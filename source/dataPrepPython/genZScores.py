@@ -55,36 +55,30 @@ def genZScores(parms,snpChr):
 def genZScoresHelp(core,snp,traitRange,parms,numSnps,numSubjects):
     local=parms['local']
     reg=parms['reg']
-    grm=parms['grm']
             
     waldStat=[]
     eta=[]
         
     if 'fast' in reg:
         assert ('ped' in reg) or ('bed' in reg)
-        cmd=[local+'ext/fastlmmc','-covar','inputs/cov.phe','-maxThreads','1','-out','output/fastlmm-'+core,'-pheno',
-             'inputs/Y.phe','-simLearnType','Full','-brentMinLogVal','-10','-brentMaxLogVal','10','-ML']
+        cmd=[local+'ext/fastlmmc','-covar','cov/cov.phe','-maxThreads','1','-out','output/fastlmm-'+core,'-pheno',
+             'Y/Y.phe','-simLearnType','Full','-brentMinLogVal','-10','-brentMaxLogVal','10','-ML']
         if 'ped' in reg:
-            cmd+=['-file','inputs/'+snp]
+            cmd+=['-file','snps/'+snp]
         if 'bed' in reg:
-            cmd+=['-bfile','inputs/'+snp]
+            cmd+=['-bfile','snps/'+snp]
         if 'lmm' in reg:
             cmd+=['-eigen','grm/fast-eigen-'+snp]
         if 'lm' in reg:
             cmd+=['-linreg']        
 
-    if 'gcta' in reg:
-        assert ('bed' in reg)
-        cmd=[local+'ext/gcta64','--qcovar','inputs/cov.phe','--out','output/gcta-'+core,'--pheno','inputs/Y.phe','--threads','1',
-             '--bfile','inputs/'+snp,'--grm','grm/gcta-'+snp+'/grm','--reml-maxit','2000']
-
     if 'gemma' in reg:
         assert ('bimbam' in reg) or ('bed' in reg)
-        cmd=[local+'ext/gemma','-o','gemma-'+core,'-c','inputs/cov.txt','-p','inputs/Y.phe']
+        cmd=[local+'ext/gemma','-o','gemma-'+core,'-c','cov/cov.txt','-p','Y/Y.phe']
         if 'bed' in reg:
-            cmd+=['-bfile','inputs/'+snp]
+            cmd+=['-bfile','snps/'+snp]
         if 'bimbam' in reg:
-            cmd+=['-g','inputs/'+snp+'.bimbam']
+            cmd+=['-g','snps/'+snp+'.bimbam']
         if 'lmm' in reg:
             cmd+=['-lmm','4','-d','grm/gemma-eigen-'+snp+'/D','-u','grm/gemma-eigen-'+snp+'/U']
         if 'lm' in reg:
@@ -94,10 +88,10 @@ def genZScoresHelp(core,snp,traitRange,parms,numSnps,numSubjects):
         assert ('bimbam' in reg)
         cols=['L'+str(i) for i in range(numSubjects)]
         vc={'genotype':'~0+'+'+'.join(cols)}
-        L=np.loadtxt('LZCorr/Lgrm-1',delimiter='\t')
-        y=np.loadtxt('inputs/Y.phe',delimiter='\t')[:,2+traitRange]
+        L=np.loadtxt('grm/Lgrm-1',delimiter='\t')
+        y=np.loadtxt('Y/Y.phe',delimiter='\t')[:,2+traitRange]
 
-        snpData=pd.DataFrame(np.loadtxt('inputs/'+snp+'.bimbam',delimiter='\t',dtype=str)[:,3:].T,columns=['S'+str(i) for 
+        snpData=pd.DataFrame(np.loadtxt('snps/'+snp+'.bimbam',delimiter='\t',dtype=str)[:,3:].T,columns=['S'+str(i) for 
             i in range(numSnps)],dtype='int')
 
         data=pd.concat([pd.DataFrame(y,columns=['Y'+str(i) for i in traitRange]),pd.DataFrame(L,columns=cols),snpData],axis=1)
@@ -106,13 +100,13 @@ def genZScoresHelp(core,snp,traitRange,parms,numSnps,numSubjects):
     if 'limix' in reg:
         assert ('bimbam' in reg) or ('bed' in reg)
         if 'bed' in reg:
-            _,_,bed=plink.read('inputs/'+snp)
+            _,_,bed=plink.read('snps/'+snp)
             bimBamFmt=bed.compute().T
         if 'bimbam' in reg:
-            bimBamFmt=np.loadtxt('inputs/'+snp+'.bimbam',delimiter='\t',dtype=str)[:,3:].T.astype(float)
-        Y=np.loadtxt('inputs/Y.phe',delimiter='\t')[:,2:]
+            bimBamFmt=np.loadtxt('snps/'+snp+'.bimbam',delimiter='\t',dtype=str)[:,3:].T.astype(float)
+        Y=np.loadtxt('Y/Y.phe',delimiter='\t')[:,2:]
         K=np.loadtxt('grm/limix-'+snp,delimiter='\t')
-        M=np.ones([numSubjects,1])
+        M=np.loadtxt('cov/cov.txt',delimiter='\t')
         
     for traitInd in traitRange:
         print('core {} , {} of {}'.format(core,traitInd-min(traitRange),len(traitRange)),flush=True)
@@ -130,22 +124,6 @@ def genZScoresHelp(core,snp,traitRange,parms,numSnps,numSubjects):
             waldStat+=[norm.ppf(t.cdf(tt,numSubjects-2)).reshape(-1,1)]
             eta+=[(df['NullGeneticVar']/(df['NullGeneticVar']+df['NullResidualVar'])).values.reshape(-1,1)]
 
-        if 'gcta' in reg:
-            loopCmd=cmd+['--mlma','--mpheno',str(traitInd+1)]
-            subprocess.call(loopCmd)
-
-            df=pd.read_csv('output/gcta-'+core+'.mlma',header=0,index_col=None,sep='\t')
-            tt=(df['b']/df['se']).values
-            waldStat+=[norm.ppf(t.cdf(tt,numSubjects-2)).reshape(-1,1)]
-
-            loopCmd=cmd+['--reml','--mpheno',str(traitInd+1)]
-            subprocess.call(loopCmd)
-            pdb.set_trace()
-            etaDF=pd.read_csv('output/gcta-'+core+'.hsq',header=0,index_col=None,nrows=2,sep='\t')
-            etaEst=etaDF.iloc[0,1]/(etaDF.iloc[1,0]+etaDF.iloc[1,1])
-
-            eta+=[np.array([[etaEst]]*etaDF.shape[0])]
-    
         if 'gemma' in reg:
             loopCmd=cmd+['-n',str(traitInd+3)]
             subprocess.run(loopCmd) 

@@ -4,12 +4,16 @@ import random
 import subprocess
 import pdb
 
-def makeSimSnps(parms): 
+from opPython.DB import *
+
+def makePedigreeSnps(parms): 
     numSnps=parms['parms'][-1]
     maxSnpGen=parms['maxSnpGen']
     local=parms['local']
     numSubjects=parms['parms'][-3]
         
+    DBCreateFolder('geneDrop',parms)
+
     subprocess.call(['cp',local+'ext/sampleIds.txt','geneDrop/sampleIds.txt'])
     pd.DataFrame({'parms':[local+'ext/ail_revised.ped.txt','geneDrop/sampleIds.txt','geneDrop/map.txt',0,0]}).to_csv(
         'geneDrop/parms.txt',index=False,header=None)
