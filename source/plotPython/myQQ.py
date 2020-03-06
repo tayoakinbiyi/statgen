@@ -17,9 +17,9 @@ def myQQ(x,y,title,ylabel='observed',xlabel='theoretical'):
     axs.set_ylim([labMin,labMax])
     axs.scatter(x,y,c='.1')
     axs.plot([labMin,labMax], [labMin,labMax], ls="--", c=".3")  
-    axs.set_xlabel(xlabel)
-    axs.set_ylabel(ylabel)
-    axs.set_title(title+' mu: '+('%.3E' % np.mean(y))+' std: '+('%.3E' % np.std(y)))
+    axs.set_xlabel(xlabel+' mu: '+('%.3E' % np.mean(x))+' std: '+('%.3E' % np.std(x)))
+    axs.set_ylabel(ylabel+' mu: '+('%.3E' % np.mean(y))+' std: '+('%.3E' % np.std(y)))
+    axs.set_title(title)
     
     fig.savefig('diagnostics/'+title+'.png')
     plt.close('all') 

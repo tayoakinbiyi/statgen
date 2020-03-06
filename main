@@ -27,7 +27,7 @@ def myMain(mainDef):
     #['gemma','fast','limix','lmm','lm','ped','bimbam','bed']
     #['gemmaStd','gemmaCentral','fast','limix','bed','bimbam','ped']
     ctrl={
-        'parms':[0.3,400,200,[400,400]],
+        'parms':[0.3,800,300,[10000,1000]],
         'snpParm':['pedigreeSnps'],
         'yParm':['indepTraits','noNorm'],
         'ell':'indepTraits',
@@ -56,8 +56,8 @@ def myMain(mainDef):
         plotZ(z[parms['reg'][0]],prefix=parms['reg'][0]+'-')
         
     for lmm1 in range(0,len(lmms)-1):
-        for lmm2 in range(1,len(lmms)):
-            myQQ(z[lmms[lmm1][0]].flatten(),z[lmms[lmm2][0]].flatten(),lmms[lmm2][0]+' vs '+lmms[lmm1][0],
+        for lmm2 in range(lmm1+1,len(lmms)):
+            myQQ(z[lmms[lmm1][0]].flatten(),z[lmms[lmm2][0]].flatten(),'lmm: '+lmms[lmm2][0]+' vs '+lmms[lmm1][0],
                  ylabel=lmms[lmm2][0],xlabel=lmms[lmm1][0])
 
     DBFinish(local,mainDef)
