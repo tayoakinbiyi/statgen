@@ -70,7 +70,7 @@ def genZScoresHelp(core,snp,traitRange,parms,numSnps,numSubjects):
         if 'bed' in reg:
             cmd+=['-bfile','snps/'+snp]
         if 'lmm' in reg:
-            cmd+=['-eigen','grm/fast-eigen-'+snp]
+            cmd+=['-eigen','grm/fast-'+snp]
         if 'lm' in reg:
             cmd+=['-linreg']        
 
@@ -83,23 +83,9 @@ def genZScoresHelp(core,snp,traitRange,parms,numSnps,numSubjects):
         if 'bimbam' in reg:
             cmd+=['-g','snps/'+snp+'.bimbam']
         if 'lmm' in reg:
-            cmd+=['-lmm','4','-d','grm/gemma-eigen-'+snp+'/D','-u','grm/gemma-eigen-'+snp+'/U']
+            cmd+=['-lmm','4','-d','grm/gemma-'+snp+'/D','-u','grm/gemma-'+snp+'/U']
         if 'lm' in reg:
             cmd+=['-lm','4']
-        
-    if 'mixedlm' in reg:
-        assert ('bimbam' in reg)
-        lmm='mixedlm'
-        cols=['L'+str(i) for i in range(numSubjects)]
-        vc={'genotype':'~0+'+'+'.join(cols)}
-        L=np.loadtxt('grm/Lgrm-1',delimiter='\t')
-        y=np.loadtxt('Y/Y.phe',delimiter='\t')[:,2+traitRange]
-
-        snpData=pd.DataFrame(np.loadtxt('snps/'+snp+'.bimbam',delimiter='\t',dtype=str)[:,3:].T,columns=['S'+str(i) for 
-            i in range(numSnps)],dtype='int')
-
-        data=pd.concat([pd.DataFrame(y,columns=['Y'+str(i) for i in traitRange]),pd.DataFrame(L,columns=cols),snpData],axis=1)
-        data.insert(0,'groups',1)
     
     if 'limix' in reg:
         assert ('bimbam' in reg) or ('bed' in reg)
@@ -110,7 +96,7 @@ def genZScoresHelp(core,snp,traitRange,parms,numSnps,numSubjects):
         if 'bimbam' in reg:
             bimBamFmt=np.loadtxt('snps/'+snp+'.bimbam',delimiter='\t',dtype=str)[:,3:].T.astype(float)
         Y=np.loadtxt('Y/Y.phe',delimiter='\t')[:,2:]
-        K=np.loadtxt('grm/limix-'+snp,delimiter='\t')
+        K=np.loadtxt('grm/grm-'+snp,delimiter='\t')
         M=np.loadtxt('cov/cov.txt',delimiter='\t')
         
     if 'pylmm' in reg:
@@ -122,9 +108,9 @@ def genZScoresHelp(core,snp,traitRange,parms,numSnps,numSubjects):
         if 'bimbam' in reg:
             bimBamFmt=np.loadtxt('snps/'+snp+'.bimbam',delimiter='\t',dtype=str)[:,3:].astype(float)
         Y=np.loadtxt('Y/Y.txt',delimiter='\t').reshape(numSubjects,-1)
-        Kva=np.loadtxt('grm/pylmm-eigen-'+snp+'/Kva',delimiter='\t')
-        Kve=np.loadtxt('grm/pylmm-eigen-'+snp+'/Kve',delimiter='\t')
-        K=np.loadtxt('grm/pylmm-eigen-'+snp+'/K',delimiter='\t')
+        Kva=np.loadtxt('grm/eigh-'+snp+'/Kva',delimiter='\t')
+        Kve=np.loadtxt('grm/eigh-'+snp+'/Kve',delimiter='\t')
+        K=np.loadtxt('grm/grm-'+snp,delimiter='\t')
         M=np.loadtxt('cov/cov.txt',delimiter='\t').reshape(numSubjects,-1)
                
     for traitInd in traitRange:
@@ -152,18 +138,6 @@ def genZScoresHelp(core,snp,traitRange,parms,numSnps,numSubjects):
             tt=(df['beta']/df['se']).values
             waldStat+=[norm.ppf(t.cdf(tt,numSubjects-2)).reshape(-1,1)]
             eta+=[(df['l_remle']/(1+df['l_remle'])).values.reshape(-1,1)]
-            
-        if 'mixedlm' in reg:
-            waldStatAll=[]
-            etaAll=[]
-            for snpInd in range(numSnps):
-                ret=MixedLM.from_formula('Y'+str(traitInd)+'~1+S'+str(traitInd), data, groups='groups',re_formula='~0',
-                    vc_formula=vc).fit()
-                waldStatAll+=[ret.fe_params[1]/ret.bse_fe[1]]
-                etaAll+=[ret.vcomp[0]/(ret.vcomp[0]+ret.scale)]
-
-            waldStat+=[waldStatAll]
-            eta+=[etaAll]
             
         if 'limix' in reg:
             model=scan(bimBamFmt, Y[:,traitInd], 'normal', K, M=M,verbose=False)

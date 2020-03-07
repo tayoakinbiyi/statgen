@@ -8,7 +8,6 @@ from ELL.util import *
 def markov(self,ellStats):
     memory('markov')
     
-    pdb.set_trace()
     numCores=self.numCores
     dList=self.dList
     offDiag=self.offDiag

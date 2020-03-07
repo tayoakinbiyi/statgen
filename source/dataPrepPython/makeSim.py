@@ -44,6 +44,7 @@ def makeSim(parms,genSnps=True,genGrm=True,genY=True,genCov=True):
         writeY(parms)
 
     if genCov:
+        DBCreateFolder('cov',parms)
         np.savetxt('cov/cov.phe',np.array([[0,id_,1] for id_ in range(numSubjects)]),delimiter='\t',fmt='%s')
         np.savetxt('cov/cov.txt',np.ones([numSubjects,1]),delimiter='\t',fmt='%s')
 

@@ -31,7 +31,8 @@ def writeY(parms):
 
         robjects=pyreadr.read_r(local+'data/allMouseGenesCoords.RData')
         mouseGenes=robjects['mouseGenes']
-        mouseGenes=mouseGenes[(mouseGenes['chrom'].isin([str(x) for x in range(1,22)]))&(mouseGenes['gene_name'].isin(traits.columns))]
+        mouseGenes=mouseGenes[(mouseGenes['chrom'].isin([str(x) for x in range(1,22)]))&(mouseGenes['gene_name'].isin(
+            traits.columns))]
 
         traitData=pd.DataFrame({'trait':mouseGenes['gene_name'],'chr':mouseGenes['chrom'].astype(int),
             'Mbp':((mouseGenes['cds_start']+mouseGenes['cds_end'])/2).astype(int)})
