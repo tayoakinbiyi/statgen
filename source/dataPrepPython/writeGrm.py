@@ -47,7 +47,7 @@ def writeGrm(parms,name,decomp=True):
     if 'manual' in grmParm:
         bimBamFmt=np.loadtxt('snps/'+name+'.bimbam',delimiter='\t',dtype=str)[:,3:].astype(float)
         X=(bimBamFmt-np.mean(bimBamFmt,axis=1).reshape(-1,1))/np.std(bimBamFmt,axis=1).reshape(-1,1)
-        grmVal=np.matmul(X.T,X)
+        grmVal=np.matmul(X.T,X)/X.shape[0]
         
     if 'corr' in grmParm:
         grmVal=np.corrcoef(np.loadtxt('snps/'+name+'.bimbam',delimiter='\t',dtype=str)[:,3:].astype(float),rowvar=False)
