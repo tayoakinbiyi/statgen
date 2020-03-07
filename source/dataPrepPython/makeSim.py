@@ -37,6 +37,7 @@ def makeSim(parms,genSnps=True,genGrm=True,genY=True,genCov=True):
             subprocess.call(['ln','-s','fast-eigen-1', 'grm/fast-eigen-'+str(snp)])
             subprocess.call(['ln','-s','gemma-eigen-1', 'grm/gemma-eigen-'+str(snp)])
             subprocess.call(['ln','-s','limix-1', 'grm/limix-'+str(snp)])
+            subprocess.call(['ln','-s','pylmm-eigen-1', 'grm/pylmm-eigen-'+str(snp)])
     
     if genY:
         DBCreateFolder('Y',parms)

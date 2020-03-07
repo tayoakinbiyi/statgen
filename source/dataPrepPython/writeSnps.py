@@ -4,7 +4,7 @@ import numpy as np
 import json
 
 from opPython.DB import *
-from dataPrepPython.makePedrigreeSnps import *
+from dataPrepPython.makePedigreeSnps import *
 
 def writeSnps(parms,allSnp=True):
     local=parms['local']

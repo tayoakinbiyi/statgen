@@ -27,7 +27,7 @@ def myMain(mainDef):
     #['gemma','fast','limix','lmm','lm','ped','bimbam','bed']
     #['gemmaStd','gemmaCentral','fast','limix','bed','bimbam','ped']
     ctrl={
-        'parms':[0.3,800,300,[10000,1000]],
+        'parms':[0.3,800,600,[10000,1000]],
         'snpParm':['pedigreeSnps'],
         'yParm':['indepTraits','noNorm'],
         'ell':'indepTraits',
@@ -43,7 +43,7 @@ def myMain(mainDef):
     DBLog(ctrl)
     
     z={}
-    lmms=[['fast','ped'],['limix','bimbam'],['gemma','bimbam']]
+    lmms=[['limix','bimbam'],['gemma','bimbam'],['fast','ped']]
     
     for lmm in lmms:
         parms['grmParm']=[lmm[0]]

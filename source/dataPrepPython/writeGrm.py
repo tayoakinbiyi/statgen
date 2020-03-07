@@ -11,6 +11,7 @@ from genPython.makePSD import *
 from limix.qc import normalise_covariance
 from limix.stats import linear_kinship
 from rpy2.robjects.packages import SignatureTranslatedAnonymousPackage
+from pylmm.lmm import calculateKinship
 
 def writeGrm(parms,name,decomp=True):
     local=parms['local']
@@ -35,6 +36,10 @@ def writeGrm(parms,name,decomp=True):
 
     if 'limix' in grmParm:
         grmVal=linear_kinship(np.loadtxt('snps/'+name+'.bimbam',delimiter='\t',dtype=str)[:,3:].T.astype(float), verbose=False)
+        
+    if 'pylmm' in grmParm:
+        bimBamFmt=np.loadtxt('snps/'+name+'.bimbam',delimiter='\t',dtype=str)[:,3:].astype(float)
+        grmVal = calculateKinship(bimBamFmt.T)
 
     if 'limNorm' in grmParm:
         grmVal=normalise_covariance(grmVal)
@@ -56,6 +61,12 @@ def writeGrm(parms,name,decomp=True):
     cmd=[local+'ext/fastlmmc','-mpheno','1','-maxThreads',str(numCores),'-file','snps/'+name,
          '-sim','grm/fast-'+name,'-eigenOut','grm/fast-eigen-'+name,'-pheno','Y/Y.phe']
     subprocess.call(cmd)
+    
+    Kva,Kve = np.linalg.eigh(grmVal)
+    subprocess.call(['mkdir','-p','grm/pylmm-eigen-'+name])
+    np.savetxt('grm/pylmm-eigen-'+name+'/K',grmVal,delimiter='\t')
+    np.savetxt('grm/pylmm-eigen-'+name+'/Kva',Kva,delimiter='\t')
+    np.savetxt('grm/pylmm-eigen-'+name+'/Kve',Kve,delimiter='\t' )
     
     np.savetxt('grm/Lgrm-'+name,makePSD(grmVal,corr=False),delimiter='\t')        
 

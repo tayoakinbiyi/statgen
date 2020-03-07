@@ -10,6 +10,7 @@ from opPython.DB import *
 from opPython.verboseArrCheck import *
 from statsmodels.regression.mixed_linear_model import *
 from limix.io import plink
+from pylmm.lmm import LMM, GWAS
 
 def genZScores(parms,snpChr):
     numCores=parms['numCores']
@@ -61,6 +62,7 @@ def genZScoresHelp(core,snp,traitRange,parms,numSnps,numSubjects):
         
     if 'fast' in reg:
         assert ('ped' in reg) or ('bed' in reg)
+        lmm='fast'
         cmd=[local+'ext/fastlmmc','-covar','cov/cov.phe','-maxThreads','1','-out','output/fastlmm-'+core,'-pheno',
              'Y/Y.phe','-simLearnType','Full','-brentMinLogVal','-10','-brentMaxLogVal','10','-ML']
         if 'ped' in reg:
@@ -74,6 +76,7 @@ def genZScoresHelp(core,snp,traitRange,parms,numSnps,numSubjects):
 
     if 'gemma' in reg:
         assert ('bimbam' in reg) or ('bed' in reg)
+        lmm='gemma'
         cmd=[local+'ext/gemma','-o','gemma-'+core,'-c','cov/cov.txt','-p','Y/Y.phe']
         if 'bed' in reg:
             cmd+=['-bfile','snps/'+snp]
@@ -86,6 +89,7 @@ def genZScoresHelp(core,snp,traitRange,parms,numSnps,numSubjects):
         
     if 'mixedlm' in reg:
         assert ('bimbam' in reg)
+        lmm='mixedlm'
         cols=['L'+str(i) for i in range(numSubjects)]
         vc={'genotype':'~0+'+'+'.join(cols)}
         L=np.loadtxt('grm/Lgrm-1',delimiter='\t')
@@ -99,6 +103,7 @@ def genZScoresHelp(core,snp,traitRange,parms,numSnps,numSubjects):
     
     if 'limix' in reg:
         assert ('bimbam' in reg) or ('bed' in reg)
+        lmm='limix'
         if 'bed' in reg:
             _,_,bed=plink.read('snps/'+snp)
             bimBamFmt=bed.compute().T
@@ -108,8 +113,22 @@ def genZScoresHelp(core,snp,traitRange,parms,numSnps,numSubjects):
         K=np.loadtxt('grm/limix-'+snp,delimiter='\t')
         M=np.loadtxt('cov/cov.txt',delimiter='\t')
         
+    if 'pylmm' in reg:
+        assert ('bimbam' in reg) or ('bed' in reg)
+        lmm='pylmm'
+        if 'bed' in reg:
+            _,_,bed=plink.read('snps/'+snp)
+            bimBamFmt=bed.compute()
+        if 'bimbam' in reg:
+            bimBamFmt=np.loadtxt('snps/'+snp+'.bimbam',delimiter='\t',dtype=str)[:,3:].astype(float)
+        Y=np.loadtxt('Y/Y.txt',delimiter='\t').reshape(numSubjects,-1)
+        Kva=np.loadtxt('grm/pylmm-eigen-'+snp+'/Kva',delimiter='\t')
+        Kve=np.loadtxt('grm/pylmm-eigen-'+snp+'/Kve',delimiter='\t')
+        K=np.loadtxt('grm/pylmm-eigen-'+snp+'/K',delimiter='\t')
+        M=np.loadtxt('cov/cov.txt',delimiter='\t').reshape(numSubjects,-1)
+               
     for traitInd in traitRange:
-        print('core {} , {} of {}'.format(core,traitInd-min(traitRange),len(traitRange)),flush=True)
+        print('lmm: {} , core {} , {} of {}'.format(lmm,core,traitInd-min(traitRange),len(traitRange)),flush=True)
         if 'fast' in reg:
             loopCmd=cmd+['-mpheno',str(traitInd+1)]
             subprocess.call(loopCmd)
@@ -153,6 +172,12 @@ def genZScoresHelp(core,snp,traitRange,parms,numSnps,numSubjects):
                 ret['effect_type']=='candidate','effsize_se']).values.reshape(-1,1)]
             eta+=[np.array([[model._h0._v0/(model._h0._v0+model._h0._v1)]]*numSnps)]
             
+        if 'pylmm' in reg:
+            hmax,beta,sigma,L1 = LMM(Y[:,traitInd],K,Kva=Kva,Kve=Kve,X0=M).fit()
+            TS,PS = GWAS(Y[:,traitInd],bimBamFmt.T,K,Kva=Kva,Kve=Kve,X0=M,REML=False,refit=True)
+            eta+=[np.array([[hmax]]*numSnps)]
+            waldStat+=[np.array(TS).reshape(-1,1)]
+           
     waldStat=np.concatenate(waldStat,axis=1)
     eta=np.concatenate(eta,axis=1)
     

@@ -57,3 +57,4 @@ def writeY(parms):
         pass
 
     np.savetxt('Y/Y.phe',np.array([['0',str(int(id_))]+row for id_,row in enumerate(Y.tolist())]),delimiter='\t',fmt='%s')
+    np.savetxt('Y/Y.txt',Y,delimiter='\t')    
