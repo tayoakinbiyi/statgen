@@ -20,15 +20,15 @@ def score(self,testStats):
     b_check=bufCreate('check',[3,maxD])
             
     pids=[]
-    b_pvals={}
+    b_score={}
     for core in range(numCores):
         kRange=np.arange(core*int(np.ceil(maxD/numCores)),min(maxD,(core+1)*int(np.ceil(maxD/numCores))))
         if len(kRange)==0:
             continue
-        b_pvals[core]=bufCreate('pvals-'+str(core),[testStats.shape[0],len(kRange)])
-        b_pvals[core][0][:]=testStats[:,kRange]
+        b_score[core]=bufCreate('pvals-'+str(core),[testStats.shape[0],len(kRange)])
+        b_score[core][0][:]=testStats[:,kRange]
         
-        pids+=[remote(scoreHelp,kRange,b_pvals[core],lamEllByK,b_check)]
+        pids+=[remote(scoreHelp,kRange,b_score[core],lamEllByK,b_check)]
 
     for pid in pids:
         os.waitpid(0, 0)
@@ -37,7 +37,7 @@ def score(self,testStats):
     if len(check)>0:
         print(pd.DataFrame(check[1:],columns=check[0],index=['below','above']),flush=True)
     
-    testStats=np.concatenate([b_pvals[core][0] for core in range(len(b_pvals))],axis=1)
+    testStats=np.concatenate([b_score[core][0] for core in range(len(b_score))],axis=1)
     ellStats=np.zeros([len(testStats),len(dList)],dtype=int)
     
     for dInd in range(len(dList)):
@@ -45,8 +45,8 @@ def score(self,testStats):
     
     ellGrid=self.ellGrid
 
-    for key in b_pvals:
-        bufClose(b_pvals[key])
+    for core in b_score:
+        bufClose(b_score[core])
     bufClose(b_check)    
     
     memory('score')

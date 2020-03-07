@@ -12,12 +12,14 @@ def markovHelp(repRange,b_markov,stats,lamEllByK,ellGrid,dList,N,offDiagVec):
     for dInd in range(len(dList)):
         d=dList[dInd]
         
-        for rep in repRange:
+        for repInd in range(len(repRange)):
+            rep=repRange[repInd]
+            
             row[0:d]=-norm.ppf(lamEllByK[np.searchsorted(ellGrid,stats[rep,dInd]),0:d]/2)
             row[d:]=row[d-1]
 
             bounds=ro.FloatVector(row[::-1])
-            b_markov[0][rep,dInd]=gbj.ebb_crossprob_cor_R(d=N, bounds=bounds, correlations=offDiagVec)[0]
+            b_markov[0][repInd,dInd]=gbj.ebb_crossprob_cor_R(d=N, bounds=bounds, correlations=offDiagVec)[0]
             b_markov[1].flush()
     
     return()

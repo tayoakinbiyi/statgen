@@ -55,7 +55,10 @@ def myMain(mainDef):
         'grmParm':['gemma']
     }
     parms=setupFolders(ctrl,ops)
-    numSnps=ctrl['parms'][-1]
+    numSnps=ctrl['parms'][3]
+    numSubjects=ctrl['parms'][1]
+    numTraits=ctrl['parms'][2]
+    DBLog(ctrl)    
     makeSim(parms)
 
     #######################################################################################################
@@ -65,7 +68,8 @@ def myMain(mainDef):
     
     z={}
     lmms=[['limix','bimbam'],['gemma','bimbam'],['fast','ped']]
-    
+    grm={}
+        
     for lmm in lmms:
         parms['grmParm']=[lmm[0]]
         makeSim(parms,genSnps=False,genGrm=True,genY=False,genCov=False)
@@ -75,11 +79,14 @@ def myMain(mainDef):
         subprocess.call(['mv','score/waldStat-'+str(len(numSnps)),'score/'+lmm[0]+'-'+str(len(numSnps))])
         z[lmm[0]]=np.loadtxt('score/'+parms['reg'][0]+'-'+str(len(numSnps)),delimiter='\t')
         plotZ(z[lmm[0]],prefix=lmm[0]+'-')
+        grm[lmm[0]]=np.loadtxt('grm/'+lmm[0]+'-1',delimiter='\t')[np.triu_indices(numTraits,1)].flatten()
         
     for lmm1 in range(0,len(lmms)-1):
         for lmm2 in range(lmm1+1,len(lmms)):
-            myQQ(z[lmms[lmm1][0]].flatten(),z[lmms[lmm2][0]].flatten(),'lmm: '+lmms[lmm2][0]+' vs '+lmms[lmm1][0],
+            myQQ(grm[lmms[lmm1][0]],grm[lmms[lmm2][0]],'grm: '+lmms[lmm2][0]+' vs '+lmms[lmm1][0],
                  ylabel=lmms[lmm2][0],xlabel=lmms[lmm1][0])
+
+        
 
     DBFinish(local,mainDef)
     #plotPower(markov,parms,'markov',['markov-'+str(x) for x in ellDSet])

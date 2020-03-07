@@ -27,7 +27,7 @@ def myMain(mainDef):
     #['gemma','fast','limix','lmm','lm','ped','bimbam','bed']
     #['gemmaStd','gemmaCentral','fast','limix','bed','bimbam','ped']
     ctrl={
-        'parms':[0.3,800,600,[10000,1000]],
+        'parms':[0.3,800,600,[10000,10000]],
         'snpParm':['pedigreeSnps'],
         'yParm':['indepTraits','noNorm'],
         'ell':'indepTraits',
@@ -41,19 +41,19 @@ def myMain(mainDef):
     DBLog(ctrl)    
     
     #######################################################################################################
-    '''
+    
     makeSim(parms)    
     genZScores(parms,[len(numSnps)])
-    '''
+    
     #######################################################################################################
     
     z=np.loadtxt('score/waldStat-'+str(len(numSnps)),delimiter='\t')
 
     #######################################################################################################
-    '''
+    
     DBCreateFolder('diagnostics',parms)            
     plotZ(z,prefix='z-')
-    '''    
+        
     #######################################################################################################
 
     stat=ELL.ell.ell(np.array([.1,.5]),numTraits)
