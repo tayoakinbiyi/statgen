@@ -77,7 +77,7 @@ def genZScoresHelp(core,snp,traitRange,parms,numSnps,numSubjects):
     if 'gemma' in reg:
         assert ('bimbam' in reg) or ('bed' in reg)
         lmm='gemma'
-        cmd=[local+'ext/gemma','-o','gemma-'+core,'-c','cov/cov.txt','-p','Y/Y.phe']
+        cmd=[local+'ext/gemma','-o','gemma-'+core,'-c','cov/cov.txt','-p','Y/Y.phe','-silence']
         if 'bed' in reg:
             cmd+=['-bfile','snps/'+snp]
         if 'bimbam' in reg:

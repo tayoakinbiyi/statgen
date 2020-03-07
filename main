@@ -31,33 +31,57 @@ def myMain(mainDef):
         'snpParm':['pedigreeSnps'],
         'yParm':['indepTraits','noNorm'],
         'ell':'indepTraits',
-        'grmParm':['gemma']
+        'grmParm':['limix'],
+        'reg':['limix','lmm','bimbam']
     }
     parms=setupFolders(ctrl,ops)
-    numSnps=ctrl['parms'][-1]
-    makeSim(parms)
+    numSnps=ctrl['parms'][3]
+    numSubjects=ctrl['parms'][1]
+    numTraits=ctrl['parms'][2]
+    DBLog(ctrl)    
+    
+    #######################################################################################################
+    '''
+    makeSim(parms)    
+    genZScores(parms,[len(numSnps)])
+    '''
+    #######################################################################################################
+    
+    z=np.loadtxt('score/waldStat-'+str(len(numSnps)),delimiter='\t')
+
+    #######################################################################################################
+    '''
+    DBCreateFolder('diagnostics',parms)            
+    plotZ(z,prefix='z-')
+    '''    
+    #######################################################################################################
+
+    stat=ELL.ell.ell(np.array([.1,.5]),numTraits)
+    if 'depTraits' in parms['ell']:
+        corr=np.corrcoef(z,rowvar=False)
+        offDiag=corr[np.triu_indices(numTraits,1)]
+        L=makePSD(corr)
+    if 'indepTraits' in parms['ell']:
+        offDiag=np.array([0]*int(numTraits*(numTraits-1)/2))
+        L=np.eye(numTraits)
+        
+    stat.fit(10,2000,4000,1e-7,offDiag) # numLamSteps0,numLamSteps1,numEllSteps,minEll
+    
+    zRef=np.matmul(norm.rvs(size=[int(ops['refReps']),numTraits]),L.T)
+    refELL=stat.score(zRef)
+    score=stat.score(z)
+
+    #######################################################################################################
+
+    monteCarlo=stat.monteCarlo(refELL,score)
+
+    #######################################################################################################
+
+    markov=stat.markov(score)
 
     #######################################################################################################
     
-    DBCreateFolder('diagnostics',parms)
-    DBLog(ctrl)
-    
-    z={}
-    lmms=[['limix','bimbam'],['gemma','bimbam'],['fast','ped']]
-    
-    for lmm in lmms:
-        parms['grmParm']=[lmm[0]]
-        #makeSim(parms,genSnps=False,genGrm=True,genY=False,genCov=False)
-            
-        parms['reg']=[lmm[0],'lmm',lmm[1]]
-        genZScores(parms,[len(numSnps)])
-        subprocess.call(['mv','score/waldStat-'+str(len(numSnps)),'score/'+lmm[0]+'-'+str(len(numSnps))])
-        z[lmm[0]]=np.loadtxt('score/'+parms['reg'][0]+'-'+str(len(numSnps)),delimiter='\t')
-        plotZ(z[lmm[0]],prefix=lmm[0]+'-')
-        
-    for lmm1 in range(0,len(lmms)-1):
-        for lmm2 in range(lmm1+1,len(lmms)):
-            myQQ(z[lmms[lmm1][0]].flatten(),z[lmms[lmm2][0]].flatten(),'lmm: '+lmms[lmm2][0]+' vs '+lmms[lmm1][0],
-                 ylabel=lmms[lmm2][0],xlabel=lmms[lmm1][0])
+    cross=plotPower(monteCarlo,parms,'mc',['mc-'+str(x) for x in ellDSet])
+    plotPower(markov,parms,'markov',['markov-'+str(x) for x in ellDSet])
 
     DBFinish(local,mainDef)
