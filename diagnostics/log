@@ -1,5 +1,0 @@
-{'ell': 'indepTraits',
- 'grmParm': ['gemma'],
- 'parms': [0.3, 800, 900, [1000, 1000]],
- 'snpParm': ['pedigreeSnps'],
- 'yParm': ['indepTraits', 'noNorm']}

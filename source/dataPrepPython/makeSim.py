@@ -34,10 +34,10 @@ def makeSim(parms,genSnps=True,genGrm=True,genY=True,genCov=True):
         writeGrm(parms,1)    
 
         for snp in range(2,len(numSnps)+1):
-            subprocess.call(['ln','-s','fast-eigen-1', 'grm/fast-eigen-'+str(snp)])
-            subprocess.call(['ln','-s','gemma-eigen-1', 'grm/gemma-eigen-'+str(snp)])
-            subprocess.call(['ln','-s','limix-1', 'grm/limix-'+str(snp)])
-            subprocess.call(['ln','-s','pylmm-eigen-1', 'grm/pylmm-eigen-'+str(snp)])
+            subprocess.call(['ln','-s','fast-', 'grm/fast-'+str(snp)])
+            subprocess.call(['ln','-s','gemma-1', 'grm/gemma-'+str(snp)])
+            subprocess.call(['ln','-s','grm-1', 'grm/grm-'+str(snp)])
+            subprocess.call(['ln','-s','eigh-1', 'grm/eigh-'+str(snp)])
     
     if genY:
         DBCreateFolder('Y',parms)
