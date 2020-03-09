@@ -20,7 +20,7 @@ def myMain(mainDef):
     }
     
     ctrl={
-        'parms':[0.3,800,1000,[10000,10000]],
+        'parms':[0.3,400,300,[400,400]],
         'snpParm':['pedigreeSnps'],
         'yParm':['indepTraits','noNorm'],
         'ell':'indepTraits',
@@ -34,10 +34,10 @@ def myMain(mainDef):
     DBLog(ctrl)    
     
     #######################################################################################################
-    
+    '''
     makeSim(parms)    
     genZScores(parms,[len(numSnps)])
-    
+    '''
     #######################################################################################################
     
     z=np.loadtxt('score/waldStat-'+str(len(numSnps)),delimiter='\t')
@@ -45,11 +45,9 @@ def myMain(mainDef):
     #######################################################################################################
     
     DBCreateFolder('diagnostics',parms)            
-    plotZ(z,prefix='z-')
         
     #######################################################################################################
 
-    stat=ELL.ell.ell(np.array([.1,.5]),numTraits)
     if 'depTraits' in parms['ell']:
         corr=np.corrcoef(z,rowvar=False)
         offDiag=corr[np.triu_indices(numTraits,1)]
@@ -57,24 +55,32 @@ def myMain(mainDef):
     if 'indepTraits' in parms['ell']:
         offDiag=np.array([0]*int(numTraits*(numTraits-1)/2))
         L=np.eye(numTraits)
-        
+
+    #######################################################################################################
+
+    stat=ELL.ell.ell(np.array([.1,.5]),numTraits)
     stat.fit(10,2000,4000,1e-7,offDiag) # numLamSteps0,numLamSteps1,numEllSteps,minEll
     
     zRef=np.matmul(norm.rvs(size=[int(ops['refReps']),numTraits]),L.T)
     refELL=stat.score(zRef)
     score=stat.score(z)
 
-    #######################################################################################################
-
     monteCarlo=stat.monteCarlo(refELL,score)
-
-    #######################################################################################################
-
     markov=stat.markov(score)
 
     #######################################################################################################
+
+    Pgbj,Pghc,Phc,Pbj,PminP=makeGBJPVals(parms,z,offDiag)
     
-    cross=plotPower(monteCarlo,parms,'mc',['mc-'+str(x) for x in ellDSet])
-    plotPower(markov,parms,'markov',['markov-'+str(x) for x in ellDSet])
+    #######################################################################################################
+    
+    myZip=ZipFile('data.zip','w')
+    for obj in [[monteCarlo,'mc',ellDSet],[markov,'markov',ellDSet],[Pgbj,'Pgbj',[.5]],[Pghc,'Pghc',[.5]],
+            [Phc,'Phc',[.5]],[Pbj,'Pbj',[.5]],[PminP,'PminP',[.5]]]:
+        plotPower(obj[0],parms,obj[1]+'-log',[obj[1]+'-'+str(x) for x in obj[2]],log=True,myZip=myZip)
+        plotPower(obj[0],parms,obj[1],[obj[1]+'-'+str(x) for x in obj[2]],log=False,myZip=myZip)
+        
+    plotZ(z,prefix='z-',myZip=myZip)
+    myZip.close()
 
     DBFinish(local,mainDef)

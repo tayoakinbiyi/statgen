@@ -6,7 +6,7 @@ from opPython.DB import *
 from rpy2.robjects.packages import importr
 import rpy2.robjects as ro
 
-def gbj(z,offDiag): 
+def gbj(snpRange,z,offDiag): 
     gbj=importr('GBJ')
     
     Reps,N=z.shape
@@ -27,14 +27,6 @@ def gbj(z,offDiag):
         Pghc[row]=gbj.GHC(test_stats=z_vec, pairwise_cors=offDiagVec)[1][0]
         Phc[row]=gbj.HC(test_stats=z_vec, pairwise_cors=offDiagVec)[1][0]
         PminP[row]=gbj.minP(test_stats=z_vec, pairwise_cors=offDiagVec)[1][0]
-
-    stats=pd.concat([
-        pd.DataFrame({'Type':'gbj','Value':Pgbj}),
-        pd.DataFrame({'Type':'ghc','Value':Pghc}),
-        pd.DataFrame({'Type':'hc','Value':Phc}),
-        pd.DataFrame({'Type':'bj','Value':Pbj}),
-        pd.DataFrame({'Type':'minP','Value':PminP}),
-    ],axis=0)
     
-    return(stats)
+    return(snpRange,Pbj,Pghc,Phc,Pbj,PminP)
         

@@ -6,7 +6,7 @@ import statsmodels.api as sm
 import pandas as pd
 import numpy as np
 
-def plotPower(pvals,parms,title,columns,log=True):
+def plotPower(pvals,parms,title,columns,log=True,myZip=None):
     local=parms['local']
     colors=parms['colors']
     
@@ -43,7 +43,12 @@ def plotPower(pvals,parms,title,columns,log=True):
     axs.plot([0,mMax], [0,mMax], ls="--", c=".3")   
     bounds.plot(ax=axs,legend=False,xlim=[0,mMax],ylim=[0,mMax],color='black')
     axs.set_title(title)
-            
+    
+    pvals=pd.concat([pvals,bounds],axis=1)
+    
+    if not myZip is None:
+        myZip.writestr(title,'\n'.join(map(lambda x:','.join(map(str,x)),pvals.values.tolist()))) 
+        
     fig.savefig('diagnostics/'+title+'.png',bbox_inches='tight')
 
     return(crossMetrics>0)

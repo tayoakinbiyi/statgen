@@ -3,7 +3,7 @@ import numpy as np
 import pdb
 import matplotlib.pyplot as plt
 
-def myQQ(x,y,title,ylabel='observed',xlabel='theoretical'):
+def myQQ(x,y,title,ylabel='observed',xlabel='theoretical',myZip=None):
     fig,axs=plt.subplots(1,1)
     fig.set_figwidth(10,forward=True)
     fig.set_figheight(10,forward=True)
@@ -20,6 +20,10 @@ def myQQ(x,y,title,ylabel='observed',xlabel='theoretical'):
     axs.set_xlabel(xlabel+' mu: '+('%.3E' % np.mean(x))+' std: '+('%.3E' % np.std(x)))
     axs.set_ylabel(ylabel+' mu: '+('%.3E' % np.mean(y))+' std: '+('%.3E' % np.std(y)))
     axs.set_title(title)
+    
+    if not myZip is None:
+        out=np.concatenate([x.reshape(-1,1),y.reshape(-1,1)],axis=1)
+        myZip.writestr(title,'\n'.join(map(lambda x:','.join(map(str,x)),out.tolist()))) 
     
     fig.savefig('diagnostics/'+title+'.png')
     plt.close('all') 
