@@ -35,7 +35,7 @@ def makeGBJPVals(parms,z,offDiag):
             Phc+=[_Phc.reshape(-1,1)]
             PminP+=[_PminP.reshape(-1,1)]                
     
-    snpOrd=np.argsort(np.concatenate(snpRange,axis=0)).flatten()
+    snpOrd=np.argsort(np.concatenate(snpRange,axis=0).flatten())
     Pgbj=np.concatenate(Pgbj,axis=0)[snpOrd]
     Pghc=np.concatenate(Pghc,axis=0)[snpOrd]
     Phc=np.concatenate(Phc,axis=0)[snpOrd]

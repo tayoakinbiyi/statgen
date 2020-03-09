@@ -57,7 +57,7 @@ def myMain(mainDef):
         L=np.eye(numTraits)
 
     #######################################################################################################
-
+    
     stat=ELL.ell.ell(np.array([.1,.5]),numTraits)
     stat.fit(10,2000,4000,1e-7,offDiag) # numLamSteps0,numLamSteps1,numEllSteps,minEll
     
@@ -67,7 +67,7 @@ def myMain(mainDef):
 
     monteCarlo=stat.monteCarlo(refELL,score)
     markov=stat.markov(score)
-
+    
     #######################################################################################################
 
     Pgbj,Pghc,Phc,Pbj,PminP=makeGBJPVals(parms,z,offDiag)
