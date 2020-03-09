@@ -6,7 +6,7 @@ import statsmodels.api as sm
 import pandas as pd
 import numpy as np
 
-def plotPower(pvals,parms,title,columns):
+def plotPower(pvals,parms,title,columns,log=True):
     local=parms['local']
     colors=parms['colors']
     
@@ -14,20 +14,26 @@ def plotPower(pvals,parms,title,columns):
     fig.set_figwidth(10,forward=True)
     fig.set_figheight(10,forward=True)
     
-    pvals=pd.DataFrame(-np.log10(np.sort(pvals,axis=0)), columns=columns)
+    pvals=pd.DataFrame(np.sort(pvals,axis=0), columns=columns)
     
     M=len(pvals)
     
     localLevels=pd.read_csv(local+'data/local_level_results.csv',header=0,index_col=None).values
     eta=localLevels[np.argmin(np.abs(localLevels[:,0]-len(pvals))),1]
     nVec=np.arange(1,M+1)
-    bounds=pd.DataFrame({'lower':-np.log10(beta.ppf(eta/2,nVec,nVec[::-1])),'upper':-np.log10(beta.ppf(1-eta/2,nVec,nVec[::-1]))})
+    bounds=pd.DataFrame({'lower':beta.ppf(eta/2,nVec,nVec[::-1]),'upper':beta.ppf(1-eta/2,nVec,nVec[::-1])})
     
-    pvals.index=-np.log10(np.arange(1,M+1)/(1+M))
-    bounds.index=-np.log10(np.arange(1,M+1)/(1+M))
-    crossMetrics=((pvals.values.reshape(-1,pvals.shape[1])<=bounds['upper'].values.reshape(-1,1))|(pvals.values.reshape(-1,
-        pvals.shape[1])>=bounds['lower'].values.reshape(-1,1))).sum(axis=0)
+    pvals.index=np.arange(1,M+1)/(1+M)
+    bounds.index=np.arange(1,M+1)/(1+M)
+    crossMetrics=((pvals.values.reshape(-1,pvals.shape[1])<=bounds['lower'].values.reshape(-1,1))|(pvals.values.reshape(-1,
+        pvals.shape[1])>=bounds['upper'].values.reshape(-1,1))).sum(axis=0)
     
+    if log:
+        pvals.index=-np.log10(pvals.index)
+        pvals.iloc[:]=-np.log10(pvals.iloc[:])
+        bounds.index=-np.log10(bounds.index)
+        bounds.iloc[:]=-np.log10(bounds.iloc[:])
+        
     cols=pvals.columns.values
     cols[crossMetrics>0]+='-c'
     pvals.columns=cols

@@ -12,26 +12,19 @@ def myMain(mainDef):
         'response':'hipRaw',
         'numSnpChr':18,
         'numTraitChr':21,
-        'muEpsRange':[],
         'maxSnpGen':5000,
         'transOnly':False,
         'ySeed':0,
         'snpSeed':0,
-        'logSource':True,
-        'local':local
+        'logSource':True
     }
     
-    #['etaSq','numSubjects','numTraits','numSnps']
-    #['realSnps','pedigreeSnps','iidSnps','grmSnps','indepTraits','depTraits','quantNorm','stdNorm','noNorm']
-    #['indepTraits','depTraits']
-    #['gemma','fast','limix','lmm','lm','ped','bimbam','bed']
-    #['gemmaStd','gemmaCentral','fast','limix','bed','bimbam','ped']
     ctrl={
-        'parms':[0.3,800,600,[10000,10000]],
+        'parms':[0.3,800,1000,[10000,10000]],
         'snpParm':['pedigreeSnps'],
         'yParm':['indepTraits','noNorm'],
         'ell':'indepTraits',
-        'grmParm':['gemma'],
+        'grmParm':['limix'],
         'reg':['limix','lmm','bimbam']
     }
     parms=setupFolders(ctrl,ops)

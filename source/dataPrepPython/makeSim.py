@@ -20,7 +20,6 @@ def makeSim(parms,genSnps=True,genGrm=True,genY=True,genCov=True):
     local=parms['local']
     numCores=parms['numCores']
     response=parms['response']
-    muEpsRange=parms['muEpsRange']
     
     numSubjects=parms['parms'][1]
     numSnps=parms['parms'][3]
