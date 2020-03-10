@@ -16,6 +16,6 @@ def myHist(x,title,myZip=None):
 
     if not myZip is None:
         out=x.reshape(-1,1)
-        myZip.writestr(title,'\n'.join(map(lambda x:','.join(map(str,x)),out.tolist()))) 
+        myZip.writestr(title,'\n'.join(map(lambda x:'\t'.join(map(str,x)),out.tolist()))) 
         
     return()

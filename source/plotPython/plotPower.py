@@ -45,9 +45,10 @@ def plotPower(pvals,parms,title,columns,log=True,myZip=None):
     axs.set_title(title)
     
     pvals=pd.concat([pvals,bounds],axis=1)
+    pvals=np.concatenate([pvals.columns.values.reshape([1,-1]),pvals.values],axis=0)
     
     if not myZip is None:
-        myZip.writestr(title,'\n'.join(map(lambda x:','.join(map(str,x)),pvals.values.tolist()))) 
+        myZip.writestr(title,'\n'.join(map(lambda x:','.join(map(str,x)),pvals.tolist()))) 
         
     fig.savefig('diagnostics/'+title+'.png',bbox_inches='tight')
 

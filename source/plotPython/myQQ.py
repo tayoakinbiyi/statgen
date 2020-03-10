@@ -23,7 +23,7 @@ def myQQ(x,y,title,ylabel='observed',xlabel='theoretical',myZip=None):
     
     if not myZip is None:
         out=np.concatenate([x.reshape(-1,1),y.reshape(-1,1)],axis=1)
-        myZip.writestr(title,'\n'.join(map(lambda x:','.join(map(str,x)),out.tolist()))) 
+        myZip.writestr(title,'\n'.join(map(lambda x:'\t'.join(map(str,x)),out.tolist()))) 
     
     fig.savefig('diagnostics/'+title+'.png')
     plt.close('all') 

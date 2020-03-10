@@ -20,7 +20,7 @@ def myMain(mainDef):
     }
     
     ctrl={
-        'parms':[0.3,400,300,[400,400]],
+        'parms':[0.3,800,1000,[10000,1000]],
         'snpParm':['pedigreeSnps'],
         'yParm':['indepTraits','noNorm'],
         'ell':'indepTraits',
@@ -59,7 +59,7 @@ def myMain(mainDef):
     #######################################################################################################
     
     stat=ELL.ell.ell(np.array([.1,.5]),numTraits)
-    stat.fit(10,2000,4000,1e-7,offDiag) # numLamSteps0,numLamSteps1,numEllSteps,minEll
+    stat.fit(10,3000,4000,1e-7,offDiag) # numLamSteps0,numLamSteps1,numEllSteps,minEll
     
     zRef=np.matmul(norm.rvs(size=[int(ops['refReps']),numTraits]),L.T)
     refELL=stat.score(zRef)
@@ -74,7 +74,7 @@ def myMain(mainDef):
     
     #######################################################################################################
     
-    myZip=ZipFile('data.zip','w')
+    myZip=ZipFile('diagnostics/data.zip','w')
     for obj in [[monteCarlo,'mc',ellDSet],[markov,'markov',ellDSet],[Pgbj,'Pgbj',[.5]],[Pghc,'Pghc',[.5]],
             [Phc,'Phc',[.5]],[Pbj,'Pbj',[.5]],[PminP,'PminP',[.5]]]:
         plotPower(obj[0],parms,obj[1]+'-log',[obj[1]+'-'+str(x) for x in obj[2]],log=True,myZip=myZip)
