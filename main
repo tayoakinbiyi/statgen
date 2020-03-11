@@ -20,7 +20,7 @@ def myMain(mainDef):
     }
     
     ctrl={
-        'parms':[0.3,800,2000,[10000,1000]],
+        'parms':[0.3,1000,2000,[10000,1000]],
         'snpParm':['pedigreeSnps'],
         'yParm':['indepTraits','noNorm'],
         'ell':'depTraits',
@@ -34,10 +34,10 @@ def myMain(mainDef):
     DBLog(ctrl)    
     
     #######################################################################################################
-    '''
+    
     makeSim(parms)    
     genZScores(parms,[len(numSnps)])
-    '''
+    
     #######################################################################################################
     
     z=np.loadtxt('score/waldStat-'+str(len(numSnps)),delimiter='\t')
@@ -61,7 +61,7 @@ def myMain(mainDef):
     myZip=ZipFile('diagnostics/data.zip','w')
 
     #######################################################################################################
-    
+    '''
     stat=ELL.ell.ell(np.array([.1,.5]),numTraits)
     stat.fit(10,3000,4000,1e-7,offDiag) # numLamSteps0,numLamSteps1,numEllSteps,minEll
     
@@ -77,8 +77,14 @@ def myMain(mainDef):
     plotPower(markov,parms,'markov-log',['markov-'+str(x) for x in ellDSet],log=True,myZip=myZip)
     plotPower(markov,parms,'markov',['markov-'+str(x) for x in ellDSet],log=False,myZip=myZip)
     
-    #full=ellFull(parms,z,ellDSet,L)
-    
+    full=ellFull(parms,z,ellDSet,L)
+    plotPower(full,parms,'full-log',['full-'+str(x) for x in ellDSet],log=True,myZip=myZip)
+    plotPower(full,parms,'full',['full-'+str(x) for x in ellDSet],log=False,myZip=myZip)
+    '''
+    full=ellFull(parms,z,ellDSet,np.eye(numTraits))
+    plotPower(full,parms,'full-log-I',['full-I-'+str(x) for x in ellDSet],log=True,myZip=myZip)
+    plotPower(full,parms,'full-I',['full-I-'+str(x) for x in ellDSet],log=False,myZip=myZip)
+
     #######################################################################################################
     '''
     Pgbj,Pghc,Phc,Pbj,PminP=makeGBJPVals(parms,z,offDiag)
@@ -86,7 +92,7 @@ def myMain(mainDef):
     for obj in [[Pgbj,'Pgbj',[.5]],[Pghc,'Pghc',[.5]],[Phc,'Phc',[.5]],[Pbj,'Pbj',[.5]],[PminP,'PminP',[.5]]]:
         plotPower(obj[0],parms,obj[1]+'-log',[obj[1]+'-'+str(x) for x in obj[2]],log=True,myZip=myZip)
         plotPower(obj[0],parms,obj[1],[obj[1]+'-'+str(x) for x in obj[2]],log=False,myZip=myZip)
-    '''    
+    '''
     #######################################################################################################
     
     plotZ(z,prefix='z-',myZip=myZip)

@@ -28,10 +28,10 @@ def ellFull(parms,z,ellDSet,L):
         ellRef[:,i]=beta.cdf(pvals[:,i],i+1,numTraits-i)
     ellRef=np.concatenate([np.min(ellRef[:,0:int(ellDSet[j]*numTraits)],axis=1).reshape(-1,1) for j in range(len(ellDSet))],axis=1)   
 
-    monteCarlo=np.empty(shape=len(ellDSet))
+    monteCarlo=np.empty(shape=ell.shape)
     for i in range(len(ellDSet)):
         sortOrd=np.argsort(ell[:,i],axis=0)
-        monteCarlo[sortOrd]=(1+np.searchsorted(np.sort(ellRef[:,i]),ell[sortOrd,i]))/(len(ellRef)+1)
+        monteCarlo[sortOrd,i]=(1+np.searchsorted(np.sort(ellRef[:,i]),ell[sortOrd,i]))/(len(ellRef)+1)
 
     return(monteCarlo)
     

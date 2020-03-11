@@ -15,13 +15,18 @@ from plotPython.plotCorr import *
 from plotPython.plotPower import *
 from plotPython.plotZ import *
 from plotPython.myQQ import *
+from genPython.makePSD import *
+
+from statsPython.makeGBJPVals import *
 
 from scipy.stats import norm
 import ELL.ell
+from statsPython.ellFull import *
+from zipfile import ZipFile
 
 def myMain(mainDef):
     colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,0,0),(0,0,.5)]
-    ellDSet=[.1,.5]
+    ellDSet=np.array([.1,.5])
     
     local=os.getcwd()+'/'
     ops={
@@ -33,63 +38,92 @@ def myMain(mainDef):
         'response':'hipRaw',
         'numSnpChr':18,
         'numTraitChr':21,
-        'muEpsRange':[],
         'maxSnpGen':5000,
         'transOnly':False,
         'ySeed':0,
         'snpSeed':0,
-        'logSource':True,
-        'local':local
+        'logSource':True
     }
     
-    #['etaSq','numSubjects','numTraits','numSnps']
-    #['realSnps','pedigreeSnps','iidSnps','grmSnps','indepTraits','depTraits','quantNorm','stdNorm','noNorm']
-    #['indepTraits','depTraits']
-    #['gemma','fast','limix','lmm','lm','ped','bimbam','bed']
-    #['gemmaStd','gemmaCentral','fast','limix','bed','bimbam','ped']
     ctrl={
-        'parms':[0.3,800,300,[1000,1000]],
+        'parms':[0.3,1000,200,[10000,1000]],
         'snpParm':['pedigreeSnps'],
         'yParm':['indepTraits','noNorm'],
-        'ell':'indepTraits',
-        'grmParm':['gemma']
+        'ell':'depTraits',
+        'grmParm':['limix'],
+        'reg':['limix','lmm','bimbam']
     }
     parms=setupFolders(ctrl,ops)
     numSnps=ctrl['parms'][3]
     numSubjects=ctrl['parms'][1]
     numTraits=ctrl['parms'][2]
     DBLog(ctrl)    
-    makeSim(parms)
+    
+    #######################################################################################################
+    
+    makeSim(parms)    
+    genZScores(parms,[len(numSnps)])
+    
+    #######################################################################################################
+    
+    z=np.loadtxt('score/waldStat-'+str(len(numSnps)),delimiter='\t')
 
     #######################################################################################################
     
-    DBCreateFolder('diagnostics',parms)
-    DBLog(ctrl)
-    
-    z={}
-    lmms=[['limix','bimbam'],['gemma','bimbam'],['fast','ped']]
+    DBCreateFolder('diagnostics',parms)            
         
-    for lmm in lmms:
-        parms['reg']=[lmm[0],'lmm',lmm[1]]
-        genZScores(parms,[len(numSnps)])
-        z[lmm[0]]=np.loadtxt('score/waldStat-'+str(len(numSnps)),delimiter='\t')
-        plotZ(z[lmm[0]],prefix=lmm[0]+'-')
-        
-    for lmm1 in range(0,len(lmms)-1):
-        for lmm2 in range(lmm1+1,len(lmms)):
-            myQQ(z[lmms[lmm1][0]].flatten(),z[lmms[lmm2][0]].flatten(),'z: '+lmms[lmm2][0]+' vs '+lmms[lmm1][0],
-                 ylabel=lmms[lmm2][0],xlabel=lmms[lmm1][0])
-       
-    grm={}
-    for lmm in lmms:
-        parms['grmParm']=[lmm[0]]
-        makeSim(parms,genSnps=False,genGrm=True,genY=False,genCov=False)
-        grm[lmm[0]]=np.loadtxt('grm/grm-1',delimiter='\t')[np.triu_indices(numSubjects,1)].flatten()
+    #######################################################################################################
 
-    for lmm1 in range(0,len(lmms)-1):
-        for lmm2 in range(lmm1+1,len(lmms)):
-            myQQ(grm[lmms[lmm1][0]],grm[lmms[lmm2][0]],'grm: '+lmms[lmm2][0]+' vs '+lmms[lmm1][0],
-                 ylabel=lmms[lmm2][0],xlabel=lmms[lmm1][0])
+    if 'depTraits' in parms['ell']:
+        corr=np.corrcoef(z,rowvar=False)
+        offDiag=corr[np.triu_indices(numTraits,1)]
+        L=makePSD(corr)
+    if 'indepTraits' in parms['ell']:
+        offDiag=np.array([0]*int(numTraits*(numTraits-1)/2))
+        L=np.eye(numTraits)
+
+    #######################################################################################################
+    
+    myZip=ZipFile('diagnostics/data.zip','w')
+
+    #######################################################################################################
+    
+    stat=ELL.ell.ell(np.array([.1,.5]),numTraits)
+    stat.fit(10,3000,4000,1e-7,offDiag) # numLamSteps0,numLamSteps1,numEllSteps,minEll
+    
+    zRef=np.matmul(norm.rvs(size=[int(ops['refReps']),numTraits]),L.T)
+    refELL=stat.score(zRef)
+    score=stat.score(z)
+
+    mc=stat.monteCarlo(refELL,score)
+    plotPower(mc,parms,'mc-log',['mc-'+str(x) for x in ellDSet],log=True,myZip=myZip)
+    plotPower(mc,parms,'mc',['mc-'+str(x) for x in ellDSet],log=False,myZip=myZip)
+
+    markov=stat.markov(score)
+    plotPower(markov,parms,'markov-log',['markov-'+str(x) for x in ellDSet],log=True,myZip=myZip)
+    plotPower(markov,parms,'markov',['markov-'+str(x) for x in ellDSet],log=False,myZip=myZip)
+    
+    full=ellFull(parms,z,ellDSet,L)
+    plotPower(full,parms,'full-log',['full-'+str(x) for x in ellDSet],log=True,myZip=myZip)
+    plotPower(full,parms,'full',['full-'+str(x) for x in ellDSet],log=False,myZip=myZip)
+    
+    full=ellFull(parms,z,ellDSet,np.eye(numTraits))
+    plotPower(full,parms,'full-log-I',['full-I-'+str(x) for x in ellDSet],log=True,myZip=myZip)
+    plotPower(full,parms,'full-I',['full-I-'+str(x) for x in ellDSet],log=False,myZip=myZip)
+
+    #######################################################################################################
+    
+    Pgbj,Pghc,Phc,Pbj,PminP=makeGBJPVals(parms,z,offDiag)
+        
+    for obj in [[Pgbj,'Pgbj',[.5]],[Pghc,'Pghc',[.5]],[Phc,'Phc',[.5]],[Pbj,'Pbj',[.5]],[PminP,'PminP',[.5]]]:
+        plotPower(obj[0],parms,obj[1]+'-log',[obj[1]+'-'+str(x) for x in obj[2]],log=True,myZip=myZip)
+        plotPower(obj[0],parms,obj[1],[obj[1]+'-'+str(x) for x in obj[2]],log=False,myZip=myZip)
+    
+    #######################################################################################################
+    
+    plotZ(z,prefix='z-',myZip=myZip)
+    myZip.close()
+    
     DBFinish(local,mainDef)
     
 

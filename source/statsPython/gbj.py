@@ -20,6 +20,7 @@ def gbj(snpRange,z,offDiag):
     offDiagVec=ro.FloatVector(tuple(offDiag))
     
     for row in range(Reps):
+        print('row {}'.format(row))
         z_vec=ro.FloatVector(tuple(z[row]))
         
         Pbj[row]=gbj.BJ(test_stats=z_vec,  pairwise_cors=offDiagVec)[1][0]
