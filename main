@@ -1,6 +1,6 @@
 def myMain(mainDef):
     colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,0,0),(0,0,.5)]
-    ellDSet=[.1,.5]
+    ellDSet=np.array([.1,.5])
     
     local=os.getcwd()+'/'
     ops={
@@ -23,7 +23,7 @@ def myMain(mainDef):
         'parms':[0.3,800,2000,[10000,1000]],
         'snpParm':['pedigreeSnps'],
         'yParm':['indepTraits','noNorm'],
-        'ell':'indepTraits',
+        'ell':'depTraits',
         'grmParm':['limix'],
         'reg':['limix','lmm','bimbam']
     }
@@ -34,10 +34,10 @@ def myMain(mainDef):
     DBLog(ctrl)    
     
     #######################################################################################################
-    
+    '''
     makeSim(parms)    
     genZScores(parms,[len(numSnps)])
-    
+    '''
     #######################################################################################################
     
     z=np.loadtxt('score/waldStat-'+str(len(numSnps)),delimiter='\t')
@@ -58,6 +58,10 @@ def myMain(mainDef):
 
     #######################################################################################################
     
+    myZip=ZipFile('diagnostics/data.zip','w')
+
+    #######################################################################################################
+    
     stat=ELL.ell.ell(np.array([.1,.5]),numTraits)
     stat.fit(10,3000,4000,1e-7,offDiag) # numLamSteps0,numLamSteps1,numEllSteps,minEll
     
@@ -65,22 +69,27 @@ def myMain(mainDef):
     refELL=stat.score(zRef)
     score=stat.score(z)
 
-    monteCarlo=stat.monteCarlo(refELL,score)
-    markov=stat.markov(score)
-    
-    #######################################################################################################
+    mc=stat.monteCarlo(refELL,score)
+    plotPower(mc,parms,'mc-log',['mc-'+str(x) for x in ellDSet],log=True,myZip=myZip)
+    plotPower(mc,parms,'mc',['mc-'+str(x) for x in ellDSet],log=False,myZip=myZip)
 
-    Pgbj,Pghc,Phc,Pbj,PminP=makeGBJPVals(parms,z,offDiag)
+    markov=stat.markov(score)
+    plotPower(markov,parms,'markov-log',['markov-'+str(x) for x in ellDSet],log=True,myZip=myZip)
+    plotPower(markov,parms,'markov',['markov-'+str(x) for x in ellDSet],log=False,myZip=myZip)
+    
+    #full=ellFull(parms,z,ellDSet,L)
     
     #######################################################################################################
-    
-    myZip=ZipFile('diagnostics/data.zip','w')
-    for obj in [[monteCarlo,'mc',ellDSet],[markov,'markov',ellDSet],[Pgbj,'Pgbj',[.5]],[Pghc,'Pghc',[.5]],
-            [Phc,'Phc',[.5]],[Pbj,'Pbj',[.5]],[PminP,'PminP',[.5]]]:
+    '''
+    Pgbj,Pghc,Phc,Pbj,PminP=makeGBJPVals(parms,z,offDiag)
+        
+    for obj in [[Pgbj,'Pgbj',[.5]],[Pghc,'Pghc',[.5]],[Phc,'Phc',[.5]],[Pbj,'Pbj',[.5]],[PminP,'PminP',[.5]]]:
         plotPower(obj[0],parms,obj[1]+'-log',[obj[1]+'-'+str(x) for x in obj[2]],log=True,myZip=myZip)
         plotPower(obj[0],parms,obj[1],[obj[1]+'-'+str(x) for x in obj[2]],log=False,myZip=myZip)
-        
+    '''    
+    #######################################################################################################
+    
     plotZ(z,prefix='z-',myZip=myZip)
     myZip.close()
-
+    
     DBFinish(local,mainDef)
