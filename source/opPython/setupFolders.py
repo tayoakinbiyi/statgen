@@ -19,7 +19,6 @@ def setupFolders(ctrl,ops):
         os.mkdir(local+name)
         os.chdir(local+name)
         os.mkdir('score')
-        os.mkdir('diagnostics')
         os.mkdir('grm')
         os.mkdir('output')
         os.mkdir('snps')
@@ -28,7 +27,6 @@ def setupFolders(ctrl,ops):
     else:
         os.chdir(local+name)    
     
-    subprocess.call(['rm','-f','diagnostics/log'])
     subprocess.call(['cp','-rLf',local+'source','.'])
         
     return(parms)

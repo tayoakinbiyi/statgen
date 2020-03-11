@@ -6,15 +6,23 @@ import json
 import re
 import pprint
 
-def DBFinish(local,mainDef):
+def diagnostics(mainDef,parms):
+    subprocess.call(['rm','-rf','diagnostics/'])
+    subprocess.call(['mkdir','diagnostics'])
+    with open('diagnostics/main','w+') as f:
+        f.write(mainDef)
+    DBLog(parms)
+    
+    return()
+    
+    
+def git(local):
     nm=local+'archive/'
     
     subprocess.call(['rm','-rf',nm])
     subprocess.call(['cp','-rf','source',nm])
-    with open(nm+'main','w+') as f:
-        f.write(mainDef)
-    subprocess.call(['cp','diagnostics/log',nm])
     subprocess.call(['cp','-r','diagnostics',nm])  
+    subprocess.call(['cp','diagnostics/main',nm])  
     
     return()
     

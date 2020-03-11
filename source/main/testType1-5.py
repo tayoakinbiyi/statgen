@@ -8,19 +8,25 @@ import os
 sys.path=[os.getcwd()+'/source']+sys.path
 from dill.source import getsource
 from opPython.setupFolders import *
-from simPython.makeSimInputFiles import *
+from dataPrepPython.makeSim import *
 from dataPrepPython.genZScores import *
 from multiprocessing import cpu_count
 from plotPython.plotCorr import *
 from plotPython.plotPower import *
 from plotPython.plotZ import *
+from plotPython.myQQ import *
+from genPython.makePSD import *
+
+from statsPython.makeGBJPVals import *
 
 from scipy.stats import norm
 import ELL.ell
+from statsPython.ellFull import *
+from zipfile import ZipFile
 
 def myMain(mainDef):
     colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,0,0),(0,0,.5)]
-    ellDSet=[.1,.5]
+    ellDSet=np.array([.1,.5])
     
     local=os.getcwd()+'/'
     ops={
@@ -32,117 +38,93 @@ def myMain(mainDef):
         'response':'hipRaw',
         'numSnpChr':18,
         'numTraitChr':21,
-        'muEpsRange':[],
         'maxSnpGen':5000,
         'transOnly':False,
-        'YSeed':0,
-        'snpsSeed':0,
-        'logSource':True,
-        'local':local
+        'ySeed':0,
+        'snpSeed':0,
+        'logSource':True
     }
     
-    #['etaSq','numSubjects','numTraits','numSnps']
-    #['realSnps','pedigreeSnps','randSnps','iidSnps','grmSnps','indepTraits','depTraits','quantNorm','stdNorm','noNorm']
-    #['indepTraits','depTraits']
-    #['gemma','fast','limix','lmm','lm','ped','bimbam','bed']
-    #['gemmaStd','gemmaCentral','fast','limix','bed','bimbam','ped']
     ctrl={
-        'parms':[0.6,1000,500,[2000,500]],
-        'sim':['indepTraits','pedigreeSnps','noNorm'],
-        'ell':'indepTraits',
-        'reg':['gemma','lmm','bimbam'],
-        'grm':['gemma','std']
+        'parms':[0.1,1000,200,[10000,1000]],
+        'snpParm':['pedigreeSnps'],
+        'yParm':['indepTraits','noNorm'],
+        'ell':'depTraits',
+        'grmParm':['limix'],
+        'reg':['limix','lmm','bimbam']
     }
     parms=setupFolders(ctrl,ops)
-    DBLog(ctrl)
-    numSnps=ctrl['parms'][-1]
-
-    subprocess.call(['rm','-f','log'])
-    DBLog(json.dumps(ctrl,indent=3))
-    
-    DBCreateFolder('grm',parms)
-    DBCreateFolder('inputs',parms)
-    makeSimInputFiles(parms)
+    numSnps=ctrl['parms'][3]
+    numSubjects=ctrl['parms'][1]
+    numTraits=ctrl['parms'][2]
+    DBLog(ctrl)    
     
     #######################################################################################################
-
-    DBCreateFolder('score',parms)
+    
+    makeSim(parms)    
     genZScores(parms,[len(numSnps)])
     
     #######################################################################################################
-
+    
     z=np.loadtxt('score/waldStat-'+str(len(numSnps)),delimiter='\t')
-    eta=np.loadtxt('score/eta-'+str(len(numSnps)),delimiter='\t')[0]
-    Y=np.loadtxt('inputs/Y.phe',delimiter='\t')[:,2:]
-    zRef=norm.rvs(size=[int(parms['parms'][-1][-1]),int(parms['parms'][2])])
-    
+
     #######################################################################################################
     
-    DBCreateFolder('diagnostics',parms)
-    DBLog(ctrl)
-
-    plotZ(z,prefix='z-')
-    plotZ(Y,prefix='y-')
-    plotCorr(np.loadtxt('grm/gemma-1',delimiter='\t'),'grm')
-
-    fig,axs = plt.subplots(1,1,dpi=50)   
-    fig.set_figwidth(10,forward=True)
-    fig.set_figheight(10,forward=True)
-    axs.hist(np.log(eta),bins=30)
-    axs.set_title('eta')
-    axs.set_xlabel('eta')
-    if parms['parms'][0]>0:
-        axs.axvline(x=np.log(parms['parms'][0]),color='k')
-    fig.savefig('diagnostics/eta.png')
-    
-    #######################################################################################################
-    
-    maxD=int(np.max(ellDSet)*parms['parms'][2])
-    numTraits=parms['parms'][2]
-    ell=np.empty(shape=[parms['parms'][-1][-1],maxD])
-    pvals=np.sort(2*norm.sf(np.abs(z)))
-    for i in range(maxD):
-        ell[:,i]=beta.cdf(pvals[:,i],i+1,numTraits-i)
-    ell=np.min(ell,axis=1)
-    
-    ellRef=np.empty(shape=[parms['parms'][-1][-1],int(np.max(ellDSet)*parms['parms'][2])])
-    pvals=np.sort(2*norm.sf(np.abs(zRef)))
-    for i in range(maxD):
-        ellRef[:,i]=beta.cdf(pvals[:,i],i+1,numTraits-i)
-    ellRef=np.sort(np.min(ellRef,axis=1))
+    DBCreateFolder('diagnostics',parms)            
         
-    monteCarlo=np.empty(shape=len(ell))
-    sortOrd=np.argsort(ell,axis=0)
-    monteCarlo[sortOrd]=(1+np.searchsorted(ellRef,ell[sortOrd]))/(len(ellRef)+1)
-    
-    '''
-    stat=ELL.ell.ell(np.array([.1,.5]),parms['parms'][2])
-    monteCarlo=stat.monteCarlo(ellRef,ell)
+    #######################################################################################################
+
     if 'depTraits' in parms['ell']:
-        offDiag=np.corrcoef(z,rowvar=False)[np.triu_indices(parms['parms'][2],1)]
+        corr=np.corrcoef(z,rowvar=False)
+        offDiag=corr[np.triu_indices(numTraits,1)]
+        L=makePSD(corr)
     if 'indepTraits' in parms['ell']:
-        offDiag=np.array([0]*int(parms['parms'][2]*(parms['parms'][2]-1)/2))
-        
-    stat.fit(10*parms['parms'][2],1000*parms['parms'][2],3000,1e-6,offDiag) # numLamSteps0,numLamSteps1,numEllSteps,minEll
+        offDiag=np.array([0]*int(numTraits*(numTraits-1)/2))
+        L=np.eye(numTraits)
 
     #######################################################################################################
     
+    myZip=ZipFile('diagnostics/data.zip','w')
+
+    #######################################################################################################
+    
+    stat=ELL.ell.ell(np.array([.1,.5]),numTraits)
+    stat.fit(10,3000,4000,1e-7,offDiag) # numLamSteps0,numLamSteps1,numEllSteps,minEll
+    
+    zRef=np.matmul(norm.rvs(size=[int(ops['refReps']),numTraits]),L.T)
     refELL=stat.score(zRef)
     score=stat.score(z)
 
+    mc=stat.monteCarlo(refELL,score)
+    plotPower(mc,parms,'mc-log',['mc-'+str(x) for x in ellDSet],log=True,myZip=myZip)
+    plotPower(mc,parms,'mc',['mc-'+str(x) for x in ellDSet],log=False,myZip=myZip)
+
+    markov=stat.markov(score)
+    plotPower(markov,parms,'markov-log',['markov-'+str(x) for x in ellDSet],log=True,myZip=myZip)
+    plotPower(markov,parms,'markov',['markov-'+str(x) for x in ellDSet],log=False,myZip=myZip)
+    
+    full=ellFull(parms,z,ellDSet,L)
+    plotPower(full,parms,'full-log',['full-'+str(x) for x in ellDSet],log=True,myZip=myZip)
+    plotPower(full,parms,'full',['full-'+str(x) for x in ellDSet],log=False,myZip=myZip)
+    
+    full=ellFull(parms,z,ellDSet,np.eye(numTraits))
+    plotPower(full,parms,'full-log-I',['full-I-'+str(x) for x in ellDSet],log=True,myZip=myZip)
+    plotPower(full,parms,'full-I',['full-I-'+str(x) for x in ellDSet],log=False,myZip=myZip)
+
     #######################################################################################################
-
-    monteCarlo=stat.monteCarlo(refELL,score)
-
+    
+    Pgbj,Pghc,Phc,Pbj,PminP=makeGBJPVals(parms,z,offDiag)
+        
+    for obj in [[Pgbj,'Pgbj',[.5]],[Pghc,'Pghc',[.5]],[Phc,'Phc',[.5]],[Pbj,'Pbj',[.5]],[PminP,'PminP',[.5]]]:
+        plotPower(obj[0],parms,obj[1]+'-log',[obj[1]+'-'+str(x) for x in obj[2]],log=True,myZip=myZip)
+        plotPower(obj[0],parms,obj[1],[obj[1]+'-'+str(x) for x in obj[2]],log=False,myZip=myZip)
+    
     #######################################################################################################
-
-    markov=stat.markov(refELL)
-
-    #######################################################################################################
-    '''
-    cross=plotPower(monteCarlo,parms,'mc',['mc'])
+    
+    plotZ(z,prefix='z-',myZip=myZip)
+    myZip.close()
+    
     DBFinish(local,mainDef)
-    #plotPower(markov,parms,'markov',['markov-'+str(x) for x in ellDSet])
     
 
 myMain(getsource(myMain))
