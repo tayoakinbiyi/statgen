@@ -2,8 +2,9 @@ import pandas as pd
 import numpy as np
 import pdb
 import matplotlib.pyplot as plt
+from zipfile import ZipFile
 
-def myQQ(x,y,title,ylabel='observed',xlabel='theoretical',myZip=None):
+def myQQ(x,y,title,ylabel='observed',xlabel='theoretical'):
     fig,axs=plt.subplots(1,1)
     fig.set_figwidth(10,forward=True)
     fig.set_figheight(10,forward=True)
@@ -21,7 +22,7 @@ def myQQ(x,y,title,ylabel='observed',xlabel='theoretical',myZip=None):
     axs.set_ylabel(ylabel+' mu: '+('%.3E' % np.mean(y))+' std: '+('%.3E' % np.std(y)))
     axs.set_title(title)
     
-    if not myZip is None:
+    with ZipFile('diagnostics/'+title+'.zip','w') as myZip:
         out=np.concatenate([x.reshape(-1,1),y.reshape(-1,1)],axis=1)
         myZip.writestr(title,'\n'.join(map(lambda x:'\t'.join(map(str,x)),out.tolist()))) 
     

@@ -2,8 +2,9 @@ import pandas as pd
 import numpy as np
 import pdb
 import matplotlib.pyplot as plt
+from zipfile import ZipFile
 
-def myHist(x,title,myZip=None):
+def myHist(x,title):
     fig,axs=plt.subplots(1,1)
     fig.set_figwidth(10,forward=True)
     fig.set_figheight(10,forward=True)
@@ -14,7 +15,7 @@ def myHist(x,title,myZip=None):
     fig.savefig('diagnostics/'+title+'.png')
     plt.close('all') 
 
-    if not myZip is None:
+    with ZipFile('diagnostics/'+title+'.zip','w') as myZip:
         out=x.reshape(-1,1)
         myZip.writestr(title,'\n'.join(map(lambda x:'\t'.join(map(str,x)),out.tolist()))) 
         

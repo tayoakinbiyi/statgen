@@ -2,14 +2,15 @@ from opPython.DB import *
 import matplotlib.pyplot as plt
 from scipy.stats import beta
 import statsmodels.api as sm
+from zipfile import ZipFile
 
 import pandas as pd
 import numpy as np
 
-def plotPower(pvals,parms,title,columns,log=True,myZip=None):
+def plotPower(pvals,parms,title,columns,log=True):
     local=parms['local']
     colors=parms['colors']
-    
+        
     fig, axs = plt.subplots(1,1,dpi=50)   
     fig.set_figwidth(10,forward=True)
     fig.set_figheight(10,forward=True)
@@ -47,7 +48,7 @@ def plotPower(pvals,parms,title,columns,log=True,myZip=None):
     pvals=pd.concat([pvals,bounds],axis=1)
     pvals=np.concatenate([pvals.columns.values.reshape([1,-1]),pvals.values],axis=0)
     
-    if not myZip is None:
+    with ZipFile('diagnostics/'+title+'.zip','w') as myZip:
         myZip.writestr(title,'\n'.join(map(lambda x:','.join(map(str,x)),pvals.tolist()))) 
         
     fig.savefig('diagnostics/'+title+'.png',bbox_inches='tight')

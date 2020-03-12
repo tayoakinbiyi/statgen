@@ -33,5 +33,5 @@ def ellFull(parms,z,ellDSet,L):
         sortOrd=np.argsort(ell[:,i],axis=0)
         monteCarlo[sortOrd,i]=(1+np.searchsorted(np.sort(ellRef[:,i]),ell[sortOrd,i]))/(len(ellRef)+1)
 
-    return(monteCarlo)
+    return(monteCarlo,ell)
     
