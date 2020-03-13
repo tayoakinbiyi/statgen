@@ -15,7 +15,7 @@
  'reg': ['limix', 'lmm', 'bimbam'],
  'response': 'hipRaw',
  'simLearnType': 'Full',
- 'snpParm': ['xSnps'],
+ 'snpParm': ['pedigreeSnps'],
  'snpSeed': 0,
  'transOnly': False,
  'yParm': ['indepTraits', 'noNorm'],
