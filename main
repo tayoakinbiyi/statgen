@@ -20,7 +20,7 @@ def myMain(mainDef):
     }
     
     ctrl={
-        'parms':[0.3,1000,1000,[10000,200]],
+        'parms':[0.3,2000,1000,[10000,200]],
         'snpParm':['pedigreeSnps'],
         'yParm':['indepTraits','noNorm'],
         'ell':'indepTraits',
@@ -40,7 +40,7 @@ def myMain(mainDef):
     #######################################################################################################
     
     z=np.loadtxt('score/waldStat-'+str(len(numSnps)),delimiter='\t')
-        
+       
     #######################################################################################################
 
     if 'depTraits' in parms['ell']:
