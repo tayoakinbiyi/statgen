@@ -46,18 +46,18 @@ def myMain(mainDef):
     }
     
     ctrl={
-        'parms':[0.1,1000,200,[10000,1000]],
+        'parms':[0,2000,300,[10000,1000]],
         'snpParm':['pedigreeSnps'],
         'yParm':['indepTraits','noNorm'],
         'ell':'depTraits',
         'grmParm':['limix'],
         'reg':['limix','lmm','bimbam']
     }
+    diagnostics(mainDef,ctrl)    
     parms=setupFolders(ctrl,ops)
     numSnps=ctrl['parms'][3]
     numSubjects=ctrl['parms'][1]
     numTraits=ctrl['parms'][2]
-    DBLog(ctrl)    
     
     #######################################################################################################
     
@@ -67,10 +67,6 @@ def myMain(mainDef):
     #######################################################################################################
     
     z=np.loadtxt('score/waldStat-'+str(len(numSnps)),delimiter='\t')
-
-    #######################################################################################################
-    
-    DBCreateFolder('diagnostics',parms)            
         
     #######################################################################################################
 
@@ -82,11 +78,7 @@ def myMain(mainDef):
         offDiag=np.array([0]*int(numTraits*(numTraits-1)/2))
         L=np.eye(numTraits)
 
-    #######################################################################################################
-    
-    myZip=ZipFile('diagnostics/data.zip','w')
-
-    #######################################################################################################
+    #######################################################################################################   
     
     stat=ELL.ell.ell(np.array([.1,.5]),numTraits)
     stat.fit(10,3000,4000,1e-7,offDiag) # numLamSteps0,numLamSteps1,numEllSteps,minEll
@@ -96,35 +88,36 @@ def myMain(mainDef):
     score=stat.score(z)
 
     mc=stat.monteCarlo(refELL,score)
-    plotPower(mc,parms,'mc-log',['mc-'+str(x) for x in ellDSet],log=True,myZip=myZip)
-    plotPower(mc,parms,'mc',['mc-'+str(x) for x in ellDSet],log=False,myZip=myZip)
+    plotPower(mc,parms,'mc-log',['mc-'+str(x) for x in ellDSet],log=True)
+    plotPower(mc,parms,'mc',['mc-'+str(x) for x in ellDSet],log=False)
 
     markov=stat.markov(score)
-    plotPower(markov,parms,'markov-log',['markov-'+str(x) for x in ellDSet],log=True,myZip=myZip)
-    plotPower(markov,parms,'markov',['markov-'+str(x) for x in ellDSet],log=False,myZip=myZip)
+    plotPower(markov,parms,'markov-log',['markov-'+str(x) for x in ellDSet],log=True)
+    plotPower(markov,parms,'markov',['markov-'+str(x) for x in ellDSet],log=False)
     
-    full=ellFull(parms,z,ellDSet,L)
-    plotPower(full,parms,'full-log',['full-'+str(x) for x in ellDSet],log=True,myZip=myZip)
-    plotPower(full,parms,'full',['full-'+str(x) for x in ellDSet],log=False,myZip=myZip)
+    full,ell=ellFull(parms,z,ellDSet,L)
+    myHist(np.mean(ell,axis=0),'rowMeanEll')
+    plotPower(full,parms,'full-log',['full-'+str(x) for x in ellDSet],log=True)
+    plotPower(full,parms,'full',['full-'+str(x) for x in ellDSet],log=False)
     
-    full=ellFull(parms,z,ellDSet,np.eye(numTraits))
-    plotPower(full,parms,'full-log-I',['full-I-'+str(x) for x in ellDSet],log=True,myZip=myZip)
-    plotPower(full,parms,'full-I',['full-I-'+str(x) for x in ellDSet],log=False,myZip=myZip)
+    full,ell=ellFull(parms,z,ellDSet,np.eye(numTraits))
+    myHist(np.mean(ell,axis=0),'rowMeanEll-I')
+    plotPower(full,parms,'full-log-I',['full-I-'+str(x) for x in ellDSet],log=True)
+    plotPower(full,parms,'full-I',['full-I-'+str(x) for x in ellDSet],log=False)
 
     #######################################################################################################
-    
+    '''
     Pgbj,Pghc,Phc,Pbj,PminP=makeGBJPVals(parms,z,offDiag)
         
     for obj in [[Pgbj,'Pgbj',[.5]],[Pghc,'Pghc',[.5]],[Phc,'Phc',[.5]],[Pbj,'Pbj',[.5]],[PminP,'PminP',[.5]]]:
         plotPower(obj[0],parms,obj[1]+'-log',[obj[1]+'-'+str(x) for x in obj[2]],log=True,myZip=myZip)
         plotPower(obj[0],parms,obj[1],[obj[1]+'-'+str(x) for x in obj[2]],log=False,myZip=myZip)
-    
+    '''
     #######################################################################################################
     
-    plotZ(z,prefix='z-',myZip=myZip)
-    myZip.close()
+    plotZ(z,prefix='z-')
     
-    DBFinish(local,mainDef)
+    git(local)
     
 
 myMain(getsource(myMain))
