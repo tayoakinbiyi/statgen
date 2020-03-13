@@ -20,7 +20,7 @@ def myMain(mainDef):
     }
     
     ctrl={
-        'parms':[0.3,1000,100,[10000,200]],
+        'parms':[0.3,1000,1000,[10000,200]],
         'snpParm':['pedigreeSnps'],
         'yParm':['indepTraits','noNorm'],
         'ell':'indepTraits',
@@ -72,11 +72,12 @@ def myMain(mainDef):
     plotPower(full,parms,'full-log',['full-'+str(x) for x in ellDSet],log=True)
     plotPower(full,parms,'full',['full-'+str(x) for x in ellDSet],log=False)
     '''
+    myHist(np.mean(2*norm.sf(np.abs(z)),axis=0),'rowMeanEll')
     full,ell=ellFull(parms,z,ellDSet,np.eye(numTraits))
     myHist(np.mean(ell,axis=0),'rowMeanEll')
     
     plotPower(full,parms,'full-log-I',['full-I-'+str(x) for x in ellDSet],log=True)
-    plotPower(full,parms,'full-I',['full-I-'+str(x) for x in ellDSet],log=False)
+    #plotPower(full,parms,'full-I',['full-I-'+str(x) for x in ellDSet],log=False)
 
     #######################################################################################################
     '''
