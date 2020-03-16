@@ -33,14 +33,14 @@ def myMain(mainDef):
     numTraits=ctrl['parms'][2]
     
     #######################################################################################################
-    
+    '''
     makeSim(parms)    
     genZScores(parms,[len(numSnps)])
-    
+    '''
     #######################################################################################################
     
     z=np.loadtxt('score/waldStat-'+str(len(numSnps)),delimiter='\t')
-    pdb.set_trace()    
+        
     #######################################################################################################
 
     if 'depTraits' in parms['ell']:
@@ -67,17 +67,18 @@ def myMain(mainDef):
     markov=stat.markov(score)
     plotPower(markov,parms,'markov-log',['markov-'+str(x) for x in ellDSet],log=True)
     plotPower(markov,parms,'markov',['markov-'+str(x) for x in ellDSet],log=False)
-    
-    full=ellFull(parms,z,ellDSet,L)
+    '''
+    full,ell=ellFull(parms,z,ellDSet,L)
     plotPower(full,parms,'full-log',['full-'+str(x) for x in ellDSet],log=True)
     plotPower(full,parms,'full',['full-'+str(x) for x in ellDSet],log=False)
-    '''
-    myHist(np.mean(2*norm.sf(np.abs(z)),axis=0),'rowMeanEll')
+    
+    myHist(np.mean(2*norm.sf(np.abs(z)),axis=0),'rowMeanZ')
     full,ell=ellFull(parms,z,ellDSet,np.eye(numTraits))
+    pdb.set_trace()
     myHist(np.mean(ell,axis=0),'rowMeanEll')
     
     plotPower(full,parms,'full-log-I',['full-I-'+str(x) for x in ellDSet],log=True)
-    #plotPower(full,parms,'full-I',['full-I-'+str(x) for x in ellDSet],log=False)
+    plotPower(full,parms,'full-I',['full-I-'+str(x) for x in ellDSet],log=False)
 
     #######################################################################################################
     '''
