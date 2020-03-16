@@ -52,7 +52,7 @@ def myMain(mainDef):
         L=np.eye(numTraits)
 
     #######################################################################################################   
-    '''
+    
     stat=ELL.ell.ell(np.array([.1,.5]),numTraits)
     stat.fit(10,3000,4000,1e-7,offDiag) # numLamSteps0,numLamSteps1,numEllSteps,minEll
     
@@ -67,7 +67,7 @@ def myMain(mainDef):
     markov=stat.markov(score)
     plotPower(markov,parms,'markov-log',['markov-'+str(x) for x in ellDSet],log=True)
     plotPower(markov,parms,'markov',['markov-'+str(x) for x in ellDSet],log=False)
-    '''
+    
     full,ell=ellFull(parms,z,ellDSet,L)
     myHist(np.mean(2*norm.sf(np.abs(z)),axis=0),'rowMeanL-Z')
     plotPower(full,parms,'full-log',['full-'+str(x) for x in ellDSet],log=True)
