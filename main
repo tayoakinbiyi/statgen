@@ -33,10 +33,10 @@ def myMain(mainDef):
     numTraits=ctrl['parms'][2]
     
     #######################################################################################################
-    
+    '''
     makeSim(parms)    
     genZScores(parms,[len(numSnps)])
-    
+    '''
     #######################################################################################################
     
     z=np.loadtxt('score/waldStat-'+str(len(numSnps)),delimiter='\t')
