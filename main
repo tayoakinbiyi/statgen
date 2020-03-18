@@ -20,7 +20,7 @@ def myMain(mainDef):
     }
     
     ctrl={
-        'parms':[0.3,300,300,[1000,200]],
+        'parms':[0.3,800,600,[10000,1000]],
         'snpParm':['pedigreeSnps'],
         'yParm':['indepTraits','noNorm'],
         'ell':'indepTraits',
@@ -33,10 +33,10 @@ def myMain(mainDef):
     numTraits=ctrl['parms'][2]
     
     #######################################################################################################
-    '''
+    
     makeSim(parms)    
     genZScores(parms,[len(numSnps)])
-    '''
+    
     #######################################################################################################
     
     z=np.loadtxt('score/waldStat-'+str(len(numSnps)),delimiter='\t')
