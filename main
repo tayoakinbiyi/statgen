@@ -20,7 +20,7 @@ def myMain(mainDef):
     }
     
     ctrl={
-        'parms':[0.3,1000,3000,[10000,200]],
+        'parms':[0.3,800,600,[10000,10000]],
         'snpParm':['pedigreeSnps'],
         'yParm':['indepTraits','noNorm'],
         'ell':'indepTraits',
@@ -52,13 +52,13 @@ def myMain(mainDef):
         L=np.eye(numTraits)
 
     #######################################################################################################   
-    
+    '''
     stat=ELL.ell.ell(np.array([.1,.5]),numTraits)
-    stat.fit(10,3000,4000,1e-7,offDiag) # numLamSteps0,numLamSteps1,numEllSteps,minEll
+    stat.preCompute(1e-7,offDiag) # numLamSteps0,numLamSteps1,numEllSteps,minEll
     
     zRef=np.matmul(norm.rvs(size=[int(ops['refReps']),numTraits]),L.T)
-    refELL=stat.score(zRef)
-    score=stat.score(z)
+    refELL=stat.preScore(zRef)
+    score=stat.preScore(z)
 
     mc=stat.monteCarlo(refELL,score)
     plotPower(mc,parms,'mc-log',['mc-'+str(x) for x in ellDSet],log=True)
@@ -72,7 +72,7 @@ def myMain(mainDef):
     myHist(np.mean(2*norm.sf(np.abs(z)),axis=0),'rowMeanL-Z')
     plotPower(full,parms,'full-log',['full-'+str(x) for x in ellDSet],log=True)
     plotPower(full,parms,'full',['full-'+str(x) for x in ellDSet],log=False)
-    
+    '''
     full,ell=ellFull(parms,z,ellDSet,np.eye(numTraits))
     myHist(np.mean(2*norm.sf(np.abs(z)),axis=0),'rowMeanI-Z')
     plotPower(full,parms,'full-log-I',['full-I-'+str(x) for x in ellDSet],log=True)
