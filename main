@@ -16,11 +16,12 @@ def myMain(mainDef):
         'transOnly':False,
         'ySeed':0,
         'snpSeed':0,
-        'logSource':True
+        'logSource':True,
+        'pedigreeMult':0.1
     }
     
     ctrl={
-        'parms':[0.3,800,600,[10000,1000]],
+        'parms':[0.3,800,600,[10000,10000]],
         'snpParm':['pedigreeSnps'],
         'yParm':['indepTraits','noNorm'],
         'ell':'indepTraits',
