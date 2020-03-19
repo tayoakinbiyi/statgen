@@ -21,7 +21,7 @@ def myMain(mainDef):
     }
     
     ctrl={
-        'parms':[0.3,800,600,[10000,10000]],
+        'parms':[0.3,1000,2000,[10000,1000]],
         'snpParm':['pedigreeSnps'],
         'yParm':['indepTraits','noNorm'],
         'ell':'indepTraits',
