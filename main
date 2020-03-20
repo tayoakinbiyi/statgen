@@ -61,7 +61,7 @@ def myMain(mainDef):
     refELL=stat.gnullScore(zRef)
 
     mc=stat.monteCarlo(refELL,score)
-    _,type1=plotPower(mc,parms,'mc-log',['mc-'+str(x) for x in ellDSet],log=True)
+    _,type1=plotPower(mc,parms,'mc-log',['mc-'+str(x) for x in ellDSet],log=True,qList=[.001,.01])
     plotPower(mc,parms,'mc',['mc-'+str(x) for x in ellDSet],log=False)
     '''
     markov=stat.markov(score)
@@ -70,6 +70,7 @@ def myMain(mainDef):
     '''
     myHist(np.mean(score,axis=0),'rowMeanEll')
     np.savetxt('diagnostics/type1.tsv',type1,delimiter='\t')
+    print(type1)
    
     #######################################################################################################
     '''
