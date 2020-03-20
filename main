@@ -34,10 +34,10 @@ def myMain(mainDef):
     numTraits=ctrl['parms'][2]
     
     #######################################################################################################
-    
+    '''
     makeSim(parms)    
     genZScores(parms,[len(numSnps)])
-    
+    '''
     #######################################################################################################
     
     z=np.loadtxt('score/waldStat-'+str(len(numSnps)),delimiter='\t')
@@ -53,33 +53,23 @@ def myMain(mainDef):
         L=np.eye(numTraits)
 
     #######################################################################################################   
-    '''
-    stat=ELL.ell.ell(np.array([.1,.5]),numTraits)
-    stat.preCompute(1e-7,offDiag) # numLamSteps0,numLamSteps1,numEllSteps,minEll
+    
+    stat=ELL.ell.ell(ellDSet,numTraits)
+    score=stat.gnullScore(z) # numLamSteps0,numLamSteps1,numEllSteps,minEll
     
     zRef=np.matmul(norm.rvs(size=[int(ops['refReps']),numTraits]),L.T)
-    refELL=stat.preScore(zRef)
-    score=stat.preScore(z)
+    refELL=stat.gnullScore(zRef)
 
     mc=stat.monteCarlo(refELL,score)
-    plotPower(mc,parms,'mc-log',['mc-'+str(x) for x in ellDSet],log=True)
+    _,type1=plotPower(mc,parms,'mc-log',['mc-'+str(x) for x in ellDSet],log=True)
     plotPower(mc,parms,'mc',['mc-'+str(x) for x in ellDSet],log=False)
-
+    '''
     markov=stat.markov(score)
     plotPower(markov,parms,'markov-log',['markov-'+str(x) for x in ellDSet],log=True)
     plotPower(markov,parms,'markov',['markov-'+str(x) for x in ellDSet],log=False)
-    
-    full,ell=ellFull(parms,z,ellDSet,L)
-    myHist(np.mean(2*norm.sf(np.abs(z)),axis=0),'rowMeanL-Z')
-    plotPower(full,parms,'full-log',['full-'+str(x) for x in ellDSet],log=True)
-    plotPower(full,parms,'full',['full-'+str(x) for x in ellDSet],log=False)
     '''
-    full,ell=ellFull(parms,z,ellDSet,np.eye(numTraits))
-    myHist(np.mean(2*norm.sf(np.abs(z)),axis=0),'rowMeanI-Z')
-    plotPower(full,parms,'full-log-I',['full-I-'+str(x) for x in ellDSet],log=True)
-    plotPower(full,parms,'full-I',['full-I-'+str(x) for x in ellDSet],log=False)
-    
-    myHist(np.mean(ell,axis=0),'rowMeanEll')
+    myHist(np.mean(score,axis=0),'rowMeanEll')
+    np.savetxt('diagnostics/type1.tsv',type1,delimiter='\t')
    
     #######################################################################################################
     '''
