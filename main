@@ -1,98 +1,99 @@
 def myMain(mainDef):
-    colors=[(1,0,0),(0,1,0),(0,0,1),(1,1,0),(1,0,1),(0,1,1),(.5,.5,.5),(0,.5,0),(.5,0,0),(0,0,.5)]
     ellDSet=np.array([.1,.5])
     
-    local=os.getcwd()+'/'
     ops={
         'file':sys.argv[0],
-        'numCores':cpu_count(),
-        'colors':colors,
-        'refReps':1e6,    
-        'simLearnType':'Full',
         'response':'hipRaw',
-        'numSnpChr':18,
-        'numTraitChr':21,
-        'maxSnpGen':5000,
-        'transOnly':False,
+        'snpsSeed':0,
+        'grmSeed':0,
         'ySeed':0,
-        'snpSeed':0,
-        'logSource':True,
-        'pedigreeMult':0.1
+        'maxSnpGen':5000,
+        'pedigreeMult':0.1,
+        'response':'hipRaw'
     }
     
     ctrl={
-        'parms':[0.3,1000,2000,[10000,200]],
-        'snpParm':['pedigreeSnps'],
-        'yParm':['indepTraits','noNorm'],
-        'ell':'indepTraits',
-        'grmParm':['limix'],
-        'reg':['limix','lmm','bimbam']
+        'numSubjects':1000,
+        'numGrmSnps':10000,
+        'numDataSnps':1000,
+        'numTraits':2000,
+        'eta':0.3,
+        'yParm':'indepTraits'
     }
+    
+    #######################################################################################################
+    
+    numTraits=ctrl['numTraits']
+
+    #######################################################################################################
+    
     parms=setupFolders(ctrl,ops,mainDef)
-    numSnps=ctrl['parms'][3]
-    numSubjects=ctrl['parms'][1]
-    numTraits=ctrl['parms'][2]
     
     #######################################################################################################
+    
+    #makeSim(parms)    
+
+    #######################################################################################################
     '''
-    makeSim(parms)    
-    genZScores(parms,[len(numSnps)])
+    snps=np.loadtxt('snps',delimiter='\t')
+    Y=np.loadtxt('Y',delimiter='\t')
+    K=np.loadtxt('grm',delimiter='\t')
+    M=np.loadtxt('cov',delimiter='\t')
+    z,eta=runLimix(snps,Y,K,M)
+    np.savetxt('waldStat',z,delimiter='\t')
     '''
     #######################################################################################################
     
-    z=np.loadtxt('score/waldStat-'+str(len(numSnps)),delimiter='\t')
+    z=np.loadtxt('waldStat',delimiter='\t')
        
-    #######################################################################################################
-
-    if 'depTraits' in parms['ell']:
-        corr=np.corrcoef(z,rowvar=False)
-        offDiag=corr[np.triu_indices(numTraits,1)]
-        L=makePSD(corr)
-    if 'indepTraits' in parms['ell']:
-        offDiag=np.array([0]*int(numTraits*(numTraits-1)/2))
-        L=np.eye(numTraits)
-
     #######################################################################################################   
     
     stat=ELL.ell.ell(ellDSet,numTraits)
     
-    zRef=np.matmul(norm.rvs(size=[int(ops['refReps']),numTraits]),L.T)
-    score=stat.gnullScore(z) # numLamSteps0,numLamSteps1,numEllSteps,minEll
+    #######################################################################################################
+    
+    zRef=norm.rvs(size=[int(1e6),numTraits])
+    score=stat.gnullScore(z)
     refELL=stat.gnullScore(zRef)
     ps=(score,refELL)
     for ind in range(len(ps)):
         np.savetxt('ell-'+str(ind),ps[ind],delimiter='\t')
+
+    #######################################################################################################
     '''
     ps=[]
     for ind in range(2):
         np.loadtxt('ell-'+str(ind),delimiter='\t')
     score,refELL=ps
     '''
+    #######################################################################################################
+    
     mc=stat.monteCarlo(refELL,score)
     _,type1=plotPower(mc,parms,'mc-log',['mc-'+str(x) for x in ellDSet],log=True,qList=[.001,.01])
     plotPower(mc,parms,'mc',['mc-'+str(x) for x in ellDSet],log=False)
+    np.savetxt('diagnostics/type1.tsv',type1,delimiter='\t')
+
+    #######################################################################################################    
     '''
     markov=stat.markov(score)
     plotPower(markov,parms,'markov-log',['markov-'+str(x) for x in ellDSet],log=True)
     plotPower(markov,parms,'markov',['markov-'+str(x) for x in ellDSet],log=False)
-    '''
-       
-    myHist(np.mean(score,axis=0),'rowMeanEll')
-    np.savetxt('diagnostics/type1.tsv',type1,delimiter='\t')
-    print(type1)
-   
+    '''       
     #######################################################################################################
-    '''
-    Pgbj,Pghc,Phc,Pbj,PminP=makeGBJPVals(parms,z,offDiag)
+    
+    Pgbj,Pghc,Phc,Pbj,PminP=makeGBJPVals(parms,z,np.array([0]*int(numTraits*(numTraits-1)/2)))
     ps=(Pgbj,Pghc,Phc,Pbj,PminP)
     for ind in range(len(ps)):
         np.savetxt('bj-'+str(ind),ps[ind],delimiter='\t')
+     
+    #######################################################################################################
     '''
-    
     ps=[]
     for ind in range(5):
         ps+=[np.loadtxt('bj-'+str(ind),delimiter='\t')]
     Pgbj,Pghc,Phc,Pbj,PminP=ps    
+    '''
+    #######################################################################################################
     
     for obj in [[Pgbj,'Pgbj',[.5]],[Pghc,'Pghc',[.5]],[Phc,'Phc',[.5]],[Pbj,'Pbj',[.5]],[PminP,'PminP',[.5]]]:
         plotPower(obj[0],parms,obj[1]+'-log',[obj[1]+'-'+str(x) for x in obj[2]],log=True)
@@ -102,4 +103,6 @@ def myMain(mainDef):
     
     plotZ(z,prefix='z-')
     
-    git()
+    #######################################################################################################
+    
+    git()    
