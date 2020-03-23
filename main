@@ -31,46 +31,42 @@ def myMain(mainDef):
     
     #######################################################################################################
     
-    #makeSim(parms)    
-
+    #Y,QS,M,snps=makeSim(parms,fit=True)
+    
     #######################################################################################################
     '''
-    snps=np.loadtxt('snps',delimiter='\t')
-    Y=np.loadtxt('Y',delimiter='\t')
-    K=np.loadtxt('grm',delimiter='\t')
-    M=np.loadtxt('cov',delimiter='\t')
-    z,eta=runLimix(snps,Y,K,M)
+    z,eta=runLimix(Y,QS,M,snps)
     np.savetxt('waldStat',z,delimiter='\t')
     '''
     #######################################################################################################
     
     z=np.loadtxt('waldStat',delimiter='\t')
-       
+
     #######################################################################################################   
     
     stat=ELL.ell.ell(ellDSet,numTraits)
     
     #######################################################################################################
-    
+    '''
     zRef=norm.rvs(size=[int(1e6),numTraits])
     score=stat.gnullScore(z)
     refELL=stat.gnullScore(zRef)
     ps=(score,refELL)
     for ind in range(len(ps)):
         np.savetxt('ell-'+str(ind),ps[ind],delimiter='\t')
-
-    #######################################################################################################
-    '''
-    ps=[]
-    for ind in range(2):
-        np.loadtxt('ell-'+str(ind),delimiter='\t')
-    score,refELL=ps
     '''
     #######################################################################################################
     
+    ps=[]
+    for ind in range(2):
+        ps+=[np.loadtxt('ell-'+str(ind),delimiter='\t')]
+    score,refELL=ps
+    
+    #######################################################################################################
+    
     mc=stat.monteCarlo(refELL,score)
-    _,type1=plotPower(mc,parms,'mc-log',['mc-'+str(x) for x in ellDSet],log=True,qList=[.001,.01])
-    plotPower(mc,parms,'mc',['mc-'+str(x) for x in ellDSet],log=False)
+    _,type1=plotPower(mc,'mc-log',['mc-'+str(x) for x in ellDSet],log=True,qList=[.001,.01])
+    plotPower(mc,'mc',['mc-'+str(x) for x in ellDSet],log=False)
     np.savetxt('diagnostics/type1.tsv',type1,delimiter='\t')
 
     #######################################################################################################    
@@ -80,24 +76,25 @@ def myMain(mainDef):
     plotPower(markov,parms,'markov',['markov-'+str(x) for x in ellDSet],log=False)
     '''       
     #######################################################################################################
-    
+    '''
     Pgbj,Pghc,Phc,Pbj,PminP=makeGBJPVals(parms,z,np.array([0]*int(numTraits*(numTraits-1)/2)))
     ps=(Pgbj,Pghc,Phc,Pbj,PminP)
     for ind in range(len(ps)):
         np.savetxt('bj-'+str(ind),ps[ind],delimiter='\t')
-     
+    ''' 
     #######################################################################################################
-    '''
+    
     ps=[]
     for ind in range(5):
         ps+=[np.loadtxt('bj-'+str(ind),delimiter='\t')]
     Pgbj,Pghc,Phc,Pbj,PminP=ps    
-    '''
+    
     #######################################################################################################
     
     for obj in [[Pgbj,'Pgbj',[.5]],[Pghc,'Pghc',[.5]],[Phc,'Phc',[.5]],[Pbj,'Pbj',[.5]],[PminP,'PminP',[.5]]]:
-        plotPower(obj[0],parms,obj[1]+'-log',[obj[1]+'-'+str(x) for x in obj[2]],log=True)
-        plotPower(obj[0],parms,obj[1],[obj[1]+'-'+str(x) for x in obj[2]],log=False)
+        _,power=plotPower(obj[0],obj[1]+'-log',[obj[1]+'-'+str(x) for x in obj[2]],log=True,qList=[.001,.01])
+        plotPower(obj[0],obj[1],[obj[1]+'-'+str(x) for x in obj[2]],log=False)
+        power.to_csv('diagnostics/'+obj[1]+'.tsv',sep='\t')
     
     #######################################################################################################
     
