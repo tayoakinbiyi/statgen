@@ -3,7 +3,6 @@ def myMain(parms,mainDef):
         
     diagnostics(mainDef)    
     log(parms)
-    git()
     
     numTraits=parms['numTraits']
     
