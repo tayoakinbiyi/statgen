@@ -3,7 +3,7 @@
  'maxSnpGen': 5000,
  'numDataSnps': 100,
  'numGrmSnps': 100,
- 'numSubjects': 1000,
+ 'numSubjects': 1500,
  'numTraits': 100,
  'pedigreeMult': 0.1,
  'response': 'hipRaw',
