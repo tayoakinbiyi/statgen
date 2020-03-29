@@ -10,54 +10,59 @@ def myMain(parms,mainDef):
     #######################################################################################################
     #######################################################################################################
     
-    Y,QS,M,snps=makeSim(parms,fit=True)
+    Y,QS,M,snps=makeSim(parms,fit=False)
     
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
-    
+    '''
     waldH0,etaH0=runLimix(Y,QS,M,snps)
     plotZ(waldH0,prefix='waldH0-')
     np.savetxt('waldH0',waldH0,delimiter='\t')
-    
+    '''
     #######################################################################################################
     
-    #waldH0=np.loadtxt('waldH0',delimiter='\t')
+    waldH0=np.loadtxt('waldH0',delimiter='\t')
     
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
-    
+        
     vZ=np.corrcoef(waldH0,rowvar=False)
     L=makePSD(vZ)
     offDiag=vZ[np.triu_indices(numTraits,1)]
+    stat=ELL.ell.ell(int(.3*numTraits),numTraits,offDiag=offDiag)
+    z=np.matmul(norm.rvs(size=[int(1e6),ctrl['numTraits']]),L.T)
+    stat.preCompute(1e3)
+    stat.addRef(stat.preScore(z))
+    scoreH0=stat.preScore(waldH0)
+    stat.plot(stat.monteCarlo(scoreH0),'diagnostics/ellH0Dep')
+    #stat.plot(gbj(gbjR.GBJ,waldH0,offDiag=offDiag),'diagnostics/gbjH0Dep')
+    
+    #######################################################################################################
+    #######################################################################################################
+    #######################################################################################################
+        
+    vZ=np.corrcoef(waldH0,rowvar=False)
+    L=makePSD(vZ)
+    offDiag=vZ[np.triu_indices(numTraits,1)]
+    stat=ELL.ell.ell(int(.3*numTraits),numTraits,offDiag=offDiag)
+    z=np.matmul(norm.rvs(size=[int(1e6),ctrl['numTraits']]),L.T)
+    stat.preCompute(1e3)
+    stat.addRef(stat.gnullScore(z))
+    scoreH0=stat.gnullScore(waldH0)
+    stat.plot(stat.monteCarlo(scoreH0),'diagnostics/ellH0DepMid')
     
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
     
-    statDep=ELL.ell.ell(int(.3*numTraits),numTraits,offDiag=offDiag)
-    ellRefDep=np.matmul(norm.rvs(size=[int(1e6),ctrl['numTraits']]),L.T)
-    statDep.preCompute(1e3)
-    statDep.addRef(statDep.preScore(ellRefDep))
-    statDep.save()
-    #stat.load()
-    scoreH0Dep=statDep.preScore(waldH0)
-    statDep.plot(statDep.monteCarlo(scoreH0Dep),'diagnostics/ellH0Dep')
-    #statDep.plot(gbj(gbjR.GBJ,waldH0,offDiag=offDiag),'diagnostics/gbjH0Dep')
-    
-    #######################################################################################################
-    #######################################################################################################
-    #######################################################################################################
-    
-    L=np.eye(numTraits)
-    stat=ELL.ell.ell(int(.3*numTraits),numTraits,offDiag=np.array([0]*len(offDiag)))
-    ellRef=np.matmul(norm.rvs(size=[int(1e6),ctrl['numTraits']]),L.T)
-    stat.addRef(stat.gnullScore(ellRefDep))
-    stat.save()
-    #stat.load()
-    scoreH0=statDep.gnullScore(waldH0)
-    statDep.plot(statDep.monteCarlo(scoreH0),'diagnostics/ellH0')
+    stat=ELL.ell.ell(int(.3*numTraits),numTraits)
+    z=norm.rvs(size=[int(1e6),ctrl['numTraits']])
+    stat.addRef(stat.gnullScore(z))
+    scoreH0=stat.gnullScore(waldH0)
+    stat.plot(stat.monteCarlo(scoreH0),'diagnostics/ellH0')
+    stat.plot(gbj(gbjR.GBJ,waldH0),'diagnostics/gbjH0')
 
     #######################################################################################################
     #######################################################################################################
