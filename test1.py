@@ -3,8 +3,7 @@ def myMain(parms,mainDef):
         
     diagnostics(mainDef)    
     log(parms)
-    git()
-    pdb.set_trace()
+
     numTraits=parms['numTraits']
     
     #######################################################################################################
