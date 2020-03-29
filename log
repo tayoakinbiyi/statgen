@@ -1,13 +1,11 @@
 {'eta': 0.3,
- 'file': 'testScoreVsPreScore',
  'maxSnpGen': 5000,
  'numDataSnps': 1000,
  'numGrmSnps': 10000,
- 'numSubjects': 500,
+ 'numSubjects': 1000,
  'numTraits': 1000,
  'pedigreeMult': 0.1,
  'response': 'hipRaw',
  'snpSeed': 0,
- 'yParm': 'indepTraits',
+ 'yParm': 'depTraits',
  'ySeed': 0}
-'runLimix badCount 10.0'
