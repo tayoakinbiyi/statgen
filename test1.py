@@ -11,6 +11,8 @@ def myMain(parms,mainDef):
     #######################################################################################################
     
     Y,QS,M,snps=makeSim(parms,fit=True)
+    vY=np.corrcoef(Y,rowvar=False)
+    plotCorr(vY,'vY')
     
     #######################################################################################################
     #######################################################################################################
@@ -29,6 +31,8 @@ def myMain(parms,mainDef):
     #######################################################################################################
         
     vZ=np.corrcoef(waldH0,rowvar=False)
+    plotCorr(vZ,'vZ')
+    
     L=makePSD(vZ)
     offDiag=vZ[np.triu_indices(numTraits,1)]
     stat=ELL.ell.ell(int(.3*numTraits),numTraits,offDiag=offDiag)
@@ -37,7 +41,7 @@ def myMain(parms,mainDef):
     stat.addRef(stat.preScore(z))
     scoreH0=stat.preScore(waldH0)
     stat.plot(stat.monteCarlo(scoreH0),'diagnostics/ellH0Dep')
-    #stat.plot(gbj(gbjR.GBJ,waldH0,offDiag=offDiag),'diagnostics/gbjH0Dep')
+    stat.plot(gbj(gbjR.GBJ,waldH0,offDiag=offDiag),'diagnostics/gbjH0Dep')
     
     #######################################################################################################
     #######################################################################################################
