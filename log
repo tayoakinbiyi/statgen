@@ -7,5 +7,5 @@
  'pedigreeMult': 0.1,
  'response': 'hipRaw',
  'snpSeed': 0,
- 'yParm': 'dep',
+ 'yParm': 'indep',
  'ySeed': 0}
