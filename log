@@ -3,11 +3,11 @@
  'maxSnpGen': 5000,
  'numDataSnps': 1000,
  'numGrmSnps': 10000,
- 'numSubjects': 500,
+ 'numSubjects': 750,
  'numTraits': 1000,
  'pedigreeMult': 0.5,
  'response': 'hipRaw',
  'snpSeed': 0,
  'yParm': 'indepTraits',
  'ySeed': 0}
-'runLimix badCount 9.0'
+'runLimix badCount 0.0'
