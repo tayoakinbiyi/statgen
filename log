@@ -1,12 +1,9 @@
 {'eta': 0.3,
  'maxSnpGen': 5000,
- 'numDataSnps': 500,
+ 'numDataSnps': 10000,
  'numGrmSnps': 10000,
- 'numSubjects': 1000,
  'numTraits': 1000,
- 'pedigreeMult': 0.1,
  'response': 'hipRaw',
  'snpSeed': 0,
- 'yParm': 'dep',
+ 'yParm': 'indep',
  'ySeed': 0}
-'runLimix badCount 0.0'
