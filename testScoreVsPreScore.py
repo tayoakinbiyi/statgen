@@ -58,11 +58,11 @@ score=np.concatenate(score,axis=1)
 np.savetxt('score',score,delimiter='\t')
 '''
 score=np.loadtxt('score',delimiter='\t')
-cols=[]
+count=0
 for parms['numSubjects'] in [500,1200,1800]:
     for parms['pedigreeMult'] in [.1,.5,1]:
-        cols+=['{} - {}'.format(parms['numSubjects'],parms['pedigreeMult'])]
-        
-stat.plot(score,'diagnostics/ell',columns=cols,qList=[.01,.001])
+        cols=['{} - {}'.format(parms['numSubjects'],parms['pedigreeMult'])]
+        stat.plot(score[:,count:count+1],'diagnostics/ell-'+cols[0],columns=cols,qList=[.01,.001])
+        count+=1
 
 git('{}'.format(sys.argv[0][:-3]))
