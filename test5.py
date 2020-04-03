@@ -95,7 +95,7 @@ ops={
 ctrl={
     'numSubjects':1200,
     'numGrmSnps':10000,
-    'numDataSnps':10000,
+    'numDataSnps':1000,
     'numTraits':1000,
     'eta':0.3
 }
