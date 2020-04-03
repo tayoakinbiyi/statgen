@@ -4,7 +4,8 @@
  'numGrmSnps': 10000,
  'numSubjects': 1200,
  'numTraits': 1000,
- 'pedigreeMult': 1,
+ 'pedigreeMult': 0.1,
  'response': 'hipRaw',
  'snpSeed': 760,
  'ySeed': 0}
+'runLimix reml Count 0.0'
