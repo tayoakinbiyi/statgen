@@ -32,7 +32,7 @@ def myMain(parms):
     #######################################################################################################
     #######################################################################################################
     
-    Y,QS,M,snps=makeSim(parms,fit=False)
+    Y,QS,M,snps,Lgrm=makeSim(parms)
     vY=np.corrcoef(Y,rowvar=False)
     plotCorr(vY,'vY')
     myHist(vY[np.triu_indices(numTraits,1)],'vY-hist')
@@ -89,7 +89,7 @@ ops={
     'snpSeed':760,
     'ySeed':0,
     'maxSnpGen':5000,
-    'pedigreeMult':.5
+    'pedigreeMult':1
 }
 
 ctrl={
