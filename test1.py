@@ -70,7 +70,7 @@ def myMain(parms):
     #######################################################################################################
     #######################################################################################################
         
-    stat=ELL.ell.ell(int(.3*numTraits),numTraits)
+    stat=ELL.ell.ell(int(.3*numTraits),numTraits,qList=[0.01,0.001])
     stat.preCompute(1e3,offDiag=offDiag)
     gnull=stat.gnullScore(wald)
     pre=stat.preScore(wald)
