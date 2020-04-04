@@ -1,6 +1,6 @@
 {'eta': 0.3,
  'maxSnpGen': 5000,
- 'numDataSnps': 10000,
+ 'numDataSnps': 1000,
  'numGrmSnps': 10000,
  'numSubjects': 1200,
  'numTraits': 1000,
