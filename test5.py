@@ -43,7 +43,6 @@ def myMain(parms):
     
     wald,eta=runLimix(Y,QS,M,snps)
     plotZ(wald,prefix='wald-')
-    np.savetxt('wald',wald,delimiter='\t')
     
     #######################################################################################################
     #######################################################################################################
@@ -92,7 +91,7 @@ ctrl={
     'numSubjects':1200,
     'numDataSnps':10000,
     'numTraits':1000,
-    'pedigreeMult':1,
+    'pedigreeMult':0.5,
     'yParm':'dep'
 }
 
