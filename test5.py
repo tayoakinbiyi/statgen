@@ -91,7 +91,7 @@ ctrl={
     'numSubjects':1200,
     'numDataSnps':10000,
     'numTraits':1000,
-    'pedigreeMult':0.75,
+    'pedigreeMult':0.5,
     'yParm':'dep'
 }
 
