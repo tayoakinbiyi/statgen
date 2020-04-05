@@ -73,6 +73,7 @@ def myMain(parms):
     #stat.plot(gbj(gbjR.GBJ,wald,offDiag=offDiag),'diagnostics/gbjDep-Y:{}'.format(parms['yParm']))
     stat.plot(stat.markov(pre),'diagnostics/ellDepMarkov-Y:{}'.format(parms['yParm']))
     stat.plot(stat.monteCarlo(stat.gnullScore(zIndep),gnull),'diagnostics/ellIndepMC-Y:{}'.format(parms['yParm']))
+    #stat.plot(gbj(gbjR.GBJ,wald),'diagnostics/gbjIndep-Y:{}'.format(parms['yParm']))
     stat.preCompute(1e3)
     stat.plot(stat.markov(gnull),'diagnostics/ellIndepMarkov-Y:{}'.format(parms['yParm']))
     
@@ -88,9 +89,9 @@ ops={
 
 ctrl={
     'numSubjects':1200,
-    'numDataSnps':100000,
+    'numDataSnps':10000,
     'numTraits':1000,
-    'pedigreeMult':0.5,
+    'pedigreeMult':0.75,
     'yParm':'dep'
 }
 
