@@ -49,7 +49,7 @@ def myMain(parms):
     #######################################################################################################
         
     vZ=np.corrcoef(wald,rowvar=False)
-    L=makePSD(vZ)
+    L=makePSD(vZ,'LvZ')
     plotCorr(vZ,'vZ')
     offDiag=vZ[np.triu_indices(numTraits,1)]    
     myHist(offDiag,'vZ-hist')
@@ -80,7 +80,7 @@ def myMain(parms):
 
 ops={
     'response':'hipRaw',
-    'snpSeed':760,
+    'snpSeed':0,
     'ySeed':0,
     'maxSnpGen':5000,
     'numGrmSnps':10000,
@@ -92,7 +92,7 @@ ctrl={
     'numDataSnps':10000,
     'numTraits':1000,
     'pedigreeMult':0.5,
-    'yParm':'dep'
+    'yParm':'indep'
 }
 
 #######################################################################################################

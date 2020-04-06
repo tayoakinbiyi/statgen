@@ -6,7 +6,9 @@
  'numTraits': 1000,
  'pedigreeMult': 0.5,
  'response': 'hipRaw',
- 'snpSeed': 760,
- 'yParm': 'dep',
+ 'snpSeed': 0,
+ 'yParm': 'indep',
  'ySeed': 0}
+'makePSD grm : 0 <0, min is 8.859326312315453e-18'
+'makePSD LTraitCorr : 0 <0, min is 1.9234302812511367e-15'
 'runLimix reml Count 0.0'
