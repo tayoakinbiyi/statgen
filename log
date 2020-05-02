@@ -1,14 +1,20 @@
-{'eta': 0.3,
+'random seed 5754'
+{'V(Z)': 'simple',
+ 'd': 0.2,
+ 'eta': 0.3,
  'maxSnpGen': 5000,
- 'numDataSnps': 10000,
- 'numGrmSnps': 10000,
- 'numSubjects': 1200,
- 'numTraits': 1000,
- 'pedigreeMult': 0.5,
+ 'numDataSnps': 100,
+ 'numGrmSnps': 100,
+ 'numSubjects': 1000,
+ 'numTraits': 30,
+ 'pedigreeMult': 0.1,
  'response': 'hipRaw',
- 'snpSeed': 0,
- 'yParm': 'indep',
- 'ySeed': 0}
-'makePSD grm : 0 <0, min is 8.859326312315453e-18'
-'makePSD LTraitCorr : 0 <0, min is 1.9234302812511367e-15'
-'runLimix reml Count 0.0'
+ 'seed': 5754,
+ 'snpParm': 'geneDrop',
+ 'traitCorrRho': 0,
+ 'traitCorrSource': 'empirical'}
+'runLimix reml Count [1.]'
+'diagnostics/ellMC-Y 0 pvals out of bounds'
+'diagnostics/ellMarkov-Y 0 pvals out of bounds'
+'diagnostics/gbj 7 pvals out of bounds'
+'diagnostics/ghc 0 pvals out of bounds'
