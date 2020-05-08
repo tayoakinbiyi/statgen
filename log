@@ -1,20 +1,22 @@
 'random seed 5754'
-{'V(Z)': 'simple',
+{'V_Z': 'simple',
  'd': 0.2,
  'eta': 0.3,
- 'maxSnpGen': 5000,
- 'numDataSnps': 100,
- 'numGrmSnps': 100,
- 'numSubjects': 1000,
- 'numTraits': 30,
+ 'numCores': 1,
+ 'numDataSnps': 3,
+ 'numGrmSnps': 500,
+ 'numSubjects': 120,
+ 'numTraits': 80,
  'pedigreeMult': 0.1,
- 'response': 'hipRaw',
  'seed': 5754,
  'snpParm': 'geneDrop',
- 'traitCorrRho': 0,
- 'traitCorrSource': 'empirical'}
-'runLimix reml Count [1.]'
+ 'traitCorrRho': 0.2,
+ 'traitCorrSource': 'exchangeable'}
+'runLimix reml Count [4.]'
+'limix : 0.009407875935236613 secs/snp/trait'
+'gen zRef : 0.0006555851797262828 min/trait'
+'preCompute : 0.006519317626953125 min/trait'
+'preScore : 0.13171792030334473 secs/snp'
+'preScore : 1.3213146924972535e-05 secs/snp'
+'monteCarlo : 0.0010550618171691895 min'
 'diagnostics/ellMC-Y 0 pvals out of bounds'
-'diagnostics/ellMarkov-Y 0 pvals out of bounds'
-'diagnostics/gbj 7 pvals out of bounds'
-'diagnostics/ghc 0 pvals out of bounds'

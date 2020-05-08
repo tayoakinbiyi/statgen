@@ -8,7 +8,6 @@ import os
 
 sys.path=[os.getcwd()+'/source']+sys.path
 from dill.source import getsource
-from dataPrepPython.makeSim import *
 from dataPrepPython.runLimix import *
 from multiprocessing import cpu_count
 from plotPython.plotPower import *
@@ -16,6 +15,9 @@ from plotPython.plotZ import *
 from utility import *
 from plotPython.myHist import *
 from limix.model.lmm import LMM
+from limix.stats import linear_kinship
+from dataPrepPython.makePedigreeSnps import *
+from numpy_sugar.linalg import economic_qs
 
 from statsPython.gbj import *
 
@@ -28,30 +30,61 @@ from rpy2.robjects.packages import importr
 def myMain(parms):
     gbjR=importr('GBJ')
                 
-    numSnps=parms['numDataSnps']
+    numDataSnps=parms['numDataSnps']
+    numGrmSnps=parms['numGrmSnps']
     numTraits=parms['numTraits']
+    numSubjects=parms['numSubjects']
+    pedigreeMult=parms['pedigreeMult']
+    d=parms['d']
+    traitCorrSource=parms['traitCorrSource']
+    traitCorrRho=parms['traitCorrRho']
+    numCores=parms['numCores']
+    V_Z=parms['V_Z']
+    eta=parms['eta']
 
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
     
-    Y,QS,M,snps,grm=makeSim(parms)    
-    plotCorr(grm,'grm')
-    np.savetxt('snps',snps,delimiter='\t')
-    np.savetxt('Y',Y,delimiter='\t')
+    miceRange=np.random.choice(208,int(pedigreeMult*208),replace=False)    
+
+    #######################################################################################################
+    #######################################################################################################
+    #######################################################################################################
+    
+    grm=linear_kinship(makePedigreeSnps(numSubjects,miceRange,numGrmSnps,numCores),verbose=True)    
+    QS=economic_qs(grm)
+    Lgrm=makeL(grm)
     
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
     
-    wald,eta=runLimix(Y,QS,M,snps,0.9999)
-    np.savetxt('wald',wald,delimiter='\t')
-    myHist(eta,'eta'+str(numTraits))
-    myQQ(eta,np.mean(wald**2,axis=0),'eta','wald**2')
+    if 'empirical'==traitCorrSource:
+        traitCorr=np.corrcoef(pd.read_csv('../data/'+response+'.txt',sep='\t',index_col=0,header=0).values[
+            :,0:numTraits],rowvar=False)
+    if 'exchangeable'==traitCorrSource:
+        traitCorr=np.ones([numTraits,numTraits])
     
-    wald=np.loadtxt('wald',delimiter='\t')
+    traitCorr=np.eye(numTraits)+traitCorrRho*(traitCorr-np.diag(np.diag(traitCorr)))
+        
+    LTraitCorr=makeL(traitCorr)
+    plotCorr(traitCorr,'traitCorr')
     
-    plotZ(wald,'wald')
+    Y=(np.sqrt(eta)*Lgrm @ norm.rvs(size=[numSubjects,numTraits])+np.sqrt(1-eta)*norm.rvs(size=
+        [numSubjects,numTraits]))@LTraitCorr.T
+            
+    #######################################################################################################
+    #######################################################################################################
+    #######################################################################################################
+    
+    snps=makePedigreeSnps(numSubjects,miceRange,numDataSnps,numCores)
+    
+    #######################################################################################################
+    #######################################################################################################
+    #######################################################################################################
+    
+    wald,eta=runLimix(Y,QS,np.ones([numSubjects,1]),snps,0.9999)
         
     #######################################################################################################
     #######################################################################################################
@@ -63,7 +96,7 @@ def myMain(parms):
     myHist(offDiagOrig,'offDiagOrig')
     
     U,lam,Vt=np.linalg.svd(vZ)
-    gamma=numTraits/parms['numSubjects']
+    gamma=numTraits/numSubjects
     phase=(1+np.sqrt(gamma))**2
 
     lrg=np.where(lam>phase)[0]
@@ -73,21 +106,21 @@ def myMain(parms):
     c=np.sqrt((1-gamma/(l-1)**2)/(1+gamma/(l-1)))
     s=np.sqrt(1-c**2)
 
-    if parms['V(Z)']=='operator':
+    if V_Z=='operator':
         lam[lrg]=l
         lam[sml]=1
-    if parms['V(Z)']=='frobenius':
+    if V_Z=='frobenius':
         lam[lrg]=l*c**2+s**2
         lam[sml]=1
-    if parms['V(Z)']=='stein':
+    if V_Z=='stein':
         lam[lrg]=l/(c**2+l*s**2)
         lam[sml]=1
-    if parms['V(Z)']=='frechet':
+    if V_Z=='frechet':
         lam[lrg]=(s**2+np.sqrt(l)*c**2)**2
         lam[sml]=1
-    if parms['V(Z)']=='simple':
+    if V_Z=='simple':
         lam[:]=lam[:]
-    if parms['V(Z)']=='eye': 
+    if V_Z=='eye': 
         lam[:]=1
 
     vZ=U@np.diag(lam)@U.T
@@ -105,42 +138,43 @@ def myMain(parms):
     #######################################################################################################
     #######################################################################################################
 
+    t0=time.time()
     zRef=np.matmul(norm.rvs(size=[int(1e6),parms['numTraits']]),LZ.T)
+    t1=time.time()
+    log('{} : {} min/trait'.format('gen zRef',(t1-t0)/(60*numTraits)))
 
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
         
-    stat=ELL.ell.ell(int(parms['d']*parms['numTraits']),parms['numTraits'],offDiag)
-    #stat.plot(stat.exact(wald),'diagnostics/ellExact-Y:{}'.format(parms['yParm']))
+    stat=ELL.ell.ell(int(parms['d']*numTraits),numTraits,offDiag,numCores=numCores)
     
     stat.preCompute(1e3)
     pre=stat.score(wald)
     ref=stat.score(zRef)
     stat.plot(stat.monteCarlo(ref,pre),'diagnostics/ellMC-Y')
-    stat.plot(stat.markov(pre),'diagnostics/ellMarkov-Y')        
-    stat.plot(gbj(gbjR.GBJ,wald,offDiag=offDiag),'diagnostics/gbj')
-    stat.plot(gbj(gbjR.GHC,wald,offDiag=offDiag),'diagnostics/ghc')
+    #stat.plot(stat.markov(pre),'diagnostics/ellMarkov-Y')        
+    #stat.plot(gbj(gbjR.GBJ,wald,offDiag=offDiag),'diagnostics/gbj')
+    #stat.plot(gbj(gbjR.GHC,wald,offDiag=offDiag),'diagnostics/ghc')
     
 
 ops={
-    'response':'hipRaw',
     'seed':5754,
-    'maxSnpGen':5000,
-    'numGrmSnps':100,
+    'numGrmSnps':500,
+    'd':0.2,
     'eta':0.3
 }
 
 ctrl={
-    'numSubjects':1000,
-    'numDataSnps':100,
-    'numTraits':30,
+    'numSubjects':120,
+    'numDataSnps':3,
+    'numTraits':80,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
-    'd':0.2,
-    'traitCorrSource':'empirical',
-    'traitCorrRho':0,
-    'V(Z)':'simple'
+    'traitCorrSource':'exchangeable',
+    'traitCorrRho':0.2,
+    'V_Z':'simple',
+    'numCores':1
 }
 
 #######################################################################################################
