@@ -38,7 +38,7 @@ def myMain(parms):
     d=parms['d']
     traitCorrSource=parms['traitCorrSource']
     traitCorrRho=parms['traitCorrRho']
-    numCores=parms['numCores']
+    numCores=cpu_count()
     V_Z=parms['V_Z']
     eta=parms['eta']
 
@@ -89,11 +89,9 @@ def myMain(parms):
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
-
+    
     vZ=np.corrcoef(wald,rowvar=False)
     plotCorr(vZ,'vZorig')
-    offDiagOrig=vZ[np.triu_indices(vZ.shape[1],1)]    
-    myHist(offDiagOrig,'offDiagOrig')
     
     U,lam,Vt=np.linalg.svd(vZ)
     gamma=numTraits/numSubjects
@@ -127,54 +125,38 @@ def myMain(parms):
     makeCov=np.diag(1/np.sqrt(np.diag(vZ)))
     vZ=makeCov@vZ@makeCov
     plotCorr(vZ,'vZorig')
-
-    offDiag=vZ[np.triu_indices(vZ.shape[1],1)]    
-
-    myHist(offDiag,'offDiagNew')
-    myQQ(offDiagOrig,offDiag,'orig','new')
-    LZ=makeL(vZ)    
-
-    #######################################################################################################
-    #######################################################################################################
-    #######################################################################################################
-
-    t0=time.time()
-    zRef=np.matmul(norm.rvs(size=[int(1e6),parms['numTraits']]),LZ.T)
-    t1=time.time()
-    log('{} : {} min/trait'.format('gen zRef',(t1-t0)/(60*numTraits)))
+    offDiag=vZ[np.triu_indices(vZ.shape[1],1)]   
 
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
         
-    stat=ELL.ell.ell(int(parms['d']*numTraits),numTraits,offDiag,numCores=numCores)
+    stat=ELL.ell.ell(int(parms['d']*numTraits),numTraits,vZ,numCores=1)
     
     stat.preCompute(1e3)
     pre=stat.score(wald)
-    ref=stat.score(zRef)
-    stat.plot(stat.monteCarlo(ref,pre),'diagnostics/ellMC-Y')
-    #stat.plot(stat.markov(pre),'diagnostics/ellMarkov-Y')        
-    #stat.plot(gbj(gbjR.GBJ,wald,offDiag=offDiag),'diagnostics/gbj')
-    #stat.plot(gbj(gbjR.GHC,wald,offDiag=offDiag),'diagnostics/ghc')
+    stat.plot(stat.monteCarlo(pre,1e6,1e5),'diagnostics/ellMC-Y')
+    stat.plot(stat.markov(pre),'diagnostics/ellMarkov-Y')        
+    stat.plot(gbj(gbjR.GBJ,wald,offDiag=offDiag),'diagnostics/gbj')
+    stat.plot(gbj(gbjR.GHC,wald,offDiag=offDiag),'diagnostics/ghc')
     
 
 ops={
     'seed':5754,
-    'numGrmSnps':500,
+    'numGrmSnps':300,
     'd':0.2,
     'eta':0.3
 }
 
 ctrl={
-    'numSubjects':120,
+    'numSubjects':200,
     'numDataSnps':3,
-    'numTraits':80,
+    'numTraits':50,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
     'traitCorrSource':'exchangeable',
     'traitCorrRho':0.2,
-    'V_Z':'simple',
-    'numCores':1
+    'V_Z':'simple'
 }
 
 #######################################################################################################
