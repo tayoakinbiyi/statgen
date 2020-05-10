@@ -41,7 +41,7 @@ def myMain(parms):
     numCores=cpu_count()
     V_Z=parms['V_Z']
     eta=parms['eta']
-
+    '''
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
@@ -85,6 +85,9 @@ def myMain(parms):
     #######################################################################################################
     
     wald,eta=runLimix(Y,QS,np.ones([numSubjects,1]),snps,0.9999)
+    np.savetxt('wald',wald,delimiter='\t')
+
+    #wald=np.loadtxt('wald',delimiter='\t')
         
     #######################################################################################################
     #######################################################################################################
@@ -126,32 +129,34 @@ def myMain(parms):
     vZ=makeCov@vZ@makeCov
     plotCorr(vZ,'vZorig')
     offDiag=vZ[np.triu_indices(vZ.shape[1],1)]   
-
+    '''
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
-        
-    stat=ELL.ell.ell(int(parms['d']*numTraits),numTraits,vZ,numCores=1)
     
+    wald=norm.rvs(size=[numDataSnps,numTraits])
+    vZ=np.corrcoef(wald,rowvar=False)
+    offDiag=vZ[np.triu_indices(vZ.shape[1],1)]   
+    stat=ELL.ell.ell(int(parms['d']*numTraits),numTraits,vZ,numCores=1)
     stat.preCompute(1e3)
     pre=stat.score(wald)
     stat.plot(stat.monteCarlo(pre,1e6,1e5),'diagnostics/ellMC-Y')
     stat.plot(stat.markov(pre),'diagnostics/ellMarkov-Y')        
-    stat.plot(gbj(gbjR.GBJ,wald,offDiag=offDiag),'diagnostics/gbj')
-    stat.plot(gbj(gbjR.GHC,wald,offDiag=offDiag),'diagnostics/ghc')
+    stat.plot(gbj('GBJ',wald,offDiag=offDiag),'diagnostics/gbj')
+    stat.plot(gbj('GHC',wald,offDiag=offDiag),'diagnostics/ghc')
     
 
 ops={
     'seed':5754,
-    'numGrmSnps':300,
+    'numGrmSnps':1000,
     'd':0.2,
     'eta':0.3
 }
 
 ctrl={
     'numSubjects':200,
-    'numDataSnps':3,
-    'numTraits':50,
+    'numDataSnps':30,
+    'numTraits':80,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
     'traitCorrSource':'exchangeable',
