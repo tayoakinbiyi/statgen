@@ -28,8 +28,6 @@ from plotPython.plotCorr import *
 from rpy2.robjects.packages import importr
 
 def myMain(parms):
-    gbjR=importr('GBJ')
-                
     numDataSnps=parms['numDataSnps']
     numGrmSnps=parms['numGrmSnps']
     numTraits=parms['numTraits']
@@ -41,7 +39,7 @@ def myMain(parms):
     numCores=cpu_count()
     V_Z=parms['V_Z']
     eta=parms['eta']
-    '''
+    
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
@@ -95,7 +93,7 @@ def myMain(parms):
     
     vZ=np.corrcoef(wald,rowvar=False)
     plotCorr(vZ,'vZorig')
-    
+    '''
     U,lam,Vt=np.linalg.svd(vZ)
     gamma=numTraits/numSubjects
     phase=(1+np.sqrt(gamma))**2
@@ -128,35 +126,33 @@ def myMain(parms):
     makeCov=np.diag(1/np.sqrt(np.diag(vZ)))
     vZ=makeCov@vZ@makeCov
     plotCorr(vZ,'vZorig')
-    offDiag=vZ[np.triu_indices(vZ.shape[1],1)]   
     '''
+    offDiag=vZ[np.triu_indices(vZ.shape[1],1)]   
+    
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
     
-    wald=norm.rvs(size=[numDataSnps,numTraits])
-    vZ=np.corrcoef(wald,rowvar=False)
-    offDiag=vZ[np.triu_indices(vZ.shape[1],1)]   
     stat=ELL.ell.ell(int(parms['d']*numTraits),numTraits,vZ,numCores=1)
     stat.preCompute(1e3)
     pre=stat.score(wald)
     stat.plot(stat.monteCarlo(pre,1e6,1e5),'diagnostics/ellMC-Y')
     stat.plot(stat.markov(pre),'diagnostics/ellMarkov-Y')        
-    stat.plot(gbj('GBJ',wald,offDiag=offDiag),'diagnostics/gbj')
-    stat.plot(gbj('GHC',wald,offDiag=offDiag),'diagnostics/ghc')
+    stat.plot(gbj('GBJ',wald,numCores=1,offDiag=offDiag),'diagnostics/gbj')
+    stat.plot(gbj('GHC',wald,numCores=1,offDiag=offDiag),'diagnostics/ghc')
     
 
 ops={
     'seed':5754,
-    'numGrmSnps':1000,
+    'numGrmSnps':10000,
     'd':0.2,
     'eta':0.3
 }
 
 ctrl={
-    'numSubjects':200,
-    'numDataSnps':30,
-    'numTraits':80,
+    'numSubjects':1200,
+    'numDataSnps':3,
+    'numTraits':8000,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
     'traitCorrSource':'exchangeable',

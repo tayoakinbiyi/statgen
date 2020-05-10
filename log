@@ -2,23 +2,25 @@
 {'V_Z': 'simple',
  'd': 0.2,
  'eta': 0.3,
- 'numDataSnps': 30,
- 'numGrmSnps': 1000,
- 'numSubjects': 200,
- 'numTraits': 80,
+ 'numDataSnps': 3,
+ 'numGrmSnps': 10000,
+ 'numSubjects': 1200,
+ 'numTraits': 8000,
  'pedigreeMult': 0.1,
  'seed': 5754,
  'snpParm': 'geneDrop',
  'traitCorrRho': 0.2,
  'traitCorrSource': 'exchangeable'}
-'preCompute : 0.006975220491488775 min/trait'
-'preScore : 0.010739151636759441 secs/snp'
-'genRef : 0.04959587256113688 min'
-'monteCarlo : 1.6415119171142577e-05 min'
-'diagnostics/ellMC-Y 24 pvals out of bounds'
-'markov : 0.014314381281534831 secs/snp'
+'runLimix reml Count [1.]'
+'limix : 0.012815747529268265 secs/snp/trait'
+'preCompute : 0.015070229073862235 min/trait'
+'preScore : 0.25417232513427734 secs/snp'
+'genRef : 0.14657923380533855 min'
+'monteCarlo : 1.1761983235677084e-05 min'
+'diagnostics/ellMC-Y 0 pvals out of bounds'
+'markov : 374.6073702176412 secs/snp'
 'diagnostics/ellMarkov-Y 0 pvals out of bounds'
-'GBJ : 0.005942716995875041 min/snp'
-'diagnostics/gbj 4 pvals out of bounds'
-'GHC : 0.004835041099124485 min/snp'
-'diagnostics/ghc 2359 pvals out of bounds'
+'GBJ : 0.9832018189960056 min/snp'
+'diagnostics/gbj 23765 pvals out of bounds'
+'GHC : 0.980246963765886 min/snp'
+'diagnostics/ghc 23765 pvals out of bounds'
