@@ -85,7 +85,7 @@ def myMain(parms):
     wald,eta=runLimix(Y,QS,np.ones([numSubjects,1]),snps,0.9999)
     np.savetxt('wald',wald,delimiter='\t')
     
-    #wald=np.loadtxt('wald',delimiter='\t')
+    wald=np.loadtxt('wald',delimiter='\t')
         
     #######################################################################################################
     #######################################################################################################
@@ -118,7 +118,7 @@ ops={
 ctrl={
     'numSubjects':1200,
     'numDataSnps':3,
-    'numTraits':1000,
+    'numTraits':20,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
     'traitCorrSource':'exchangeable',
