@@ -84,7 +84,7 @@ def myMain(parms):
     
     wald,eta=runLimix(Y,QS,np.ones([numSubjects,1]),snps,0.9999)
     np.savetxt('wald',wald,delimiter='\t')
-
+    
     #wald=np.loadtxt('wald',delimiter='\t')
         
     #######################################################################################################
@@ -93,40 +93,6 @@ def myMain(parms):
     
     vZ=np.corrcoef(wald,rowvar=False)
     plotCorr(vZ,'vZorig')
-    '''
-    U,lam,Vt=np.linalg.svd(vZ)
-    gamma=numTraits/numSubjects
-    phase=(1+np.sqrt(gamma))**2
-
-    lrg=np.where(lam>phase)[0]
-    sml=np.where(lam<=phase)[0]
-    
-    l=(lam[lrg]+1-gamma+np.sqrt((lam[lrg]+1-gamma)**2-4*lam[lrg]))/2
-    c=np.sqrt((1-gamma/(l-1)**2)/(1+gamma/(l-1)))
-    s=np.sqrt(1-c**2)
-
-    if V_Z=='operator':
-        lam[lrg]=l
-        lam[sml]=1
-    if V_Z=='frobenius':
-        lam[lrg]=l*c**2+s**2
-        lam[sml]=1
-    if V_Z=='stein':
-        lam[lrg]=l/(c**2+l*s**2)
-        lam[sml]=1
-    if V_Z=='frechet':
-        lam[lrg]=(s**2+np.sqrt(l)*c**2)**2
-        lam[sml]=1
-    if V_Z=='simple':
-        lam[:]=lam[:]
-    if V_Z=='eye': 
-        lam[:]=1
-
-    vZ=U@np.diag(lam)@U.T
-    makeCov=np.diag(1/np.sqrt(np.diag(vZ)))
-    vZ=makeCov@vZ@makeCov
-    plotCorr(vZ,'vZorig')
-    '''
     offDiag=vZ[np.triu_indices(vZ.shape[1],1)]   
     
     #######################################################################################################
@@ -152,7 +118,7 @@ ops={
 ctrl={
     'numSubjects':1200,
     'numDataSnps':3,
-    'numTraits':8000,
+    'numTraits':1000,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
     'traitCorrSource':'exchangeable',
