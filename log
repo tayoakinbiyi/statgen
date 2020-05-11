@@ -2,7 +2,7 @@
 {'V_Z': 'simple',
  'd': 0.2,
  'eta': 0.3,
- 'numDataSnps': 3,
+ 'numDataSnps': 1000,
  'numGrmSnps': 10000,
  'numSubjects': 1200,
  'numTraits': 20,
@@ -12,15 +12,15 @@
  'traitCorrRho': 0.2,
  'traitCorrSource': 'exchangeable'}
 'runLimix reml Count [1.]'
-'limix : 3 snps, 20 traits, 0.013770310084025066 secs/snp/trait'
-'preCompute : 0.14418182373046876 min'
-'score : 3 snps, 0.10958242416381836 secs/snp'
-'genRef : 0.05196521282196045 min'
-'monteCarlo : 1.4432271321614583e-05 min'
+'limix : 1000 snps, 20 traits, 0.0003630333065986633 secs/snp/trait'
+'preCompute : 0.13994619448979695 min'
+'score : 1 snps, 0.004967788855234782 min/snp'
+'genRef : 0.05170196294784546 min'
+'monteCarlo : 1.3792514801025391e-05 min'
 'diagnostics/ellMC-Y 0 pvals out of bounds'
-'markov : 3 snps, 0.0026069508658515084 min/snp'
+'markov : 1 snps, 0.008534594376881918 min/snp'
 'diagnostics/ellMarkov-Y 0 pvals out of bounds'
-'GBJ : 3 snps, 0.004787925879160563 min/snp'
+'GBJ : 1 snps, 0.012294801076253255 min/snp'
 'diagnostics/gbj 0 pvals out of bounds'
-'GHC : 3 snps, 0.004472294118669298 min/snp'
-'diagnostics/ghc 53 pvals out of bounds'
+'GHC : 1 snps, 0.01317070722579956 min/snp'
+'diagnostics/ghc 19 pvals out of bounds'

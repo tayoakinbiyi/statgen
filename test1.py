@@ -85,7 +85,7 @@ def myMain(parms):
     wald,eta=runLimix(Y,QS,np.ones([numSubjects,1]),snps,0.9999)
     np.savetxt('wald',wald,delimiter='\t')
     
-    wald=np.loadtxt('wald',delimiter='\t')
+    #wald=np.loadtxt('wald',delimiter='\t')
         
     #######################################################################################################
     #######################################################################################################
@@ -99,6 +99,7 @@ def myMain(parms):
     #######################################################################################################
     #######################################################################################################
     
+    wald=wald[0:1]
     stat=ELL.ell.ell(int(parms['d']*numTraits),numTraits,vZ,numCores=1)
     stat.preCompute(1e3)
     pre=stat.score(wald)
@@ -117,7 +118,7 @@ ops={
 
 ctrl={
     'numSubjects':1200,
-    'numDataSnps':3,
+    'numDataSnps':1000,
     'numTraits':20,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
