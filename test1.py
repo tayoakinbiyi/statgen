@@ -109,7 +109,7 @@ def myMain(parms):
     stat.plot(stat.monteCarlo(pre,refReps,maxRefReps),'diagnostics/ellMC-Y')
     stat.plot(stat.markov(pre),'diagnostics/ellMarkov-Y')  
     '''
-    #stat.plot(scoreTest(wald,refReps,maxRefReps,vZ,numCores=10),'diagnostics/scoreTest-Y')      
+    stat.plot(scoreTest(wald,refReps,maxRefReps,vZ,numCores=10),'diagnostics/scoreTest-Y')      
     stat.plot(storeyQ(wald,refReps,maxRefReps,vZ,d,numCores=1),'diagnostics/storeyQ-Y')      
     #stat.plot(gbj('GBJ',wald,numCores=3,offDiag=offDiag),'diagnostics/gbj')
     #stat.plot(gbj('GHC',wald,numCores=3,offDiag=offDiag),'diagnostics/ghc')
