@@ -5,17 +5,20 @@
  'numDataSnps': 100,
  'numGrmSnps': 100,
  'numSubjects': 120,
- 'numTraits': 200,
+ 'numTraits': 20,
  'pedigreeMult': 0.1,
  'seed': 1023,
  'snpParm': 'geneDrop',
  'traitCorrRho': 1,
  'traitCorrSource': 'empirical'}
-'scoreTestScore : 0.25806864102681476 min'
-'genScoreTestRef : 2.3730362653732295 min'
-'genScoreTestRef : 3.043810526529948e-06 min'
-'diagnostics/scoreTest-Y 29 pvals out of bounds'
-'storeyQScore : 0.013439754645029703 min'
-'genStoreyQRef : 0.14095905224482216 min'
-'monteCarloStoreyQPval : 2.968311309814453e-06 min'
-'diagnostics/storeyQ-Y 0 pvals out of bounds'
+'runLimix reml Count [1.]'
+'limix : 100 snps, 20 traits, 0.03570045232772827 min'
+'preCompute : 0.1415567398071289 min'
+'score : 3 snps, 0.0018636332617865668 min/snp'
+'genRef : 0.054786527156829835 min'
+'monteCarlo : 1.4901161193847656e-05 min'
+'diagnostics/ellMC-Y 0 pvals out of bounds'
+'markov : 3 snps, 0.003571601708730062 min/snp'
+'diagnostics/ellMarkov-Y 0 pvals out of bounds'
+'GBJ : 3 snps, 0.01038672129313151 min/snp'
+'diagnostics/gbj 0 pvals out of bounds'
