@@ -1,4 +1,4 @@
-'random seed 457533'
+'random seed 432757'
 {'V_Z': 'simple',
  'd': 0.2,
  'eta': 0.3,
@@ -11,18 +11,18 @@
  'snpParm': 'geneDrop',
  'traitCorrRho': 1,
  'traitCorrSource': 'empirical'}
-'preCompute : 14.320218551158906 min'
-'score : 10000 snps, 1.7059128284454345e-05 min/snp'
-'genRef : 0.12589146296183268 min'
-'monteCarlo : 2.4286905924479165e-05 min'
-'diagnostics/ellMC-Y 9878 pvals out of bounds'
-'markov : 10000 snps, 0.03476315619270007 min/snp'
-'diagnostics/ellMarkov-Y 9827 pvals out of bounds'
-'scoreTestScore : 0.10337825616200765 min'
-'genScoreTestRef : 0.9503492116928102 min'
-'genScoreTestRef : 4.449685414632161e-05 min'
-'diagnostics/scoreTest-Y 8651 pvals out of bounds'
-'storeyQScore : 0.11871469020843506 min'
-'genStoreyQRef : 1.0235180854797363 min'
-'monteCarloStoreyQPval : 2.8824806213378908e-05 min'
-'diagnostics/storeyQ-Y 6410 pvals out of bounds'
+'preCompute : 14.066291022300721 min'
+'score : 10000 snps, 1.5891455014546712e-05 min/snp'
+'genRef : 0.11763203938802083 min'
+'monteCarlo : 2.164443333943685e-05 min'
+'diagnostics/ellMC-Y 9826 pvals out of bounds'
+'markov : 10000 snps, 0.03524737136522929 min/snp'
+'diagnostics/ellMarkov-Y 9867 pvals out of bounds'
+'scoreTestScore : 0.10335063934326172 min'
+'genScoreTestRef : 0.9007072051366171 min'
+'genScoreTestRef : 2.4358431498209637e-05 min'
+'diagnostics/scoreTest-Y 7731 pvals out of bounds'
+'storeyQScore : 0.11558238665262859 min'
+'genStoreyQRef : 0.9646885792414347 min'
+'monteCarloStoreyQPval : 2.418359120686849e-05 min'
+'diagnostics/storeyQ-Y 8879 pvals out of bounds'

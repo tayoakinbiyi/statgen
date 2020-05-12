@@ -88,7 +88,7 @@ def myMain(parms):
     wald,eta=runLimix(Y,QS,np.ones([numSubjects,1]),snps,0.9999)
     np.savetxt('wald',wald,delimiter='\t')
     '''
-    wald=np.loadtxt('../gbjTime/wald',delimiter='\t')[:,0:1200]
+    wald=np.loadtxt('wald',delimiter='\t')
         
     #######################################################################################################
     #######################################################################################################
