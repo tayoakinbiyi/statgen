@@ -59,7 +59,7 @@ def myMain(parms):
     #######################################################################################################
     
     if 'empirical'==traitCorrSource:
-        traitCorr=np.corrcoef(pd.read_csv('../data/'+response+'.txt',sep='\t',index_col=0,header=0).values[
+        traitCorr=np.corrcoef(pd.read_csv('../data/hipRaw.txt',sep='\t',index_col=0,header=0).values[
             :,0:numTraits],rowvar=False)
     if 'exchangeable'==traitCorrSource:
         traitCorr=np.ones([numTraits,numTraits])
@@ -111,19 +111,19 @@ def myMain(parms):
 
 ops={
     'seed':None,
-    'numGrmSnps':10000,
+    'numGrmSnps':100,
     'd':0.2,
     'eta':0.3
 }
 
 ctrl={
     'numSubjects':1200,
-    'numDataSnps':1000,
+    'numDataSnps':100,
     'numTraits':20,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
-    'traitCorrSource':'exchangeable',
-    'traitCorrRho':0.2,
+    'traitCorrSource':'empirical',
+    'traitCorrRho':1,
     'V_Z':'simple'
 }
 
