@@ -1,26 +1,27 @@
-'random seed 191471'
+'random seed 1023'
 {'V_Z': 'simple',
  'd': 0.2,
  'eta': 0.3,
  'numDataSnps': 100,
  'numGrmSnps': 100,
- 'numSubjects': 1200,
- 'numTraits': 20,
+ 'numSubjects': 120,
+ 'numTraits': 200,
  'pedigreeMult': 0.1,
- 'seed': None,
+ 'seed': 1023,
  'snpParm': 'geneDrop',
  'traitCorrRho': 1,
  'traitCorrSource': 'empirical'}
-'runLimix reml Count [1.]'
-'limix : 100 snps, 20 traits, 0.05985944271087647 min'
-'preCompute : 0.14114923079808553 min'
-'score : 3 snps, 0.0018839518229166667 min/snp'
-'genRef : 0.05098053216934204 min'
-'monteCarlo : 1.618464787801107e-05 min'
-'diagnostics/ellMC-Y 0 pvals out of bounds'
-'markov : 3 snps, 0.002501988410949707 min/snp'
-'diagnostics/ellMarkov-Y 0 pvals out of bounds'
-'GBJ : 3 snps, 0.005568040741814507 min/snp'
-'diagnostics/gbj 0 pvals out of bounds'
-'GHC : 3 snps, 0.005777010652754042 min/snp'
-'diagnostics/ghc 0 pvals out of bounds'
+'storeyQScore : 100 snps 0.004282812277475993 min/snp'
+'storeyQScore : 10 snps 0.004326347510019938 min/snp'
+'storeyQScore : 10 snps 0.004272087415059408 min/snp'
+'storeyQScore : 10 snps 0.004965845743815104 min/snp'
+'storeyQScore : 10 snps 0.0046764890352884924 min/snp'
+'storeyQScore : 10 snps 0.005005435148874918 min/snp'
+'storeyQScore : 10 snps 0.00472102959950765 min/snp'
+'storeyQScore : 10 snps 0.00426094134648641 min/snp'
+'storeyQScore : 10 snps 0.005010247230529785 min/snp'
+'storeyQScore : 10 snps 0.0046828309694925945 min/snp'
+'storeyQScore : 10 snps 0.00519863764444987 min/snp'
+'genStoreyQRef : 0.04835339387257894 min'
+'monteCarloStoreyQPval : 1.895427703857422e-05 min'
+'diagnostics/storeyQ-Y 95 pvals out of bounds'

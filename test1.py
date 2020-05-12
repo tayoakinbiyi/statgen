@@ -18,7 +18,8 @@ from limix.model.lmm import LMM
 from limix.stats import linear_kinship
 from dataPrepPython.makePedigreeSnps import *
 from numpy_sugar.linalg import economic_qs
-
+from statsPython.scoreTest import *
+from statsPython.storeyQ import *
 from statsPython.gbj import *
 
 from scipy.stats import norm
@@ -33,17 +34,19 @@ def myMain(parms):
     numTraits=parms['numTraits']
     numSubjects=parms['numSubjects']
     pedigreeMult=parms['pedigreeMult']
-    d=parms['d']
+    d=int(parms['d']*numTraits)
     traitCorrSource=parms['traitCorrSource']
     traitCorrRho=parms['traitCorrRho']
     numCores=cpu_count()
     V_Z=parms['V_Z']
     eta=parms['eta']
+    refReps=1e2
+    maxRefReps=1e1
     
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
-    
+    '''
     miceRange=np.random.choice(208,int(pedigreeMult*208),replace=False)    
 
     #######################################################################################################
@@ -84,8 +87,8 @@ def myMain(parms):
     
     wald,eta=runLimix(Y,QS,np.ones([numSubjects,1]),snps,0.9999)
     np.savetxt('wald',wald,delimiter='\t')
-    
-    #wald=np.loadtxt('wald',delimiter='\t')
+    '''
+    wald=np.loadtxt('wald',delimiter='\t')
         
     #######################################################################################################
     #######################################################################################################
@@ -99,27 +102,30 @@ def myMain(parms):
     #######################################################################################################
     #######################################################################################################
     
-    wald=wald[0:3]
-    stat=ELL.ell.ell(int(parms['d']*numTraits),numTraits,vZ,numCores=1)
+    stat=ELL.ell.ell(d,numTraits,vZ,numCores=10)
+    '''
     stat.preCompute(1e3)
     pre=stat.score(wald)
-    stat.plot(stat.monteCarlo(pre,1e6,1e5),'diagnostics/ellMC-Y')
-    stat.plot(stat.markov(pre),'diagnostics/ellMarkov-Y')        
-    stat.plot(gbj('GBJ',wald,numCores=1,offDiag=offDiag),'diagnostics/gbj')
-    stat.plot(gbj('GHC',wald,numCores=1,offDiag=offDiag),'diagnostics/ghc')
+    stat.plot(stat.monteCarlo(pre,refReps,maxRefReps),'diagnostics/ellMC-Y')
+    stat.plot(stat.markov(pre),'diagnostics/ellMarkov-Y')  
+    '''
+    #stat.plot(scoreTest(wald,refReps,maxRefReps,vZ,numCores=10),'diagnostics/scoreTest-Y')      
+    stat.plot(storeyQ(wald,refReps,maxRefReps,vZ,d,numCores=1),'diagnostics/storeyQ-Y')      
+    #stat.plot(gbj('GBJ',wald,numCores=3,offDiag=offDiag),'diagnostics/gbj')
+    #stat.plot(gbj('GHC',wald,numCores=3,offDiag=offDiag),'diagnostics/ghc')
     
 
 ops={
-    'seed':None,
+    'seed':1023,
     'numGrmSnps':100,
     'd':0.2,
     'eta':0.3
 }
 
 ctrl={
-    'numSubjects':1200,
+    'numSubjects':120,
     'numDataSnps':100,
-    'numTraits':20,
+    'numTraits':200,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
     'traitCorrSource':'empirical',
