@@ -1,28 +1,24 @@
-'random seed 432757'
+'random seed 1023'
 {'V_Z': 'simple',
  'd': 0.2,
  'eta': 0.3,
  'numDataSnps': 10000,
  'numGrmSnps': 10000,
  'numSubjects': 1200,
- 'numTraits': 1200,
+ 'numTraits': 2000,
  'pedigreeMult': 0.1,
- 'seed': None,
+ 'seed': 1023,
  'snpParm': 'geneDrop',
  'traitCorrRho': 1,
  'traitCorrSource': 'empirical'}
-'preCompute : 14.066291022300721 min'
-'score : 10000 snps, 1.5891455014546712e-05 min/snp'
-'genRef : 0.11763203938802083 min'
-'monteCarlo : 2.164443333943685e-05 min'
-'diagnostics/ellMC-Y 9826 pvals out of bounds'
-'markov : 10000 snps, 0.03524737136522929 min/snp'
-'diagnostics/ellMarkov-Y 9867 pvals out of bounds'
-'scoreTestScore : 0.10335063934326172 min'
-'genScoreTestRef : 0.9007072051366171 min'
-'genScoreTestRef : 2.4358431498209637e-05 min'
-'diagnostics/scoreTest-Y 7731 pvals out of bounds'
-'storeyQScore : 0.11558238665262859 min'
-'genStoreyQRef : 0.9646885792414347 min'
-'monteCarloStoreyQPval : 2.418359120686849e-05 min'
-'diagnostics/storeyQ-Y 8879 pvals out of bounds'
+'runLimix reml Count [1.]'
+'limix : 10000 snps, 2000 traits, 20.938636938730877 min'
+'preCompute : 17.04783039490382 min'
+'score : 3 snps, 0.0027769909964667425 min/snp'
+'genRef : 0.07413713534673055 min'
+'monteCarlo : 1.2795130411783854e-05 min'
+'diagnostics/ellMC-Y 0 pvals out of bounds'
+'markov : 3 snps, 0.11248105896843805 min/snp'
+'diagnostics/ellMarkov-Y 0 pvals out of bounds'
+'GBJ : 3 snps, 698.6165704223845 min/snp'
+'diagnostics/gbj 0 pvals out of bounds'
