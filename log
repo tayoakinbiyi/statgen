@@ -1,4 +1,4 @@
-'random seed 5754'
+'random seed 851760'
 {'V_Z': 'simple',
  'd': 0.2,
  'eta': 0.3,
@@ -7,20 +7,20 @@
  'numSubjects': 1200,
  'numTraits': 20,
  'pedigreeMult': 0.1,
- 'seed': 5754,
+ 'seed': None,
  'snpParm': 'geneDrop',
  'traitCorrRho': 0.2,
  'traitCorrSource': 'exchangeable'}
 'runLimix reml Count [1.]'
-'limix : 1000 snps, 20 traits, 0.0003630333065986633 secs/snp/trait'
-'preCompute : 0.13994619448979695 min'
-'score : 1 snps, 0.004967788855234782 min/snp'
-'genRef : 0.05170196294784546 min'
-'monteCarlo : 1.3792514801025391e-05 min'
+'limix : 1000 snps, 20 traits, 0.13245904048283894 min'
+'preCompute : 0.15318695306777955 min'
+'score : 3 snps, 0.0017658816443549261 min/snp'
+'genRef : 0.05160719553629557 min'
+'monteCarlo : 1.5894571940104168e-05 min'
 'diagnostics/ellMC-Y 0 pvals out of bounds'
-'markov : 1 snps, 0.008534594376881918 min/snp'
+'markov : 3 snps, 0.0024793359968397354 min/snp'
 'diagnostics/ellMarkov-Y 0 pvals out of bounds'
-'GBJ : 1 snps, 0.012294801076253255 min/snp'
+'GBJ : 3 snps, 0.00543345742755466 min/snp'
 'diagnostics/gbj 0 pvals out of bounds'
-'GHC : 1 snps, 0.01317070722579956 min/snp'
-'diagnostics/ghc 19 pvals out of bounds'
+'GHC : 3 snps, 0.005899073017968072 min/snp'
+'diagnostics/ghc 0 pvals out of bounds'

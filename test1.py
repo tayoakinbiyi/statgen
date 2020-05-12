@@ -99,7 +99,7 @@ def myMain(parms):
     #######################################################################################################
     #######################################################################################################
     
-    wald=wald[0:1]
+    wald=wald[0:3]
     stat=ELL.ell.ell(int(parms['d']*numTraits),numTraits,vZ,numCores=1)
     stat.preCompute(1e3)
     pre=stat.score(wald)
@@ -110,7 +110,7 @@ def myMain(parms):
     
 
 ops={
-    'seed':5754,
+    'seed':None,
     'numGrmSnps':10000,
     'd':0.2,
     'eta':0.3
