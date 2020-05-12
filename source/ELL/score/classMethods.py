@@ -25,6 +25,8 @@ def score(self,testStats,verbose=True):
     testStats=np.sort(2*norm.sf(np.abs(testStats)))[:,0:d]
     
     b_check=bufCreate('check',[3,d])
+    
+    t1=time.time()
             
     pids=[]
     b_score={}
@@ -54,11 +56,11 @@ def score(self,testStats,verbose=True):
         bufClose(b_score[core])
     bufClose(b_check)    
 
-    t1=time.time()
+    t2=time.time()
 
     if verbose:
         memory('score')
-        log('{} : {} snps, {} min/snp'.format('score',numRows,(t1-t0)/(60*numRows)))
+        log('{} : {} snps, {} min/snp'.format('score',numRows,((t1-t0)+numCores*(t2-t1))/(60*numRows)))
         
     return(ellGrid[ellStats])
 

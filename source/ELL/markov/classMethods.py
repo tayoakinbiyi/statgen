@@ -30,6 +30,8 @@ def markov(self,ellStats):
     
     ellStats=np.clip(ellStats,np.min(ellGrid),np.max(ellGrid))
     
+    t1=time.time()
+    
     pids=[]
     b_markov=bufCreate('markov',[reps])
     for core in range(numCores):
@@ -46,8 +48,8 @@ def markov(self,ellStats):
     pvals=bufClose(b_markov)
 
     memory('markov')
-    t1=time.time()
+    t2=time.time()
     
-    log('{} : {} snps, {} min/snp'.format('markov',reps,(t1-t0)/(60*reps)))
+    log('{} : {} snps, {} min/snp'.format('markov',reps,((t1-t0)+numCores*(t2-t1))/(60*reps)))
 
     return(pvals)

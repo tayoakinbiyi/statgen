@@ -53,6 +53,8 @@ def geomBins(numSteps,minVal,maxVal):
 def preCompute(self,ellStepSize=1e3):
     t0=time.time()
     
+    numCores=self.numCores
+    
     if self.reportMem:
         memory('start fit')
     
@@ -64,18 +66,24 @@ def preCompute(self,ellStepSize=1e3):
         
     self.minMaxLamPerKInitial()
     self.minMaxKPerBin()
+    
+    t1=time.time()
     self.callGetLamEllByK(ellGrid[[0,-1]])
 
+    t2=time.time()
     self.minMaxLamPerKFinal()    
     self.minMaxKPerBin()
+    
+    t3=time.time()
     self.callGetLamEllByK(ellGrid)
     
+    t4=time.time()
     self.ellGrid=ellGrid
     self.lamEllByK=bufClose(self.b_lamEllByK)
     
-    t1=time.time()
+    t5=time.time()
 
-    log('{} : {} min'.format('preCompute',(t1-t0)/(60)))
+    log('{} : {} min'.format('preCompute',((t1-t0)+numCores*(t2-t1)+(t3-t2)+numCores*(t4-t3)+(t5-t4))/(60)))
             
     return()
 
