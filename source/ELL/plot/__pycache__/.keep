@@ -1,0 +1,22 @@
+import numpy as np
+from ELL.util import memory
+from scipy.stats import norm
+import pdb
+
+def monteCarlo(self,ell):      
+    memory('monteCarlo')
+    
+    ref=self.ref
+    
+    monteCarlo=np.zeros(ell.shape)
+
+    sortOrd=np.argsort(ell,axis=0)
+    monteCarlo[sortOrd]=(1+np.searchsorted(np.sort(ref),ell[sortOrd]))/(len(ref)+1)
+        
+    memory('monteCarlo')
+
+    return(monteCarlo)
+
+def addRef(self,ref):
+    self.ref=np.sort(ref)
+    return()
