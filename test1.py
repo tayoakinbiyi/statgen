@@ -24,6 +24,7 @@ from statsPython.minP import *
 from statsPython.f import *
 from statsPython.gbj import *
 from statsPython.monteCarlo import *
+from statsPython.markov import *
 from functools import partial
 from scipy.stats import norm
 import ELL.ell
@@ -108,10 +109,10 @@ def myMain(parms):
     stat=ELL.ell.ell(d,vZ,numCores=10)    
     stat.preCompute(1e3)
     func=partial(f,stat.lamEllByK,stat.ellGrid)
-    storey=partial(storeyQ,int(numTraits*.5))
+    storey=partial(storeyQ,int(vZ.shape[1]*.5))
     
     plotPower(monteCarlo(func,wald,vZ,refReps,maxRefReps,10,'ell'),'diagnostics/ell-Y')      
-    #stat.plot(stat.markov(pre),'diagnostics/ellMarkov-Y')  
+    plotPower(markov(func,wald,stat.lamEllByK,stat.ellGrid,offDiag,10),'diagnostics/ellMarkov-Y')  
     plotPower(monteCarlo(scoreTest,wald,vZ,refReps,maxRefReps,10,'scoreTest'),'diagnostics/scoreTest-Y')      
     plotPower(monteCarlo(storey,wald,vZ,refReps,maxRefReps,10,'storeyQ'),'diagnostics/storeyQ-Y')      
     plotPower(monteCarlo(minP,wald,vZ,refReps,maxRefReps,10,'minP'),'diagnostics/minP-Y')      
