@@ -23,6 +23,7 @@ from statsPython.storeyQ import *
 from statsPython.minP import *
 from statsPython.f import *
 from statsPython.gbj import *
+from statsPython.cpma import *
 from statsPython.monteCarlo import *
 from statsPython.markov import *
 from functools import partial
@@ -50,7 +51,7 @@ def myMain(parms):
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
-    '''
+    
     miceRange=np.random.choice(208,int(pedigreeMult*208),replace=False)    
 
     #######################################################################################################
@@ -91,8 +92,8 @@ def myMain(parms):
     
     wald,eta=runLimix(Y,QS,np.ones([numSubjects,1]),snps,0.9999)
     np.savetxt('wald',wald,delimiter='\t')
-    '''
-    wald=np.loadtxt('wald',delimiter='\t')
+    
+    #wald=np.loadtxt('wald',delimiter='\t')
         
     #######################################################################################################
     #######################################################################################################
@@ -111,25 +112,27 @@ def myMain(parms):
     func=partial(f,stat.lamEllByK,stat.ellGrid)
     storey=partial(storeyQ,int(vZ.shape[1]*.5))
     
-    plotPower(monteCarlo(func,wald,vZ,refReps,maxRefReps,10,'ell'),'diagnostics/ell-Y')      
-    plotPower(markov(func,wald,stat.lamEllByK,stat.ellGrid,offDiag,10),'diagnostics/ellMarkov-Y')  
-    plotPower(monteCarlo(scoreTest,wald,vZ,refReps,maxRefReps,10,'scoreTest'),'diagnostics/scoreTest-Y')      
-    plotPower(monteCarlo(storey,wald,vZ,refReps,maxRefReps,10,'storeyQ'),'diagnostics/storeyQ-Y')      
-    plotPower(monteCarlo(minP,wald,vZ,refReps,maxRefReps,10,'minP'),'diagnostics/minP-Y')      
+    numCores=10
+    plotPower(monteCarlo(cpma,wald,vZ,refReps,maxRefReps,numCores,'cpma'),'diagnostics/cpma')
+    plotPower(monteCarlo(func,wald,vZ,refReps,maxRefReps,numCores,'ell'),'diagnostics/ell-Y')      
+    plotPower(markov(func,wald,stat.lamEllByK,stat.ellGrid,offDiag,numCores),'diagnostics/ellMarkov-Y')  
+    plotPower(monteCarlo(scoreTest,wald,vZ,refReps,maxRefReps,numCores,'scoreTest'),'diagnostics/scoreTest-Y')      
+    plotPower(monteCarlo(storey,wald,vZ,refReps,maxRefReps,numCores,'storeyQ'),'diagnostics/storeyQ-Y')      
+    plotPower(monteCarlo(minP,wald,vZ,refReps,maxRefReps,numCores,'minP'),'diagnostics/minP-Y')      
     #stat.plot(gbj('GBJ',wald,numCores=3,offDiag=offDiag),'diagnostics/gbj')
     #stat.plot(gbj('GHC',wald,numCores=3,offDiag=offDiag),'diagnostics/ghc')
     
 
 ops={
     'seed':None,
-    'numGrmSnps':10000,
+    'numGrmSnps':100,
     'd':0.2,
     'eta':0.3
 }
 
 ctrl={
-    'numSubjects':500,
-    'numDataSnps':400,
+    'numSubjects':1200,
+    'numDataSnps':100,
     'numTraits':100,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
