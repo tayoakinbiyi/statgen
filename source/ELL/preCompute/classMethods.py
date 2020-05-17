@@ -55,8 +55,7 @@ def preCompute(self,ellStepSize=1e3):
     
     numCores=self.numCores
     
-    if self.reportMem:
-        memory('start fit')
+    memory('start fit')
     
     N=self.N
 
@@ -119,8 +118,7 @@ def minMaxLamPerKInitial(self):
     
     self.rightEdgePerBin=bins
 
-    if self.reportMem:
-        memory('minMaxLamPerKInitial')
+    memory('minMaxLamPerKInitial')
 
     return()
 
@@ -137,8 +135,7 @@ def minMaxLamPerKFinal(self):
 
     self.rightEdgePerBin=bins
 
-    if self.reportMem:
-        memory('minMaxLamPerKFinal')
+    memory('minMaxLamPerKFinal')
     
     return()
     
@@ -166,14 +163,12 @@ def minMaxKPerBin(self):
     self.rightEdgePerBin=rightEdgePerBin
     self.maxBin=maxBin
 
-    if self.reportMem:
-        memory('minMaxKPerBin')
+    memory('minMaxKPerBin')
     
     return()
 
 def callGetLamEllByK(self,ellGrid):
-    if self.reportMem:
-        memory('callGetLamEllByK')
+    memory('callGetLamEllByK')
     
     numCores=self.numCores
     N=self.N
@@ -199,8 +194,7 @@ def callGetLamEllByK(self,ellGrid):
         
         pids+=[remote(getLamEllByK,binRange,N,rightEdgePerBin,minKPerBin,maxKPerBin,nCr,b_lamEllByK,ellGrid,offDiagMeans)]
         
-    if self.reportMem:
-        memory('callGetLamEllByK')
+    memory('callGetLamEllByK')
 
     for pid in pids:
         os.waitpid(0, 0)
@@ -212,7 +206,6 @@ def callGetLamEllByK(self,ellGrid):
     del self.maxKPerBin
     del self.ellGrid
     
-    if self.reportMem:
-        memory('callGetLamEllByK')
+    memory('callGetLamEllByK')
 
     return()

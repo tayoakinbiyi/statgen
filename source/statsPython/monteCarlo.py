@@ -7,10 +7,10 @@ from utility import *
 
 def monteCarlo(func,wald,vZ,refReps,maxRefReps,numCores,name):
     memory('monteCarlo-'+name)
-
+    
     test,mins=func(wald,numCores)
-    log('{} : {} min'.format('mc score-'name,mins))
-
+    log('{} : {} min'.format('mc score-'+name,mins))
+    
     ref,mins=genRef(func,refReps,maxRefReps,vZ,numCores)
     log('{} : {} min'.format('mc genRef-'+name,mins))
 
@@ -21,23 +21,23 @@ def monteCarlo(func,wald,vZ,refReps,maxRefReps,numCores,name):
     
     return(pval)
 
-def genRef(func,refReps,maxRefReps,vZ):    
+def genRef(func,refReps,maxRefReps,vZ,numCores):    
     t0=time.time()
     memory('genRef')
     
     L=makeL(vZ)
-    mc=np.ones(refReps)
+    ref=np.ones(refReps)
+    numTraits=vZ.shape[1]
     
     t1=time.time()
     
-    ref=[]
     mins=0
+    length=0
     for block in np.arange(int(np.ceil(refReps/maxRefReps))):
-        repRange=np.arange(block*int(np.ceil(refReps/maxRefReps)),min(refReps,(block+1)*int(np.ceil(refReps/maxRefReps))))
-        
-        ans,t_mins=func(norm.rvs(size=[len(repRange),self.N]),L.T)
+        repRange=np.arange(block*maxRefReps,min(refReps,(block+1)*maxRefReps)).astype(int)
+        ans,t_mins=func(np.matmul(norm.rvs(size=[len(repRange),numTraits]),L.T),numCores)
         ref[repRange]=ans
-        length+=t_mins
+        mins+=t_mins
         
     memory('genRef')
     
@@ -50,7 +50,6 @@ def mcPVal(test,ref):
     refReps=len(ref)
 
     mc=np.zeros(len(test))
-
     sortOrd=np.argsort(test)
     mc[sortOrd]=(1+np.searchsorted(np.sort(ref),test[sortOrd]))/(refReps+1)
         

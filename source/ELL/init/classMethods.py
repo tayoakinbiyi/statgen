@@ -4,15 +4,11 @@ import pdb
 from multiprocessing import cpu_count
 from utility import *
 
-def __init__(self,d,N,vZ,numCores=cpu_count(),reportMem=True,qList=[.1,.05,.01,.001]):
-    assert d<=.5*N
-    
-    self.N=N
-    self.nCr=nCr(N)
+def __init__(self,d,vZ,numCores=cpu_count()):    
+    self.N=vZ.shape[1]
+    self.nCr=nCr(vZ.shape[1])
     self.d=d
-    self.reportMem=reportMem
     self.numCores=numCores
-    self.qList=qList
     offDiag=vZ[np.triu_indices(vZ.shape[1],1)]   
     self.offDiag=offDiag
     self.offDiagMeans=np.array([np.mean(offDiag), np.mean(offDiag**2), np.mean(offDiag**3),
@@ -21,9 +17,7 @@ def __init__(self,d,N,vZ,numCores=cpu_count(),reportMem=True,qList=[.1,.05,.01,.
     self.L=makeL(vZ)    
 
     self.lamEllByK=None
-    self.mcRef=None
     
-    if reportMem:
-        memory('init')
+    memory('init')
 
     return

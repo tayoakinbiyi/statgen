@@ -13,7 +13,7 @@ import time
 
 import time
 
-def score(lamEllByK,ellGrid,wald,numCores):
+def f(lamEllByK,ellGrid,wald,numCores):
     t0=time.time()
     memory('score')
     
@@ -44,8 +44,7 @@ def score(lamEllByK,ellGrid,wald,numCores):
         
     t2=time.time()
     check=b_check[0][:,np.min(b_check[0][1:],axis=0)>0]
-    if verbose:
-        print(pd.DataFrame(check[1:],columns=check[0],index=['below','above']),flush=True)
+    print(pd.DataFrame(check[1:],columns=check[0],index=['below','above']),flush=True)
     
     wald=np.concatenate([b_score[core][0] for core in range(len(b_score))],axis=1)
     
