@@ -106,26 +106,26 @@ def myMain(parms):
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
-    '''
+    
     stat=ELL.ell.ell(d,vZ,numCores=10)    
-    stat.preCompute(1e3)
+    stat.preCompute(2e3)
     func=partial(f,stat.lamEllByK,stat.ellGrid)
     storey=partial(storeyQ,int(vZ.shape[1]*.5))
     
-    numCores=10
+    numCores=16
     plotPower(monteCarlo(cpma,wald,vZ,refReps,maxRefReps,numCores,'cpma'),'diagnostics/cpma')
     plotPower(monteCarlo(func,wald,vZ,refReps,maxRefReps,numCores,'ell'),'diagnostics/ell-Y')      
     plotPower(markov(func,wald,stat.lamEllByK,stat.ellGrid,offDiag,numCores),'diagnostics/ellMarkov-Y')  
     plotPower(monteCarlo(scoreTest,wald,vZ,refReps,maxRefReps,numCores,'scoreTest'),'diagnostics/scoreTest-Y')      
     plotPower(monteCarlo(storey,wald,vZ,refReps,maxRefReps,numCores,'storeyQ'),'diagnostics/storeyQ-Y')      
     plotPower(monteCarlo(minP,wald,vZ,refReps,maxRefReps,numCores,'minP'),'diagnostics/minP-Y')     
-    '''
+    
     #stat.plot(gbj('GBJ',wald,numCores=3,offDiag=offDiag),'diagnostics/gbj')
-    plotPower(gbj('GHC',wald,numCores=3,offDiag=offDiag),'diagnostics/ghc')
+    #plotPower(gbj('GHC',wald,numCores=3,offDiag=offDiag),'diagnostics/ghc')
     
 
 ops={
-    'seed':None,
+    'seed':1023,
     'numGrmSnps':10000,
     'd':0.2,
     'eta':0.3
@@ -133,8 +133,8 @@ ops={
 
 ctrl={
     'numSubjects':1200,
-    'numDataSnps':3,
-    'numTraits':2000,
+    'numDataSnps':10000,
+    'numTraits':1200,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
     'traitCorrSource':'empirical',
