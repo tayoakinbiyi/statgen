@@ -1,17 +1,17 @@
-'random seed 274112'
+'random seed 452413'
 {'V_Z': 'simple',
  'd': 0.2,
  'eta': 0.3,
  'numDataSnps': 3,
- 'numGrmSnps': 100,
- 'numSubjects': 500,
- 'numTraits': 100,
+ 'numGrmSnps': 10000,
+ 'numSubjects': 1200,
+ 'numTraits': 2000,
  'pedigreeMult': 0.1,
  'seed': None,
  'snpParm': 'geneDrop',
  'traitCorrRho': 1,
  'traitCorrSource': 'empirical'}
 'runLimix reml Count [1.]'
-'limix : 3 snps, 100 traits, 0.04582904577255249 min'
-'GHC : 3 snps, 0.19232031636767918 min/snp'
+'limix : 3 snps, 2000 traits, 1.0321273883183797 min'
+'GHC : 3 snps, 1311.2077936609587 min/snp'
 'diagnostics/ghc 0 pvals out of bounds'

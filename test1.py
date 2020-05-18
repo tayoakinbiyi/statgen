@@ -126,15 +126,15 @@ def myMain(parms):
 
 ops={
     'seed':None,
-    'numGrmSnps':100,
+    'numGrmSnps':10000,
     'd':0.2,
     'eta':0.3
 }
 
 ctrl={
-    'numSubjects':500,
+    'numSubjects':1200,
     'numDataSnps':3,
-    'numTraits':100,
+    'numTraits':2000,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
     'traitCorrSource':'empirical',
