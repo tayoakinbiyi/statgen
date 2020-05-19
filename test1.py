@@ -21,6 +21,7 @@ from numpy_sugar.linalg import economic_qs
 from statsPython.scoreTest import *
 from statsPython.storeyQ import *
 from statsPython.minP import *
+from statsPython.preComputeELL import *
 from statsPython.f import *
 from statsPython.gbj import *
 from statsPython.cpma import *
@@ -28,7 +29,6 @@ from statsPython.monteCarlo import *
 from statsPython.markov import *
 from functools import partial
 from scipy.stats import norm
-import ELL.ell
 from plotPython.plotCorr import *
 
 from rpy2.robjects.packages import importr
@@ -45,13 +45,13 @@ def myMain(parms):
     numCores=cpu_count()
     V_Z=parms['V_Z']
     eta=parms['eta']
-    refReps=int(1e6)
+    refReps=int(2e6)
     maxRefReps=int(1e5)
     
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
-    
+    '''
     miceRange=np.random.choice(208,int(pedigreeMult*208),replace=False)    
 
     #######################################################################################################
@@ -92,8 +92,8 @@ def myMain(parms):
     
     wald,eta=runLimix(Y,QS,np.ones([numSubjects,1]),snps,0.9999)
     np.savetxt('wald',wald,delimiter='\t')
-    
-    #wald=np.loadtxt('wald',delimiter='\t')
+    '''
+    wald=np.loadtxt('wald',delimiter='\t')
         
     #######################################################################################################
     #######################################################################################################
@@ -107,15 +107,14 @@ def myMain(parms):
     #######################################################################################################
     #######################################################################################################
     
-    stat=ELL.ell.ell(d,vZ,numCores=10)    
-    stat.preCompute(2e3)
-    func=partial(f,stat.lamEllByK,stat.ellGrid)
+    lamEllByK,ellGrid=preComputeELL(d,vZ,numCores=16).preCompute(1e4,1e-9)
+    func=partial(f,lamEllByK,ellGrid)
     storey=partial(storeyQ,int(vZ.shape[1]*.5))
     
     numCores=16
     plotPower(monteCarlo(cpma,wald,vZ,refReps,maxRefReps,numCores,'cpma'),'diagnostics/cpma')
     plotPower(monteCarlo(func,wald,vZ,refReps,maxRefReps,numCores,'ell'),'diagnostics/ell-Y')      
-    plotPower(markov(func,wald,stat.lamEllByK,stat.ellGrid,offDiag,numCores),'diagnostics/ellMarkov-Y')  
+    plotPower(markov(func,wald,lamEllByK,ellGrid,offDiag,numCores),'diagnostics/ellMarkov-Y')  
     plotPower(monteCarlo(scoreTest,wald,vZ,refReps,maxRefReps,numCores,'scoreTest'),'diagnostics/scoreTest-Y')      
     plotPower(monteCarlo(storey,wald,vZ,refReps,maxRefReps,numCores,'storeyQ'),'diagnostics/storeyQ-Y')      
     plotPower(monteCarlo(minP,wald,vZ,refReps,maxRefReps,numCores,'minP'),'diagnostics/minP-Y')     
