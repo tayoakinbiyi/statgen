@@ -22,7 +22,7 @@ from statsPython.scoreTest import *
 from statsPython.storeyQ import *
 from statsPython.minP import *
 from statsPython.preComputeELL import *
-from statsPython.f import *
+from statsPython.ELL import *
 from statsPython.gbj import *
 from statsPython.cpma import *
 from statsPython.monteCarlo import *
@@ -45,13 +45,13 @@ def myMain(parms):
     minEta=parms['minEta']
     
     numCores=cpu_count()
-    refReps=int(2e6)
-    maxRefReps=int(1e5)
+    refReps=int(2e3)
+    maxRefReps=int(1e2)
     
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
-    
+    '''
     miceRange=np.random.choice(208,int(pedigreeMult*208),replace=False)    
 
     #######################################################################################################
@@ -88,9 +88,9 @@ def myMain(parms):
     #######################################################################################################
     
     wald,eta=runLimix(Y,QS,np.ones([numSubjects,1]),snps,0.9999)
-    np.savetxt('wald',wald,delimiter='\t')
-    
-    #wald=np.loadtxt('wald',delimiter='\t')
+    #np.savetxt('wald',wald,delimiter='\t')
+    '''
+    wald=np.loadtxt('wald',delimiter='\t')
         
     #######################################################################################################
     #######################################################################################################
@@ -104,7 +104,7 @@ def myMain(parms):
     #######################################################################################################
     
     lamEllByK,ellGrid=preComputeELL(d,vZ,numCores=16).preCompute(1e4,1e-9)
-    func=partial(f,lamEllByK,ellGrid)
+    func=partial(ELL,lamEllByK,ellGrid)
     storey=partial(storeyQ,int(vZ.shape[1]*.5))
     
     numCores=16
@@ -121,17 +121,20 @@ def myMain(parms):
 
 ops={
     'seed':1023,
-    'numGrmSnps':10000,
+    'numGrmSnps':1000,
     'd':0.2,
     'eta':0.3
 }
 
 ctrl={
-    'numSubjects':1200,
-    'numDataSnps':10000,
-    'numTraits':1200,
+    'numSubjects':400,
+    'numDataSnps':100,
+    'numPowerSnps':1000,
+    'numTraits':50,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
+    'mu':1,
+    'n_assoc':1,
     'rho':1,
     'maxEta':0.8,
     'minEta':0
