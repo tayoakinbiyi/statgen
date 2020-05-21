@@ -28,7 +28,7 @@ from statsPython.cpma import *
 from statsPython.monteCarlo import *
 from statsPython.markov import *
 from functools import partial
-from scipy.stats import norm
+from scipy.stats import norm, uniform
 from plotPython.plotCorr import *
 
 from rpy2.robjects.packages import importr
@@ -40,18 +40,18 @@ def myMain(parms):
     numSubjects=parms['numSubjects']
     pedigreeMult=parms['pedigreeMult']
     d=int(parms['d']*numTraits)
-    traitCorrSource=parms['traitCorrSource']
-    traitCorrRho=parms['traitCorrRho']
+    rho=parms['rho']
+    maxEta=parms['maxEta']
+    minEta=parms['minEta']
+    
     numCores=cpu_count()
-    V_Z=parms['V_Z']
-    eta=parms['eta']
     refReps=int(2e6)
     maxRefReps=int(1e5)
     
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
-    '''
+    
     miceRange=np.random.choice(208,int(pedigreeMult*208),replace=False)    
 
     #######################################################################################################
@@ -66,19 +66,16 @@ def myMain(parms):
     #######################################################################################################
     #######################################################################################################
     
-    if 'empirical'==traitCorrSource:
-        traitCorr=np.corrcoef(pd.read_csv('../data/hipRaw.txt',sep='\t',index_col=0,header=0).values[
-            :,0:numTraits],rowvar=False)
-    if 'exchangeable'==traitCorrSource:
-        traitCorr=np.ones([numTraits,numTraits])
-    
-    traitCorr=np.eye(numTraits)+traitCorrRho*(traitCorr-np.diag(np.diag(traitCorr)))
-        
-    LTraitCorr=makeL(traitCorr)
-    plotCorr(traitCorr,'traitCorr')
-    
-    Y=(np.sqrt(eta)*Lgrm @ norm.rvs(size=[numSubjects,numTraits])+np.sqrt(1-eta)*norm.rvs(size=
-        [numSubjects,numTraits]))@LTraitCorr.T
+    wald=pd.read_csv('../data/hipRaw.txt',sep='\t',index_col=0,header=0).values[:,0:numTraits]
+    eta=np.diag(minEta+(maxEta-minEta)*uniform.rvs(size=[numTraits]))
+    C_u=eta**0.5@(rho*np.corrcoef(wald[0:104],rowvar=False)+(1-rho)*np.eye(numTraits))@eta**0.5
+    C_e=(np.eye(numTraits)-eta)**0.5@(rho*np.corrcoef(wald[104:],rowvar=False)+
+        (1-rho)*np.eye(numTraits))@(np.eye(numTraits)-eta)**0.5
+
+    LC_u=makeL(C_u)
+    LC_e=makeL(C_e)
+
+    Y=Lgrm@norm.rvs(size=[numSubjects,numTraits])@LC_u.T+norm.rvs(size=[numSubjects,numTraits])@LC_e.T
             
     #######################################################################################################
     #######################################################################################################
@@ -92,15 +89,14 @@ def myMain(parms):
     
     wald,eta=runLimix(Y,QS,np.ones([numSubjects,1]),snps,0.9999)
     np.savetxt('wald',wald,delimiter='\t')
-    '''
-    wald=np.loadtxt('wald',delimiter='\t')
+    
+    #wald=np.loadtxt('wald',delimiter='\t')
         
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
     
     vZ=np.corrcoef(wald,rowvar=False)
-    plotCorr(vZ,'vZorig')
     offDiag=vZ[np.triu_indices(vZ.shape[1],1)]   
     
     #######################################################################################################
@@ -112,15 +108,15 @@ def myMain(parms):
     storey=partial(storeyQ,int(vZ.shape[1]*.5))
     
     numCores=16
-    plotPower(monteCarlo(cpma,wald,vZ,refReps,maxRefReps,numCores,'cpma'),'diagnostics/cpma')
-    plotPower(monteCarlo(func,wald,vZ,refReps,maxRefReps,numCores,'ell'),'diagnostics/ell-Y')      
-    plotPower(markov(func,wald,lamEllByK,ellGrid,offDiag,numCores),'diagnostics/ellMarkov-Y')  
-    plotPower(monteCarlo(scoreTest,wald,vZ,refReps,maxRefReps,numCores,'scoreTest'),'diagnostics/scoreTest-Y')      
-    plotPower(monteCarlo(storey,wald,vZ,refReps,maxRefReps,numCores,'storeyQ'),'diagnostics/storeyQ-Y')      
-    plotPower(monteCarlo(minP,wald,vZ,refReps,maxRefReps,numCores,'minP'),'diagnostics/minP-Y')     
+    plotPower(monteCarlo(cpma,wald,vZ,refReps,maxRefReps,numCores,'cpma'),'cpma')
+    plotPower(monteCarlo(func,wald,vZ,refReps,maxRefReps,numCores,'ell'),'ell-Y')      
+    plotPower(markov(func,wald,lamEllByK,ellGrid,offDiag,numCores),'ellMarkov-Y')  
+    plotPower(monteCarlo(scoreTest,wald,vZ,refReps,maxRefReps,numCores,'scoreTest'),'scoreTest-Y')      
+    plotPower(monteCarlo(storey,wald,vZ,refReps,maxRefReps,numCores,'storeyQ'),'storeyQ-Y')      
+    plotPower(monteCarlo(minP,wald,vZ,refReps,maxRefReps,numCores,'minP'),'minP-Y')     
     
-    #stat.plot(gbj('GBJ',wald,numCores=3,offDiag=offDiag),'diagnostics/gbj')
-    #plotPower(gbj('GHC',wald,numCores=3,offDiag=offDiag),'diagnostics/ghc')
+    #stat.plot(gbj('GBJ',wald,numCores=3,offDiag=offDiag),'gbj')
+    #plotPower(gbj('GHC',wald,numCores=3,offDiag=offDiag),'ghc')
     
 
 ops={
@@ -136,9 +132,9 @@ ctrl={
     'numTraits':1200,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
-    'traitCorrSource':'empirical',
-    'traitCorrRho':1,
-    'V_Z':'simple'
+    'rho':1,
+    'maxEta':0.8,
+    'minEta':0
 }
 
 #######################################################################################################
@@ -151,5 +147,5 @@ log(parms)
 
 myMain(parms)
 
-git('{} mice, {} snps, {} traits, subsample {}, Y is {}-{}'.format(parms['numSubjects'],parms['numDataSnps'],
-    parms['numTraits'],parms['pedigreeMult'],parms['traitCorrSource'],parms['traitCorrRho']))
+git('{} mice, {} snps, {} traits, subsample {}, rho {}'.format(parms['numSubjects'],parms['numDataSnps'],
+    parms['numTraits'],parms['pedigreeMult'],parms['rho']))

@@ -1,36 +1,38 @@
 'random seed 1023'
-{'V_Z': 'simple',
- 'd': 0.2,
+{'d': 0.2,
  'eta': 0.3,
+ 'maxEta': 0.8,
+ 'minEta': 0,
  'numDataSnps': 10000,
  'numGrmSnps': 10000,
  'numSubjects': 1200,
  'numTraits': 1200,
  'pedigreeMult': 0.1,
+ 'rho': 1,
  'seed': 1023,
- 'snpParm': 'geneDrop',
- 'traitCorrRho': 1,
- 'traitCorrSource': 'empirical'}
-'preCompute : 172.79574477275213 min'
-'mc score-cpma : 6.1911526918411255 min'
-'mc genRef-cpma : 1136.3368519703547 min'
-'mc pval-cpma : 0.002485477924346924 min'
-'diagnostics/cpma 15 pvals out of bounds'
-'mc score-ell : 0.033228222529093424 min'
-'mc genRef-ell : 6.664980403582256 min'
-'mc pval-ell : 0.003219894568125407 min'
-'diagnostics/ell-Y 3799 pvals out of bounds'
-'markov : 10000 snps, 0.043316493650277454 min/snp'
-'diagnostics/ellMarkov-Y 9862 pvals out of bounds'
-'mc score-scoreTest : 0.17803045908610027 min'
-'mc genRef-scoreTest : 6.700407977898916 min'
-'mc pval-scoreTest : 0.0028379201889038087 min'
-'diagnostics/scoreTest-Y 118 pvals out of bounds'
-'mc score-storeyQ : 0.3558956782023112 min'
-'mc genRef-storeyQ : 44.15835585594177 min'
-'mc pval-storeyQ : 0.0030989726384480793 min'
-'diagnostics/storeyQ-Y 11 pvals out of bounds'
-'mc score-minP : 0.17222607930501302 min'
-'mc genRef-minP : 5.889628700415293 min'
-'mc pval-minP : 0.0032057682673136394 min'
-'diagnostics/minP-Y 226 pvals out of bounds'
+ 'snpParm': 'geneDrop'}
+'runLimix reml Count [25.]'
+'limix : 10000 snps, 1200 traits, 11.008777554829916 min'
+'preCompute : 167.8179032286008 min'
+'mc score-cpma : 6.133068120479583 min'
+'mc genRef-cpma : 962.7277381141981 min'
+'mc pval-cpma : 0.0033371845881144204 min'
+'cpma 1673 pvals out of bounds'
+'mc score-ell : 0.03855178356170654 min'
+'mc genRef-ell : 6.641458372275034 min'
+'mc pval-ell : 0.0022539575894673664 min'
+'ell-Y 4578 pvals out of bounds'
+'markov : 10000 snps, 0.04016989258726438 min/snp'
+'ellMarkov-Y 9840 pvals out of bounds'
+'mc score-scoreTest : 0.20072911580403646 min'
+'mc genRef-scoreTest : 6.885314404964447 min'
+'mc pval-scoreTest : 0.0028566281000773114 min'
+'scoreTest-Y 1844 pvals out of bounds'
+'mc score-storeyQ : 0.40187962849934894 min'
+'mc genRef-storeyQ : 48.9256927728653 min'
+'mc pval-storeyQ : 0.0030463576316833497 min'
+'storeyQ-Y 2640 pvals out of bounds'
+'mc score-minP : 0.19633356730143228 min'
+'mc genRef-minP : 6.592180454730987 min'
+'mc pval-minP : 0.002604885896046956 min'
+'minP-Y 4415 pvals out of bounds'
