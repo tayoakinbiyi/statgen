@@ -5,35 +5,37 @@
  'minEta': 0,
  'mu': 1,
  'n_assoc': 1,
- 'numDataSnps': 100,
- 'numGrmSnps': 1000,
- 'numPowerSnps': 1000,
- 'numSubjects': 400,
+ 'numDataSnps': 200,
+ 'numKSnps': 500,
+ 'numPowerSnps': 100,
+ 'numSubjects': 300,
  'numTraits': 50,
  'pedigreeMult': 0.1,
  'rho': 1,
  'seed': 1023,
  'snpParm': 'geneDrop'}
-'preCompute : 6.467375445365906 min'
-'mc score-cpma : 0.12469699382781982 min'
-'mc genRef-cpma : 2.5955030202865594 min'
-'mc pval-cpma : 1.1960665384928385e-05 min'
-'cpma 0 pvals out of bounds'
-'mc score-ell : 0.0011941750844319662 min'
-'mc genRef-ell : 0.02815593481063843 min'
-'mc pval-ell : 8.022785186767578e-06 min'
+'runLimix reml Count [1.]'
+'limix : 200 snps, 50 traits, 0.10029218594233195 min'
+'preCompute : 6.518754049142202 min'
+'mc score-cpma : 0.16783690849939983 min'
+'mc genRef-cpma : 62.42419064442318 min'
+'mc pval-cpma : 0.0033943613370259603 min'
+'cpma 151 pvals out of bounds'
+'mc score-ell : 0.0015982945760091146 min'
+'mc genRef-ell : 0.2967091004053751 min'
+'mc pval-ell : 0.00274276336034139 min'
 'ell-Y 0 pvals out of bounds'
-'markov : 100 snps, 0.0020295987129211428 min/snp'
-'ellMarkov-Y 2 pvals out of bounds'
-'mc score-scoreTest : 0.1365294138590495 min'
-'mc genRef-scoreTest : 2.7617619633674626 min'
-'mc pval-scoreTest : 1.1066595713297525e-05 min'
-'scoreTest-Y 0 pvals out of bounds'
-'mc score-storeyQ : 0.1382892608642578 min'
-'mc genRef-storeyQ : 2.8014711578687037 min'
-'mc pval-storeyQ : 1.3486544291178386e-05 min'
+'markov : 200 snps, 0.001101923366387685 min/snp'
+'ellMarkov-Y 8 pvals out of bounds'
+'mc score-scoreTest : 0.13852545420328777 min'
+'mc genRef-scoreTest : 3.112715347607931 min'
+'mc pval-scoreTest : 0.0029752930005391438 min'
+'scoreTest-Y 110 pvals out of bounds'
+'mc score-storeyQ : 0.15935802459716797 min'
+'mc genRef-storeyQ : 5.217781039079029 min'
+'mc pval-storeyQ : 0.002610317866007487 min'
 'storeyQ-Y 0 pvals out of bounds'
-'mc score-minP : 0.1447191874186198 min'
-'mc genRef-minP : 2.855542786916098 min'
-'mc pval-minP : 1.0025501251220702e-05 min'
-'minP-Y 1 pvals out of bounds'
+'mc score-minP : 0.14188734690348306 min'
+'mc genRef-minP : 3.118113946914673 min'
+'mc pval-minP : 0.0026544809341430666 min'
+'minP-Y 0 pvals out of bounds'

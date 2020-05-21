@@ -22,6 +22,7 @@ from statsPython.scoreTest import *
 from statsPython.storeyQ import *
 from statsPython.minP import *
 from statsPython.preComputeELL import *
+from dataPrepPython.runH1 import *
 from statsPython.ELL import *
 from statsPython.gbj import *
 from statsPython.cpma import *
@@ -33,9 +34,9 @@ from plotPython.plotCorr import *
 
 from rpy2.robjects.packages import importr
 
-def myMain(parms):
+def myMain(parms,fit):
     numDataSnps=parms['numDataSnps']
-    numGrmSnps=parms['numGrmSnps']
+    numKSnps=parms['numKSnps']
     numTraits=parms['numTraits']
     numSubjects=parms['numSubjects']
     pedigreeMult=parms['pedigreeMult']
@@ -45,53 +46,70 @@ def myMain(parms):
     minEta=parms['minEta']
     
     numCores=cpu_count()
-    refReps=int(2e3)
-    maxRefReps=int(1e2)
+    refReps=int(2e6)
+    maxRefReps=int(1e5)
     
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
-    '''
-    miceRange=np.random.choice(208,int(pedigreeMult*208),replace=False)    
+    
+    if fit:
+        miceRange=np.random.choice(208,int(pedigreeMult*208),replace=False)    
 
-    #######################################################################################################
-    #######################################################################################################
-    #######################################################################################################
-    
-    grm=linear_kinship(makePedigreeSnps(numSubjects,miceRange,numGrmSnps,numCores),verbose=True)    
-    QS=economic_qs(grm)
-    Lgrm=makeL(grm)
-    
-    #######################################################################################################
-    #######################################################################################################
-    #######################################################################################################
-    
-    wald=pd.read_csv('../data/hipRaw.txt',sep='\t',index_col=0,header=0).values[:,0:numTraits]
-    eta=np.diag(minEta+(maxEta-minEta)*uniform.rvs(size=[numTraits]))
-    C_u=eta**0.5@(rho*np.corrcoef(wald[0:104],rowvar=False)+(1-rho)*np.eye(numTraits))@eta**0.5
-    C_e=(np.eye(numTraits)-eta)**0.5@(rho*np.corrcoef(wald[104:],rowvar=False)+
-        (1-rho)*np.eye(numTraits))@(np.eye(numTraits)-eta)**0.5
+        #######################################################################################################
+        #######################################################################################################
+        #######################################################################################################
 
-    LC_u=makeL(C_u)
-    LC_e=makeL(C_e)
+        K=linear_kinship(makePedigreeSnps(numSubjects,miceRange,numKSnps,numCores),verbose=True)    
+        QS=economic_qs(K)
+        LK=makeL(K)
 
-    Y=Lgrm@norm.rvs(size=[numSubjects,numTraits])@LC_u.T+norm.rvs(size=[numSubjects,numTraits])@LC_e.T
-            
-    #######################################################################################################
-    #######################################################################################################
-    #######################################################################################################
+        #######################################################################################################
+        #######################################################################################################
+        #######################################################################################################
+
+        ailY=pd.read_csv('../data/hipRaw.txt',sep='\t',index_col=0,header=0).values[:,0:numTraits]
+        eta=np.diag(minEta+(maxEta-minEta)*uniform.rvs(size=[numTraits]))
+        C_u=eta**0.5@(rho*np.corrcoef(ailY[0:104],rowvar=False)+(1-rho)*np.eye(numTraits))@eta**0.5
+        C_e=(np.eye(numTraits)-eta)**0.5@(rho*np.corrcoef(ailY[104:],rowvar=False)+
+            (1-rho)*np.eye(numTraits))@(np.eye(numTraits)-eta)**0.5
+
+        LC_u=makeL(C_u)
+        LC_e=makeL(C_e)
+
+        Y=LK@norm.rvs(size=[numSubjects,numTraits])@LC_u.T+norm.rvs(size=[numSubjects,numTraits])@LC_e.T
+
+        #######################################################################################################
+        #######################################################################################################
+        #######################################################################################################
+
+        snps=makePedigreeSnps(numSubjects,miceRange,numDataSnps,numCores)
+        M=np.ones([numSubjects,1])
+
+        #######################################################################################################
+        #######################################################################################################
+        #######################################################################################################
+
+        wald,eta=runLimix(Y,QS,np.ones([numSubjects,1]),snps,0.9999)
+
+        #######################################################################################################
+        #######################################################################################################
+        #######################################################################################################
+
+        np.savetxt('Y',Y,delimiter='\t')
+        np.savetxt('wald',wald,delimiter='\t')
+        np.savetxt('eta',eta,delimiter='\t')
+        np.savetxt('K',K,delimiter='\t')
+        np.savetxt('M',M,delimiter='\t')
+        np.savetxt('snps',snps,delimiter='\t')
+    else:
+        wald=np.loadtxt('wald',delimiter='\t')
+        eta=np.loadtxt('eta',delimiter='\t')
+        Y=np.loadtxt('Y',delimiter='\t')
+        K=np.loadtxt('K',delimiter='\t')        
+        M=np.loadtxt('M',delimiter='\t')        
+        snps=np.loadtxt('snps',delimiter='\t')        
     
-    snps=makePedigreeSnps(numSubjects,miceRange,numDataSnps,numCores)
-    
-    #######################################################################################################
-    #######################################################################################################
-    #######################################################################################################
-    
-    wald,eta=runLimix(Y,QS,np.ones([numSubjects,1]),snps,0.9999)
-    #np.savetxt('wald',wald,delimiter='\t')
-    '''
-    wald=np.loadtxt('wald',delimiter='\t')
-        
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
@@ -106,6 +124,7 @@ def myMain(parms):
     lamEllByK,ellGrid=preComputeELL(d,vZ,numCores=16).preCompute(1e4,1e-9)
     func=partial(ELL,lamEllByK,ellGrid)
     storey=partial(storeyQ,int(vZ.shape[1]*.5))
+    wald=runH1(0.2,5,wald,Y,K,M,snps,eta)
     
     numCores=16
     plotPower(monteCarlo(cpma,wald,vZ,refReps,maxRefReps,numCores,'cpma'),'cpma')
@@ -121,15 +140,15 @@ def myMain(parms):
 
 ops={
     'seed':1023,
-    'numGrmSnps':1000,
+    'numKSnps':500,
     'd':0.2,
     'eta':0.3
 }
 
 ctrl={
-    'numSubjects':400,
-    'numDataSnps':100,
-    'numPowerSnps':1000,
+    'numSubjects':300,
+    'numDataSnps':200,
+    'numPowerSnps':100,
     'numTraits':50,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
@@ -148,7 +167,7 @@ setupFolders()
 diagnostics(parms['seed'])
 log(parms)
 
-myMain(parms)
+myMain(parms,True)
 
 git('{} mice, {} snps, {} traits, subsample {}, rho {}'.format(parms['numSubjects'],parms['numDataSnps'],
     parms['numTraits'],parms['pedigreeMult'],parms['rho']))
