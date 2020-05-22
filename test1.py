@@ -34,6 +34,19 @@ from plotPython.plotCorr import *
 
 from rpy2.robjects.packages import importr
 
+def plots(wald,vZ,lamEllByK,ellGrid,offDiag,refReps,maxRefReps,numCores,title):
+    func=partial(ELL,lamEllByK,ellGrid)
+    storey=partial(storeyQ,int(vZ.shape[1]*.5))
+
+    plotPower(monteCarlo(cpma,wald,vZ,refReps,maxRefReps,numCores,'cpma'),'cpma-'+title)
+    plotPower(monteCarlo(func,wald,vZ,refReps,maxRefReps,numCores,'ell'),'ell-'+title)      
+    plotPower(markov(func,wald,lamEllByK,ellGrid,offDiag,numCores),'ellMarkov-'+title)  
+    plotPower(monteCarlo(scoreTest,wald,vZ,refReps,maxRefReps,numCores,'scoreTest'),'scoreTest-'+title)      
+    plotPower(monteCarlo(storey,wald,vZ,refReps,maxRefReps,numCores,'storeyQ'),'storeyQ-'+title)      
+    plotPower(monteCarlo(minP,wald,vZ,refReps,maxRefReps,numCores,'minP'),'minP-'+title)     
+
+    return()
+
 def myMain(parms,fit):
     numDataSnps=parms['numDataSnps']
     numKSnps=parms['numKSnps']
@@ -122,18 +135,12 @@ def myMain(parms,fit):
     #######################################################################################################
     
     lamEllByK,ellGrid=preComputeELL(d,vZ,numCores=16).preCompute(1e4,1e-9)
-    func=partial(ELL,lamEllByK,ellGrid)
-    storey=partial(storeyQ,int(vZ.shape[1]*.5))
-    wald=runH1(0.2,5,wald,Y,K,M,snps,eta)
     
-    numCores=16
-    plotPower(monteCarlo(cpma,wald,vZ,refReps,maxRefReps,numCores,'cpma'),'cpma')
-    plotPower(monteCarlo(func,wald,vZ,refReps,maxRefReps,numCores,'ell'),'ell-Y')      
-    plotPower(markov(func,wald,lamEllByK,ellGrid,offDiag,numCores),'ellMarkov-Y')  
-    plotPower(monteCarlo(scoreTest,wald,vZ,refReps,maxRefReps,numCores,'scoreTest'),'scoreTest-Y')      
-    plotPower(monteCarlo(storey,wald,vZ,refReps,maxRefReps,numCores,'storeyQ'),'storeyQ-Y')      
-    plotPower(monteCarlo(minP,wald,vZ,refReps,maxRefReps,numCores,'minP'),'minP-Y')     
-    
+    waldH1=runH1(0.2,5,wald,Y,K,M,snps,eta)
+
+    plots(wald,vZ,lamEllByK,ellGrid,offDiag,refReps,maxRefReps,numCores,'H0')
+    plots(waldH1,vZ,lamEllByK,ellGrid,offDiag,refReps,maxRefReps,numCores,'H1')
+
     #stat.plot(gbj('GBJ',wald,numCores=3,offDiag=offDiag),'gbj')
     #plotPower(gbj('GHC',wald,numCores=3,offDiag=offDiag),'ghc')
     
