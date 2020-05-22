@@ -122,7 +122,7 @@ def myMain(parms,fit):
         eta=np.loadtxt('eta',delimiter='\t')
         Y=np.loadtxt('Y',delimiter='\t')
         K=np.loadtxt('K',delimiter='\t')        
-        M=np.loadtxt('M',delimiter='\t')        
+        M=np.loadtxt('M',delimiter='\t');M=M.reshape(len(M),-1)        
         snps=np.loadtxt('snps',delimiter='\t')        
     
     #######################################################################################################
@@ -139,6 +139,7 @@ def myMain(parms,fit):
     lamEllByK,ellGrid=preComputeELL(d,vZ,numCores=16).preCompute(1e4,1e-9)
     
     waldH1=runH1(mu,n_assoc,wald,Y,K,M,snps,eta)
+    pdb.set_trace()
 
     plots(wald,vZ,lamEllByK,ellGrid,offDiag,refReps,maxRefReps,numCores,'H0')
     plots(waldH1,vZ,lamEllByK,ellGrid,offDiag,refReps,maxRefReps,numCores,'H1')
