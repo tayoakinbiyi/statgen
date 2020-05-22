@@ -57,6 +57,8 @@ def myMain(parms,fit):
     rho=parms['rho']
     maxEta=parms['maxEta']
     minEta=parms['minEta']
+    mu=parms['mu']
+    n_assoc=parms['n_assoc']
     
     numCores=cpu_count()
     refReps=int(2e6)
@@ -136,7 +138,7 @@ def myMain(parms,fit):
     
     lamEllByK,ellGrid=preComputeELL(d,vZ,numCores=16).preCompute(1e4,1e-9)
     
-    waldH1=runH1(1.2,5,wald,Y,K,M,snps,eta)
+    waldH1=runH1(mu,n_assoc,wald,Y,K,M,snps,eta)
 
     plots(wald,vZ,lamEllByK,ellGrid,offDiag,refReps,maxRefReps,numCores,'H0')
     plots(waldH1,vZ,lamEllByK,ellGrid,offDiag,refReps,maxRefReps,numCores,'H1')
@@ -159,8 +161,8 @@ ctrl={
     'numTraits':50,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
-    'mu':1,
-    'n_assoc':1,
+    'mu':3,
+    'n_assoc':10,
     'rho':1,
     'maxEta':0.8,
     'minEta':0
@@ -174,7 +176,7 @@ setupFolders()
 diagnostics(parms['seed'])
 log(parms)
 
-myMain(parms,True)
+myMain(parms,False)
 
 git('{} mice, {} snps, {} traits, subsample {}, rho {}'.format(parms['numSubjects'],parms['numDataSnps'],
     parms['numTraits'],parms['pedigreeMult'],parms['rho']))
