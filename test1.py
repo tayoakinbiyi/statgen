@@ -136,7 +136,7 @@ def myMain(parms,fit):
     
     lamEllByK,ellGrid=preComputeELL(d,vZ,numCores=16).preCompute(1e4,1e-9)
     
-    waldH1=runH1(0.2,5,wald,Y,K,M,snps,eta)
+    waldH1=runH1(1.2,5,wald,Y,K,M,snps,eta)
 
     plots(wald,vZ,lamEllByK,ellGrid,offDiag,refReps,maxRefReps,numCores,'H0')
     plots(waldH1,vZ,lamEllByK,ellGrid,offDiag,refReps,maxRefReps,numCores,'H1')
