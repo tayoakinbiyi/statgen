@@ -48,7 +48,8 @@ def plots(wald,vZ,psi,offDiag,refReps,maxRefReps,numCores,title):
     return()
 
 def myMain(parms,fit):
-    numDataSnps=parms['numDataSnps']
+    numH0Snps=parms['numH0Snps']
+    numH1Snps=parms['numH1Snps']
     numKSnps=parms['numKSnps']
     numTraits=parms['numTraits']
     numSubjects=parms['numSubjects']
@@ -98,38 +99,50 @@ def myMain(parms,fit):
         #######################################################################################################
         #######################################################################################################
 
-        snps=makePedigreeSnps(numSubjects,miceRange,numDataSnps,numCores)
+        snpsH0=makePedigreeSnps(numSubjects,miceRange,numH0Snps,numCores)
         M=np.ones([numSubjects,1])
 
         #######################################################################################################
         #######################################################################################################
         #######################################################################################################
 
-        wald,eta=runLimix(Y,QS,np.ones([numSubjects,1]),snps,0.9999)
+        waldH0,etaH0=runLimix(Y,QS,np.ones([numSubjects,1]),snpsH0,0.9999)
+
+        #######################################################################################################
+        #######################################################################################################
+        #######################################################################################################
+
+        snpsH1=makePedigreeSnps(numSubjects,miceRange,numH1Snps,numCores)
+        waldH1,etaH1=runLimix(Y,QS,np.ones([numSubjects,1]),snpsH1,0.9999)
+        waldH1=runH1(mu,n_assoc,waldH1,Y,K,M,snpsH1,etaH1)
 
         #######################################################################################################
         #######################################################################################################
         #######################################################################################################
 
         np.savetxt('Y',Y,delimiter='\t')
-        np.savetxt('wald',wald,delimiter='\t')
+        np.savetxt('waldH0',waldH0,delimiter='\t')
+        np.savetxt('waldH1',waldH1,delimiter='\t')
         np.savetxt('eta',eta,delimiter='\t')
         np.savetxt('K',K,delimiter='\t')
         np.savetxt('M',M,delimiter='\t')
-        np.savetxt('snps',snps,delimiter='\t')
+        np.savetxt('snpsH0',snpsH0,delimiter='\t')
+        np.savetxt('snpsH1',snpsH1,delimiter='\t')
     else:
-        wald=np.loadtxt('wald',delimiter='\t')
+        waldH0=np.loadtxt('waldH0',delimiter='\t')
+        waldH1=np.loadtxt('waldH1',delimiter='\t')
         eta=np.loadtxt('eta',delimiter='\t')
         Y=np.loadtxt('Y',delimiter='\t')
         K=np.loadtxt('K',delimiter='\t')        
         M=np.loadtxt('M',delimiter='\t');M=M.reshape(len(M),-1)        
-        snps=np.loadtxt('snps',delimiter='\t')        
+        snpsH0=np.loadtxt('snpsH0',delimiter='\t')        
+        snpsH1=np.loadtxt('snpsH1',delimiter='\t')        
     
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
     
-    vZ=np.corrcoef(wald,rowvar=False)
+    vZ=np.corrcoef(waldH0,rowvar=False)
     offDiag=vZ[np.triu_indices(vZ.shape[1],1)]   
     
     #######################################################################################################
@@ -138,9 +151,8 @@ def myMain(parms,fit):
     
     psi=preComputeELL(d,vZ,numCores=16).preCompute(1e3,1e-9)
 
-    plots(wald,vZ,psi,offDiag,refReps,maxRefReps,numCores,'H0')
-
-    waldH1=runH1(6,6,wald,Y,K,M,snps,eta)
+    plots(waldH0,vZ,psi,offDiag,refReps,maxRefReps,numCores,'H0')
+    
     plots(waldH1,vZ,psi,offDiag,refReps,maxRefReps,numCores,'H1')
 
     #stat.plot(gbj('GBJ',wald,numCores=3,offDiag=offDiag),'gbj')
@@ -149,16 +161,16 @@ def myMain(parms,fit):
 
 ops={
     'seed':1023,
-    'numKSnps':500,
+    'numKSnps':1000,
     'd':0.2,
     'eta':0.3
 }
 
 ctrl={
     'numSubjects':300,
-    'numDataSnps':200,
-    'numPowerSnps':100,
-    'numTraits':50,
+    'numH0Snps':1000,
+    'numH1Snps':1000,
+    'numTraits':70,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
     'mu':3,
@@ -176,7 +188,7 @@ setupFolders()
 diagnostics(parms['seed'])
 log(parms)
 
-myMain(parms,False)
+myMain(parms,True)
 
-git('{} mice, {} snps, {} traits, subsample {}, rho {}'.format(parms['numSubjects'],parms['numDataSnps'],
+git('{} mice, {} snps, {} traits, subsample {}, rho {}'.format(parms['numSubjects'],parms['numH0Snps'],
     parms['numTraits'],parms['pedigreeMult'],parms['rho']))
