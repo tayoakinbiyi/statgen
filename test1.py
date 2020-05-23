@@ -140,7 +140,7 @@ def myMain(parms,fit):
 
     plots(wald,vZ,psi,offDiag,refReps,maxRefReps,numCores,'H0')
 
-    waldH1=runH1(3,6,wald,Y,K,M,snps,eta)
+    waldH1=runH1(6,6,wald,Y,K,M,snps,eta)
     plots(waldH1,vZ,psi,offDiag,refReps,maxRefReps,numCores,'H1')
 
     #stat.plot(gbj('GBJ',wald,numCores=3,offDiag=offDiag),'gbj')
