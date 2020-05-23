@@ -14,12 +14,12 @@
  'rho': 1,
  'seed': 1023,
  'snpParm': 'geneDrop'}
-'preCompute : 0.017021763324737548 min'
-'mc score-ell : 7.841189702351888e-05 min'
-'mc genRef-ell : 0.18346234957377114 min'
-'mc pval-ell : 0.0015515645345052084 min'
+'preCompute : 0.017736732959747314 min'
+'mc score-ell : 6.309747695922851e-05 min'
+'mc genRef-ell : 0.18285164038340254 min'
+'mc pval-ell : 0.001556710402170817 min'
 'ell-H0 1 pvals out of bounds'
-'mc score-ell : 8.215904235839844e-05 min'
-'mc genRef-ell : 0.18161315917968754 min'
-'mc pval-ell : 0.00158158540725708 min'
-'ell-H1 34 pvals out of bounds'
+'mc score-ell : 0.00010042190551757812 min'
+'mc genRef-ell : 0.18288924694061276 min'
+'mc pval-ell : 0.0015392025311787923 min'
+'ell-H1 0 pvals out of bounds'
