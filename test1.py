@@ -114,7 +114,6 @@ def myMain(parms,fit):
 
         snpsH1=makePedigreeSnps(numSubjects,miceRange,numH1Snps,numCores)
         waldH1,etaH1=runLimix(Y,QS,np.ones([numSubjects,1]),snpsH1,0.9999)
-        waldH1=runH1(mu,n_assoc,waldH1,Y,K,M,snpsH1,etaH1)
 
         #######################################################################################################
         #######################################################################################################
@@ -140,6 +139,7 @@ def myMain(parms,fit):
         snpsH0=np.loadtxt('snpsH0',delimiter='\t')        
         snpsH1=np.loadtxt('snpsH1',delimiter='\t') 
     
+    waldH1=runH1(mu,n_assoc,waldH1,Y,K,M,snpsH1,etaH1)
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
@@ -174,7 +174,7 @@ ctrl={
     'numTraits':500,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
-    'mu':8,
+    'mu':6,
     'n_assoc':10,
     'rho':1,
     'maxEta':0.8,
@@ -189,7 +189,7 @@ setupFolders()
 diagnostics(parms['seed'])
 log(parms)
 
-myMain(parms,True)
+myMain(parms,False)
 
 git('{} mice, {} snps, {} traits, subsample {}, rho {}'.format(parms['numSubjects'],parms['numH0Snps'],
     parms['numTraits'],parms['pedigreeMult'],parms['rho']))
