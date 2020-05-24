@@ -175,7 +175,7 @@ ctrl={
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
     'mu':6,
-    'n_assoc':10,
+    'n_assoc':100,
     'rho':1,
     'maxEta':0.8,
     'minEta':0
@@ -189,7 +189,7 @@ setupFolders()
 diagnostics(parms['seed'])
 log(parms)
 
-myMain(parms,True)
+myMain(parms,False)
 
 git('{} mice, {} snps, {} traits, subsample {}, rho {}'.format(parms['numSubjects'],parms['numH0Snps'],
     parms['numTraits'],parms['pedigreeMult'],parms['rho']))
