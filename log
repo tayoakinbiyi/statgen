@@ -9,17 +9,21 @@
  'numH1Snps': 1000,
  'numKSnps': 10000,
  'numSubjects': 1200,
- 'numTraits': 500,
+ 'numTraits': 600,
  'pedigreeMult': 0.1,
  'rho': 1,
  'seed': 323,
  'snpParm': 'geneDrop'}
-'preCompute : 0.02149762709935506 min'
-'mc score-ell : 0.009521245956420898 min'
-'mc genRef-ell : 1.8687446316083274 min'
-'mc pval-ell : 0.002523505687713623 min'
-'ell-H0 80 pvals out of bounds'
-'mc score-ell : 0.000980210304260254 min'
-'mc genRef-ell : 1.8443904995918274 min'
-'mc pval-ell : 0.0029825806617736817 min'
-'ell-H1 997 pvals out of bounds'
+'runLimix reml Count [13.]'
+'limix : 10000 snps, 600 traits, 5.454585405190786 min'
+'runLimix reml Count [13.]'
+'limix : 1000 snps, 600 traits, 3.2585221687952677 min'
+'preCompute : 0.02486648162206014 min'
+'mc score-ell : 0.013956165313720703 min'
+'mc genRef-ell : 2.3859492818514507 min'
+'mc pval-ell : 0.002625095844268799 min'
+'ell-H0 3287 pvals out of bounds'
+'mc score-ell : 0.001033302148183187 min'
+'mc genRef-ell : 2.3834981044133503 min'
+'mc pval-ell : 0.0026477138201395673 min'
+'ell-H1 973 pvals out of bounds'
