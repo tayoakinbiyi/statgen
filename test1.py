@@ -152,7 +152,6 @@ def myMain(parms,fit):
     psi=preComputeELL(d,vZ,numCores=16).preCompute(1e3,1e-9)
 
     plots(waldH0,vZ,psi,offDiag,refReps,maxRefReps,numCores,'H0')
-    
     plots(waldH1,vZ,psi,offDiag,refReps,maxRefReps,numCores,'H1')
 
     #stat.plot(gbj('GBJ',wald,numCores=3,offDiag=offDiag),'gbj')
@@ -161,16 +160,16 @@ def myMain(parms,fit):
 
 ops={
     'seed':1023,
-    'numKSnps':10000,
+    'numKSnps':1000,
     'd':0.2,
     'eta':0.3
 }
 
 ctrl={
-    'numSubjects':1200,
-    'numH0Snps':10000,
-    'numH1Snps':1000,
-    'numTraits':1200,
+    'numSubjects':300,
+    'numH0Snps':300,
+    'numH1Snps':300,
+    'numTraits':300,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
     'mu':3,
