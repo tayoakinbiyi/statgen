@@ -112,10 +112,11 @@ def myMain(parms,fit):
         #######################################################################################################
         #######################################################################################################
 
-        pdb.set_trace()
         snpsH1=makePedigreeSnps(numSubjects,miceRange,numH1Snps,numCores)
         waldH1,etaH1=runLimix(Y,QS,np.ones([numSubjects,1]),snpsH1,0.9999)
+        xx=waldH1.copy()
         waldH1=runH1(mu,n_assoc,waldH1,Y,K,M,snpsH1,etaH1)
+        pdb.set_trace()
 
         #######################################################################################################
         #######################################################################################################
@@ -124,7 +125,8 @@ def myMain(parms,fit):
         np.savetxt('Y',Y,delimiter='\t')
         np.savetxt('waldH0',waldH0,delimiter='\t')
         np.savetxt('waldH1',waldH1,delimiter='\t')
-        np.savetxt('eta',eta,delimiter='\t')
+        np.savetxt('etaH0',etaH0,delimiter='\t')
+        np.savetxt('etaH1',etaH1,delimiter='\t')
         np.savetxt('K',K,delimiter='\t')
         np.savetxt('M',M,delimiter='\t')
         np.savetxt('snpsH0',snpsH0,delimiter='\t')
@@ -132,12 +134,16 @@ def myMain(parms,fit):
     else:
         waldH0=np.loadtxt('waldH0',delimiter='\t')
         waldH1=np.loadtxt('waldH1',delimiter='\t')
-        eta=np.loadtxt('eta',delimiter='\t')
+        etaH0=np.loadtxt('etaH0',delimiter='\t')
+        etaH1=np.loadtxt('etaH1',delimiter='\t')
         Y=np.loadtxt('Y',delimiter='\t')
         K=np.loadtxt('K',delimiter='\t')        
         M=np.loadtxt('M',delimiter='\t');M=M.reshape(len(M),-1)        
         snpsH0=np.loadtxt('snpsH0',delimiter='\t')        
-        snpsH1=np.loadtxt('snpsH1',delimiter='\t')        
+        snpsH1=np.loadtxt('snpsH1',delimiter='\t') 
+        pdb.set_trace()
+        waldH1=runH1(mu,n_assoc,waldH1,Y,K,M,snpsH1,etaH1)
+
     
     #######################################################################################################
     #######################################################################################################
@@ -161,20 +167,20 @@ def myMain(parms,fit):
 
 ops={
     'seed':323,
-    'numKSnps':10000,
+    'numKSnps':100,
     'd':0.2,
     'eta':0.3
 }
 
 ctrl={
-    'numSubjects':1200,
+    'numSubjects':500,
     'numH0Snps':300,
     'numH1Snps':300,
-    'numTraits':500,
+    'numTraits':300,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
-    'mu':3,
-    'n_assoc':100,
+    'mu':8,
+    'n_assoc':10,
     'rho':1,
     'maxEta':0.8,
     'minEta':0
