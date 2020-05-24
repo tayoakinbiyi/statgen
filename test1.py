@@ -161,16 +161,16 @@ def myMain(parms,fit):
 
 ops={
     'seed':1023,
-    'numKSnps':1000,
+    'numKSnps':10000,
     'd':0.2,
     'eta':0.3
 }
 
 ctrl={
-    'numSubjects':300,
-    'numH0Snps':1000,
+    'numSubjects':1200,
+    'numH0Snps':10000,
     'numH1Snps':1000,
-    'numTraits':70,
+    'numTraits':1200,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
     'mu':3,
