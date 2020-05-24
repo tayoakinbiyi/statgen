@@ -112,6 +112,7 @@ def myMain(parms,fit):
         #######################################################################################################
         #######################################################################################################
 
+        pdb.set_trace()
         snpsH1=makePedigreeSnps(numSubjects,miceRange,numH1Snps,numCores)
         waldH1,etaH1=runLimix(Y,QS,np.ones([numSubjects,1]),snpsH1,0.9999)
         waldH1=runH1(mu,n_assoc,waldH1,Y,K,M,snpsH1,etaH1)
@@ -159,17 +160,17 @@ def myMain(parms,fit):
     
 
 ops={
-    'seed':1023,
-    'numKSnps':1000,
+    'seed':323,
+    'numKSnps':10000,
     'd':0.2,
     'eta':0.3
 }
 
 ctrl={
-    'numSubjects':300,
+    'numSubjects':1200,
     'numH0Snps':300,
     'numH1Snps':300,
-    'numTraits':300,
+    'numTraits':500,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
     'mu':3,
