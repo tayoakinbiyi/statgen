@@ -4,7 +4,7 @@
  'maxEta': 0.8,
  'minEta': 0,
  'mu': 3,
- 'n_assoc': 10,
+ 'n_assoc': 100,
  'numH0Snps': 300,
  'numH1Snps': 300,
  'numKSnps': 10000,
@@ -15,15 +15,15 @@
  'seed': 323,
  'snpParm': 'geneDrop'}
 'runLimix reml Count [7.]'
-'limix : 300 snps, 500 traits, 1.7143542806307475 min'
+'limix : 300 snps, 500 traits, 1.6891669909159341 min'
 'runLimix reml Count [7.]'
-'limix : 300 snps, 500 traits, 2.4419843713442484 min'
-'preCompute : 0.02726646661758423 min'
-'mc score-ell : 0.0003031611442565918 min'
-'mc genRef-ell : 2.06310312350591 min'
-'mc pval-ell : 0.0025768677393595376 min'
+'limix : 300 snps, 500 traits, 1.713476288318634 min'
+'preCompute : 0.023669230937957763 min'
+'mc score-ell : 0.0002930800120035807 min'
+'mc genRef-ell : 2.2706600149472553 min'
+'mc pval-ell : 0.00182876984278361 min'
 'ell-H0 10 pvals out of bounds'
-'mc score-ell : 0.0003206809361775716 min'
-'mc genRef-ell : 2.1553481300671895 min'
-'mc pval-ell : 0.002733437220255534 min'
-'ell-H1 3 pvals out of bounds'
+'mc score-ell : 0.0003117799758911133 min'
+'mc genRef-ell : 2.324557264645894 min'
+'mc pval-ell : 0.0024977525075276694 min'
+'ell-H1 93 pvals out of bounds'
