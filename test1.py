@@ -114,9 +114,7 @@ def myMain(parms,fit):
 
         snpsH1=makePedigreeSnps(numSubjects,miceRange,numH1Snps,numCores)
         waldH1,etaH1=runLimix(Y,QS,np.ones([numSubjects,1]),snpsH1,0.9999)
-        xx=waldH1.copy()
         waldH1=runH1(mu,n_assoc,waldH1,Y,K,M,snpsH1,etaH1)
-        pdb.set_trace()
 
         #######################################################################################################
         #######################################################################################################
@@ -141,9 +139,6 @@ def myMain(parms,fit):
         M=np.loadtxt('M',delimiter='\t');M=M.reshape(len(M),-1)        
         snpsH0=np.loadtxt('snpsH0',delimiter='\t')        
         snpsH1=np.loadtxt('snpsH1',delimiter='\t') 
-        pdb.set_trace()
-        waldH1=runH1(mu,n_assoc,waldH1,Y,K,M,snpsH1,etaH1)
-
     
     #######################################################################################################
     #######################################################################################################
@@ -167,16 +162,16 @@ def myMain(parms,fit):
 
 ops={
     'seed':323,
-    'numKSnps':100,
+    'numKSnps':10000,
     'd':0.2,
     'eta':0.3
 }
 
 ctrl={
-    'numSubjects':500,
-    'numH0Snps':300,
-    'numH1Snps':300,
-    'numTraits':300,
+    'numSubjects':1200,
+    'numH0Snps':10000,
+    'numH1Snps':1000,
+    'numTraits':500,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
     'mu':8,
