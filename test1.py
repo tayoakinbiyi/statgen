@@ -170,11 +170,11 @@ ops={
 ctrl={
     'numSubjects':1200,
     'numH0Snps':10000,
-    'numH1Snps':1000,
-    'numTraits':600,
+    'numH1Snps':30,
+    'numTraits':1200,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
-    'mu':6,
+    'mu':10,
     'n_assoc':100,
     'rho':1,
     'maxEta':0.8,
@@ -189,7 +189,7 @@ setupFolders()
 diagnostics(parms['seed'])
 log(parms)
 
-myMain(parms,False)
+myMain(parms,True)
 
 git('{} mice, {} snps, {} traits, subsample {}, rho {}'.format(parms['numSubjects'],parms['numH0Snps'],
     parms['numTraits'],parms['pedigreeMult'],parms['rho']))
