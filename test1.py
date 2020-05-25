@@ -174,7 +174,7 @@ ctrl={
     'numTraits':1200,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
-    'mu':20,
+    'mu':15,
     'n_assoc':100,
     'rho':1,
     'maxEta':0.8,

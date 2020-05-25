@@ -3,7 +3,7 @@
  'eta': 0.3,
  'maxEta': 0.8,
  'minEta': 0,
- 'mu': 20,
+ 'mu': 15,
  'n_assoc': 100,
  'numH0Snps': 10000,
  'numH1Snps': 30,
@@ -14,12 +14,12 @@
  'rho': 1,
  'seed': 323,
  'snpParm': 'geneDrop'}
-'preCompute : 0.023590870698293052 min'
-'mc score-ell : 0.023768603801727295 min'
-'mc genRef-ell : 4.821160717805227 min'
-'mc pval-ell : 0.002378249168395996 min'
+'preCompute : 0.023642710844675698 min'
+'mc score-ell : 0.02859013477961222 min'
+'mc genRef-ell : 4.876191834608713 min'
+'mc pval-ell : 0.002658545970916748 min'
 'ell-H0 5009 pvals out of bounds'
-'mc score-ell : 8.746782938639323e-05 min'
-'mc genRef-ell : 4.7285069266955055 min'
-'mc pval-ell : 0.002044089635213216 min'
-'ell-H1 29 pvals out of bounds'
+'mc score-ell : 8.898576100667318e-05 min'
+'mc genRef-ell : 5.57111614147822 min'
+'mc pval-ell : 0.0025351802508036298 min'
+'ell-H1 28 pvals out of bounds'
