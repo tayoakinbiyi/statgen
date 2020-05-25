@@ -139,7 +139,7 @@ def myMain(parms,fit):
         snpsH0=np.loadtxt('snpsH0',delimiter='\t')        
         snpsH1=np.loadtxt('snpsH1',delimiter='\t') 
     
-    waldH1=runH1(mu,n_assoc,waldH1,Y,K,M,snpsH1,etaH1)
+    waldH1=runH1(mu,n_assoc,waldH0[0:60,:],Y,K,M,snpsH0[:,0:60],etaH0)
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
@@ -170,7 +170,7 @@ ops={
 ctrl={
     'numSubjects':1200,
     'numH0Snps':10000,
-    'numH1Snps':30,
+    'numH1Snps':60,
     'numTraits':1200,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
