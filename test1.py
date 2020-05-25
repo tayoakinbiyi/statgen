@@ -170,11 +170,11 @@ ops={
 ctrl={
     'numSubjects':1200,
     'numH0Snps':10000,
-    'numH1Snps':60,
+    'numH1Snps':80,
     'numTraits':1200,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
-    'mu':17,
+    'mu':16,
     'n_assoc':100,
     'rho':1,
     'maxEta':0.8,
