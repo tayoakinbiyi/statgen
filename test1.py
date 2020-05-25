@@ -139,7 +139,13 @@ def myMain(parms,fit):
         snpsH0=np.loadtxt('snpsH0',delimiter='\t')        
         snpsH1=np.loadtxt('snpsH1',delimiter='\t') 
     
-    waldH1=runH1(mu,n_assoc,waldH0[0:60,:],Y,K,M,snpsH0[:,0:60],etaH0)
+    #######################################################################################################
+    #######################################################################################################
+    #######################################################################################################
+
+    waldH100=runH1(16,100,waldH0,Y,K,M,snpsH0,etaH0)
+    waldH10=runH1(16,10,waldH0,Y,K,M,snpsH0,etaH0)
+
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
@@ -154,7 +160,8 @@ def myMain(parms,fit):
     psi=preComputeELL(d,vZ,numCores=16).preCompute(1e3,1e-9)
 
     plots(waldH0,vZ,psi,offDiag,refReps,maxRefReps,numCores,'H0')
-    plots(waldH1,vZ,psi,offDiag,refReps,maxRefReps,numCores,'H1')
+    plots(waldH100,vZ,psi,offDiag,refReps,maxRefReps,numCores,'H100')
+    plots(waldH10,vZ,psi,offDiag,refReps,maxRefReps,numCores,'H10')
 
     #stat.plot(gbj('GBJ',wald,numCores=3,offDiag=offDiag),'gbj')
     #plotPower(gbj('GHC',wald,numCores=3,offDiag=offDiag),'ghc')
@@ -170,7 +177,7 @@ ops={
 ctrl={
     'numSubjects':1200,
     'numH0Snps':10000,
-    'numH1Snps':80,
+    'numH1Snps':1000,
     'numTraits':1200,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
