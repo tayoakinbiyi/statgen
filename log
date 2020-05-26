@@ -5,39 +5,39 @@
  'minEta': 0,
  'mu': 16,
  'n_assoc': 100,
- 'numH0Snps': 10000,
+ 'numH0Snps': 100,
  'numH1Snps': 20,
- 'numKSnps': 10000,
- 'numSubjects': 1200,
+ 'numKSnps': 100,
+ 'numSubjects': 300,
  'numTraits': 300,
  'pedigreeMult': 0.1,
  'rho': 1,
  'seed': 323,
  'snpParm': 'geneDrop'}
-'runLimix reml Count [6.]'
-'limix : 10000 snps, 300 traits, 2.7170796235402426 min'
-'runLimix reml Count [6.]'
-'limix : 20 snps, 300 traits, 0.3318363785743713 min'
-'preCompute : 0.07043860753377279 min'
-'mc score-cpma : 1.0491479158401489 min'
-'mc genRef-cpma : 3.2696088353792825 min'
-'mc pval-cpma : 1.7261505126953126e-05 min'
-'cpma-H0 1651 pvals out of bounds'
-'mc score-ell : 0.014249829451243083 min'
-'mc genRef-ell : 0.07034585873285931 min'
-'mc pval-ell : 2.799034118652344e-05 min'
-'ell-H0 9070 pvals out of bounds'
-'markov : 10000 snps, 0.009037429827451706 min/snp'
-'ellMarkov-H0 9997 pvals out of bounds'
-'mc score-scoreTest : 0.17108294169108074 min'
-'mc genRef-scoreTest : 3.200285108884175 min'
-'mc pval-scoreTest : 2.5057792663574217e-05 min'
-'scoreTest-H0 2656 pvals out of bounds'
-'mc score-storeyQ : 0.21779066721598309 min'
-'mc genRef-storeyQ : 3.280073726177216 min'
-'mc pval-storeyQ : 3.220240275065104e-05 min'
-'storeyQ-H0 2766 pvals out of bounds'
-'mc score-minP : 0.17451292673746746 min'
-'mc genRef-minP : 3.338253235816955 min'
-'mc pval-minP : 2.0956993103027345e-05 min'
+'runLimix reml Count [1.]'
+'limix : 100 snps, 300 traits, 0.6148447314898173 min'
+'runLimix reml Count [1.]'
+'limix : 20 snps, 300 traits, 0.3239087263743083 min'
+'preCompute : 0.06953971385955811 min'
+'mc score-cpma : 0.15548751751581827 min'
+'mc genRef-cpma : 3.1452739079793286 min'
+'mc pval-cpma : 3.353754679361979e-06 min'
+'cpma-H0 16 pvals out of bounds'
+'mc score-ell : 0.0038429021835327147 min'
+'mc genRef-ell : 0.07184789975484211 min'
+'mc pval-ell : 5.427996317545573e-06 min'
+'ell-H0 26 pvals out of bounds'
+'markov : 100 snps, 0.013176952203114827 min/snp'
+'ellMarkov-H0 93 pvals out of bounds'
+'mc score-scoreTest : 0.14462623596191407 min'
+'mc genRef-scoreTest : 2.861146791776022 min'
+'mc pval-scoreTest : 6.747245788574219e-06 min'
+'scoreTest-H0 18 pvals out of bounds'
+'mc score-storeyQ : 0.14621410369873047 min'
+'mc genRef-storeyQ : 2.9198907375335694 min'
+'mc pval-storeyQ : 4.657109578450521e-06 min'
+'storeyQ-H0 2 pvals out of bounds'
+'mc score-minP : 0.15482152303059896 min'
+'mc genRef-minP : 2.94792355298996 min'
+'mc pval-minP : 3.417332967122396e-06 min'
 'minP-H0 28 pvals out of bounds'
