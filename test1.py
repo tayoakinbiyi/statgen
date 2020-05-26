@@ -47,7 +47,7 @@ def plots(wald,vZ,psi,offDiag,refReps,maxRefReps,numCores,title):
 
     return()
 
-def myMain(parms,fitH0,fitH1):
+def myMain(parms,fitH0,fitH1,plotH1):
     numH0Snps=parms['numH0Snps']
     numH1Snps=parms['numH1Snps']
     numKSnps=parms['numKSnps']
@@ -166,8 +166,10 @@ def myMain(parms,fitH0,fitH1):
     psiDF=psi(d,vZ,numLam=1e3,minEta=1e-9,numCores=16).compute()
 
     plots(waldH0,vZ,psiDF,offDiag,refReps,maxRefReps,numCores,'H0')
-    plots(waldH100,vZ,psiDF,offDiag,refReps,maxRefReps,numCores,'H100')
-    plots(waldH10,vZ,psiDF,offDiag,refReps,maxRefReps,numCores,'H10')
+    
+    if plotH1:
+        plots(waldH100,vZ,psiDF,offDiag,refReps,maxRefReps,numCores,'H100')
+        plots(waldH10,vZ,psiDF,offDiag,refReps,maxRefReps,numCores,'H10')
 
     #stat.plot(gbj('GBJ',wald,numCores=3,offDiag=offDiag),'gbj')
     #plotPower(gbj('GHC',wald,numCores=3,offDiag=offDiag),'ghc')
@@ -175,14 +177,14 @@ def myMain(parms,fitH0,fitH1):
 
 ops={
     'seed':323,
-    'numKSnps':400,
+    'numKSnps':1000,
     'd':0.2,
     'eta':0.3
 }
 
 ctrl={
-    'numSubjects':300,
-    'numH0Snps':400,
+    'numSubjects':800,
+    'numH0Snps':600,
     'numH1Snps':20,
     'numTraits':300,
     'pedigreeMult':.1,
@@ -202,7 +204,7 @@ setupFolders()
 diagnostics(parms['seed'])
 log(parms)
 
-myMain(parms,fitH0=False,fitH1=False)
+myMain(parms,fitH0=False,fitH1=False,plotH1=False)
 
 git('{} mice, {} snps, {} traits, subsample {}, rho {}'.format(parms['numSubjects'],parms['numH0Snps'],
     parms['numTraits'],parms['pedigreeMult'],parms['rho']))
