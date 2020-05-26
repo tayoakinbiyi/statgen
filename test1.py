@@ -204,7 +204,7 @@ setupFolders()
 diagnostics(parms['seed'])
 log(parms)
 
-myMain(parms,fitH0=False,fitH1=False,plotH1=False)
+myMain(parms,fitH0=True,fitH1=False,plotH1=False)
 
 git('{} mice, {} snps, {} traits, subsample {}, rho {}'.format(parms['numSubjects'],parms['numH0Snps'],
     parms['numTraits'],parms['pedigreeMult'],parms['rho']))
