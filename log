@@ -5,39 +5,39 @@
  'minEta': 0,
  'mu': 16,
  'n_assoc': 100,
- 'numH0Snps': 600,
+ 'numH0Snps': 10000,
  'numH1Snps': 20,
- 'numKSnps': 1000,
- 'numSubjects': 800,
+ 'numKSnps': 10000,
+ 'numSubjects': 1200,
  'numTraits': 300,
  'pedigreeMult': 0.1,
  'rho': 1,
  'seed': 323,
  'snpParm': 'geneDrop'}
-'runLimix reml Count [1.]'
-'limix : 600 snps, 300 traits, 1.0250019510587056 min'
-'runLimix reml Count [1.]'
-'limix : 20 snps, 300 traits, 0.38156423171361287 min'
-'preCompute : 0.06906940142313639 min'
-'mc score-cpma : 0.2240153948465983 min'
-'mc genRef-cpma : 3.223825860023498 min'
-'mc pval-cpma : 3.906091054280599e-06 min'
-'cpma-H0 44 pvals out of bounds'
-'mc score-ell : 0.004529714584350586 min'
-'mc genRef-ell : 0.06320565541585287 min'
-'mc pval-ell : 5.177656809488932e-06 min'
-'ell-H0 304 pvals out of bounds'
-'markov : 600 snps, 0.009943657683001624 min/snp'
-'ellMarkov-H0 597 pvals out of bounds'
-'mc score-scoreTest : 0.1531866709391276 min'
-'mc genRef-scoreTest : 2.9711748520533248 min'
-'mc pval-scoreTest : 4.438559214274089e-06 min'
-'scoreTest-H0 0 pvals out of bounds'
-'mc score-storeyQ : 0.15716540018717448 min'
-'mc genRef-storeyQ : 3.0756704409917193 min'
-'mc pval-storeyQ : 1.1142094930013021e-05 min'
-'storeyQ-H0 131 pvals out of bounds'
-'mc score-minP : 0.15265331268310547 min'
-'mc genRef-minP : 3.0455358346303307 min'
-'mc pval-minP : 6.65585199991862e-06 min'
-'minP-H0 10 pvals out of bounds'
+'runLimix reml Count [6.]'
+'limix : 10000 snps, 300 traits, 2.7170796235402426 min'
+'runLimix reml Count [6.]'
+'limix : 20 snps, 300 traits, 0.3318363785743713 min'
+'preCompute : 0.07043860753377279 min'
+'mc score-cpma : 1.0491479158401489 min'
+'mc genRef-cpma : 3.2696088353792825 min'
+'mc pval-cpma : 1.7261505126953126e-05 min'
+'cpma-H0 1651 pvals out of bounds'
+'mc score-ell : 0.014249829451243083 min'
+'mc genRef-ell : 0.07034585873285931 min'
+'mc pval-ell : 2.799034118652344e-05 min'
+'ell-H0 9070 pvals out of bounds'
+'markov : 10000 snps, 0.009037429827451706 min/snp'
+'ellMarkov-H0 9997 pvals out of bounds'
+'mc score-scoreTest : 0.17108294169108074 min'
+'mc genRef-scoreTest : 3.200285108884175 min'
+'mc pval-scoreTest : 2.5057792663574217e-05 min'
+'scoreTest-H0 2656 pvals out of bounds'
+'mc score-storeyQ : 0.21779066721598309 min'
+'mc genRef-storeyQ : 3.280073726177216 min'
+'mc pval-storeyQ : 3.220240275065104e-05 min'
+'storeyQ-H0 2766 pvals out of bounds'
+'mc score-minP : 0.17451292673746746 min'
+'mc genRef-minP : 3.338253235816955 min'
+'mc pval-minP : 2.0956993103027345e-05 min'
+'minP-H0 28 pvals out of bounds'

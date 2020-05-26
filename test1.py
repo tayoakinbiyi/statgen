@@ -177,14 +177,14 @@ def myMain(parms,fitH0,fitH1,plotH1):
 
 ops={
     'seed':323,
-    'numKSnps':1000,
+    'numKSnps':10000,
     'd':0.2,
     'eta':0.3
 }
 
 ctrl={
-    'numSubjects':800,
-    'numH0Snps':600,
+    'numSubjects':1200,
+    'numH0Snps':10000,
     'numH1Snps':20,
     'numTraits':300,
     'pedigreeMult':.1,
