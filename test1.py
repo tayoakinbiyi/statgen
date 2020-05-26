@@ -39,8 +39,8 @@ def plots(wald,vZ,psi,offDiag,refReps,maxRefReps,numCores,title):
     storey=partial(storeyQ,int(vZ.shape[1]*.5))
 
     #plotPower(monteCarlo(cpma,wald,vZ,refReps,maxRefReps,numCores,'cpma'),'cpma-'+title)
-    #plotPower(monteCarlo(func,wald,vZ,refReps,maxRefReps,numCores,'ell'),'ell-'+title) 
-    plotPower(markov(func,wald,psi,offDiag,numCores),'ellMarkov-'+title)  
+    plotPower(monteCarlo(func,wald,vZ,refReps,maxRefReps,numCores,'ell'),'ell-'+title) 
+    #plotPower(markov(func,wald,psi,offDiag,numCores),'ellMarkov-'+title)  
     #plotPower(monteCarlo(scoreTest,wald,vZ,refReps,maxRefReps,numCores,'scoreTest'),'scoreTest-'+title)      
     #plotPower(monteCarlo(storey,wald,vZ,refReps,maxRefReps,numCores,'storeyQ'),'storeyQ-'+title)      
     #plotPower(monteCarlo(minP,wald,vZ,refReps,maxRefReps,numCores,'minP'),'minP-'+title)     
@@ -58,12 +58,10 @@ def myMain(parms,fitH0,fitH1,plotH1):
     rho=parms['rho']
     maxEta=parms['maxEta']
     minEta=parms['minEta']
-    mu=parms['mu']
-    n_assoc=parms['n_assoc']
     
     numCores=cpu_count()
-    refReps=int(2e3)
-    maxRefReps=int(1e2)
+    refReps=int(2e6)
+    maxRefReps=int(1e5)
     
     #######################################################################################################
     #######################################################################################################
@@ -177,20 +175,18 @@ def myMain(parms,fitH0,fitH1,plotH1):
 
 ops={
     'seed':323,
-    'numKSnps':100,
+    'numKSnps':10000,
     'calD':0.2,
     'eta':0.3
 }
 
 ctrl={
-    'numSubjects':300,
-    'numH0Snps':100,
-    'numH1Snps':20,
-    'numTraits':500,
+    'numSubjects':1200,
+    'numH0Snps':10000,
+    'numH1Snps':1000,
+    'numTraits':1200,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
-    'mu':16,
-    'n_assoc':100,
     'rho':1,
     'maxEta':0.8,
     'minEta':0

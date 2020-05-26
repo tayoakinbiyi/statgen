@@ -3,17 +3,17 @@
  'eta': 0.3,
  'maxEta': 0.8,
  'minEta': 0,
- 'mu': 16,
- 'n_assoc': 100,
- 'numH0Snps': 100,
- 'numH1Snps': 20,
- 'numKSnps': 100,
- 'numSubjects': 300,
- 'numTraits': 500,
+ 'numH0Snps': 10000,
+ 'numH1Snps': 1000,
+ 'numKSnps': 10000,
+ 'numSubjects': 1200,
+ 'numTraits': 1200,
  'pedigreeMult': 0.1,
  'rho': 1,
  'seed': 323,
  'snpParm': 'geneDrop'}
-'preCompute : 0.10220646858215332 min'
-'markov : 100 snps, 0.007027577479680379 min/snp'
-'ellMarkov-H0 36 pvals out of bounds'
+'preCompute : 0.24693160851796467 min'
+'mc score-ell : 0.06494563420613607 min'
+'mc genRef-ell : 7.858558376630147 min'
+'mc pval-ell : 0.0027477025985717775 min'
+'ell-H0 4557 pvals out of bounds'
