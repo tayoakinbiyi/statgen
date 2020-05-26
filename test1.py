@@ -21,7 +21,7 @@ from numpy_sugar.linalg import economic_qs
 from statsPython.scoreTest import *
 from statsPython.storeyQ import *
 from statsPython.minP import *
-from statsPython.preComputeELL import *
+from statsPython.psi import *
 from dataPrepPython.runH1 import *
 from statsPython.ELL import *
 from statsPython.gbj import *
@@ -38,16 +38,16 @@ def plots(wald,vZ,psi,offDiag,refReps,maxRefReps,numCores,title):
     func=partial(ELL,psi)
     storey=partial(storeyQ,int(vZ.shape[1]*.5))
 
-    #plotPower(monteCarlo(cpma,wald,vZ,refReps,maxRefReps,numCores,'cpma'),'cpma-'+title)
-    plotPower(monteCarlo(func,wald,vZ,refReps,maxRefReps,numCores,'ell'),'ell-'+title)      
-    #plotPower(markov(func,wald,lamEllByK,ellGrid,offDiag,numCores),'ellMarkov-'+title)  
-    #plotPower(monteCarlo(scoreTest,wald,vZ,refReps,maxRefReps,numCores,'scoreTest'),'scoreTest-'+title)      
-    #plotPower(monteCarlo(storey,wald,vZ,refReps,maxRefReps,numCores,'storeyQ'),'storeyQ-'+title)      
-    #plotPower(monteCarlo(minP,wald,vZ,refReps,maxRefReps,numCores,'minP'),'minP-'+title)     
+    plotPower(monteCarlo(cpma,wald,vZ,refReps,maxRefReps,numCores,'cpma'),'cpma-'+title)
+    plotPower(monteCarlo(func,wald,vZ,refReps,maxRefReps,numCores,'ell'),'ell-'+title) 
+    plotPower(markov(func,wald,psi,offDiag,numCores),'ellMarkov-'+title)  
+    plotPower(monteCarlo(scoreTest,wald,vZ,refReps,maxRefReps,numCores,'scoreTest'),'scoreTest-'+title)      
+    plotPower(monteCarlo(storey,wald,vZ,refReps,maxRefReps,numCores,'storeyQ'),'storeyQ-'+title)      
+    plotPower(monteCarlo(minP,wald,vZ,refReps,maxRefReps,numCores,'minP'),'minP-'+title)     
 
     return()
 
-def myMain(parms,fit):
+def myMain(parms,fitH0,fitH1):
     numH0Snps=parms['numH0Snps']
     numH1Snps=parms['numH1Snps']
     numKSnps=parms['numKSnps']
@@ -62,14 +62,14 @@ def myMain(parms,fit):
     n_assoc=parms['n_assoc']
     
     numCores=cpu_count()
-    refReps=int(2e6)
-    maxRefReps=int(1e5)
+    refReps=int(2e3)
+    maxRefReps=int(1e2)
     
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
     
-    if fit:
+    if fitH0:
         miceRange=np.random.choice(208,int(pedigreeMult*208),replace=False)    
 
         #######################################################################################################
@@ -143,8 +143,14 @@ def myMain(parms,fit):
     #######################################################################################################
     #######################################################################################################
 
-    waldH100=runH1(16,100,waldH0,Y,K,M,snpsH0,etaH0)
-    waldH10=runH1(16,10,waldH0,Y,K,M,snpsH0,etaH0)
+    if fitH1:
+        waldH100=runH1(16,100,waldH0,Y,K,M,snpsH0,etaH0)
+        waldH10=runH1(16,10,waldH0,Y,K,M,snpsH0,etaH0)
+        np.savetxt('waldH100',waldH100,delimiter='\t')
+        np.savetxt('waldH10',waldH10,delimiter='\t')
+    else:
+        waldH100=np.loadtxt('waldH100',delimiter='\t')
+        waldH10=np.loadtxt('waldH10',delimiter='\t')
 
     #######################################################################################################
     #######################################################################################################
@@ -157,11 +163,11 @@ def myMain(parms,fit):
     #######################################################################################################
     #######################################################################################################
     
-    psi=preComputeELL(d,vZ,numCores=16).preCompute(1e3,1e-9)
+    psiDF=psi(d,vZ,numLam=1e3,minEta=1e-9,numCores=16).compute()
 
-    plots(waldH0,vZ,psi,offDiag,refReps,maxRefReps,numCores,'H0')
-    plots(waldH100,vZ,psi,offDiag,refReps,maxRefReps,numCores,'H100')
-    plots(waldH10,vZ,psi,offDiag,refReps,maxRefReps,numCores,'H10')
+    plots(waldH0,vZ,psiDF,offDiag,refReps,maxRefReps,numCores,'H0')
+    plots(waldH100,vZ,psiDF,offDiag,refReps,maxRefReps,numCores,'H100')
+    plots(waldH10,vZ,psiDF,offDiag,refReps,maxRefReps,numCores,'H10')
 
     #stat.plot(gbj('GBJ',wald,numCores=3,offDiag=offDiag),'gbj')
     #plotPower(gbj('GHC',wald,numCores=3,offDiag=offDiag),'ghc')
@@ -169,16 +175,16 @@ def myMain(parms,fit):
 
 ops={
     'seed':323,
-    'numKSnps':10000,
+    'numKSnps':400,
     'd':0.2,
     'eta':0.3
 }
 
 ctrl={
-    'numSubjects':1200,
-    'numH0Snps':10000,
-    'numH1Snps':1000,
-    'numTraits':1200,
+    'numSubjects':300,
+    'numH0Snps':400,
+    'numH1Snps':20,
+    'numTraits':300,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
     'mu':16,
@@ -196,7 +202,7 @@ setupFolders()
 diagnostics(parms['seed'])
 log(parms)
 
-myMain(parms,False)
+myMain(parms,fitH0=False,fitH1=False)
 
 git('{} mice, {} snps, {} traits, subsample {}, rho {}'.format(parms['numSubjects'],parms['numH0Snps'],
     parms['numTraits'],parms['pedigreeMult'],parms['rho']))
