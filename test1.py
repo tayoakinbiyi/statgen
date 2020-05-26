@@ -38,12 +38,12 @@ def plots(wald,vZ,psi,offDiag,refReps,maxRefReps,numCores,title):
     func=partial(ELL,psi)
     storey=partial(storeyQ,int(vZ.shape[1]*.5))
 
-    #plotPower(monteCarlo(cpma,wald,vZ,refReps,maxRefReps,numCores,'cpma'),'cpma-'+title)
+    plotPower(monteCarlo(cpma,wald,vZ,refReps,maxRefReps,numCores,'cpma'),'cpma-'+title)
     plotPower(monteCarlo(func,wald,vZ,refReps,maxRefReps,numCores,'ell'),'ell-'+title) 
-    #plotPower(markov(func,wald,psi,offDiag,numCores),'ellMarkov-'+title)  
-    #plotPower(monteCarlo(scoreTest,wald,vZ,refReps,maxRefReps,numCores,'scoreTest'),'scoreTest-'+title)      
-    #plotPower(monteCarlo(storey,wald,vZ,refReps,maxRefReps,numCores,'storeyQ'),'storeyQ-'+title)      
-    #plotPower(monteCarlo(minP,wald,vZ,refReps,maxRefReps,numCores,'minP'),'minP-'+title)     
+    plotPower(markov(func,wald,psi,offDiag,numCores),'ellMarkov-'+title)  
+    plotPower(monteCarlo(scoreTest,wald,vZ,refReps,maxRefReps,numCores,'scoreTest'),'scoreTest-'+title)      
+    plotPower(monteCarlo(storey,wald,vZ,refReps,maxRefReps,numCores,'storeyQ'),'storeyQ-'+title)      
+    plotPower(monteCarlo(minP,wald,vZ,refReps,maxRefReps,numCores,'minP'),'minP-'+title)     
 
     return()
 
@@ -161,7 +161,7 @@ def myMain(parms,fitH0,fitH1,plotH1):
     #######################################################################################################
     #######################################################################################################
     
-    psiDF=psi(calD,vZ,numLam=1e3,minEta=1e-9,numCores=16).compute()
+    psiDF=psi(calD,vZ,numLam=2e3,minEta=1e-9,numCores=16).compute()
 
     plots(waldH0,vZ,psiDF,offDiag,refReps,maxRefReps,numCores,'H0')
     
@@ -200,7 +200,7 @@ setupFolders()
 diagnostics(parms['seed'])
 log(parms)
 
-myMain(parms,fitH0=False,fitH1=False,plotH1=False)
+myMain(parms,fitH0=False,fitH1=False,plotH1=True)
 
 git('{} mice, {} snps, {} traits, subsample {}, rho {}'.format(parms['numSubjects'],parms['numH0Snps'],
     parms['numTraits'],parms['pedigreeMult'],parms['rho']))
