@@ -47,7 +47,7 @@ def plots(wald,vZ,psi,offDiag,refReps,maxRefReps,numCores,title):
 
     return()
 
-def myMain(parms,fitH0,fitH1,plotH1):
+def myMain(parms,fitH0,plotH0,fitH1,plotH1):
     numH0Snps=parms['numH0Snps']
     numH1Snps=parms['numH1Snps']
     numKSnps=parms['numKSnps']
@@ -163,7 +163,8 @@ def myMain(parms,fitH0,fitH1,plotH1):
     
     psiDF=psi(calD,vZ,numLam=2e3,minEta=1e-9,numCores=16).compute()
 
-    plots(waldH0,vZ,psiDF,offDiag,refReps,maxRefReps,numCores,'H0')
+    if plotH0:
+        plots(waldH0,vZ,psiDF,offDiag,refReps,maxRefReps,numCores,'H0')
     
     if plotH1:
         plots(waldH100,vZ,psiDF,offDiag,refReps,maxRefReps,numCores,'H100')
@@ -200,7 +201,7 @@ setupFolders()
 diagnostics(parms['seed'])
 log(parms)
 
-myMain(parms,fitH0=False,fitH1=False,plotH1=True)
+myMain(parms,fitH0=False,plotH0=False,fitH1=False,plotH1=True)
 
 git('{} mice, {} snps, {} traits, subsample {}, rho {}'.format(parms['numSubjects'],parms['numH0Snps'],
     parms['numTraits'],parms['pedigreeMult'],parms['rho']))
