@@ -1,59 +1,45 @@
-'random seed 323'
+'random seed 510438'
 {'calD': 0.2,
  'eta': 0.3,
- 'maxEta': 0.8,
- 'minEta': 0,
- 'numH0Snps': 10000,
- 'numH1Snps': 1000,
- 'numKSnps': 10000,
- 'numSubjects': 1200,
- 'numTraits': 1200,
+ 'fit': ['fitH0', 'plotH0'],
+ 'maxRefReps': 10000,
+ 'minEta': 1e-10,
+ 'mu': 10,
+ 'numH0Snps': 300,
+ 'numH1Snps': 300,
+ 'numKSnps': 300,
+ 'numLam': 4000.0,
+ 'numSubjects': 300,
+ 'numTraits': 100,
  'pedigreeMult': 0.1,
+ 'refReps': 100000,
  'rho': 1,
- 'seed': 323,
+ 'seed': None,
  'snpParm': 'geneDrop'}
-'preCompute : 0.4661457180976868 min'
-'mc score-cpma : 5.862043929100037 min'
-'mc genRef-cpma : 869.3096736788749 min'
-'mc pval-cpma : 0.0024672428766886394 min'
-'cpma-H100 9996 pvals out of bounds'
-'mc score-ell : 0.07063459157943726 min'
-'mc genRef-ell : 9.198072624206542 min'
-'mc pval-ell : 0.003160429000854492 min'
-'ell-H100 9994 pvals out of bounds'
-'markov : 10000 snps, 0.037240938268502555 min/snp'
-'ellMarkov-H100 10000 pvals out of bounds'
-'mc score-scoreTest : 0.22501773834228517 min'
-'mc genRef-scoreTest : 6.928396618366241 min'
-'mc pval-scoreTest : 0.0029647787412007648 min'
-'scoreTest-H100 9995 pvals out of bounds'
-'mc score-storeyQ : 0.43207149505615233 min'
-'mc genRef-storeyQ : 43.98277494907379 min'
-'mc pval-storeyQ : 0.0031984368960062664 min'
-'storeyQ-H100 8444 pvals out of bounds'
-'mc score-minP : 0.21065966288248697 min'
-'mc genRef-minP : 6.602772200107575 min'
-'mc pval-minP : 0.0033461848894755044 min'
-'minP-H100 16 pvals out of bounds'
-'mc score-cpma : 5.974019467830658 min'
-'mc genRef-cpma : 863.7464057008426 min'
-'mc pval-cpma : 0.00331415335337321 min'
-'cpma-H10 9997 pvals out of bounds'
-'mc score-ell : 0.0723807175954183 min'
-'mc genRef-ell : 9.092752993106842 min'
-'mc pval-ell : 0.0030646681785583495 min'
-'ell-H10 9996 pvals out of bounds'
-'markov : 10000 snps, 0.03650986523548762 min/snp'
-'ellMarkov-H10 10000 pvals out of bounds'
-'mc score-scoreTest : 0.21905816396077474 min'
-'mc genRef-scoreTest : 7.132074439525605 min'
-'mc pval-scoreTest : 0.003326404094696045 min'
-'scoreTest-H10 9997 pvals out of bounds'
-'mc score-storeyQ : 0.5085053126017253 min'
-'mc genRef-storeyQ : 47.704657808939615 min'
-'mc pval-storeyQ : 0.003173637390136719 min'
-'storeyQ-H10 9999 pvals out of bounds'
-'mc score-minP : 0.22323163350423178 min'
-'mc genRef-minP : 6.486818361282349 min'
-'mc pval-minP : 0.0026238322257995605 min'
-'minP-H10 9999 pvals out of bounds'
+'runLimix reml Count [1.]'
+'limix : 300 snps, 100 traits, 0.20770423809687297 min'
+'runLimix reml Count [1.]'
+'limix : 300 snps, 100 traits, 0.2138502319653829 min'
+'psi : 1.1323292374610903 min'
+'mc genRef-ELL : 0.06626019477844239 min'
+'mc score ELL : H0 dataset 0.002425547440846761 min'
+'mc pval ELL : H0 dataset 0.00018124183019002277 min'
+'ELL-H0 0 pvals out of bounds'
+'mc genRef-cpma : 4.554850161075593 min'
+'mc score cpma : H0 dataset 0.1714687705039978 min'
+'mc pval cpma : H0 dataset 0.00010914802551269532 min'
+'cpma-H0 0 pvals out of bounds'
+'mc genRef-scoreTest : 1.499013328552246 min'
+'mc score scoreTest : H0 dataset 0.13618729909261068 min'
+'mc pval scoreTest : H0 dataset 0.00010493199030558268 min'
+'scoreTest-H0 0 pvals out of bounds'
+'mc genRef-storey : 1.6828337669372557 min'
+'mc score storey : H0 dataset 0.13754259745279948 min'
+'mc pval storey : H0 dataset 0.00011935631434122722 min'
+'storey-H0 0 pvals out of bounds'
+'mc genRef-minP : 1.4696943203608195 min'
+'mc score minP : H0 dataset 0.1495873769124349 min'
+'mc pval minP : H0 dataset 0.00015492836634318035 min'
+'minP-H0 20 pvals out of bounds'
+'markov : 300 snps, 0.0011567541890674167 min/snp'
+'ellMarkov-H0 300 pvals out of bounds'

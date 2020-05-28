@@ -37,17 +37,32 @@ from rpy2.robjects.packages import importr
 def plots(wald,vZ,psi,offDiag,refReps,maxRefReps,numCores,title):
     func=partial(ELL,psi)
     storey=partial(storeyQ,int(vZ.shape[1]*.5))
-
-    plotPower(monteCarlo(cpma,wald,vZ,refReps,maxRefReps,numCores,'cpma'),'cpma-'+title)
-    plotPower(monteCarlo(func,wald,vZ,refReps,maxRefReps,numCores,'ell'),'ell-'+title) 
-    plotPower(markov(func,wald,psi,offDiag,numCores),'ellMarkov-'+title)  
-    plotPower(monteCarlo(scoreTest,wald,vZ,refReps,maxRefReps,numCores,'scoreTest'),'scoreTest-'+title)      
-    plotPower(monteCarlo(storey,wald,vZ,refReps,maxRefReps,numCores,'storeyQ'),'storeyQ-'+title)      
-    plotPower(monteCarlo(minP,wald,vZ,refReps,maxRefReps,numCores,'minP'),'minP-'+title)     
+    
+    funcs=[func,cpma,scoreTest,storey,minP]
+    name=['ELL','cpma','scoreTest','storey','minP']
+    for fInd in range(len(funcs)):
+        print('beginning genRef for {}'.format(name[fInd]),flush=True)
+        func=funcs[fInd]
+        ref,mins=genRef(func,refReps,maxRefReps,vZ,numCores)
+        log('{} : {} min'.format('mc genRef-'+name[fInd],mins))
+        
+        for df in range(len(wald)):
+            print('beginning score for {} {}'.format(name[fInd],title[df]),flush=True)
+            test,mins=func(wald[df],numCores)
+            log('mc score {} : {} dataset {} min'.format(name[fInd],title[df],mins))
+    
+            print('beginning mcPVal for {} {}'.format(name[fInd],title[df]),flush=True)
+            pval,mins=mcPVal(test,ref)
+            log('mc pval {} : {} dataset {} min'.format(name[fInd],title[df],mins))
+    
+            plotPower(pval,name[fInd]+'-'+title[df])
+            
+    for df in range(len(wald)):
+        plotPower(markov(func,wald[df],psi,offDiag,numCores),'ellMarkov-'+title[df])  
 
     return()
 
-def myMain(parms,fitH0,plotH0,fitH1,plotH1):
+def myMain(parms):
     numH0Snps=parms['numH0Snps']
     numH1Snps=parms['numH1Snps']
     numKSnps=parms['numKSnps']
@@ -56,18 +71,20 @@ def myMain(parms,fitH0,plotH0,fitH1,plotH1):
     pedigreeMult=parms['pedigreeMult']
     calD=int(parms['calD']*numTraits)
     rho=parms['rho']
-    maxEta=parms['maxEta']
-    minEta=parms['minEta']
+    fit=parms['fit']
     
     numCores=cpu_count()
-    refReps=int(2e6)
-    maxRefReps=int(1e5)
+    refReps=parms['refReps']
+    maxRefReps=parms['maxRefReps']
+    numLam=parms['numLam']
+    minEta=parms['minEta']
+    mu=parms['mu']
     
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
     
-    if fitH0:
+    if 'fitH0' in fit:
         miceRange=np.random.choice(208,int(pedigreeMult*208),replace=False)    
 
         #######################################################################################################
@@ -83,7 +100,8 @@ def myMain(parms,fitH0,plotH0,fitH1,plotH1):
         #######################################################################################################
 
         ailY=pd.read_csv('../data/hipRaw.txt',sep='\t',index_col=0,header=0).values[:,0:numTraits]
-        eta=np.diag(minEta+(maxEta-minEta)*uniform.rvs(size=[numTraits]))
+        # eta is beta(1,10)
+        eta=np.diag(beta.rvs(1,10,size=[numTraits]))
         C_u=eta**0.5@(rho*np.corrcoef(ailY[0:104],rowvar=False)+(1-rho)*np.eye(numTraits))@eta**0.5
         C_e=(np.eye(numTraits)-eta)**0.5@(rho*np.corrcoef(ailY[104:],rowvar=False)+
             (1-rho)*np.eye(numTraits))@(np.eye(numTraits)-eta)**0.5
@@ -126,7 +144,7 @@ def myMain(parms,fitH0,plotH0,fitH1,plotH1):
         np.savetxt('M',M,delimiter='\t')
         np.savetxt('snpsH0',snpsH0,delimiter='\t')
         np.savetxt('snpsH1',snpsH1,delimiter='\t')
-    else:
+    if 'loadH1' in fit:
         waldH0=np.loadtxt('waldH0',delimiter='\t')
         waldH1=np.loadtxt('waldH1',delimiter='\t')
         etaH0=np.loadtxt('etaH0',delimiter='\t')
@@ -141,13 +159,16 @@ def myMain(parms,fitH0,plotH0,fitH1,plotH1):
     #######################################################################################################
     #######################################################################################################
 
-    if fitH1:
-        waldH100=runH1(16,100,waldH0,Y,K,M,snpsH0,etaH0)
-        waldH10=runH1(16,10,waldH0,Y,K,M,snpsH0,etaH0)
+    if 'fitH1' in fit:
+        waldH100=runH1(mu,100,waldH1,Y,K,M,snpsH1,etaH1)
+        waldH50=runH1(mu,50,waldH1,Y,K,M,snpsH1,etaH1)
+        waldH10=runH1(mu,10,waldH1,Y,K,M,snpsH1,etaH1)
         np.savetxt('waldH100',waldH100,delimiter='\t')
+        np.savetxt('waldH50',waldH10,delimiter='\t')
         np.savetxt('waldH10',waldH10,delimiter='\t')
-    else:
+    if 'loadH1' in fit:
         waldH100=np.loadtxt('waldH100',delimiter='\t')
+        waldH50=np.loadtxt('waldH50',delimiter='\t')
         waldH10=np.loadtxt('waldH10',delimiter='\t')
 
     #######################################################################################################
@@ -161,36 +182,46 @@ def myMain(parms,fitH0,plotH0,fitH1,plotH1):
     #######################################################################################################
     #######################################################################################################
     
-    psiDF=psi(calD,vZ,numLam=2e3,minEta=1e-9,numCores=16).compute()
+    psiDF=psi(calD,vZ,numLam=numLam,minEta=minEta,numCores=16).compute()
 
-    if plotH0:
-        plots(waldH0,vZ,psiDF,offDiag,refReps,maxRefReps,numCores,'H0')
+    wald=[]
+    title=[]
+    if 'plotH0' in fit:
+        wald+=[waldH0]
+        title+=['H0']
     
-    if plotH1:
-        plots(waldH100,vZ,psiDF,offDiag,refReps,maxRefReps,numCores,'H100')
-        plots(waldH10,vZ,psiDF,offDiag,refReps,maxRefReps,numCores,'H10')
+    if 'plotH1' in fit:
+        wald+=[waldH10,waldH50,waldH100]
+        title+=['H10','H50','H100']
+    
+    if ('plotH1' in fit) or ('plotH0' in fit):
+        plots(wald,vZ,psiDF,offDiag,refReps,maxRefReps,numCores,title)
 
     #stat.plot(gbj('GBJ',wald,numCores=3,offDiag=offDiag),'gbj')
     #plotPower(gbj('GHC',wald,numCores=3,offDiag=offDiag),'ghc')
     
 
 ops={
-    'seed':323,
-    'numKSnps':10000,
+    'seed':None,
+    'numKSnps':300,
     'calD':0.2,
     'eta':0.3
 }
 
 ctrl={
-    'numSubjects':1200,
-    'numH0Snps':10000,
-    'numH1Snps':1000,
-    'numTraits':1200,
+    'numSubjects':300,
+    'numH0Snps':300,
+    'numH1Snps':300,
+    'numTraits':100,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
     'rho':1,
-    'maxEta':0.8,
-    'minEta':0
+    'refReps':int(1e5),
+    'maxRefReps':int(1e4),
+    'minEta':1e-10,
+    'numLam':4e3,
+    'mu':10,
+    'fit':['fitH0','plotH0']
 }
 
 #######################################################################################################
@@ -201,7 +232,16 @@ setupFolders()
 diagnostics(parms['seed'])
 log(parms)
 
-myMain(parms,fitH0=False,plotH0=False,fitH1=False,plotH1=True)
+'''
+increase the granularity of precompute of regions. possibly just need increase in number of ref reps.
+'''
+''' 
+change uniform eta to beta(1,10)
+'''
+''' 
+p.s. figure out change in pvals from change in ref distn (i.e. debug power code) confirm MC code for power calc
+'''
+myMain(parms)
 
 git('{} mice, {} snps, {} traits, subsample {}, rho {}'.format(parms['numSubjects'],parms['numH0Snps'],
     parms['numTraits'],parms['pedigreeMult'],parms['rho']))
