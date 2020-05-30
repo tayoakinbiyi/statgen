@@ -80,6 +80,8 @@ def myMain(parms):
     minEta=parms['minEta']
     mu=parms['mu']
     
+    eps=parms['eps']
+    
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
@@ -144,7 +146,7 @@ def myMain(parms):
         np.savetxt('M',M,delimiter='\t')
         np.savetxt('snpsH0',snpsH0,delimiter='\t')
         np.savetxt('snpsH1',snpsH1,delimiter='\t')
-    if 'loadH1' in fit:
+    if 'loadH0' in fit:
         waldH0=np.loadtxt('waldH0',delimiter='\t')
         waldH1=np.loadtxt('waldH1',delimiter='\t')
         etaH0=np.loadtxt('etaH0',delimiter='\t')
@@ -182,7 +184,7 @@ def myMain(parms):
     #######################################################################################################
     #######################################################################################################
     
-    psiDF=psi(calD,vZ,numLam=numLam,minEta=minEta,numCores=16).compute()
+    psiDF=psi(calD,vZ,numLam=numLam,minEta=minEta,numCores=16,eps=eps).compute()
 
     wald=[]
     title=[]
@@ -203,25 +205,26 @@ def myMain(parms):
 
 ops={
     'seed':None,
-    'numKSnps':300,
+    'numKSnps':10000,
     'calD':0.2,
     'eta':0.3
 }
 
 ctrl={
-    'numSubjects':300,
-    'numH0Snps':300,
-    'numH1Snps':300,
-    'numTraits':100,
+    'numSubjects':1200,
+    'numH0Snps':10000,
+    'numH1Snps':1000,
+    'numTraits':1200,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
     'rho':1,
-    'refReps':int(1e5),
-    'maxRefReps':int(1e4),
+    'refReps':int(1e6),
+    'maxRefReps':int(1e5),
     'minEta':1e-10,
-    'numLam':4e3,
+    'numLam':5e3,
     'mu':10,
-    'fit':['fitH0','plotH0']
+    'eps':1e-10,
+    'fit':['loadH0','loadH1','plotH0','plotH1']
 }
 
 #######################################################################################################
