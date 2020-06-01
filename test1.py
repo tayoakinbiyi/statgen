@@ -72,7 +72,6 @@ def plots(wald,vZ,psi,offDiag,refReps,maxRefReps,numCores,dataSetName):
         pvalSet[dataSetName[df]]+=[pval.reshape(-1,1)]
 
     for df in range(len(wald)):
-        pdb.set_trace()
         plotPower(np.concatenate(pvalSet[dataSetName[df]],axis=1),dataSetName[df],cols=methName)
 
     return()
@@ -213,16 +212,16 @@ def myMain(parms):
 
 ops={
     'seed':None,
-    'numKSnps':1000,
+    'numKSnps':10000,
     'calD':0.2,
     'eta':0.3
 }
 
 ctrl={
-    'numSubjects':500,
-    'numH0Snps':1000,
-    'numH1Snps':300,
-    'numTraits':200,
+    'numSubjects':1200,
+    'numH0Snps':10000,
+    'numH1Snps':1000,
+    'numTraits':1200,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
     'rho':1,
@@ -232,7 +231,7 @@ ctrl={
     'numLam':5e3,
     'mu':10,
     'eps':1e-10,
-    'fit':['loadH0','loadH1','plot','loadPsi'],
+    'fit':['fitH0','fitH1','plot','fitPsi'],
     'n_assoc':[10,30,50,70,80,100,150]
 }
 
