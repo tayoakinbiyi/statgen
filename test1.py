@@ -34,31 +34,46 @@ from plotPython.plotCorr import *
 
 from rpy2.robjects.packages import importr
 
-def plots(wald,vZ,psi,offDiag,refReps,maxRefReps,numCores,title):
+def plots(wald,vZ,psi,offDiag,refReps,maxRefReps,numCores,dataSetName):
     func=partial(ELL,psi)
     storey=partial(storeyQ,int(vZ.shape[1]*.5))
     
     funcs=[func,cpma,scoreTest,storey,minP]
-    name=['ELL','cpma','scoreTest','storey','minP']
+    methName=['ELL','cpma','scoreTest','storey','minP','ellMarkov']
+
+    pvalSet={nm:[] for nm in dataSetName}
+    
     for fInd in range(len(funcs)):
-        print('beginning genRef for {}'.format(name[fInd]),flush=True)
+        print('beginning genRef for {}'.format(methName[fInd]),flush=True)
         func=funcs[fInd]
+        
         ref,mins=genRef(func,refReps,maxRefReps,vZ,numCores)
-        log('{} : {} min'.format('mc genRef-'+name[fInd],mins))
+        log('{} : {} min'.format('genRef-'+methName[fInd],mins))
         
         for df in range(len(wald)):
-            print('beginning score for {} {}'.format(name[fInd],title[df]),flush=True)
+            print('beginning score for {} {}'.format(methName[fInd],dataSetName[df]),flush=True)
             test,mins=func(wald[df],numCores)
-            log('mc score {} : {} dataset {} min'.format(name[fInd],title[df],mins))
+            log('mc score {} : {} dataset {} min'.format(methName[fInd],dataSetName[df],mins))
     
-            print('beginning mcPVal for {} {}'.format(name[fInd],title[df]),flush=True)
+            print('beginning mcPVal for {} {}'.format(methName[fInd],dataSetName[df]),flush=True)
             pval,mins=mcPVal(test,ref)
-            log('mc pval {} : {} dataset {} min'.format(name[fInd],title[df],mins))
-    
-            plotPower(pval,name[fInd]+'-'+title[df])
+            log('mc pval {} : {} dataset {} min'.format(methName[fInd],dataSetName[df],mins))
             
+            pvalSet[dataSetName[df]]+=[pval.reshape(-1,1)]
+    
+            plotPower(pval,methName[fInd]+'-'+dataSetName[df],cols=[methName[fInd]+'-'+dataSetName[df]])
+           
     for df in range(len(wald)):
-        plotPower(markov(func,wald[df],psi,offDiag,numCores),'ellMarkov-'+title[df])  
+        pval,mins=markov(func,wald[df],psi,offDiag,numCores)
+        log('markov {} : {} dataset {} min'.format(methName[-1],dataSetName[df],mins))
+
+        plotPower(pval,methName[-1]+'-'+dataSetName[df],cols=[methName[-1]])  
+    
+        pvalSet[dataSetName[df]]+=[pval.reshape(-1,1)]
+
+    for df in range(len(wald)):
+        pdb.set_trace()
+        plotPower(np.concatenate(pvalSet[dataSetName[df]],axis=1),dataSetName[df],cols=methName)
 
     return()
 
@@ -72,6 +87,7 @@ def myMain(parms):
     calD=int(parms['calD']*numTraits)
     rho=parms['rho']
     fit=parms['fit']
+    n_assoc=parms['n_assoc']
     
     numCores=cpu_count()
     refReps=parms['refReps']
@@ -161,18 +177,16 @@ def myMain(parms):
     #######################################################################################################
     #######################################################################################################
 
+    ds=[waldH0]
     if 'fitH1' in fit:
-        waldH100=runH1(mu,100,waldH1,Y,K,M,snpsH1,etaH1)
-        waldH50=runH1(mu,50,waldH1,Y,K,M,snpsH1,etaH1)
-        waldH10=runH1(mu,10,waldH1,Y,K,M,snpsH1,etaH1)
-        np.savetxt('waldH100',waldH100,delimiter='\t')
-        np.savetxt('waldH50',waldH10,delimiter='\t')
-        np.savetxt('waldH10',waldH10,delimiter='\t')
+        for n in n_assoc:
+            ds+=[runH1(mu,n,waldH1,Y,K,M,snpsH1,etaH1)]
+            np.savetxt('waldH'+str(n),ds[-1],delimiter='\t')
     if 'loadH1' in fit:
-        waldH100=np.loadtxt('waldH100',delimiter='\t')
-        waldH50=np.loadtxt('waldH50',delimiter='\t')
-        waldH10=np.loadtxt('waldH10',delimiter='\t')
+        for n in n_assoc:
+            ds+=[np.loadtxt('waldH'+str(n),delimiter='\t')]
 
+    dsNames=['H0']+['H'+str(x) for x in n_assoc]
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
@@ -184,20 +198,14 @@ def myMain(parms):
     #######################################################################################################
     #######################################################################################################
     
-    psiDF=psi(calD,vZ,numLam=numLam,minEta=minEta,numCores=16,eps=eps).compute()
+    if 'fitPsi' in fit:
+        psiDF=psi(calD,vZ,numLam=numLam,minEta=minEta,numCores=16,eps=eps).compute()
+        np.savetxt('psi',psiDF,delimiter='\t')
+    if 'loadPsi' in fit:
+        psiDF=np.loadtxt('psi',delimiter='\t',dtype=[('lam','float64'),('eta','float64')])
 
-    wald=[]
-    title=[]
-    if 'plotH0' in fit:
-        wald+=[waldH0]
-        title+=['H0']
-    
-    if 'plotH1' in fit:
-        wald+=[waldH10,waldH50,waldH100]
-        title+=['H10','H50','H100']
-    
-    if ('plotH1' in fit) or ('plotH0' in fit):
-        plots(wald,vZ,psiDF,offDiag,refReps,maxRefReps,numCores,title)
+    if 'plot' in fit:
+        plots(ds,vZ,psiDF,offDiag,refReps,maxRefReps,numCores,dsNames)
 
     #stat.plot(gbj('GBJ',wald,numCores=3,offDiag=offDiag),'gbj')
     #plotPower(gbj('GHC',wald,numCores=3,offDiag=offDiag),'ghc')
@@ -205,16 +213,16 @@ def myMain(parms):
 
 ops={
     'seed':None,
-    'numKSnps':10000,
+    'numKSnps':1000,
     'calD':0.2,
     'eta':0.3
 }
 
 ctrl={
-    'numSubjects':1200,
-    'numH0Snps':10000,
-    'numH1Snps':1000,
-    'numTraits':1200,
+    'numSubjects':500,
+    'numH0Snps':1000,
+    'numH1Snps':300,
+    'numTraits':200,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
     'rho':1,
@@ -224,7 +232,8 @@ ctrl={
     'numLam':5e3,
     'mu':10,
     'eps':1e-10,
-    'fit':['loadH0','loadH1','plotH0','plotH1']
+    'fit':['loadH0','loadH1','plot','loadPsi'],
+    'n_assoc':[10,30,50,70,80,100,150]
 }
 
 #######################################################################################################
