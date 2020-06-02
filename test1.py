@@ -176,7 +176,7 @@ def myMain(parms):
     }
     
     methods={x[0]:x[1] for f,nm in [(funcs.items(),methodNames)] for x in f if x[0] in nm}
-    plots(ds,dsNames,methods)
+    plots([-np.sort(-np.abs(x)) for x in ds],dsNames,methods)
     
 ops={
     'seed':None,
@@ -200,8 +200,8 @@ ctrl={
     'mu':5,
     'eps':1e-10,
     'numCores':cpu_count(),
-    'fit':['loadH0','fitPsi'],
-    'n_assoc':[],#10,30,50,70,80,100,150],
+    'fit':['loadH0','fitH1','fitPsi'],
+    'n_assoc':[10],#,30,50,70,80,100,150],
     'methodNames':['ELL','cpma','score','storey','minP','markov']
 }
 
