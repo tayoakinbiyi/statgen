@@ -18,7 +18,7 @@ from limix.model.lmm import LMM
 from limix.stats import linear_kinship
 from dataPrepPython.makePedigreeSnps import *
 from numpy_sugar.linalg import economic_qs
-from statsPython.scoreTest import *
+from statsPython.score import *
 from statsPython.storeyQ import *
 from statsPython.minP import *
 from statsPython.psi import *
@@ -34,48 +34,6 @@ from plotPython.plotCorr import *
 
 from rpy2.robjects.packages import importr
 
-def plots(wald,vZ,psi,offDiag,refReps,maxRefReps,numCores,dataSetName):
-    func=partial(ELL,psi)
-    storey=partial(storeyQ,int(vZ.shape[1]*.5))
-    
-    funcs=[func,cpma,scoreTest,storey,minP]
-    methName=['ELL','cpma','scoreTest','storey','minP','ellMarkov']
-
-    pvalSet={nm:[] for nm in dataSetName}
-    
-    for fInd in range(len(funcs)):
-        print('beginning genRef for {}'.format(methName[fInd]),flush=True)
-        func=funcs[fInd]
-        
-        ref,mins=genRef(func,refReps,maxRefReps,vZ,numCores)
-        log('{} : {} min'.format('genRef-'+methName[fInd],mins))
-        
-        for df in range(len(wald)):
-            print('beginning score for {} {}'.format(methName[fInd],dataSetName[df]),flush=True)
-            test,mins=func(wald[df],numCores)
-            log('mc score {} : {} dataset {} min'.format(methName[fInd],dataSetName[df],mins))
-    
-            print('beginning mcPVal for {} {}'.format(methName[fInd],dataSetName[df]),flush=True)
-            pval,mins=mcPVal(test,ref)
-            log('mc pval {} : {} dataset {} min'.format(methName[fInd],dataSetName[df],mins))
-            
-            pvalSet[dataSetName[df]]+=[pval.reshape(-1,1)]
-    
-            plotPower(pval,methName[fInd]+'-'+dataSetName[df],cols=[methName[fInd]+'-'+dataSetName[df]])
-           
-    for df in range(len(wald)):
-        pval,mins=markov(func,wald[df],psi,offDiag,numCores)
-        log('markov {} : {} dataset {} min'.format(methName[-1],dataSetName[df],mins))
-
-        plotPower(pval,methName[-1]+'-'+dataSetName[df],cols=[methName[-1]])  
-    
-        pvalSet[dataSetName[df]]+=[pval.reshape(-1,1)]
-
-    for df in range(len(wald)):
-        plotPower(np.concatenate(pvalSet[dataSetName[df]],axis=1),dataSetName[df],cols=methName)
-
-    return()
-
 def myMain(parms):
     numH0Snps=parms['numH0Snps']
     numH1Snps=parms['numH1Snps']
@@ -87,8 +45,9 @@ def myMain(parms):
     rho=parms['rho']
     fit=parms['fit']
     n_assoc=parms['n_assoc']
+    methodNames=parms['methodNames']
     
-    numCores=cpu_count()
+    numCores=parms['numCores']
     refReps=parms['refReps']
     maxRefReps=parms['maxRefReps']
     numLam=parms['numLam']
@@ -127,18 +86,13 @@ def myMain(parms):
         LC_e=makeL(C_e)
 
         Y=LK@norm.rvs(size=[numSubjects,numTraits])@LC_u.T+norm.rvs(size=[numSubjects,numTraits])@LC_e.T
-
-        #######################################################################################################
-        #######################################################################################################
-        #######################################################################################################
-
-        snpsH0=makePedigreeSnps(numSubjects,miceRange,numH0Snps,numCores)
         M=np.ones([numSubjects,1])
 
         #######################################################################################################
         #######################################################################################################
         #######################################################################################################
 
+        snpsH0=makePedigreeSnps(numSubjects,miceRange,numH0Snps,numCores)
         waldH0,etaH0=runLimix(Y,QS,np.ones([numSubjects,1]),snpsH0,0.9999)
 
         #######################################################################################################
@@ -186,6 +140,7 @@ def myMain(parms):
             ds+=[np.loadtxt('waldH'+str(n),delimiter='\t')]
 
     dsNames=['H0']+['H'+str(x) for x in n_assoc]
+    
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
@@ -196,43 +151,58 @@ def myMain(parms):
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
-    
+
     if 'fitPsi' in fit:
-        psiDF=psi(calD,vZ,numLam=numLam,minEta=minEta,numCores=16,eps=eps).compute()
+        psiDF=psi(calD,vZ,numLam,minEta,numCores,eps).compute()
         np.savetxt('psi',psiDF,delimiter='\t')
-    if 'loadPsi' in fit:
+    elif 'loadPsi' in fit:
         psiDF=np.loadtxt('psi',delimiter='\t',dtype=[('lam','float64'),('eta','float64')])
+    else:
+        psiDF=None
 
-    if 'plot' in fit:
-        plots(ds,vZ,psiDF,offDiag,refReps,maxRefReps,numCores,dsNames)
-
-    #stat.plot(gbj('GBJ',wald,numCores=3,offDiag=offDiag),'gbj')
-    #plotPower(gbj('GHC',wald,numCores=3,offDiag=offDiag),'ghc')
+    #######################################################################################################
+    #######################################################################################################
+    #######################################################################################################
     
-
+    funcs={
+        'ELL':partial(mc,partial(ELL,psiDF,numCores),'ELL',refReps,maxRefReps,vZ), 
+        'cpma':partial(mc,partial(cpma,numCores),'cpma',refReps,maxRefReps,vZ), 
+        'score':partial(mc,partial(score,numCores),'score',refReps,maxRefReps,vZ), 
+        'storey':partial(mc,partial(storeyQ,numCores),'storeyQ',refReps,maxRefReps,vZ), 
+        'minP':partial(mc,partial(minP,numCores),'minP',refReps,maxRefReps,vZ), 
+        'markov':partial(markovLoop,psiDF,vZ,numCores),
+        'GBJ':partial(gbjLoop,'GBJ',numCores,vZ),
+        'GHC':partial(gbjLoop,'GHC',numCores,vZ)
+    }
+    
+    methods={x[0]:x[1] for f,nm in [(funcs.items(),methodNames)] for x in f if x[0] in nm}
+    plots(ds,dsNames,methods)
+    
 ops={
     'seed':None,
-    'numKSnps':10000,
+    'numKSnps':100,
     'calD':0.2,
     'eta':0.3
 }
 
 ctrl={
-    'numSubjects':1200,
-    'numH0Snps':10000,
-    'numH1Snps':1000,
-    'numTraits':1200,
+    'numSubjects':300,
+    'numH0Snps':100,
+    'numH1Snps':100,
+    'numTraits':300,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
     'rho':1,
-    'refReps':int(1e6),
-    'maxRefReps':int(1e5),
+    'refReps':int(1e3),
+    'maxRefReps':int(1e2),
     'minEta':1e-10,
     'numLam':5e3,
-    'mu':10,
+    'mu':5,
     'eps':1e-10,
-    'fit':['fitH0','fitH1','plot','fitPsi'],
-    'n_assoc':[10,30,50,70,80,100,150]
+    'numCores':cpu_count(),
+    'fit':['loadH0','fitPsi'],
+    'n_assoc':[],#10,30,50,70,80,100,150],
+    'methodNames':['ELL','cpma','score','storey','minP','markov']
 }
 
 #######################################################################################################
@@ -243,15 +213,6 @@ setupFolders()
 diagnostics(parms['seed'])
 log(parms)
 
-'''
-increase the granularity of precompute of regions. possibly just need increase in number of ref reps.
-'''
-''' 
-change uniform eta to beta(1,10)
-'''
-''' 
-p.s. figure out change in pvals from change in ref distn (i.e. debug power code) confirm MC code for power calc
-'''
 myMain(parms)
 
 git('{} mice, {} snps, {} traits, subsample {}, rho {}'.format(parms['numSubjects'],parms['numH0Snps'],
