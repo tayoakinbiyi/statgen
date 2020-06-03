@@ -45,7 +45,8 @@ def myMain(parms):
     rho=parms['rho']
     fit=parms['fit']
     n_assoc=parms['n_assoc']
-    methodNames=parms['methodNames']
+    mcMethodNames=parms['mcMethodNames']
+    markovMethodNames=parms['markovMethodNames']
     numHermites=parms['numHermites']
     
     numCores=parms['numCores']
@@ -172,22 +173,47 @@ def myMain(parms):
     #######################################################################################################
     #######################################################################################################
     
-    funcs={
-        'ELL':partial(mc,partial(ELL,psiDF,numCores),'ELL',refReps,maxRefReps,vZ), 
-        'cpma':partial(mc,partial(cpma,numCores),'cpma',refReps,maxRefReps,vZ), 
-        'score':partial(mc,partial(score,numCores),'score',refReps,maxRefReps,vZ), 
-        'storey':partial(mc,partial(storeyQ,numCores),'storeyQ',refReps,maxRefReps,vZ), 
-        'minP':partial(mc,partial(minP,numCores),'minP',refReps,maxRefReps,vZ), 
-        'markov':partial(markovLoop,psiDF,vZ,numCores),
-        'GBJ':partial(gbjLoop,'GBJ',numCores,vZ),
-        'GHC':partial(gbjLoop,'GHC',numCores,vZ)
+    mcFuncs={
+        'ELL':partial(ELL,psiDF,numCores),
+        'cpma':partial(cpma,numCores),
+        'score':partial(score,numCores),
+        'storey':partial(storeyQ,numCores),
+        'minP':partial(minP,numCores)
     }
+    
+    markovFuncs={
+        'GBJ':partial(gbjLoop,'GBJ'),
+        'GHC':partial(gbjLoop,'GHC'),
+        'markov':partial(markovLoop,psiDF)
+    }
+
+    #######################################################################################################
+    #######################################################################################################
+    #######################################################################################################
+    
+    if 'fitRef' in fit:
+        ref={key:genRef(f,refReps,maxRefReps,vZ,key) for key,f in mcFuncs.items() if key in mcMethodNames}
+        for key in mcMethodNames:
+            np.savetxt('ref-'+key,ref[key],delimiter='\t')
+    
+    if 'loadRef' in fit:
+        ref={key:np.loadtxt('ref-'+key,delimiter='\t') for key in mcMethodNames}
+            
+    #######################################################################################################
+    #######################################################################################################
+    #######################################################################################################
+    
+    pvalFuncs={}
+    for key in mcMethodNames:
+        pvalFuncs[key]=partial(mc,mcFuncs[key],vZ,ref[key],key)
+    for key in markovMethodNames:
+        pvalFuncs[key]=partial(markovFuncs[key],vZ,numCores)
     
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
 
-    methods={x[0]:x[1] for f,nm in [(funcs.items(),methodNames)] for x in f if x[0] in nm}
+    methods={x[0]:x[1] for f,nm in [(pvalFuncs.items(),mcMethodNames+markovMethodNames)] for x in f if x[0] in nm}
     if 'plotType1' in fit:
         plots([-np.sort(-np.abs(waldH0)) for x in ds],['H0'],methods)
         
@@ -218,9 +244,10 @@ ctrl={
     'maxIter':1e2,
     'numHermites':150,
     'numCores':cpu_count(),
-    'fit':['loadH0','loadH1','plotPower','loadPsi','loadY','fitPower'],
+    'fit':['loadH0','loadH1','plotPower','loadPsi','loadY','loadPower','loadRef'],
     'n_assoc':[10],#,30,50,70,80,100,150],
-    'methodNames':['ELL','cpma','score','storey','minP','markov']
+    'mcMethodNames':['ELL'],#,'cpma','score','storey','minP'],
+    'markovMethodNames':['markov']
 }
 
 #######################################################################################################
