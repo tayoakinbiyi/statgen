@@ -1,8 +1,8 @@
-'random seed 431254'
+'random seed 153949'
 {'calD': 0.2,
  'eps': 1e-11,
  'eta': 0.3,
- 'fit': ['loadH0', 'loadH1', 'fitPsi'],
+ 'fit': ['loadH0', 'loadH1', 'plotPower', 'loadPsi', 'loadY', 'fitPower'],
  'maxIter': 100.0,
  'maxRefReps': 100000,
  'methodNames': ['ELL', 'cpma', 'score', 'storey', 'minP', 'markov'],
@@ -11,7 +11,7 @@
  'n_assoc': [10],
  'numCores': 16,
  'numH0Snps': 10000,
- 'numH1Snps': 1000,
+ 'numH1Snps': 100,
  'numHermites': 150,
  'numKSnps': 10000,
  'numLam': 1000.0,
@@ -22,23 +22,19 @@
  'rho': 1,
  'seed': None,
  'snpParm': 'geneDrop'}
-'psi : 10.19788806438446 min'
-'genRef-ELL : 3.1287257234255477 min'
-'mc score ELL : H0 dataset 0.027150853474934896 min'
-'mc pval ELL : H0 dataset 0.0012862761815388998 min'
-'genRef-cpma : 32.41857663790385 min'
-'mc score cpma : H0 dataset 0.32578752040863035 min'
-'mc pval cpma : H0 dataset 0.0012116273244222005 min'
-'genRef-score : 2.586445613702138 min'
-'mc score score : H0 dataset 0.2015655517578125 min'
-'mc pval score : H0 dataset 0.0013029734293619792 min'
-'genRef-storeyQ : 19.09786775112152 min'
-'mc score storeyQ : H0 dataset 0.37876338958740235 min'
-'mc pval storeyQ : H0 dataset 0.0012995004653930664 min'
-'genRef-minP : 3.071099837621053 min'
-'mc score minP : H0 dataset 0.2300146738688151 min'
-'mc pval minP : H0 dataset 0.0017992774645487466 min'
-'beginning score for ELL-markov H0, 366.39515253305433 min'
-'genRef-ELL : 2.6935924927393593 min'
-'mc score ELL : H10 dataset 0.004945723215738932 min'
-'mc pval ELL : H10 dataset 0.0014672199885050455 min'
+'genRef-ELL : 2.7287962436676025 min'
+'mc score ELL : H10 dataset 0.001993087927500407 min'
+'mc pval ELL : H10 dataset 0.0011406898498535155 min'
+'genRef-cpma : 32.851670412222546 min'
+'mc score cpma : H10 dataset 0.002451666196187337 min'
+'mc pval cpma : H10 dataset 0.002021642525990804 min'
+'genRef-score : 2.521233443419139 min'
+'mc score score : H10 dataset 0.16276315053304036 min'
+'mc pval score : H10 dataset 0.0013785958290100098 min'
+'genRef-storeyQ : 19.196581113338468 min'
+'mc score storeyQ : H10 dataset 0.16970043182373046 min'
+'mc pval storeyQ : H10 dataset 0.0013031403223673502 min'
+'genRef-minP : 3.183418420950572 min'
+'mc score minP : H10 dataset 0.1679075241088867 min'
+'mc pval minP : H10 dataset 0.001456765333811442 min'
+'beginning score for ELL-markov H10, 0.3470999956130981 min'

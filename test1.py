@@ -57,20 +57,15 @@ def myMain(parms):
     
     eps=parms['eps']
     maxIter=parms['maxIter']
-    
+            
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
     
-    if 'fitH0' in fit:
+    if 'makeY' in fit:
         miceRange=np.random.choice(208,int(pedigreeMult*208),replace=False)    
 
-        #######################################################################################################
-        #######################################################################################################
-        #######################################################################################################
-
         K=linear_kinship(makePedigreeSnps(numSubjects,miceRange,numKSnps,numCores),verbose=True)    
-        QS=economic_qs(K)
         LK=makeL(K)
 
         #######################################################################################################
@@ -89,55 +84,62 @@ def myMain(parms):
 
         Y=LK@norm.rvs(size=[numSubjects,numTraits])@LC_u.T+norm.rvs(size=[numSubjects,numTraits])@LC_e.T
         M=np.ones([numSubjects,1])
-
-        #######################################################################################################
-        #######################################################################################################
-        #######################################################################################################
-
-        snpsH0=makePedigreeSnps(numSubjects,miceRange,numH0Snps,numCores)
-        waldH0,etaH0=runLimix(Y,QS,np.ones([numSubjects,1]),snpsH0,0.9999)
-
-        #######################################################################################################
-        #######################################################################################################
-        #######################################################################################################
-
-        snpsH1=makePedigreeSnps(numSubjects,miceRange,numH1Snps,numCores)
-        waldH1,etaH1=runLimix(Y,QS,np.ones([numSubjects,1]),snpsH1,0.9999)
-
-        #######################################################################################################
-        #######################################################################################################
-        #######################################################################################################
-
+        
         np.savetxt('Y',Y,delimiter='\t')
-        np.savetxt('waldH0',waldH0,delimiter='\t')
-        np.savetxt('waldH1',waldH1,delimiter='\t')
-        np.savetxt('etaH0',etaH0,delimiter='\t')
-        np.savetxt('etaH1',etaH1,delimiter='\t')
         np.savetxt('K',K,delimiter='\t')
         np.savetxt('M',M,delimiter='\t')
-        np.savetxt('snpsH0',snpsH0,delimiter='\t')
-        np.savetxt('snpsH1',snpsH1,delimiter='\t')
-    if 'loadH0' in fit:
-        waldH0=np.loadtxt('waldH0',delimiter='\t')
-        waldH1=np.loadtxt('waldH1',delimiter='\t')
-        etaH0=np.loadtxt('etaH0',delimiter='\t')
-        etaH1=np.loadtxt('etaH1',delimiter='\t')
+
+    if 'loadY' in fit:
         Y=np.loadtxt('Y',delimiter='\t')
         K=np.loadtxt('K',delimiter='\t')        
         M=np.loadtxt('M',delimiter='\t');M=M.reshape(len(M),-1)        
+        QS=economic_qs(K)
+
+    #######################################################################################################
+    #######################################################################################################
+    #######################################################################################################
+
+    if 'fitH0' in fit:
+        snpsH0=makePedigreeSnps(numSubjects,miceRange,numH0Snps,numCores)
+        waldH0,etaH0=runLimix(Y,QS,np.ones([numSubjects,1]),snpsH0,0.9999)
+
+        np.savetxt('waldH0',waldH0,delimiter='\t')
+        np.savetxt('etaH0',etaH0,delimiter='\t')
+        np.savetxt('snpsH0',snpsH0,delimiter='\t')
+
+    if 'loadH0' in fit:
+        waldH0=np.loadtxt('waldH0',delimiter='\t')
+        etaH0=np.loadtxt('etaH0',delimiter='\t')
         snpsH0=np.loadtxt('snpsH0',delimiter='\t')        
-        snpsH1=np.loadtxt('snpsH1',delimiter='\t') 
     
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
 
-    ds=[]
     if 'fitH1' in fit:
+        snpsH1=makePedigreeSnps(numSubjects,miceRange,numH1Snps,numCores)
+        waldH1,etaH1=runLimix(Y,QS,np.ones([numSubjects,1]),snpsH1,0.9999)
+
+        np.savetxt('waldH1',waldH1,delimiter='\t')
+        np.savetxt('etaH1',etaH1,delimiter='\t')
+        np.savetxt('snpsH1',snpsH1,delimiter='\t')
+            
+    if 'loadH1' in fit:
+        waldH1=np.loadtxt('waldH1',delimiter='\t')
+        etaH1=np.loadtxt('etaH1',delimiter='\t')
+        snpsH1=np.loadtxt('snpsH1',delimiter='\t') 
+
+    #######################################################################################################
+    #######################################################################################################
+    #######################################################################################################
+    
+    ds=[]
+    if 'fitPower' in fit:
         for n in n_assoc:
             ds+=[runH1(mu,n,waldH1,Y,K,M,snpsH1,etaH1)]
             np.savetxt('waldH'+str(n),ds[-1],delimiter='\t')
-    if 'loadH1' in fit:
+            
+    if 'loadPower' in fit:
         for n in n_assoc:
             ds+=[np.loadtxt('waldH'+str(n),delimiter='\t')]
 
@@ -177,9 +179,15 @@ def myMain(parms):
         'GHC':partial(gbjLoop,'GHC',numCores,vZ)
     }
     
+    #######################################################################################################
+    #######################################################################################################
+    #######################################################################################################
+
     methods={x[0]:x[1] for f,nm in [(funcs.items(),methodNames)] for x in f if x[0] in nm}
-    plots([-np.sort(-np.abs(waldH0)) for x in ds],['H0'],methods)
-    if len(ds)>0:
+    if 'plotType1' in fit:
+        plots([-np.sort(-np.abs(waldH0)) for x in ds],['H0'],methods)
+        
+    if 'plotPower' in fit:
         plots([-np.sort(-np.abs(x)) for x in ds],dsNames,methods)
     
 ops={
@@ -192,7 +200,7 @@ ops={
 ctrl={
     'numSubjects':1200,
     'numH0Snps':10000,
-    'numH1Snps':1000,
+    'numH1Snps':100,
     'numTraits':1200,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
@@ -206,7 +214,7 @@ ctrl={
     'maxIter':1e2,
     'numHermites':150,
     'numCores':cpu_count(),
-    'fit':['loadH0','loadH1','fitPsi'],
+    'fit':['loadH0','loadH1','plotPower','loadPsi','loadY','fitPower'],
     'n_assoc':[10],#,30,50,70,80,100,150],
     'methodNames':['ELL','cpma','score','storey','minP','markov']
 }
@@ -216,7 +224,7 @@ ctrl={
 parms={**ctrl,**ops}
 setupFolders()
 
-diagnostics(parms['seed'])
+createDiagnostics(parms['seed'])
 log(parms)
 
 myMain(parms)
