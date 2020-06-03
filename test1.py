@@ -46,6 +46,7 @@ def myMain(parms):
     fit=parms['fit']
     n_assoc=parms['n_assoc']
     methodNames=parms['methodNames']
+    numHermites=parms['numHermites']
     
     numCores=parms['numCores']
     refReps=parms['refReps']
@@ -55,6 +56,7 @@ def myMain(parms):
     mu=parms['mu']
     
     eps=parms['eps']
+    maxIter=parms['maxIter']
     
     #######################################################################################################
     #######################################################################################################
@@ -130,7 +132,7 @@ def myMain(parms):
     #######################################################################################################
     #######################################################################################################
 
-    ds=[waldH0]
+    ds=[]
     if 'fitH1' in fit:
         for n in n_assoc:
             ds+=[runH1(mu,n,waldH1,Y,K,M,snpsH1,etaH1)]
@@ -139,7 +141,7 @@ def myMain(parms):
         for n in n_assoc:
             ds+=[np.loadtxt('waldH'+str(n),delimiter='\t')]
 
-    dsNames=['H0']+['H'+str(x) for x in n_assoc]
+    dsNames=['H'+str(x) for x in n_assoc]
     
     #######################################################################################################
     #######################################################################################################
@@ -153,14 +155,13 @@ def myMain(parms):
     #######################################################################################################
 
     if 'fitPsi' in fit:
-        psiDF=psi(calD,vZ,numLam,minEta,numCores,eps).compute()
+        psiDF=psi(calD,vZ,numLam,minEta,numCores,eps,maxIter,numHermites).compute()
         np.savetxt('psi',psiDF,delimiter='\t')
     elif 'loadPsi' in fit:
         psiDF=np.loadtxt('psi',delimiter='\t',dtype=[('lam','float64'),('eta','float64')])
     else:
         psiDF=None
     
-
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
@@ -177,31 +178,35 @@ def myMain(parms):
     }
     
     methods={x[0]:x[1] for f,nm in [(funcs.items(),methodNames)] for x in f if x[0] in nm}
-    plots([-np.sort(-np.abs(x)) for x in ds],dsNames,methods)
+    plots([-np.sort(-np.abs(waldH0)) for x in ds],['H0'],methods)
+    if len(ds)>0:
+        plots([-np.sort(-np.abs(x)) for x in ds],dsNames,methods)
     
 ops={
     'seed':None,
-    'numKSnps':100,
+    'numKSnps':10000,
     'calD':0.2,
     'eta':0.3
 }
 
 ctrl={
-    'numSubjects':300,
-    'numH0Snps':100,
-    'numH1Snps':100,
-    'numTraits':300,
+    'numSubjects':1200,
+    'numH0Snps':10000,
+    'numH1Snps':1000,
+    'numTraits':1200,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
     'rho':1,
-    'refReps':int(1e3),
-    'maxRefReps':int(1e2),
+    'refReps':int(1e6),
+    'maxRefReps':int(1e5),
     'minEta':1e-10,
-    'numLam':5e3,
+    'numLam':1e3,
     'mu':5,
-    'eps':1e-10,
+    'eps':1e-11,
+    'maxIter':1e2,
+    'numHermites':150,
     'numCores':cpu_count(),
-    'fit':['loadH0','loadH1','loadPsi'],
+    'fit':['loadH0','loadH1','fitPsi'],
     'n_assoc':[10],#,30,50,70,80,100,150],
     'methodNames':['ELL','cpma','score','storey','minP','markov']
 }
