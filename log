@@ -1,4 +1,4 @@
-'random seed 735794'
+'random seed 224200'
 {'calD': 0.2,
  'eps': 1e-11,
  'eta': 0.3,
@@ -7,7 +7,7 @@
  'maxRefReps': 100000,
  'methodNames': ['ELL', 'cpma', 'score', 'storey', 'minP', 'markov'],
  'minEta': 1e-10,
- 'mu': 2,
+ 'mu': 2.1,
  'n_assoc': [10],
  'numCores': 16,
  'numH0Snps': 10000,
@@ -22,19 +22,19 @@
  'rho': 1,
  'seed': None,
  'snpParm': 'geneDrop'}
-'genRef-ELL : 2.7546251932779944 min'
-'mc score ELL : H10 dataset 0.0036885301272074384 min'
-'mc pval ELL : H10 dataset 0.0011946797370910645 min'
-'genRef-cpma : 33.54306850830714 min'
-'mc score cpma : H10 dataset 0.002332631746927897 min'
-'mc pval cpma : H10 dataset 0.0023789405822753906 min'
-'genRef-score : 2.3015409906705218 min'
-'mc score score : H10 dataset 0.15177110036214192 min'
-'mc pval score : H10 dataset 0.0017534891764322917 min'
-'genRef-storeyQ : 20.058826398849487 min'
-'mc score storeyQ : H10 dataset 0.15407708485921223 min'
-'mc pval storeyQ : H10 dataset 0.0016811847686767577 min'
-'genRef-minP : 2.9705365777015684 min'
-'mc score minP : H10 dataset 0.16218427022298176 min'
-'mc pval minP : H10 dataset 0.0018329580624898275 min'
-'beginning score for ELL-markov H10, 0.3729634245236715 min'
+'genRef-ELL : 2.732438600063324 min'
+'mc score ELL : H10 dataset 0.0020467638969421387 min'
+'mc pval ELL : H10 dataset 0.001105332374572754 min'
+'genRef-cpma : 34.977509729067485 min'
+'mc score cpma : H10 dataset 0.028552607695261637 min'
+'mc pval cpma : H10 dataset 0.0011537909507751466 min'
+'genRef-score : 2.6002228498458866 min'
+'mc score score : H10 dataset 0.18099282582600912 min'
+'mc pval score : H10 dataset 0.001167631149291992 min'
+'genRef-storeyQ : 20.593657334645588 min'
+'mc score storeyQ : H10 dataset 0.1969400405883789 min'
+'mc pval storeyQ : H10 dataset 0.0015563885370890298 min'
+'genRef-minP : 3.175027139981588 min'
+'mc score minP : H10 dataset 0.19357515970865885 min'
+'mc pval minP : H10 dataset 0.0011566400527954102 min'
+'beginning score for ELL-markov H10, 3.745704472064972 min'
