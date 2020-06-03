@@ -200,9 +200,9 @@ ctrl={
     'mu':5,
     'eps':1e-10,
     'numCores':cpu_count(),
-    'fit':['loadH0','fitH1','fitPsi'],
+    'fit':['loadH0','loadH1','fitPsi'],
     'n_assoc':[10],#,30,50,70,80,100,150],
-    'methodNames':['ELL','cpma','score','storey','minP','markov']
+    'methodNames':['score']#['ELL','cpma','score','storey','minP','markov']
 }
 
 #######################################################################################################
