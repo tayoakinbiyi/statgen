@@ -1,8 +1,8 @@
-'random seed 777451'
+'random seed 455916'
 {'calD': 0.2,
  'eps': 1e-11,
  'eta': 0.3,
- 'fit': ['loadH0', 'fitH1', 'plotPower', 'loadPsi', 'loadY', 'loadPower',
+ 'fit': ['loadH0', 'loadH1', 'plotPower', 'loadPsi', 'loadY', 'fitPower',
          'loadRef'],
  'markovMethodNames': ['markov'],
  'maxIter': 100.0,
@@ -24,8 +24,6 @@
  'rho': 1,
  'seed': None,
  'snpParm': 'geneDrop'}
-'runLimix reml Count [1.]'
-'limix : 200 snps, 1200 traits, 3.907580844561259 min'
-'mc score ELL : H10 dataset 0.0024636467297871906 min'
-'mc pval ELL : H10 dataset 0.001143054167429606 min'
-'beginning score for ELL-markov H10, 3.742421778043111 min'
+'mc score ELL : H10 dataset 0.0028833627700805666 min'
+'mc pval ELL : H10 dataset 0.0011635184288024901 min'
+'beginning score for ELL-markov H10, 7.868422738711039 min'
