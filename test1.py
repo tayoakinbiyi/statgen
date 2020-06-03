@@ -202,7 +202,7 @@ ctrl={
     'numCores':cpu_count(),
     'fit':['loadH0','loadH1','fitPsi'],
     'n_assoc':[10],#,30,50,70,80,100,150],
-    'methodNames':['score']#['ELL','cpma','score','storey','minP','markov']
+    'methodNames':['ELL','cpma','score','storey','minP','markov']
 }
 
 #######################################################################################################

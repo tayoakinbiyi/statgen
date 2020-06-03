@@ -1,10 +1,10 @@
-'random seed 76261'
+'random seed 358399'
 {'calD': 0.2,
  'eps': 1e-10,
  'eta': 0.3,
  'fit': ['loadH0', 'loadH1', 'fitPsi'],
  'maxRefReps': 100,
- 'methodNames': ['score'],
+ 'methodNames': ['ELL', 'cpma', 'score', 'storey', 'minP', 'markov'],
  'minEta': 1e-10,
  'mu': 5,
  'n_assoc': [10],
@@ -20,9 +20,31 @@
  'rho': 1,
  'seed': None,
  'snpParm': 'geneDrop'}
-'psi : 6.2594865719477335 min'
-'genRef-score : 1.3718689600626626 min'
-'mc score score : H0 dataset 0.13717950185139974 min'
-'mc pval score : H0 dataset 3.159046173095703e-06 min'
-'mc score score : H10 dataset 0.13713289896647135 min'
-'mc pval score : H10 dataset 3.850460052490234e-06 min'
+'psi : 6.322431282202403 min'
+'genRef-ELL : 0.012113595008850097 min'
+'mc score ELL : H0 dataset 0.0009765704472859702 min'
+'mc pval ELL : H0 dataset 2.1616617838541666e-06 min'
+'mc score ELL : H10 dataset 0.0007098078727722168 min'
+'mc pval ELL : H10 dataset 2.304712931315104e-06 min'
+'genRef-cpma : 0.23785651922225953 min'
+'mc score cpma : H0 dataset 0.025278969605763753 min'
+'mc pval cpma : H0 dataset 2.7020772298177085e-06 min'
+'mc score cpma : H10 dataset 0.02471917470296224 min'
+'mc pval cpma : H10 dataset 2.6186307271321613e-06 min'
+'genRef-score : 1.6313295284907023 min'
+'mc score score : H0 dataset 0.14254659016927082 min'
+'mc pval score : H0 dataset 3.1630198160807294e-06 min'
+'mc score score : H10 dataset 0.14051856994628906 min'
+'mc pval score : H10 dataset 2.845128377278646e-06 min'
+'genRef-storeyQ : 1.498745067914327 min'
+'mc score storeyQ : H0 dataset 0.1695370356241862 min'
+'mc pval storeyQ : H0 dataset 4.728635152180989e-06 min'
+'mc score storeyQ : H10 dataset 0.15572160085042316 min'
+'mc pval storeyQ : H10 dataset 2.753734588623047e-06 min'
+'genRef-minP : 1.6127600232760109 min'
+'mc score minP : H0 dataset 0.15047442118326823 min'
+'mc pval minP : H0 dataset 4.323323567708333e-06 min'
+'mc score minP : H10 dataset 0.14525171915690105 min'
+'mc pval minP : H10 dataset 3.707408905029297e-06 min'
+'beginning score for ELL-markov H0, 0.13009510040283204 min'
+'beginning score for ELL-markov H10, 0.12773446639378866 min'
