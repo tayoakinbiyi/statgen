@@ -230,7 +230,7 @@ ops={
 ctrl={
     'numSubjects':1200,
     'numH0Snps':10000,
-    'numH1Snps':400,
+    'numH1Snps':500,
     'numTraits':1200,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
@@ -239,12 +239,12 @@ ctrl={
     'maxRefReps':int(1e5),
     'minEta':1e-10,
     'numLam':1e3,
-    'mu':2.57,
+    'mu':2.58,
     'eps':1e-11,
     'maxIter':1e2,
     'numHermites':150,
     'numCores':cpu_count(),
-    'fit':['loadH0','loadH1','plotPower','loadPsi','loadY','fitPower','loadRef'],
+    'fit':['loadH0','fitH1','plotPower','loadPsi','loadY','fitPower','loadRef'],
     'n_assoc':[10],#,30,50,70,80,100,150],
     'mcMethodNames':['ELL'],#,'cpma','score','storey','minP'],
     'markovMethodNames':[]#'markov']
