@@ -1,4 +1,4 @@
-'random seed 197914'
+'random seed 29701'
 {'calD': 0.2,
  'eps': 1e-13,
  'eta': 0.3,
@@ -20,11 +20,11 @@
  'numSubjects': 1200,
  'numTraits': 1200,
  'pedigreeMult': 0.1,
- 'refReps': 10000,
+ 'refReps': 100000,
  'rho': 1,
  'seed': None,
  'snpParm': 'geneDrop'}
-'psi : 10.176958703994751 min'
-'mc score ELL : 0.04153272310892741 min'
-'mc score ELL : H10 dataset 0.007386008898417155 min'
-'mc pval ELL : H10 dataset 1.1146068572998047e-05 min'
+'psi : 10.06420883735021 min'
+'mc score ELL : 0.28210047880808514 min'
+'mc score ELL : H10 dataset 0.006329488754272461 min'
+'mc pval ELL : H10 dataset 0.00010251601537068685 min'
