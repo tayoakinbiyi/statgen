@@ -1,4 +1,4 @@
-'random seed 871831'
+'random seed 456692'
 {'calD': 0.2,
  'eps': 1e-13,
  'eta': 0.3,
@@ -9,7 +9,7 @@
  'maxRefReps': 100000,
  'mcMethodNames': ['ELL'],
  'minEta': 1e-12,
- 'mu': 2.19,
+ 'mu': 2.18,
  'n_assoc': [30],
  'numCores': 16,
  'numH0Snps': 10000,
@@ -25,6 +25,6 @@
  'seed': None,
  'snpParm': 'geneDrop'}
 'runLimix reml Count [1.]'
-'limix : 300 snps, 1200 traits, 4.090739258130392 min'
-'mc score ELL : H30 dataset 0.0025841593742370605 min'
-'mc pval ELL : H30 dataset 9.518067042032877e-05 min'
+'limix : 300 snps, 1200 traits, 4.122043037414551 min'
+'mc score ELL : H30 dataset 0.0029621481895446776 min'
+'mc pval ELL : H30 dataset 0.00010789632797241211 min'
