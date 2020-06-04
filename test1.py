@@ -244,7 +244,7 @@ ctrl={
     'maxIter':1e2,
     'numHermites':150,
     'numCores':cpu_count(),
-    'fit':['loadH0','fitH1','plotPower','fitPsi','loadY','fitPower','fitRef'],
+    'fit':['loadH0','loadH1','plotPower','fitPsi','loadY','fitPower','loadRef'],
     'n_assoc':[10],#,30,50,70,80,100,150],
     'mcMethodNames':['ELL'],#,'cpma','score','storey','minP'],
     'markovMethodNames':[]#'markov']
