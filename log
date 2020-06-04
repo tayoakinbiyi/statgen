@@ -1,8 +1,8 @@
-'random seed 888536'
+'random seed 337705'
 {'calD': 0.2,
  'eps': 1e-11,
  'eta': 0.3,
- 'fit': ['loadH0', 'loadH1', 'plotPower', 'loadPsi', 'loadY', 'loadPower',
+ 'fit': ['loadH0', 'fitH1', 'plotPower', 'loadPsi', 'loadY', 'fitPower',
          'fitRef'],
  'markovMethodNames': [],
  'maxIter': 100.0,
@@ -13,7 +13,7 @@
  'n_assoc': [10],
  'numCores': 16,
  'numH0Snps': 10000,
- 'numH1Snps': 1200,
+ 'numH1Snps': 2000,
  'numHermites': 150,
  'numKSnps': 10000,
  'numLam': 1000.0,
@@ -24,6 +24,8 @@
  'rho': 1,
  'seed': None,
  'snpParm': 'geneDrop'}
-'mc score ELL : 2.8353160023689266 min'
-'mc score ELL : H10 dataset 0.005765958627065023 min'
-'mc pval ELL : H10 dataset 0.001155225435892741 min'
+'runLimix reml Count [1.]'
+'limix : 2000 snps, 1200 traits, 7.563952521483103 min'
+'mc score ELL : 2.719076375166575 min'
+'mc score ELL : H10 dataset 0.010540119806925456 min'
+'mc pval ELL : H10 dataset 0.001126412550608317 min'
