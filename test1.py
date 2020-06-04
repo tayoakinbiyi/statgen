@@ -235,7 +235,7 @@ ctrl={
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
     'rho':1,
-    'refReps':int(1e6),
+    'refReps':int(1e5),
     'maxRefReps':int(1e5),
     'minEta':1e-10,
     'numLam':1e3,
@@ -244,7 +244,7 @@ ctrl={
     'maxIter':1e2,
     'numHermites':150,
     'numCores':cpu_count(),
-    'fit':['loadH0','fitH1','plotPower','loadPsi','loadY','fitPower','fitRef'],
+    'fit':['loadH0','loadH1','plotPower','loadPsi','loadY','loadPower','fitRef'],
     'n_assoc':[10],#,30,50,70,80,100,150],
     'mcMethodNames':['ELL'],#,'cpma','score','storey','minP'],
     'markovMethodNames':[]#'markov']
