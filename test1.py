@@ -239,15 +239,15 @@ ctrl={
     'maxRefReps':int(1e5),
     'minEta':1e-12,
     'numLam':1e3,
-    'mu':2.168,
+    'mu':2.19,
     'eps':1e-13,
     'maxIter':1e2,
     'numHermites':150,
     'numCores':cpu_count(),
     'fit':['loadH0','fitH1','plotPower','loadPsi','loadY','fitPower','loadRef'],
     'n_assoc':[30],#[10,30,50,70,80,100,150],
-    'mcMethodNames':['ELL','cpma','score','storey','minP'],
-    'markovMethodNames':['markov']
+    'mcMethodNames':['ELL'],#,'cpma','score','storey','minP'],
+    'markovMethodNames':[]#'markov']
 }
 
 #######################################################################################################
