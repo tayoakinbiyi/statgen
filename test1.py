@@ -230,7 +230,7 @@ ops={
 ctrl={
     'numSubjects':1200,
     'numH0Snps':10000,
-    'numH1Snps':300,
+    'numH1Snps':400,
     'numTraits':1200,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
@@ -239,7 +239,7 @@ ctrl={
     'maxRefReps':int(1e5),
     'minEta':1e-10,
     'numLam':1e3,
-    'mu':2.6,
+    'mu':2.5,
     'eps':1e-11,
     'maxIter':1e2,
     'numHermites':150,
