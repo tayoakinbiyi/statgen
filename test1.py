@@ -239,7 +239,7 @@ ctrl={
     'maxRefReps':int(1e5),
     'minEta':1e-12,
     'numLam':1e3,
-    'mu':2.5,
+    'mu':2.568,
     'eps':1e-13,
     'maxIter':1e2,
     'numHermites':150,
