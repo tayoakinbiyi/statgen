@@ -235,7 +235,7 @@ ctrl={
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
     'rho':1,
-    'refReps':int(1e5),
+    'refReps':int(1e4),
     'maxRefReps':int(1e5),
     'minEta':1e-13,
     'numLam':1e3,
