@@ -244,10 +244,10 @@ ctrl={
     'maxIter':1e2,
     'numHermites':150,
     'numCores':cpu_count(),
-    'fit':['loadH0','loadH1','plotPower','loadPsi','loadY','fitPower','loadRef'],
+    'fit':['loadH0','loadH1','plotPower','loadPsi','loadY','loadPower','fitRef'],
     'n_assoc':[50],#[10,30,50,70,80,100,150],
-    'mcMethodNames':['ELL'],#,'cpma','score','storey','minP'],
-    'markovMethodNames':[]#'markov']
+    'mcMethodNames':['ELL','cpma','score','storey','minP'],
+    'markovMethodNames':['markov']
 }
 
 #######################################################################################################
