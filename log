@@ -1,16 +1,16 @@
-'random seed 24455'
+'random seed 465709'
 {'calD': 0.2,
  'eps': 1e-13,
  'eta': 0.3,
  'fit': ['loadH0', 'fitH1', 'plotPower', 'loadPsi', 'loadY', 'fitPower',
          'loadRef'],
- 'markovMethodNames': ['markov'],
+ 'markovMethodNames': [],
  'maxIter': 100.0,
  'maxRefReps': 100000,
- 'mcMethodNames': ['ELL', 'cpma', 'score', 'storey', 'minP'],
+ 'mcMethodNames': ['ELL'],
  'minEta': 1e-12,
- 'mu': 1.87,
- 'n_assoc': [70],
+ 'mu': 1.8,
+ 'n_assoc': [80],
  'numCores': 16,
  'numH0Snps': 10000,
  'numH1Snps': 1000,
@@ -18,22 +18,13 @@
  'numKSnps': 10000,
  'numLam': 1000.0,
  'numSubjects': 1200,
- 'numTraits': 1200,
+ 'numTraits': 300,
  'pedigreeMult': 0.1,
  'refReps': 1000000,
  'rho': 1,
  'seed': None,
  'snpParm': 'geneDrop'}
 'runLimix reml Count [1.]'
-'limix : 1000 snps, 1200 traits, 6.994814749558767 min'
-'mc score ELL : H70 dataset 0.004850717385609945 min'
-'mc pval ELL : H70 dataset 0.0011585632960001628 min'
-'mc score cpma : H70 dataset 0.056312708059946696 min'
-'mc pval cpma : H70 dataset 0.0018536806106567382 min'
-'mc score score : H70 dataset 0.21002896626790366 min'
-'mc pval score : H70 dataset 0.0022343198458353677 min'
-'mc score storey : H70 dataset 0.25959625244140627 min'
-'mc pval storey : H70 dataset 0.0014995217323303222 min'
-'mc score minP : H70 dataset 0.22081966400146485 min'
-'mc pval minP : H70 dataset 0.0015221754709879556 min'
-'beginning score for ELL-markov H70, 36.35615694522858 min'
+'limix : 1000 snps, 1200 traits, 7.785832170645396 min'
+'mc score ELL : H80 dataset 0.0049825350443522135 min'
+'mc pval ELL : H80 dataset 0.0011150797208150228 min'
