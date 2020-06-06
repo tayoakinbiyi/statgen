@@ -1,4 +1,4 @@
-'random seed 534737'
+'random seed 581669'
 {'calD': 0.2,
  'eps': 1e-13,
  'eta': 0.3,
@@ -9,7 +9,7 @@
  'maxRefReps': 100000,
  'mcMethodNames': ['ELL'],
  'minEta': 1e-12,
- 'mu': 1.4,
+ 'mu': 1.45,
  'n_assoc': [150],
  'numCores': 16,
  'numH0Snps': 10000,
@@ -24,5 +24,5 @@
  'rho': 1,
  'seed': None,
  'snpParm': 'geneDrop'}
-'mc score ELL : H150 dataset 0.0022385319073994956 min'
-'mc pval ELL : H150 dataset 0.0011596004168192545 min'
+'mc score ELL : H150 dataset 0.002818620204925537 min'
+'mc pval ELL : H150 dataset 0.001125466823577881 min'
