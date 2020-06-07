@@ -1,16 +1,16 @@
-'random seed 13668'
+'random seed 571591'
 {'calD': 0.2,
  'eps': 1e-13,
  'eta': 0.3,
  'fit': ['loadH0', 'loadH1', 'plotPower', 'loadPsi', 'loadY', 'fitPower',
          'loadRef'],
- 'markovMethodNames': ['markov'],
+ 'markovMethodNames': [],
  'maxIter': 100.0,
  'maxRefReps': 100000,
- 'mcMethodNames': ['ELL', 'cpma', 'score', 'storey', 'minP'],
+ 'mcMethodNames': ['ELL'],
  'minEta': 1e-12,
- 'mu': 1.53,
- 'n_assoc': [150],
+ 'mu': 3.1937438845342623,
+ 'n_assoc': [1],
  'numCores': 16,
  'numH0Snps': 10000,
  'numH1Snps': 1200,
@@ -24,14 +24,5 @@
  'rho': 1,
  'seed': None,
  'snpParm': 'geneDrop'}
-'mc score ELL : H150 dataset 0.002665396531422933 min'
-'mc pval ELL : H150 dataset 0.0011420806248982748 min'
-'mc score cpma : H150 dataset 0.044001253445943196 min'
-'mc pval cpma : H150 dataset 0.0019148548444112143 min'
-'mc score score : H150 dataset 0.17524115244547525 min'
-'mc pval score : H150 dataset 0.001778090000152588 min'
-'mc score storey : H150 dataset 0.1855425516764323 min'
-'mc pval storey : H150 dataset 0.0012038111686706542 min'
-'mc score minP : H150 dataset 0.19660911560058594 min'
-'mc pval minP : H150 dataset 0.0015024264653523763 min'
-'beginning score for ELL-markov H150, 11.420752290884653 min'
+'mc score ELL : H1 dataset 0.0029912670453389485 min'
+'mc pval ELL : H1 dataset 0.0011177500089009603 min'
