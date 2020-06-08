@@ -54,7 +54,7 @@ def myMain(parms):
     maxRefReps=parms['maxRefReps']
     numLam=parms['numLam']
     minEta=parms['minEta']
-    mu=parms['mu']
+    beta=parms['beta']
     
     eps=parms['eps']
     maxIter=parms['maxIter']
@@ -141,7 +141,7 @@ def myMain(parms):
     ds=[]
     if 'fitPower' in fit:
         for n in n_assoc:
-            ds+=[runH1(mu,n,waldH1,Y,K,M,snpsH1,etaH1)]
+            ds+=[runH1(beta,n,waldH1,Y,K,M,snpsH1,etaH1)]
             np.savetxt('waldH'+str(n),ds[-1],delimiter='\t')
             
     if 'loadPower' in fit:
@@ -240,7 +240,7 @@ ctrl={
     'maxRefReps':int(1e5),
     'minEta':1e-12,
     'numLam':1e3,
-    'mu':2.1,#np.sqrt(10.2-1.58*np.log(n_assoc)),
+    'beta':2.1,#np.sqrt(10.2-1.58*np.log(n_assoc)),
     'eps':1e-13,
     'maxIter':1e2,
     'numHermites':150,
