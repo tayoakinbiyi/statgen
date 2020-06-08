@@ -235,7 +235,7 @@ ctrl={
     'numTraits':1200,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
-    'rho':1.3,
+    'rho':1.15,
     'refReps':int(1e6),
     'maxRefReps':int(1e5),
     'minEta':1e-12,

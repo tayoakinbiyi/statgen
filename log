@@ -1,4 +1,4 @@
-'random seed 907041'
+'random seed 485727'
 {'calD': 0.2,
  'eps': 1e-13,
  'eta': 0.3,
@@ -21,21 +21,21 @@
  'numTraits': 1200,
  'pedigreeMult': 0.1,
  'refReps': 1000000,
- 'rho': 1.3,
+ 'rho': 1.15,
  'seed': None,
  'snpParm': 'geneDrop'}
-('41 under\n'
- '[199 200 201 202 203 204 205 206 207 208 209 210 211 212 213 214 215 216\n'
- ' 217 218 219 220 221 222 223 224 225 226 227 228 229 230 231 232 233 234\n'
- ' 235 236 237 238 239]')
+('40 under\n'
+ '[200 201 202 203 204 205 206 207 208 209 210 211 212 213 214 215 216 217\n'
+ ' 218 219 220 221 222 223 224 225 226 227 228 229 230 231 232 233 234 235\n'
+ ' 236 237 238 239]')
 '0 over\n[]'
-'mc score ELL : H800 dataset 0.0022859891255696614 min'
-'mc pval ELL : H800 dataset 0.001156298319498698 min'
-'mc score cpma : H800 dataset 0.03463629086812337 min'
-'mc pval cpma : H800 dataset 0.001548027992248535 min'
-'mc score score : H800 dataset 0.1693686803181966 min'
-'mc pval score : H800 dataset 0.001742720603942871 min'
-'mc score storey : H800 dataset 0.18970839182535806 min'
-'mc pval storey : H800 dataset 0.001497634251912435 min'
-'mc score minP : H800 dataset 0.19069576263427734 min'
-'mc pval minP : H800 dataset 0.0016368309656778972 min'
+'mc score ELL : H800 dataset 0.002132757504781087 min'
+'mc pval ELL : H800 dataset 0.0011208494504292806 min'
+'mc score cpma : H800 dataset 0.032711589336395265 min'
+'mc pval cpma : H800 dataset 0.001177537441253662 min'
+'mc score score : H800 dataset 0.20332260131835939 min'
+'mc pval score : H800 dataset 0.002241977055867513 min'
+'mc score storey : H800 dataset 0.184834353129069 min'
+'mc pval storey : H800 dataset 0.0023072004318237306 min'
+'mc score minP : H800 dataset 0.1830544153849284 min'
+'mc pval minP : H800 dataset 0.0015418012936909995 min'
