@@ -1,4 +1,4 @@
-'random seed 708576'
+'random seed 509544'
 {'calD': 0.2,
  'eps': 1e-13,
  'eta': 0.3,
@@ -9,8 +9,8 @@
  'maxRefReps': 100000,
  'mcMethodNames': ['ELL', 'cpma', 'score', 'storey', 'minP'],
  'minEta': 1e-12,
- 'mu': 1.15,
- 'n_assoc': [800],
+ 'mu': 2.7671443942002956,
+ 'n_assoc': [5],
  'numCores': 16,
  'numH0Snps': 10000,
  'numH1Snps': 1000,
@@ -25,14 +25,14 @@
  'seed': None,
  'snpParm': 'geneDrop'}
 'runLimix reml Count [1.]'
-'limix : 1000 snps, 1200 traits, 6.44896920522054 min'
-'mc score ELL : H800 dataset 0.0038623412450154624 min'
-'mc pval ELL : H800 dataset 0.0011839588483174642 min'
-'mc score cpma : H800 dataset 0.061656618118286134 min'
-'mc pval cpma : H800 dataset 0.0016161521275838216 min'
-'mc score score : H800 dataset 0.20191771189371746 min'
-'mc pval score : H800 dataset 0.001254892349243164 min'
-'mc score storey : H800 dataset 0.23778069814046224 min'
-'mc pval storey : H800 dataset 0.0018243153889973959 min'
-'mc score minP : H800 dataset 0.1884368896484375 min'
-'mc pval minP : H800 dataset 0.001222368081410726 min'
+'limix : 1000 snps, 1200 traits, 7.668406792481741 min'
+'mc score ELL : H5 dataset 0.004994106292724609 min'
+'mc pval ELL : H5 dataset 0.0011361916859944662 min'
+'mc score cpma : H5 dataset 0.06102076768875122 min'
+'mc pval cpma : H5 dataset 0.0015459656715393066 min'
+'mc score score : H5 dataset 0.19139404296875 min'
+'mc pval score : H5 dataset 0.0011596401532491048 min'
+'mc score storey : H5 dataset 0.2173362096150716 min'
+'mc pval storey : H5 dataset 0.0011744976043701171 min'
+'mc score minP : H5 dataset 0.18038463592529297 min'
+'mc pval minP : H5 dataset 0.0016234993934631347 min'
