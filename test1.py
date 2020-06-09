@@ -116,9 +116,12 @@ def myMain(parms,vZ=None):
     #######################################################################################################
     #######################################################################################################
     
-    if vZ is None:
+    if 'fitVz' in fit:
         vZ=np.corrcoef(wald,rowvar=False)
         offDiag=vZ[np.triu_indices(vZ.shape[1],1)]   
+        np.savetxt('vZ',vZ,delimiter='\t')
+    else:
+        vZ=np.loadtxt('vZ',delimiter='\t')        
     
     #######################################################################################################
     #######################################################################################################
@@ -195,7 +198,7 @@ def myMain(parms,vZ=None):
     else:
         power=None
         
-    return(power,vZ)
+    return(power)
     
 ops={
     'seed':None,
@@ -252,11 +255,12 @@ setupFolders()
 createDiagnostics(parms['seed'])
 log(parms)
 
-betaParms=np.array([[500,1.3]],dtype=[('n_assoc','int'),('beta','float64')])
+betaParms=np.array([(500,1.3)],dtype=[('n_assoc','int'),('beta','float64')])
 #np.array([[1,3.194],[2,3.125],[4,2.89],[10,2.568],[50,2],[150,1.53],[500,0],[800,1.15]])
 
-_,vZ=myMain({**parms,'n_assoc':None,'betaParm':None,'fit':['fitWald','fitY','fitPsi','fitRef']})
+_=myMain({**parms,'n_assoc':None,'betaParm':None,'fit':['fitWald','fitY','fitVz']}) # create H0
+_=myMain({**parms,'n_assoc':None,'betaParm':None,'fit':['fitPsi','fitRef']}) # create H1
 for n_assoc,beta in betaParms:
-    power,_=myMain({**parms,'betaParm':beta,'n_assoc':n_assoc,'fit':['loadWald','plot','fitPower']},vZ)
+    power=myMain({**parms,'betaParm':beta,'n_assoc':n_assoc,'fit':['plot','fitPower']},None)
 
     git('n_assoc {}, beta {}, maxPower {}'.format(n_assoc,beta,np.max(power)))
