@@ -227,11 +227,11 @@ ops={
     'eta':0.3
 }
 
-n_assoc=2
+n_assoc=400
 ctrl={
     'numSubjects':1200,
     'numH0Snps':10000,
-    'numH1Snps':1000,
+    'numH1Snps':300,
     'numTraits':1200,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
@@ -240,12 +240,12 @@ ctrl={
     'maxRefReps':int(1e5),
     'minEta':1e-12,
     'numLam':1e3,
-    'beta':3.125,#np.sqrt(10.2-1.58*np.log(n_assoc)),
+    'beta':np.sqrt(10.2-1.58*np.log(n_assoc)),
     'eps':1e-13,
     'maxIter':1e2,
     'numHermites':150,
     'numCores':cpu_count(),
-    'fit':['loadH0','loadH1','plotPower','loadPsi','loadY','fitPower','loadRef'],
+    'fit':['loadH0','fitH1','plotPower','loadPsi','loadY','fitPower','loadRef'],
     'n_assoc':[n_assoc],
     'mcMethodNames':['ELL','cpma','score','storey','minP'],
     'markovMethodNames':[]

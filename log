@@ -1,19 +1,19 @@
-'random seed 859372'
-{'beta': 3.125,
+'random seed 970693'
+{'beta': 0.8564379811576484,
  'calD': 0.2,
  'eps': 1e-13,
  'eta': 0.3,
- 'fit': ['loadH0', 'loadH1', 'plotPower', 'loadPsi', 'loadY', 'fitPower',
+ 'fit': ['loadH0', 'fitH1', 'plotPower', 'loadPsi', 'loadY', 'fitPower',
          'loadRef'],
  'markovMethodNames': [],
  'maxIter': 100.0,
  'maxRefReps': 100000,
  'mcMethodNames': ['ELL', 'cpma', 'score', 'storey', 'minP'],
  'minEta': 1e-12,
- 'n_assoc': [2],
+ 'n_assoc': [400],
  'numCores': 16,
  'numH0Snps': 10000,
- 'numH1Snps': 1000,
+ 'numH1Snps': 300,
  'numHermites': 150,
  'numKSnps': 10000,
  'numLam': 1000.0,
@@ -24,13 +24,15 @@
  'rho': 1,
  'seed': None,
  'snpParm': 'geneDrop'}
-'mc score ELL : H2 dataset 0.005678443113962809 min'
-'mc pval ELL : H2 dataset 0.001138162612915039 min'
-'mc score cpma : H2 dataset 0.06151821613311768 min'
-'mc pval cpma : H2 dataset 0.0017828623453776042 min'
-'mc score score : H2 dataset 0.19746386210123698 min'
-'mc pval score : H2 dataset 0.0020854910214742023 min'
-'mc score storey : H2 dataset 0.2129980723063151 min'
-'mc pval storey : H2 dataset 0.0012126723925272624 min'
-'mc score minP : H2 dataset 0.19212671915690105 min'
-'mc pval minP : H2 dataset 0.0011917630831400554 min'
+'runLimix reml Count [1.]'
+'limix : 300 snps, 1200 traits, 4.198126391569773 min'
+'mc score ELL : H400 dataset 0.0033278822898864745 min'
+'mc pval ELL : H400 dataset 0.0011340061823527019 min'
+'mc score cpma : H400 dataset 0.03939531644185384 min'
+'mc pval cpma : H400 dataset 0.0022139668464660643 min'
+'mc score score : H400 dataset 0.1960964838663737 min'
+'mc pval score : H400 dataset 0.002103149890899658 min'
+'mc score storey : H400 dataset 0.23403460184733074 min'
+'mc pval storey : H400 dataset 0.0011442343393961588 min'
+'mc score minP : H400 dataset 0.18697509765625 min'
+'mc pval minP : H400 dataset 0.0020006656646728515 min'
