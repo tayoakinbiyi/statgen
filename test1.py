@@ -227,7 +227,7 @@ ops={
     'eta':0.3
 }
 
-n_assoc=4
+n_assoc=2
 ctrl={
     'numSubjects':1200,
     'numH0Snps':10000,
@@ -240,7 +240,7 @@ ctrl={
     'maxRefReps':int(1e5),
     'minEta':1e-12,
     'numLam':1e3,
-    'beta':2.89,#np.sqrt(10.2-1.58*np.log(n_assoc)),
+    'beta':2.29,#np.sqrt(10.2-1.58*np.log(n_assoc)),
     'eps':1e-13,
     'maxIter':1e2,
     'numHermites':150,
