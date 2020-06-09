@@ -252,7 +252,8 @@ setupFolders()
 createDiagnostics(parms['seed'])
 log(parms)
 
-betaParms=np.array([[500,1.3]])#np.array([[1,3.194],[2,3.125],[4,2.89],[10,2.568],[50,2],[150,1.53],[500,0],[800,1.15]])
+betaParms=np.array([[500,1.3]],dtype=[('n_assoc','int'),('beta','float64')])
+#np.array([[1,3.194],[2,3.125],[4,2.89],[10,2.568],[50,2],[150,1.53],[500,0],[800,1.15]])
 
 _,vZ=myMain({**parms,'n_assoc':None,'betaParm':None,'fit':['fitWald','fitY','fitPsi','fitRef']})
 for n_assoc,beta in betaParms:
