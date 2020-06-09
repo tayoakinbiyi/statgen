@@ -1,38 +1,39 @@
-'random seed 970693'
-{'beta': 0.8564379811576484,
- 'calD': 0.2,
+'random seed 820929'
+{'calD': 0.2,
  'eps': 1e-13,
  'eta': 0.3,
- 'fit': ['loadH0', 'fitH1', 'plotPower', 'loadPsi', 'loadY', 'fitPower',
-         'loadRef'],
  'markovMethodNames': [],
  'maxIter': 100.0,
- 'maxRefReps': 100000,
+ 'maxRefReps': 1000,
  'mcMethodNames': ['ELL', 'cpma', 'score', 'storey', 'minP'],
  'minEta': 1e-12,
- 'n_assoc': [400],
  'numCores': 16,
- 'numH0Snps': 10000,
- 'numH1Snps': 300,
+ 'numDataSnps': 1000,
  'numHermites': 150,
- 'numKSnps': 10000,
+ 'numKSnps': 1000,
  'numLam': 1000.0,
- 'numSubjects': 1200,
- 'numTraits': 1200,
+ 'numSubjects': 300,
+ 'numTraits': 300,
  'pedigreeMult': 0.1,
- 'refReps': 1000000,
+ 'refReps': 10000,
  'rho': 1,
  'seed': None,
  'snpParm': 'geneDrop'}
 'runLimix reml Count [1.]'
-'limix : 300 snps, 1200 traits, 4.198126391569773 min'
-'mc score ELL : H400 dataset 0.0033278822898864745 min'
-'mc pval ELL : H400 dataset 0.0011340061823527019 min'
-'mc score cpma : H400 dataset 0.03939531644185384 min'
-'mc pval cpma : H400 dataset 0.0022139668464660643 min'
-'mc score score : H400 dataset 0.1960964838663737 min'
-'mc pval score : H400 dataset 0.002103149890899658 min'
-'mc score storey : H400 dataset 0.23403460184733074 min'
-'mc pval storey : H400 dataset 0.0011442343393961588 min'
-'mc score minP : H400 dataset 0.18697509765625 min'
-'mc pval minP : H400 dataset 0.0020006656646728515 min'
+'limix : 1000 snps, 300 traits, 0.8083457310994466 min'
+'psi : 2.6176794807116193 min'
+'mc genRef ELL : 0.012882657845815024 min'
+'mc genRef cpma : 0.37278291384379064 min'
+'mc genRef score : 1.3498119314511616 min'
+'mc genRef storey : 1.4233895699183146 min'
+'mc genRef minP : 1.375156509876251 min'
+'mc score ELL, min 0.0009491125742594401'
+'mc pval ELL, min 1.0184446970621745e-05'
+'mc score cpma, min 0.0408706267674764'
+'mc pval cpma, min 1.0617574055989583e-05'
+'mc score score, min 0.14744008382161458'
+'mc pval score, min 1.0073184967041016e-05'
+'mc score storey, min 0.16317901611328126'
+'mc pval storey, min 9.89834467569987e-06'
+'mc score minP, min 0.163144048055013'
+'mc pval minP, min 1.0001659393310548e-05'

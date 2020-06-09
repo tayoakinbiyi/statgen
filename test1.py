@@ -34,9 +34,8 @@ from plotPython.plotCorr import *
 
 from rpy2.robjects.packages import importr
 
-def myMain(parms):
-    numH0Snps=parms['numH0Snps']
-    numH1Snps=parms['numH1Snps']
+def myMain(parms,vZ=None):
+    numDataSnps=parms['numDataSnps']
     numKSnps=parms['numKSnps']
     numTraits=parms['numTraits']
     numSubjects=parms['numSubjects']
@@ -54,7 +53,7 @@ def myMain(parms):
     maxRefReps=parms['maxRefReps']
     numLam=parms['numLam']
     minEta=parms['minEta']
-    beta=parms['beta']
+    betaParm=parms['betaParm']
     
     eps=parms['eps']
     maxIter=parms['maxIter']
@@ -63,13 +62,9 @@ def myMain(parms):
     #######################################################################################################
     #######################################################################################################
     
-    miceRange=np.random.choice(208,int(pedigreeMult*208),replace=False)    
+    if 'fitY' in fit:
+        miceRange=np.random.choice(208,int(pedigreeMult*208),replace=False)    
 
-    #######################################################################################################
-    #######################################################################################################
-    #######################################################################################################
-    
-    if 'makeY' in fit:
         K=linear_kinship(makePedigreeSnps(numSubjects,miceRange,numKSnps,numCores),verbose=True)    
         LK=makeL(K)
 
@@ -93,69 +88,47 @@ def myMain(parms):
         np.savetxt('Y',Y,delimiter='\t')
         np.savetxt('K',K,delimiter='\t')
         np.savetxt('M',M,delimiter='\t')
-
-    if 'loadY' in fit:
+        np.savetxt('miceRange',miceRange,delimiter='\t')
+    else:
         Y=np.loadtxt('Y',delimiter='\t')
         K=np.loadtxt('K',delimiter='\t')        
-        M=np.loadtxt('M',delimiter='\t');M=M.reshape(len(M),-1)        
+        M=np.loadtxt('M',delimiter='\t');M=M.reshape(len(M),-1)  
+        miceRange=np.loadtxt('miceRange',delimiter='\t').astype(int)
+
+    #######################################################################################################
+    #######################################################################################################
+    #######################################################################################################
+
+    if 'fitWald' in fit:
+        snps=makePedigreeSnps(numSubjects,miceRange,numDataSnps,numCores)
         QS=economic_qs(K)
+        wald,eta=runLimix(Y,QS,np.ones([numSubjects,1]),snps,0.9999)
 
-    #######################################################################################################
-    #######################################################################################################
-    #######################################################################################################
-
-    if 'fitH0' in fit:
-        snpsH0=makePedigreeSnps(numSubjects,miceRange,numH0Snps,numCores)
-        waldH0,etaH0=runLimix(Y,QS,np.ones([numSubjects,1]),snpsH0,0.9999)
-
-        np.savetxt('waldH0',waldH0,delimiter='\t')
-        np.savetxt('etaH0',etaH0,delimiter='\t')
-        np.savetxt('snpsH0',snpsH0,delimiter='\t')
-
-    if 'loadH0' in fit:
-        waldH0=np.loadtxt('waldH0',delimiter='\t')
-        etaH0=np.loadtxt('etaH0',delimiter='\t')
-        snpsH0=np.loadtxt('snpsH0',delimiter='\t')        
+        np.savetxt('wald',wald,delimiter='\t')
+        np.savetxt('eta',eta,delimiter='\t')
+        np.savetxt('snps',snps,delimiter='\t')
+    else:
+        wald=np.loadtxt('wald',delimiter='\t')
+        eta=np.loadtxt('eta',delimiter='\t')
+        snps=np.loadtxt('snps',delimiter='\t')        
     
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
-
-    if 'fitH1' in fit:
-        snpsH1=makePedigreeSnps(numSubjects,miceRange,numH1Snps,numCores)
-        waldH1,etaH1=runLimix(Y,QS,np.ones([numSubjects,1]),snpsH1,0.9999)
-
-        np.savetxt('waldH1',waldH1,delimiter='\t')
-        np.savetxt('etaH1',etaH1,delimiter='\t')
-        np.savetxt('snpsH1',snpsH1,delimiter='\t')
-            
-    if 'loadH1' in fit:
-        waldH1=np.loadtxt('waldH1',delimiter='\t')
-        etaH1=np.loadtxt('etaH1',delimiter='\t')
-        snpsH1=np.loadtxt('snpsH1',delimiter='\t') 
-
+    
+    if vZ is None:
+        vZ=np.corrcoef(wald,rowvar=False)
+        offDiag=vZ[np.triu_indices(vZ.shape[1],1)]   
+    
     #######################################################################################################
     #######################################################################################################
     #######################################################################################################
     
-    ds=[]
     if 'fitPower' in fit:
-        for n in n_assoc:
-            ds+=[runH1(beta,n,waldH1,Y,K,M,snpsH1,etaH1)]
-            np.savetxt('waldH'+str(n),ds[-1],delimiter='\t')
-            
-    if 'loadPower' in fit:
-        for n in n_assoc:
-            ds+=[np.loadtxt('waldH'+str(n),delimiter='\t')]
-
-    dsNames=['H'+str(x) for x in n_assoc]
-    
-    #######################################################################################################
-    #######################################################################################################
-    #######################################################################################################
-    
-    vZ=np.corrcoef(waldH0,rowvar=False)
-    offDiag=vZ[np.triu_indices(vZ.shape[1],1)]   
+        wald=runH1(betaParm,n_assoc,wald,Y,K,M,snps,eta)
+        np.savetxt('waldH'+str(n_assoc),wald,delimiter='\t')
+    elif 'loadPower' in fit:
+        wald=np.loadtxt('waldH'+str(n_assoc),delimiter='\t')
     
     #######################################################################################################
     #######################################################################################################
@@ -164,10 +137,8 @@ def myMain(parms):
     if 'fitPsi' in fit:
         psiDF=psi(calD,vZ,numLam,minEta,numCores,eps,maxIter,numHermites).compute()
         np.savetxt('psi',psiDF,delimiter='\t')
-    elif 'loadPsi' in fit:
-        psiDF=np.loadtxt('psi',delimiter='\t',dtype=[('lam','float64'),('eta','float64')])
     else:
-        psiDF=None
+        psiDF=np.loadtxt('psi',delimiter='\t',dtype=[('lam','float64'),('eta','float64')])
     
     #######################################################################################################
     #######################################################################################################
@@ -184,7 +155,7 @@ def myMain(parms):
     markovFuncs={
         'GBJ':partial(gbjLoop,'GBJ'),
         'GHC':partial(gbjLoop,'GHC'),
-        'markov':partial(markovLoop,psiDF)
+        'markov':partial(markov,psiDF)
     }
 
     #######################################################################################################
@@ -195,8 +166,7 @@ def myMain(parms):
         ref={key:genRef(f,refReps,maxRefReps,vZ,key) for key,f in mcFuncs.items() if key in mcMethodNames}
         for key in mcMethodNames:
             np.savetxt('ref-'+key,ref[key],delimiter='\t')
-    
-    if 'loadRef' in fit:
+    else:
         ref={key:np.loadtxt('ref-'+key,delimiter='\t') for key in mcMethodNames}
             
     #######################################################################################################
@@ -213,40 +183,63 @@ def myMain(parms):
     #######################################################################################################
     #######################################################################################################
 
-    methods={x[0]:x[1] for f,nm in [(pvalFuncs.items(),mcMethodNames+markovMethodNames)] for x in f if x[0] in nm}
-    if 'plotType1' in fit:
-        plots([-np.sort(-np.abs(waldH0)) for x in ds],['H0'],methods)
+    if 'plot' in fit:
+        wald=-np.sort(-np.abs(wald))
+        pvals=[]
+        for method in mcMethodNames+markovMethodNames:
+            pval=pvalFuncs[method](wald).reshape(-1,1)       
+            plot(pval,method,cols=[method])        
+            pvals+=[pval]
+           
+        power=plot(np.concatenate(pvals,axis=1),'H'+str(n_assoc),cols=mcMethodNames+markovMethodNames)
+    else:
+        power=None
         
-    if 'plotPower' in fit:
-        plots([-np.sort(-np.abs(x)) for x in ds],dsNames,methods)
+    return(power,vZ)
     
 ops={
     'seed':None,
-    'numKSnps':10000,
+    'numKSnps':1000,
     'calD':0.2,
     'eta':0.3
 }
 
+'''
+redo with one Y_0 for all n_assoc (all n_assoc have same Y_0 just regenerated from previous simulations)
+keep parms the same beta across replications of entire simulation
+great to do it 10 times if possible
+leave beta the same rather than searching for new ones
+only really need the capital H plots
+type 1 all on one plot
+flesh out section on what is going in
+put in type 1 plot and table
+pg 18,19 update
+pg 20 put in full language
+replace multiple type 1 plots with 1 all included plot
+for n_assoc=500 find 75-79% range
+for n_assoc=1 power was not in 70-80 but that's ok more important to just keep same beta
+redo y, grm snps, v(z), keep the same ref across n_assoc (but using new V(Z))
+subsequent:
+determine time for 5000-12000+ traits
+no prob with 1200 snps for some of the previous ones, but use 1000 snps going forward
+
+'''
 n_assoc=400
 ctrl={
-    'numSubjects':1200,
-    'numH0Snps':10000,
-    'numH1Snps':300,
-    'numTraits':1200,
+    'numSubjects':300,
+    'numDataSnps':1000,
+    'numTraits':300,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
     'rho':1,
-    'refReps':int(1e6),
-    'maxRefReps':int(1e5),
+    'refReps':int(1e4),
+    'maxRefReps':int(1e3),
     'minEta':1e-12,
     'numLam':1e3,
-    'beta':np.sqrt(10.2-1.58*np.log(n_assoc)),
     'eps':1e-13,
     'maxIter':1e2,
     'numHermites':150,
     'numCores':cpu_count(),
-    'fit':['loadH0','fitH1','plotPower','loadPsi','loadY','fitPower','loadRef'],
-    'n_assoc':[n_assoc],
     'mcMethodNames':['ELL','cpma','score','storey','minP'],
     'markovMethodNames':[]
 }
@@ -259,7 +252,10 @@ setupFolders()
 createDiagnostics(parms['seed'])
 log(parms)
 
-myMain(parms)
+betaParms=np.array([[500,1.3]])#np.array([[1,3.194],[2,3.125],[4,2.89],[10,2.568],[50,2],[150,1.53],[500,0],[800,1.15]])
 
-git('{} mice, {} snps, {} traits, subsample {}, rho {}'.format(parms['numSubjects'],parms['numH0Snps'],
-    parms['numTraits'],parms['pedigreeMult'],parms['rho']))
+_,vZ=myMain({**parms,'n_assoc':None,'betaParm':None,'fit':['fitWald','fitY','fitPsi','fitRef']})
+for n_assoc,beta in betaParms:
+    power,_=myMain({**parms,'betaParm':beta,'n_assoc':n_assoc,'fit':['loadWald','plot','fitPower']},vZ)
+
+    git('n_assoc {}, beta {}, maxPower {}'.format(n_assoc,beta,np.max(power)))
