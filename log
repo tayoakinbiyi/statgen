@@ -1,5 +1,5 @@
-'random seed 14101'
-{'beta': 2.85,
+'random seed 76754'
+{'beta': 2.87,
  'calD': 0.2,
  'eps': 1e-13,
  'eta': 0.3,
@@ -24,13 +24,13 @@
  'rho': 1,
  'seed': None,
  'snpParm': 'geneDrop'}
-'mc score ELL : H4 dataset 0.004785573482513428 min'
-'mc pval ELL : H4 dataset 0.0011251012484232584 min'
-'mc score cpma : H4 dataset 0.05570016702016194 min'
-'mc pval cpma : H4 dataset 0.0017088055610656738 min'
-'mc score score : H4 dataset 0.19477723439534506 min'
-'mc pval score : H4 dataset 0.0022272467613220215 min'
-'mc score storey : H4 dataset 0.22829341888427734 min'
-'mc pval storey : H4 dataset 0.0019035259882609048 min'
-'mc score minP : H4 dataset 0.202943483988444 min'
-'mc pval minP : H4 dataset 0.0015144626299540202 min'
+'mc score ELL : H4 dataset 0.005983165899912516 min'
+'mc pval ELL : H4 dataset 0.0011148810386657714 min'
+'mc score cpma : H4 dataset 0.058882713317871094 min'
+'mc pval cpma : H4 dataset 0.0016840616861979166 min'
+'mc score score : H4 dataset 0.17661787668863932 min'
+'mc pval score : H4 dataset 0.002161741256713867 min'
+'mc score storey : H4 dataset 0.19943923950195314 min'
+'mc pval storey : H4 dataset 0.0016122778256734212 min'
+'mc score minP : H4 dataset 0.1870187759399414 min'
+'mc pval minP : H4 dataset 0.0012158433596293132 min'
