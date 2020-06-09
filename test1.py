@@ -240,7 +240,7 @@ ctrl={
     'maxRefReps':int(1e5),
     'minEta':1e-12,
     'numLam':1e3,
-    'beta':3.12,#np.sqrt(10.2-1.58*np.log(n_assoc)),
+    'beta':3.13,#np.sqrt(10.2-1.58*np.log(n_assoc)),
     'eps':1e-13,
     'maxIter':1e2,
     'numHermites':150,
