@@ -227,16 +227,15 @@ determine time for 5000-12000+ traits
 no prob with 1200 snps for some of the previous ones, but use 1000 snps going forward
 
 '''
-n_assoc=400
 ctrl={
-    'numSubjects':300,
-    'numDataSnps':1000,
-    'numTraits':300,
+    'numSubjects':1200,
+    'numDataSnps':300,
+    'numTraits':1200,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
     'rho':1,
-    'refReps':int(1e4),
-    'maxRefReps':int(1e3),
+    'refReps':int(1e6),
+    'maxRefReps':int(1e5),
     'minEta':1e-12,
     'numLam':1e3,
     'eps':1e-13,
@@ -255,12 +254,13 @@ setupFolders()
 createDiagnostics(parms['seed'])
 log(parms)
 
-betaParms=np.array([(500,1.3)],dtype=[('n_assoc','int'),('beta','float64')])
-#np.array([[1,3.194],[2,3.125],[4,2.89],[10,2.568],[50,2],[150,1.53],[500,0],[800,1.15]])
+betaParms=np.array([(500,1.25)],dtype=[('n_assoc','int'),('beta','float64')])
+#np.array([[1,3.194],[2,3.125],[4,2.89],[10,2.568],[50,2],[150,1.53],[500,0.942],[800,1.15]])
 
 _=myMain({**parms,'n_assoc':None,'betaParm':None,'fit':['fitWald','fitY','fitVz']}) # create H0
 _=myMain({**parms,'n_assoc':None,'betaParm':None,'fit':['fitPsi','fitRef']}) # create H1
 for n_assoc,beta in betaParms:
+    pdb.set_trace()
     power=myMain({**parms,'betaParm':beta,'n_assoc':n_assoc,'fit':['plot','fitPower']},None)
 
     git('n_assoc {}, beta {}, maxPower {}'.format(n_assoc,beta,np.max(power)))
