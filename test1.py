@@ -250,10 +250,10 @@ setupFolders()
 createDiagnostics(parms['seed'])
 log(parms)
 
-betaParms=np.array([(500,1.36)],dtype=[('n_assoc','int'),('beta','float64')])
+betaParms=np.array([(500,1.3)],dtype=[('n_assoc','int'),('beta','float64')])
 #np.array([[1,3.194],[2,3.125],[4,2.89],[10,2.568],[50,2],[150,1.53],[500,1.38],[800,1.15]])
-_=myMain({**parms,'n_assoc':None,'betaParm':None,'fit':['fitWaldH0','fitY','fitVz']}) # create waldH0 for est VZ
-_=myMain({**parms,'n_assoc':None,'numDataSnps':300,'betaParm':None,'fit':['fitWaldH0','fitPsi','fitRef']}) # create waldH1
+#_=myMain({**parms,'n_assoc':None,'betaParm':None,'fit':['fitWaldH0','fitY','fitVz']}) # create waldH0 for est VZ
+#_=myMain({**parms,'n_assoc':None,'numDataSnps':300,'betaParm':None,'fit':['fitWaldH0','fitPsi','fitRef']}) # create waldH1
 for n_assoc,beta in betaParms:
     power=myMain({**parms,'betaParm':beta,'n_assoc':n_assoc,'fit':['plot','fitWaldH1']},None)
 
