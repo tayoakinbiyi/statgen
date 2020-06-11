@@ -99,7 +99,7 @@ def myMain(parms,vZ=None):
     #######################################################################################################
     #######################################################################################################
 
-    if 'fitWald' in fit:
+    if 'fitWaldH0' in fit:
         snps=makePedigreeSnps(numSubjects,miceRange,numDataSnps,numCores)
         QS=economic_qs(K)
         wald,eta=runLimix(Y,QS,np.ones([numSubjects,1]),snps,0.9999)
@@ -127,10 +127,10 @@ def myMain(parms,vZ=None):
     #######################################################################################################
     #######################################################################################################
     
-    if 'fitPower' in fit:
+    if 'fitWaldH1' in fit:
         wald=runH1(betaParm,n_assoc,wald,Y,K,M,snps,eta)
         np.savetxt('waldH'+str(n_assoc),wald,delimiter='\t')
-    elif 'loadPower' in fit:
+    elif 'loadWaldH1' in fit:
         wald=np.loadtxt('waldH'+str(n_assoc),delimiter='\t')
     
     #######################################################################################################
@@ -220,6 +220,8 @@ pg 18,19 update
 pg 20 put in full language
 replace multiple type 1 plots with 1 all included plot
 redo y, grm snps, v(z), keep the same ref across n_assoc (but using new V(Z))
+# find average LValue per D
+# find area under C
 '''
 ctrl={
     'numSubjects':1200,
@@ -248,12 +250,11 @@ setupFolders()
 createDiagnostics(parms['seed'])
 log(parms)
 
-betaParms=np.array([(500,1.366)],dtype=[('n_assoc','int'),('beta','float64')])
+betaParms=np.array([(500,1.36)],dtype=[('n_assoc','int'),('beta','float64')])
 #np.array([[1,3.194],[2,3.125],[4,2.89],[10,2.568],[50,2],[150,1.53],[500,1.38],[800,1.15]])
-
-#_=myMain({**parms,'n_assoc':None,'betaParm':None,'fit':['fitWald','fitY','fitVz']}) # create H0
-#_=myMain({**parms,'n_assoc':None,'betaParm':None,'fit':['fitPsi','fitRef']}) # create H1
+_=myMain({**parms,'n_assoc':None,'betaParm':None,'fit':['fitWaldH0','fitY','fitVz']}) # create waldH0 for est VZ
+_=myMain({**parms,'n_assoc':None,'numDataSnps':300,'betaParm':None,'fit':['fitWaldH0','fitPsi','fitRef']}) # create waldH1
 for n_assoc,beta in betaParms:
-    power=myMain({**parms,'betaParm':beta,'n_assoc':n_assoc,'fit':['plot','fitPower']},None)
+    power=myMain({**parms,'betaParm':beta,'n_assoc':n_assoc,'fit':['plot','fitWaldH1']},None)
 
     git('n_assoc {}, beta {}, maxPower {}'.format(n_assoc,beta,np.max(power)))
