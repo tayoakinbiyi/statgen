@@ -219,13 +219,7 @@ put in type 1 plot and table
 pg 18,19 update
 pg 20 put in full language
 replace multiple type 1 plots with 1 all included plot
-for n_assoc=500 find 75-79% range
-for n_assoc=1 power was not in 70-80 but that's ok more important to just keep same beta
 redo y, grm snps, v(z), keep the same ref across n_assoc (but using new V(Z))
-subsequent:
-determine time for 5000-12000+ traits
-no prob with 1200 snps for some of the previous ones, but use 1000 snps going forward
-
 '''
 ctrl={
     'numSubjects':1200,
@@ -254,13 +248,12 @@ setupFolders()
 createDiagnostics(parms['seed'])
 log(parms)
 
-betaParms=np.array([(500,1.381)],dtype=[('n_assoc','int'),('beta','float64')])
-#np.array([[1,3.194],[2,3.125],[4,2.89],[10,2.568],[50,2],[150,1.53],[500,0.942],[800,1.15]])
+betaParms=np.array([(500,1.38)],dtype=[('n_assoc','int'),('beta','float64')])
+#np.array([[1,3.194],[2,3.125],[4,2.89],[10,2.568],[50,2],[150,1.53],[500,1.38],[800,1.15]])
 
-_=myMain({**parms,'n_assoc':None,'betaParm':None,'fit':['fitWald','fitY','fitVz']}) # create H0
-_=myMain({**parms,'n_assoc':None,'betaParm':None,'fit':['fitPsi','fitRef']}) # create H1
+#_=myMain({**parms,'n_assoc':None,'betaParm':None,'fit':['fitWald','fitY','fitVz']}) # create H0
+#_=myMain({**parms,'n_assoc':None,'betaParm':None,'fit':['fitPsi','fitRef']}) # create H1
 for n_assoc,beta in betaParms:
-    pdb.set_trace()
     power=myMain({**parms,'betaParm':beta,'n_assoc':n_assoc,'fit':['plot','fitPower']},None)
 
     git('n_assoc {}, beta {}, maxPower {}'.format(n_assoc,beta,np.max(power)))
