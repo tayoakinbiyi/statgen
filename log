@@ -1,11 +1,11 @@
-'random seed 367513'
+'random seed 95521'
 {'calD': 0.2,
  'eps': 1e-13,
  'eta': 0.3,
  'markovMethodNames': [],
  'maxIter': 100.0,
  'maxRefReps': 100000,
- 'mcMethodNames': ['ELL', 'cpma', 'score', 'storey', 'minP'],
+ 'mcMethodNames': ['ELL', 'cpma', 'varComp', 'augMinP', 'minP'],
  'minEta': 1e-12,
  'numCores': 4,
  'numDataSnps': 10000,
@@ -19,13 +19,13 @@
  'rho': 1,
  'seed': None,
  'snpParm': 'geneDrop'}
-'mc score ELL, min 0.022801363468170167'
-'mc pval ELL, min 0.0012259840965270995'
-'mc score cpma, min 0.18796719710032145'
-'mc pval cpma, min 0.0014713168144226073'
-'mc score score, min 0.0268951416015625'
-'mc pval score, min 0.001162560780843099'
-'mc score storey, min 0.07108306884765625'
-'mc pval storey, min 0.0012048840522766112'
-'mc score minP, min 0.03202792803446452'
-'mc pval minP, min 0.0011379440625508626'
+'mc score ELL, min 0.022830577691396077'
+'mc pval ELL, min 0.0012327909469604492'
+'mc score cpma, min 0.18858393828074138'
+'mc pval cpma, min 0.0011366883913675944'
+'mc score varComp, min 0.03066870371500651'
+'mc pval varComp, min 0.0011465311050415038'
+'mc score augMinP, min 0.07055122057596842'
+'mc pval augMinP, min 0.0011536916097005208'
+'mc score minP, min 0.033408276240030926'
+'mc pval minP, min 0.001168505350748698'

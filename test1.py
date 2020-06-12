@@ -18,8 +18,8 @@ from limix.model.lmm import LMM
 from limix.stats import linear_kinship
 from dataPrepPython.makePedigreeSnps import *
 from numpy_sugar.linalg import economic_qs
-from statsPython.score import *
-from statsPython.storeyQ import *
+from statsPython.varComp import *
+from statsPython.augMinP import *
 from statsPython.minP import *
 from statsPython.psi import *
 from dataPrepPython.runH1 import *
@@ -150,8 +150,8 @@ def myMain(parms,vZ=None):
     mcFuncs={
         'ELL':partial(ELL,psiDF,numCores),
         'cpma':partial(cpma,numCores),
-        'score':partial(score,numCores),
-        'storey':partial(storeyQ,numCores),
+        'varComp':partial(varComp,numCores),
+        'augMinP':partial(augMinP,numCores),
         'minP':partial(minP,numCores)
     }
     
@@ -238,7 +238,7 @@ ctrl={
     'maxIter':1e2,
     'numHermites':150,
     'numCores':4,
-    'mcMethodNames':['ELL','cpma','score','storey','minP'],
+    'mcMethodNames':['ELL','cpma','varComp','augMinP','minP'],
     'markovMethodNames':[]
 }
 
