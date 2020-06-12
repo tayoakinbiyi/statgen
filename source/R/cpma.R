@@ -1,3 +1,7 @@
+#!/usr/bin/env Rscript
+args = commandArgs(trailingOnly=TRUE)
+
+file=args[1]
 
 cpma <- function(pvals,log=T,zero.val=NA) {
 
@@ -47,17 +51,11 @@ cpma <- function(pvals,log=T,zero.val=NA) {
   return(stat)
 }
 
-#!/usr/bin/env Rscript
-args = commandArgs(trailingOnly=TRUE)
-
-file=args[1]
-
 z=read.table(file,header=F,sep='\t')
 ans=array(dim=c(dim(z)[1],1))
 
 for(row in 1:dim(z)[1]) {
-    print(paste(file,' row :',row,sep=' '))
-    ans[row]=cpma(2*pnorm(-abs(as.double(z[row,]))))
+    ans[row]=-cpma(2*pnorm(-abs(as.double(z[row,]))))
 }
 
 write.table(ans,file,col.names=F,row.names=F,quote=F,sep='\t')

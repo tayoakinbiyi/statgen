@@ -45,12 +45,13 @@ def logUnifBins(zeta,numSteps,minLam):
     b=1-a
     return(a*np.power(10,np.linspace(-np.log10(zeta),0,numSteps+1))+b)
 
-def geomBins(numSteps,minVal,maxVal):
+def geomBins(numSteps,minVal):
+    maxVal=1-minVal
     zeta=np.power(minVal/maxVal,1/numSteps)
     bins=np.append(np.array([maxVal]),maxVal*np.power(zeta,np.arange(1,numSteps+1)))[::-1]
     return(bins)
 
-def preCompute(self,ellStepSize=1e3):
+def preCompute(self,ellStepSize,minVal):
     t0=time.time()
     
     numCores=self.numCores
@@ -61,7 +62,7 @@ def preCompute(self,ellStepSize=1e3):
 
     self.ellStepSize=ellStepSize
     
-    ellGrid=geomBins(ellStepSize,1e-8,1-1e-8)
+    ellGrid=geomBins(ellStepSize,minVal)
         
     self.minMaxLamPerKInitial()
     self.minMaxKPerBin()

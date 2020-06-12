@@ -20,8 +20,6 @@ def runLimix(Y,QS,M,snps,etaMax=0.99):
     eta=np.ones([numTraits])
     reml=np.ones([1])
     fail=False
-
-    warnings.simplefilter("error")
     
     for trait in range(Y.shape[1]):
         print('{} : {} of {}'.format('runLimix',trait,Y.shape[1]),flush=True)
@@ -35,19 +33,13 @@ def runLimix(Y,QS,M,snps,etaMax=0.99):
             delta=lmm.v0/(lmm.v0+lmm.v1)
             
             if delta>etaMax:
-                fail=True                
-                continue
+                log('runLimix trait {} delta {}'.format(trait,delta))                
         
         ret=lmm.get_fast_scanner().fast_scan(snps,False)
         
         wald[:,trait]=ret['effsizes1']/ret['effsizes1_se']        
         eta[trait]=delta
         
-    if fail:
-        print('failure even reml couldn\'t fit')
-        return(wald,eta)
-
-    warnings.simplefilter("default")
     log('runLimix reml Count {}'.format(reml))
     
     t1=time.time()

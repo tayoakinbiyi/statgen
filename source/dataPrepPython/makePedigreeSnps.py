@@ -55,7 +55,6 @@ def makePedigreeSnpsHelp(core,b_snps,snpRange,uniqueMice,seed,maxSnpGen):
             'geneDrop/map-'+str(core)+'.txt',sep='\t',index=False)
 
         seed=np.random.randint(1,1e6)
-        print(t_numReps,seed)
         cmd=['../ext/gdrop','-p','geneDrop/parms-'+str(core)+'.txt','-s',str(seed),'-o','geneDrop/geneDrop-'+str(core)]
         subprocess.run(cmd)
         

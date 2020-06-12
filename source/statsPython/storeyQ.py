@@ -7,12 +7,13 @@ from utility import *
 from multiprocessing import cpu_count
 from ELL.util import *
 
-def storeyQ(d,wald,numCores):
+def storeyQ(numCores,wald):
     t0=time.time()
     
     pi=2*norm.sf(np.abs(wald))
 
     reps=pi.shape[0]
+    calD=int(pi.shape[1]*.5)
     
     pids=[]
     b_storeyQ=bufCreate('storeyQ',[reps])
@@ -22,7 +23,7 @@ def storeyQ(d,wald,numCores):
         if len(repRange)==0:
             continue
         
-        pids+=[remote(storeyQHelp,pi[repRange],d,b_storeyQ,repRange)]
+        pids+=[remote(storeyQHelp,pi,calD,b_storeyQ,repRange)]
 
     for pid in pids:
         os.waitpid(0, 0)
@@ -33,8 +34,8 @@ def storeyQ(d,wald,numCores):
         
     return(ans,numCores*(t1-t0)/(60))
 
-def storeyQHelp(pi,d,b_storeyQ,repRange):
-    b_storeyQ[0][repRange]=np.min(np.sort(pi*np.arange(1,pi.shape[1]+1).reshape(1,-1))[:,0:d],axis=1)
+def storeyQHelp(pi,calD,b_storeyQ,repRange):
+    b_storeyQ[0][repRange]=np.min(pi[repRange,0:calD]*(np.arange(1,calD+1).reshape(1,-1)),axis=1)
     b_storeyQ[1].flush()
     
     return()

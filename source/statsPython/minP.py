@@ -7,10 +7,10 @@ from utility import *
 from multiprocessing import cpu_count
 from ELL.util import *
 
-def minP(pi,numCores):
+def minP(numCores,z):
     t0=time.time()
-
-    reps=pi.shape[0]
+    
+    reps=z.shape[0]
     
     pids=[]
     b_minP=bufCreate('minP',[reps])
@@ -20,7 +20,7 @@ def minP(pi,numCores):
         if len(repRange)==0:
             continue
         
-        pids+=[remote(minPHelp,pi[repRange],b_minP,repRange)]
+        pids+=[remote(minPHelp,z[repRange],b_minP,repRange)]
 
     for pid in pids:
         os.waitpid(0, 0)
@@ -31,8 +31,8 @@ def minP(pi,numCores):
         
     return(ans,numCores*(t1-t0)/(60))
 
-def minPHelp(pi,b_minP,repRange):
-    b_minP[0][repRange]=np.min(pi,axis=1)
+def minPHelp(z,b_minP,repRange):
+    b_minP[0][repRange]=2*norm.sf(np.max(np.abs(z),axis=1))
     b_minP[1].flush()
     
     return()

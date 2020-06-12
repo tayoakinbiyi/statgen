@@ -9,10 +9,19 @@ import rpy2.robjects as ro
 import time
 from utility import *
 
-def gbj(func,z,numCores=cpu_count(),offDiag=None): 
+def gbjLoop(func,numCores,vZ,dfSet,dfNames): 
+    pvals=[]
+    for df in range(len(dfSet)):
+        pvals+=[gbj(func,numCores,vZ,dfSet[df],dfName[df]).reshape(-1,1)]
+        
+    return(np.concatenate(pvals,axis=1))
+
+def gbj(func,numCores,vZ,z,name): 
     numSnps,numTraits=z.shape
     
     t0=time.time()
+    
+    offDiag=vZ[np.triu_indices(vZ.shape[1],1)]       
     
     if offDiag is None:
         offDiag=np.array([0]*int(numTraits*(numTraits-1)/2))
@@ -34,7 +43,7 @@ def gbj(func,z,numCores=cpu_count(),offDiag=None):
     for pid in pids:
         os.waitpid(0, 0)
          
-    log('{} : {} snps, {} min/snp'.format(func,numSnps,((t1-t0)+np.sum(bufClose(b_time)))/(60*numSnps)))
+    log('{} : df {}, {} min/snp'.format(func,name,((t1-t0)+np.sum(bufClose(b_time)))/(60*numSnps)))
     
     return(bufClose(b_res))
 
