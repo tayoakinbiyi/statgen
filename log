@@ -1,11 +1,11 @@
-'random seed 95521'
+'random seed 601889'
 {'calD': 0.2,
  'eps': 1e-13,
  'eta': 0.3,
- 'markovMethodNames': [],
+ 'markovMethodNames': ['markov'],
  'maxIter': 100.0,
  'maxRefReps': 100000,
- 'mcMethodNames': ['ELL', 'cpma', 'varComp', 'augMinP', 'minP'],
+ 'mcMethodNames': [],
  'minEta': 1e-12,
  'numCores': 4,
  'numDataSnps': 10000,
@@ -19,13 +19,4 @@
  'rho': 1,
  'seed': None,
  'snpParm': 'geneDrop'}
-'mc score ELL, min 0.022830577691396077'
-'mc pval ELL, min 0.0012327909469604492'
-'mc score cpma, min 0.18858393828074138'
-'mc pval cpma, min 0.0011366883913675944'
-'mc score varComp, min 0.03066870371500651'
-'mc pval varComp, min 0.0011465311050415038'
-'mc score augMinP, min 0.07055122057596842'
-'mc pval augMinP, min 0.0011536916097005208'
-'mc score minP, min 0.033408276240030926'
-'mc pval minP, min 0.001168505350748698'
+'beginning score for ELL-markov, 213.41764611005783 min'

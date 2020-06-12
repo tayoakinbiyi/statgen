@@ -238,8 +238,8 @@ ctrl={
     'maxIter':1e2,
     'numHermites':150,
     'numCores':4,
-    'mcMethodNames':['ELL','cpma','varComp','augMinP','minP'],
-    'markovMethodNames':[]
+    'mcMethodNames':[],#'ELL','cpma','varComp','augMinP','minP'],
+    'markovMethodNames':['markov']
 }
 
 #######################################################################################################
