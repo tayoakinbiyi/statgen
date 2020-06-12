@@ -225,7 +225,7 @@ redo y, grm snps, v(z), keep the same ref across n_assoc (but using new V(Z))
 '''
 ctrl={
     'numSubjects':1200,
-    'numDataSnps':1000,
+    'numDataSnps':10000,
     'numTraits':1200,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
@@ -237,7 +237,7 @@ ctrl={
     'eps':1e-13,
     'maxIter':1e2,
     'numHermites':150,
-    'numCores':cpu_count(),
+    'numCores':4,
     'mcMethodNames':['ELL','cpma','score','storey','minP'],
     'markovMethodNames':[]
 }
@@ -250,11 +250,10 @@ setupFolders()
 createDiagnostics(parms['seed'])
 log(parms)
 
-betaParms=np.array([(500,1.3)],dtype=[('n_assoc','int'),('beta','float64')])
+betaParms=np.array([(0,0)],dtype=[('n_assoc','int'),('beta','float64')])
 #np.array([[1,3.194],[2,3.125],[4,2.89],[10,2.568],[50,2],[150,1.53],[500,1.3],[800,1.15]])
-#_=myMain({**parms,'n_assoc':None,'betaParm':None,'fit':['runLimix','fitY','fitVz']}) # create wald for est VZ
-_=myMain({**parms,'n_assoc':None,'numDataSnps':1000,'betaParm':None,'fit':['runLimix','fitPsi','fitRef']}) # create wald for H1
+_=myMain({**parms,'n_assoc':None,'betaParm':None,'fit':['runLimix','fitY','fitVz','fitPsi','fitRef']}) # create wald for H1
 for n_assoc,beta in betaParms:
-    power=myMain({**parms,'betaParm':beta,'n_assoc':n_assoc,'fit':['plot','computeH1']},None)
+    power=myMain({**parms,'betaParm':beta,'n_assoc':n_assoc,'fit':['plot']},None)
 
     git('n_assoc {}, beta {}, maxPower {}'.format(n_assoc,beta,np.max(power)))
