@@ -99,7 +99,7 @@ def myMain(parms,vZ=None):
     #######################################################################################################
     #######################################################################################################
 
-    if 'fitWaldH0' in fit:
+    if 'runLimix' in fit:
         snps=makePedigreeSnps(numSubjects,miceRange,numDataSnps,numCores)
         QS=economic_qs(K)
         wald,eta=runLimix(Y,QS,np.ones([numSubjects,1]),snps,0.9999)
@@ -127,10 +127,10 @@ def myMain(parms,vZ=None):
     #######################################################################################################
     #######################################################################################################
     
-    if 'fitWaldH1' in fit:
+    if 'computeH1' in fit:
         wald=runH1(betaParm,n_assoc,wald,Y,K,M,snps,eta)
         np.savetxt('waldH'+str(n_assoc),wald,delimiter='\t')
-    elif 'loadWaldH1' in fit:
+    elif 'loadComputeH1' in fit:
         wald=np.loadtxt('waldH'+str(n_assoc),delimiter='\t')
     
     #######################################################################################################
@@ -251,10 +251,10 @@ createDiagnostics(parms['seed'])
 log(parms)
 
 betaParms=np.array([(500,1.3)],dtype=[('n_assoc','int'),('beta','float64')])
-#np.array([[1,3.194],[2,3.125],[4,2.89],[10,2.568],[50,2],[150,1.53],[500,1.38],[800,1.15]])
-#_=myMain({**parms,'n_assoc':None,'betaParm':None,'fit':['fitWaldH0','fitY','fitVz']}) # create waldH0 for est VZ
-#_=myMain({**parms,'n_assoc':None,'numDataSnps':300,'betaParm':None,'fit':['fitWaldH0','fitPsi','fitRef']}) # create waldH1
+#np.array([[1,3.194],[2,3.125],[4,2.89],[10,2.568],[50,2],[150,1.53],[500,1.3],[800,1.15]])
+#_=myMain({**parms,'n_assoc':None,'betaParm':None,'fit':['runLimix','fitY','fitVz']}) # create wald for est VZ
+_=myMain({**parms,'n_assoc':None,'numDataSnps':1000,'betaParm':None,'fit':['runLimix','fitPsi','fitRef']}) # create wald for H1
 for n_assoc,beta in betaParms:
-    power=myMain({**parms,'betaParm':beta,'n_assoc':n_assoc,'fit':['plot','fitWaldH1']},None)
+    power=myMain({**parms,'betaParm':beta,'n_assoc':n_assoc,'fit':['plot','computeH1']},None)
 
     git('n_assoc {}, beta {}, maxPower {}'.format(n_assoc,beta,np.max(power)))
