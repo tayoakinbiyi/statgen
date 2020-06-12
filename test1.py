@@ -252,7 +252,7 @@ log(parms)
 
 betaParms=np.array([(0,0)],dtype=[('n_assoc','int'),('beta','float64')])
 #np.array([[1,3.194],[2,3.125],[4,2.89],[10,2.568],[50,2],[150,1.53],[500,1.3],[800,1.15]])
-_=myMain({**parms,'n_assoc':None,'betaParm':None,'fit':['runLimix','fitY','fitVz','fitPsi','fitRef']}) # create wald for H1
+#_=myMain({**parms,'n_assoc':None,'betaParm':None,'fit':['runLimix','fitY','fitVz','fitPsi','fitRef']}) # create wald for H1
 for n_assoc,beta in betaParms:
     power=myMain({**parms,'betaParm':beta,'n_assoc':n_assoc,'fit':['plot']},None)
 
