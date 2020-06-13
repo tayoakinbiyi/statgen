@@ -1,41 +1,11 @@
-'random seed 184312'
-{'calD': 0.2,
- 'eps': 1e-13,
- 'eta': 0.3,
- 'markovMethodNames': [],
- 'maxIter': 100.0,
- 'maxRefReps': 100000,
- 'mcMethodNames': ['ELL', 'cpma', 'varComp', 'augMinP', 'minP'],
- 'minEta': 1e-12,
- 'numCores': 4,
- 'numDataSnps': 10000,
- 'numHermites': 150,
- 'numKSnps': 1000,
- 'numLam': 1000.0,
- 'numSubjects': 1200,
- 'numTraits': 1200,
- 'pedigreeMult': 0.1,
- 'refReps': 1000000,
- 'rho': 1,
- 'seed': None,
- 'snpParm': 'geneDrop'}
-'mc score ELL, min 0.00431674321492513'
-'mc pval ELL, min 0.0011334379514058432'
-'mc score cpma, min 0.02495518922805786'
-'mc pval cpma, min 0.0011264165242513022'
-'mc score varComp, min 0.026514259974161784'
-'mc pval varComp, min 0.001145609219868978'
-'mc score augMinP, min 0.031095854441324868'
-'mc pval augMinP, min 0.0011323809623718262'
-'mc score minP, min 0.028759129842122397'
-'mc pval minP, min 0.0011119206746419271'
-'mc score ELL, min 0.0050824999809265135'
-'mc pval ELL, min 0.0011274377504984538'
-'mc score cpma, min 0.024336095650990805'
-'mc pval cpma, min 0.0015169461568196616'
-'mc score varComp, min 0.0254486083984375'
-'mc pval varComp, min 0.001493219534556071'
-'mc score augMinP, min 0.03207090695699056'
-'mc pval augMinP, min 0.0011724233627319336'
-'mc score minP, min 0.028776168823242188'
-'mc pval minP, min 0.0013887961705525717'
+'random seed 269644'
+'mc score ELL, min 0.005566032727559408'
+'mc pval ELL, min 0.0011284351348876953'
+'mc score cpma, min 0.02381726900736491'
+'mc pval cpma, min 0.0011407812436421713'
+'mc score varComp, min 0.025392532348632812'
+'mc pval varComp, min 0.0011211276054382325'
+'mc score augMinP, min 0.031978797912597653'
+'mc pval augMinP, min 0.0011244773864746093'
+'mc score minP, min 0.028422085444132487'
+'mc pval minP, min 0.0011495868364969888'
