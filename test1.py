@@ -249,7 +249,7 @@ setupFolders()
 
 log(parms)
 
-betaParms=np.array([(1,3.18),(2,3.125),(4,2.89),(10,2.568),(50,2),(150,1.53),(500,1.3),(800,1.15)],dtype=
+betaParms=np.array([(1,3.17),(2,3.125),(4,2.89),(10,2.568),(50,2),(150,1.53),(500,1.3),(800,1.15)],dtype=
                    [('n_assoc','int'),('beta','float64')])
 #_=myMain({**parms,'n_assoc':None,'betaParm':None,'fit':['runLimix','fitY','fitVz','fitPsi','fitRef']}) # create wald for H1
 #_=myMain({**parms,'n_assoc':None,'betaParm':None,'numDataSnps':1000,'fit':['runLimix']}) # create wald for H1
