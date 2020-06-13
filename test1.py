@@ -248,10 +248,10 @@ parms={**ctrl,**ops}
 setupFolders()
 
 log(parms)
-betaParms=np.array([(1,3.139),(2,3.125),(4,2.89),(10,2.568),(50,2),(150,1.53),(500,1.3),(800,1.15)],dtype=
+betaParms=np.array([(1,3.14),(2,3.125),(4,2.89),(10,2.568),(50,2),(150,1.53),(500,1.3),(800,1.15)],dtype=
                    [('n_assoc','int'),('beta','float64')])
-#_=myMain({**parms,'n_assoc':None,'betaParm':None,'fit':['runLimix','fitY','fitVz','fitPsi','fitRef']}) # create wald for H1
-#_=myMain({**parms,'n_assoc':None,'betaParm':None,'numDataSnps':1000,'fit':['runLimix']}) # create wald for H1
+_=myMain({**parms,'n_assoc':None,'betaParm':None,'fit':['runLimix','fitY','fitVz','fitPsi','fitRef']}) # create wald for H1
+_=myMain({**parms,'n_assoc':None,'betaParm':None,'numDataSnps':1000,'fit':['runLimix']}) # create wald for H1
 for n_assoc,beta in betaParms:
     createDiagnostics(parms['seed'])
     power=myMain({**parms,'betaParm':beta,'n_assoc':n_assoc,'fit':['plot','computeH1']})
