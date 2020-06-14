@@ -19,7 +19,7 @@ from limix.stats import linear_kinship
 from dataPrepPython.makePedigreeSnps import *
 from numpy_sugar.linalg import economic_qs
 from statsPython.varComp import *
-from statsPython.augMinP import *
+from statsPython.fdr import *
 from statsPython.minP import *
 from statsPython.psi import *
 from dataPrepPython.runH1 import *
@@ -151,7 +151,7 @@ def myMain(parms):
         'ELL':partial(ELL,psiDF,numCores),
         'cpma':partial(cpma,numCores),
         'varComp':partial(varComp,numCores),
-        'augMinP':partial(augMinP,numCores),
+        'fdr':partial(fdr,numCores),
         'minP':partial(minP,numCores)
     }
     
@@ -225,7 +225,7 @@ redo y, grm snps, v(z), keep the same ref across n_assoc (but using new V(Z))
 '''
 ctrl={
     'numSubjects':1200,
-    'numDataSnps':10000,
+    'numDataSnps':1000,
     'numTraits':1200,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
@@ -238,8 +238,8 @@ ctrl={
     'maxIter':1e2,
     'numHermites':150,
     'numCores':16,
-    'mcMethodNames':['ELL','cpma','varComp','augMinP','minP'],
-    'markovMethodNames':[]#'markov']
+    'mcMethodNames':['ELL','cpma','varComp','fdr','minP'],
+    'markovMethodNames':['markov']
 }
 
 #######################################################################################################
@@ -248,11 +248,14 @@ parms={**ctrl,**ops}
 setupFolders()
 
 log(parms)
-betaParms=np.array([(1,3.14),(2,3.125),(4,2.89),(10,2.568),(50,2),(150,1.53),(500,1.3),(800,1.15)],dtype=
-                   [('n_assoc','int'),('beta','float64')])
+betaParms=np.array([(0,0)],dtype=[('n_assoc','int'),('beta','float64')])
+#betaParms=np.array([(1,3.14),(2,3.125),(4,2.89),(10,2.568),(50,2),(150,1.53),(500,1.3),(800,1.15)],dtype=
+#                   [('n_assoc','int'),('beta','float64')])
 _=myMain({**parms,'n_assoc':None,'betaParm':None,'fit':['runLimix','fitY','fitVz','fitPsi','fitRef']}) # create wald for H1
-_=myMain({**parms,'n_assoc':None,'betaParm':None,'numDataSnps':1000,'fit':['runLimix']}) # create wald for H1
+#_=myMain({**parms,'n_assoc':None,'betaParm':None,'numDataSnps':1000,'fit':['runLimix']}) # create wald for H1
+
+createDiagnostics(parms['seed'])
 for n_assoc,beta in betaParms:
-    createDiagnostics(parms['seed'])
     power=myMain({**parms,'betaParm':beta,'n_assoc':n_assoc,'fit':['plot','computeH1']})
-    git('n_assoc {}, beta {}, maxPower {}'.format(n_assoc,beta,np.max(power)))
+
+git('beta {}, maxPower {}'.format(beta,np.max(power)))
