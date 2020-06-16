@@ -53,7 +53,7 @@ def myMain(parms):
     maxRefReps=parms['maxRefReps']
     numLam=parms['numLam']
     minEta=parms['minEta']
-    betaParm=parms['betaParm']
+    effectSize=parms['effectSize']
     
     eps=parms['eps']
     maxIter=parms['maxIter']
@@ -128,7 +128,7 @@ def myMain(parms):
     #######################################################################################################
     
     if 'computeH1' in fit:
-        wald=runH1(betaParm,n_assoc,wald,Y,K,M,snps,eta,numCores)
+        wald=runH1(effectSize,n_assoc,wald,Y,K,M,snps,eta,numCores)
         np.savetxt('waldH'+str(n_assoc),wald,delimiter='\t')
     elif 'loadComputeH1' in fit:
         wald=np.loadtxt('waldH'+str(n_assoc),delimiter='\t')
@@ -250,18 +250,18 @@ setupFolders()
 log(parms)
 
 
-#betaParms=np.array([(0,0)],dtype=[('n_assoc','int'),('beta','float64')])
-betaParms=np.array([(1,3.14),(2,3.125),(4,2.89),(10,2.568),(50,2),(150,1.53),(500,1.3),(800,1.15)],dtype=
-                   [('n_assoc','int'),('beta','float64')])
+#h1Vals=np.array([(0,0)],dtype=[('n_assoc','int'),('effectSize','float64')])
+h1Vals=np.array([(1,3.14),(2,3.125),(4,2.89),(10,2.568),(50,2),(150,1.53),(500,1.3),(800,1.15)],dtype=
+                   [('n_assoc','int'),('effectSize','float64')])
 
 power=[]
 for run in range(10):
-    _=myMain({**parms,'n_assoc':None,'betaParm':None,'fit':['runLimix','fitY','fitVz','fitPsi','fitRef']}) # create wald for H1
-    _=myMain({**parms,'n_assoc':None,'betaParm':None,'numDataSnps':1000,'fit':['runLimix']}) # create wald for H1
+    _=myMain({**parms,'n_assoc':None,'effectSize':None,'fit':['runLimix','fitY','fitVz','fitPsi','fitRef']}) # create wald for H1
+    _=myMain({**parms,'n_assoc':None,'effectSize':None,'numDataSnps':1000,'fit':['runLimix']}) # create wald for H1
     createDiagnostics(parms['seed'])
 
-    for n_assoc,beta in betaParms:
-        power+=[[n_assoc,beta,run]+myMain({**parms,'betaParm':beta,'n_assoc':n_assoc,'fit':['plot','computeH1']}).tolist()]
+    for n_assoc,effectSize in h1Vals:
+        power+=[[n_assoc,effectSize,run]+myMain({**parms,'effectSize':effectSize,'n_assoc':n_assoc,'fit':['plot','computeH1']}).tolist()]
 
     git('power {}'.format(run))
 
