@@ -237,7 +237,7 @@ ctrl={
     'eps':1e-13,
     'maxIter':1e2,
     'numHermites':150,
-    'numCores':16,
+    'numCores':cpu_count(),
     'mcMethodNames':['ELL-MC','cpma','szs','fdr','minP'],
     'markovMethodNames':[]#'ELL-analytic']
 }
@@ -254,7 +254,7 @@ log(parms)
 h1Vals=np.array([(1,3.14),(2,3.125),(4,2.89),(10,2.568),(50,2),(150,1.53),(500,1.3)],dtype=[('n_assoc','int'),('effectSize','float64')])
 
 power=[]
-for run in range(10):
+for run in range(3):
     _=myMain({**parms,'n_assoc':None,'effectSize':None,'fit':['runLimix','fitY','fitVz','fitPsi','fitRef']}) # create wald for H1
     _=myMain({**parms,'n_assoc':None,'effectSize':None,'numDataSnps':1000,'fit':['runLimix']}) # create wald for H1
     createDiagnostics(parms['seed'])
