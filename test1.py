@@ -250,13 +250,13 @@ setupFolders()
 log(parms)
 
 
-#h1Vals=np.array([(0,0)],dtype=[('n_assoc','int'),('effectSize','float64')]),(800,1.15)
-h1Vals=np.array([(1,3.14),(2,3.125),(4,2.89),(10,2.568),(50,2),(150,1.53),(500,1.3)],dtype=[('n_assoc','int'),('effectSize','float64')])
+h1Vals=np.array([(0,0)],dtype=[('n_assoc','int'),('effectSize','float64')])
+#h1Vals=np.array([(1,3.14),(2,3.125),(4,2.89),(10,2.568),(50,2),(150,1.53),(500,1.3)],dtype=[('n_assoc','int'),('effectSize','float64')]),(800,1.15)
 
 power=[]
-for run in range(3):
+for run in range(1):
     _=myMain({**parms,'n_assoc':None,'effectSize':None,'fit':['runLimix','fitY','fitVz','fitPsi','fitRef']}) # create wald for H1
-    _=myMain({**parms,'n_assoc':None,'effectSize':None,'numDataSnps':1000,'fit':['runLimix']}) # create wald for H1
+    #_=myMain({**parms,'n_assoc':None,'effectSize':None,'numDataSnps':1000,'fit':['runLimix']}) # create wald for H1
     createDiagnostics(parms['seed'])
 
     for n_assoc,effectSize in h1Vals:
