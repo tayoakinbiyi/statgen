@@ -149,9 +149,9 @@ def myMain(parms):
     
     mcFuncs={
         'ELL-MC':partial(ELL,psiDF,numCores),
-        'cpma':partial(cpma,numCores),
-        'szs':partial(szs,numCores),
-        'fdr':partial(fdr,numCores),
+        'CPMA':partial(cpma,numCores),
+        'sumZ^2':partial(szs,numCores),
+        'FDR':partial(fdr,numCores),
         'minP':partial(minP,numCores)
     }
     
@@ -225,7 +225,6 @@ redo y, grm snps, v(z), keep the same ref across n_assoc (but using new V(Z))
 '''
 ctrl={
     'numSubjects':1200,
-    'numDataSnps':1000,
     'numTraits':1200,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
@@ -238,8 +237,8 @@ ctrl={
     'maxIter':1e2,
     'numHermites':150,
     'numCores':cpu_count(),
-    'mcMethodNames':['ELL-MC','cpma','szs','fdr','minP'],
-    'markovMethodNames':[]#'ELL-analytic']
+    'mcMethodNames':['ELL-MC','CPMA','sumZ^2','FDR','minP'],
+    'markovMethodNames':['ELL-analytic']
 }
 
 #######################################################################################################
@@ -255,12 +254,13 @@ h1Vals=np.array([(0,0)],dtype=[('n_assoc','int'),('effectSize','float64')])
 
 power=[]
 for run in range(1):
-    _=myMain({**parms,'n_assoc':None,'effectSize':None,'fit':['runLimix','fitY','fitVz','fitPsi','fitRef']}) # create wald for H1
+    #_=myMain({**parms,'n_assoc':None,'effectSize':None,'numDataSnps':1000,'fit':['runLimix','fitY','fitVz','fitPsi','fitRef']}) # create wald for H1
     #_=myMain({**parms,'n_assoc':None,'effectSize':None,'numDataSnps':1000,'fit':['runLimix']}) # create wald for H1
     createDiagnostics(parms['seed'])
 
     for n_assoc,effectSize in h1Vals:
-        power+=[[n_assoc,effectSize,run]+myMain({**parms,'effectSize':effectSize,'n_assoc':n_assoc,'fit':['plot','computeH1']}).tolist()]
+        #power+=[[n_assoc,effectSize,run]+myMain({**parms,'effectSize':effectSize,'n_assoc':n_assoc,'numDataSnps':None,'fit':['plot','computeH1']}).tolist()]
+        power+=[[n_assoc,effectSize,run]+myMain({**parms,'effectSize':effectSize,'n_assoc':n_assoc,'numDataSnps':None,'fit':['plot']}).tolist()]
 
     git('power {}'.format(run))
 
