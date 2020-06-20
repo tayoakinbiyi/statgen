@@ -208,6 +208,21 @@ ops={
 }
 
 '''
+xx=pd.read_csv('power.tsv',sep='&')
+xx['n_assoc']=xx['n_assoc']/1200
+xx=xx.set_index('n_assoc')
+xx=(xx.T/xx.T.max(axis=0)).T
+fig, axs = plt.subplots(1,1,dpi=50)
+plt.rc('font', size=16)       
+plt.rc('axes', labelsize=20)   
+fig.set_figheight(10,forward=True)
+fig.set_figwidth(10,forward=True)
+xx.plot(ax=axs,ylim=[0,1.1],xlim=[-.1,.5],marker='o', linestyle='dotted',legend=True,logx=False)
+axs.set_xlabel('% of traits associated')
+axs.set_ylabel('Power (as % of most powerful method)')
+fig.savefig('power.png',bbox_inches='tight')
+'''
+'''
 redo with one Y_0 for all n_assoc (all n_assoc have same Y_0 just regenerated from previous simulations)
 keep parms the same beta across replications of entire simulation
 great to do it 10 times if possible
@@ -225,7 +240,7 @@ redo y, grm snps, v(z), keep the same ref across n_assoc (but using new V(Z))
 '''
 ctrl={
     'numSubjects':1200,
-    'numTraits':1200,
+    'numTraits':1000,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
     'rho':1,
@@ -238,7 +253,7 @@ ctrl={
     'numHermites':150,
     'numCores':cpu_count(),
     'mcMethodNames':['ELL-MC','CPMA','sumZ^2','FDR','minP'],
-    'markovMethodNames':['ELL-analytic']
+    'markovMethodNames':[]#'ELL-analytic']
 }
 
 #######################################################################################################
@@ -249,18 +264,18 @@ setupFolders()
 log(parms)
 
 
-h1Vals=np.array([(0,0)],dtype=[('n_assoc','int'),('effectSize','float64')])
+h1Vals=np.array([(1,3.14)],dtype=[('n_assoc','int'),('effectSize','float64')])
 #h1Vals=np.array([(1,3.14),(2,3.125),(4,2.89),(10,2.568),(50,2),(150,1.53),(500,1.3)],dtype=[('n_assoc','int'),('effectSize','float64')]),(800,1.15)
 
 power=[]
 for run in range(1):
-    #_=myMain({**parms,'n_assoc':None,'effectSize':None,'numDataSnps':1000,'fit':['runLimix','fitY','fitVz','fitPsi','fitRef']}) # create wald for H1
-    #_=myMain({**parms,'n_assoc':None,'effectSize':None,'numDataSnps':1000,'fit':['runLimix']}) # create wald for H1
+    _=myMain({**parms,'n_assoc':None,'effectSize':None,'numDataSnps':10000,'fit':['runLimix','fitY','fitVz','fitPsi','fitRef']}) # create wald for H1
+    _=myMain({**parms,'n_assoc':None,'effectSize':None,'numDataSnps':1000,'fit':['runLimix']}) # create wald for H1
     createDiagnostics(parms['seed'])
 
     for n_assoc,effectSize in h1Vals:
-        #power+=[[n_assoc,effectSize,run]+myMain({**parms,'effectSize':effectSize,'n_assoc':n_assoc,'numDataSnps':None,'fit':['plot','computeH1']}).tolist()]
-        power+=[[n_assoc,effectSize,run]+myMain({**parms,'effectSize':effectSize,'n_assoc':n_assoc,'numDataSnps':None,'fit':['plot']}).tolist()]
+        power+=[[n_assoc,effectSize,run]+myMain({**parms,'effectSize':effectSize,'n_assoc':n_assoc,'numDataSnps':None,'fit':['plot','computeH1']}).tolist()]
+        #power+=[[n_assoc,effectSize,run]+myMain({**parms,'effectSize':effectSize,'n_assoc':n_assoc,'numDataSnps':None,'fit':['plot']}).tolist()]
 
     git('power {}'.format(run))
 
