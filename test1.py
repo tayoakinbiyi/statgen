@@ -264,8 +264,8 @@ setupFolders()
 log(parms)
 
 
-h1Vals=np.array([(10,2.516)],dtype=[('n_assoc','int'),('effectSize','float64')])
-#h1Vals=np.array([(1,3.1115),(2,3.02),(4,2.915),(10,2.568),(50,2),(150,1.53),(500,1.3)],dtype=[('n_assoc','int'),('effectSize','float64')]),(800,1.15)
+h1Vals=np.array([(50,2)],dtype=[('n_assoc','int'),('effectSize','float64')])
+#h1Vals=np.array([(1,3.1115),(2,3.02),(4,2.915),(10,2.516),(50,2),(150,1.53),(500,1.3)],dtype=[('n_assoc','int'),('effectSize','float64')]),(800,1.15)
 
 power=[]
 for run in range(1):
