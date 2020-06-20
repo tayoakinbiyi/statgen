@@ -148,7 +148,7 @@ def myMain(parms):
     #######################################################################################################
     
     mcFuncs={
-        'ELL-MC':partial(ELL,psiDF,numCores),
+        'ELL':partial(ELL,psiDF,numCores),
         'CPMA':partial(cpma,numCores),
         'sumZ^2':partial(szs,numCores),
         'FDR':partial(fdr,numCores),
@@ -252,7 +252,7 @@ ctrl={
     'maxIter':1e2,
     'numHermites':150,
     'numCores':cpu_count(),
-    'mcMethodNames':['ELL-MC','CPMA','sumZ^2','FDR','minP'],
+    'mcMethodNames':['ELL','CPMA','sumZ^2','FDR','minP'],
     'markovMethodNames':[]#'ELL-analytic']
 }
 
@@ -264,7 +264,7 @@ setupFolders()
 log(parms)
 
 
-h1Vals=np.array([(50,2)],dtype=[('n_assoc','int'),('effectSize','float64')])
+h1Vals=np.array([(50,1.9)],dtype=[('n_assoc','int'),('effectSize','float64')])
 #h1Vals=np.array([(1,3.1115),(2,3.02),(4,2.915),(10,2.516),(50,2),(150,1.53),(500,1.3)],dtype=[('n_assoc','int'),('effectSize','float64')]),(800,1.15)
 
 power=[]
