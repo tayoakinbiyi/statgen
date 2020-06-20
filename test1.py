@@ -264,7 +264,7 @@ setupFolders()
 log(parms)
 
 
-h1Vals=np.array([(4,2.92)],dtype=[('n_assoc','int'),('effectSize','float64')])
+h1Vals=np.array([(4,2.91)],dtype=[('n_assoc','int'),('effectSize','float64')])
 #h1Vals=np.array([(1,3.1115),(2,3.02),(4,2.89),(10,2.568),(50,2),(150,1.53),(500,1.3)],dtype=[('n_assoc','int'),('effectSize','float64')]),(800,1.15)
 
 power=[]
