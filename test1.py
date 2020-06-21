@@ -264,13 +264,13 @@ setupFolders()
 log(parms)
 
 
-h1Vals=np.array([(150,1.52)],dtype=[('n_assoc','int'),('effectSize','float64')])
+h1Vals=np.array([(150,1.51)],dtype=[('n_assoc','int'),('effectSize','float64')])
 #h1Vals=np.array([(1,3.1115),(2,3.02),(4,2.915),(10,2.516),(50,1.93),(150,1.53),(500,1.3)],dtype=[('n_assoc','int'),('effectSize','float64')]),(800,1.15)
 
 power=[]
 for run in range(1):
     #_=myMain({**parms,'n_assoc':None,'effectSize':None,'numDataSnps':10000,'fit':['runLimix','fitY','fitVz','fitPsi','fitRef']}) # create wald for H1
-    _=myMain({**parms,'n_assoc':None,'effectSize':None,'numDataSnps':300,'fit':['runLimix']}) # create wald for H1
+    #_=myMain({**parms,'n_assoc':None,'effectSize':None,'numDataSnps':300,'fit':['runLimix']}) # create wald for H1
     createDiagnostics(parms['seed'])
 
     for n_assoc,effectSize in h1Vals:
