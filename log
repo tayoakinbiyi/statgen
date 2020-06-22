@@ -1,4 +1,4 @@
-'random seed 403011'
+'random seed 918974'
 {'calD': 0.2,
  'eps': 1e-13,
  'eta': 0.3,
@@ -18,13 +18,13 @@
  'rho': 1,
  'seed': None,
  'snpParm': 'geneDrop'}
-'mc score ELL, min 0.03241052627563477'
-'mc pval ELL, min 0.001105797290802002'
-'mc score CPMA, min 18.239545738697053'
-'mc pval CPMA, min 0.0011444449424743651'
-'mc score sumZ^2, min 0.3832252502441406'
-'mc pval sumZ^2, min 0.0011564215024312337'
-'mc score FDR, min 0.4086544672648112'
-'mc pval FDR, min 0.0011602004369099935'
-'mc score minP, min 0.39634297688802084'
-'mc pval minP, min 0.0011562307675679524'
+'mc score ELL, min 0.017234432697296142'
+'mc pval ELL, min 0.001097575823465983'
+'mc score CPMA, min 18.20687967936198'
+'mc pval CPMA, min 0.0011865456899007162'
+'mc score sumZ^2, min 0.26367327372233074'
+'mc pval sumZ^2, min 0.0011737902959187826'
+'mc score FDR, min 0.31270828247070315'
+'mc pval FDR, min 0.001526784896850586'
+'mc score minP, min 0.2706151326497396'
+'mc pval minP, min 0.001192772388458252'
