@@ -1,11 +1,30 @@
-'random seed 250354'
-'mc score ELL, min 0.01813375155131022'
-'mc pval ELL, min 0.001096816857655843'
-'mc score CPMA, min 18.18774279753367'
-'mc pval CPMA, min 0.0011502464612325033'
-'mc score sumZ^2, min 0.4590524037679036'
-'mc pval sumZ^2, min 0.0011069496472676595'
-'mc score FDR, min 0.5072433471679687'
-'mc pval FDR, min 0.0011628588040669759'
-'mc score minP, min 0.5840893427530924'
-'mc pval minP, min 0.0011451323827107748'
+'random seed 359541'
+{'calD': 0.2,
+ 'eps': 1e-13,
+ 'eta': 0.3,
+ 'markovMethodNames': [],
+ 'maxIter': 100.0,
+ 'maxRefReps': 100000,
+ 'mcMethodNames': ['ELL', 'CPMA', 'sumZ^2', 'FDR', 'minP'],
+ 'minEta': 1e-12,
+ 'numCores': 16,
+ 'numHermites': 150,
+ 'numKSnps': 1000,
+ 'numLam': 100.0,
+ 'numSubjects': 1200,
+ 'numTraits': 10000,
+ 'pedigreeMult': 0.1,
+ 'refReps': 1000000,
+ 'rho': 1,
+ 'seed': None,
+ 'snpParm': 'geneDrop'}
+'mc score ELL, min 0.017234261830647787'
+'mc pval ELL, min 0.0013028899828592935'
+'mc score CPMA, min 18.255203008651733'
+'mc pval CPMA, min 0.0011194626490275065'
+'mc score sumZ^2, min 0.4993676503499349'
+'mc pval sumZ^2, min 0.001107025146484375'
+'mc score FDR, min 0.5452754338582356'
+'mc pval FDR, min 0.0011152108510335287'
+'mc score minP, min 0.5068319956461589'
+'mc pval minP, min 0.0011414090792338054'
