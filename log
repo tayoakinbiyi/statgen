@@ -1,4 +1,5 @@
-'random seed 728976'
+'random seed 28851'
+array([(1, 3.55)], dtype=[('n_assoc', '<i8'), ('effectSize', '<f8')])
 {'calD': 0.2,
  'eps': 1e-13,
  'eta': 0.3,
@@ -18,13 +19,13 @@
  'rho': 1,
  'seed': None,
  'snpParm': 'geneDrop'}
-'mc score ELL, min 0.017535650730133058'
-'mc pval ELL, min 0.0011539538701375327'
-'mc score CPMA, min 18.21441170771917'
-'mc pval CPMA, min 0.0011462012926737467'
-'mc score sumZ^2, min 0.2812833786010742'
-'mc pval sumZ^2, min 0.001144889990488688'
-'mc score FDR, min 0.3109177271525065'
-'mc pval FDR, min 0.0011126955350240072'
-'mc score minP, min 0.2871483484903971'
-'mc pval minP, min 0.001212469736735026'
+'mc score ELL, min 0.017647838592529295'
+'mc pval ELL, min 0.0010961174964904785'
+'mc score CPMA, min 18.19552578528722'
+'mc pval CPMA, min 0.0011454900105794272'
+'mc score sumZ^2, min 0.26447200775146484'
+'mc pval sumZ^2, min 0.001112361749013265'
+'mc score FDR, min 0.3227490743001302'
+'mc pval FDR, min 0.001141051451365153'
+'mc score minP, min 0.26744327545166013'
+'mc pval minP, min 0.0011723438898722331'
