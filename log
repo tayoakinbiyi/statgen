@@ -1,5 +1,5 @@
-'random seed 154170'
-array([(10, 3.15)], dtype=[('n_assoc', '<i8'), ('effectSize', '<f8')])
+'random seed 127874'
+array([(10, 3.14)], dtype=[('n_assoc', '<i8'), ('effectSize', '<f8')])
 {'calD': 0.2,
  'eps': 1e-13,
  'eta': 0.3,
@@ -19,13 +19,13 @@ array([(10, 3.15)], dtype=[('n_assoc', '<i8'), ('effectSize', '<f8')])
  'rho': 1,
  'seed': None,
  'snpParm': 'geneDrop'}
-'mc score ELL, min 0.017381048202514647'
-'mc pval ELL, min 0.001089779535929362'
-'mc score CPMA, min 18.150337068239846'
-'mc pval CPMA, min 0.0011375625928243002'
-'mc score sumZ^2, min 0.28601347605387367'
-'mc pval sumZ^2, min 0.001114964485168457'
-'mc score FDR, min 0.40832513173421225'
-'mc pval FDR, min 0.0011384805043538411'
-'mc score minP, min 0.34957122802734375'
-'mc pval minP, min 0.0011422197024027506'
+'mc score ELL, min 0.019872419039408364'
+'mc pval ELL, min 0.001109170913696289'
+'mc score CPMA, min 18.18749086459478'
+'mc pval CPMA, min 0.0011332194010416667'
+'mc score sumZ^2, min 0.40930093129475914'
+'mc pval sumZ^2, min 0.001146411895751953'
+'mc score FDR, min 0.5014867782592773'
+'mc pval FDR, min 0.0011716445287068685'
+'mc score minP, min 0.4085489908854167'
+'mc pval minP, min 0.0019025405248006184'
