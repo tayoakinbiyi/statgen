@@ -261,7 +261,7 @@ ctrl={
 parms={**ctrl,**ops}
 setupFolders()
 
-h1Vals=np.array([(10,3.2)],dtype=[('n_assoc','int'),('effectSize','float64')])
+h1Vals=np.array([(10,3.1)],dtype=[('n_assoc','int'),('effectSize','float64')])
 #h1Vals=np.array([(1,3.43),(2,3.35),(4,3.26),(10,2.516),(50,1.93),(150,1.44),(500,1.27)],dtype=[('n_assoc','int'),('effectSize','float64')])#,(800,1.15)
 power=[]
 for run in range(1):
