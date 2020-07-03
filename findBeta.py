@@ -245,7 +245,7 @@ redo y, grm snps, v(z), keep the same ref across n_assoc (but using new V(Z))
 '''
 ctrl={
     'numSubjects':1200,
-    'numTraits':300,
+    'numTraits':10000,
     'pedigreeMult':.1,
     'snpParm':'geneDrop',
     'rho':1,
@@ -266,49 +266,52 @@ ctrl={
 parms={**ctrl,**ops}
 setupFolders()
 coeff=[0,3.7]
-nList=[1,2]#,4,10,50,150,500]
+nList=[4]
 
-lowBeta=[1.14,0.125]#,2.89,2.568,2,1.53,1.3]
+h0Snps=10000
+h1Snps=1000
 
-_=myMain({**parms,'n_assoc':None,'effectSize':None,'numDataSnps':100,'fit':['runLimix','fitY','fitVz','fitPsi','fitRef']}) 
-_=myMain({**parms,'n_assoc':None,'effectSize':None,'numDataSnps':100,'fit':['runLimix']}) 
-
-for n in range(len(nList)):   
-    coeff[0]=lowBeta[n]
-    n_assoc=nList[n]
-    power=[10]
-    while np.abs(np.max(power)-.73)>0.1:
-        newBeta=np.mean(coeff)
-        power=myMain({**parms,'effectSize':newBeta,'n_assoc':n_assoc,'numDataSnps':None,'fit':['fitStats','computeH1',
-            'tablePower']})
-        
-        maxPower=max(power)
-        if maxPower>0.73:
-            coeff[1]=newBeta
-        else:
-            coeff[0]=newBeta
-        print('******************\n**************\nn_assoc {}, newBeta {}, maxPower {} coef {}\n******************\n**************'.format(
-            n_assoc,newBeta,maxPower,coeff),flush=True)
-    lowBeta[n]=newBeta
-np.savetxt('beta',np.array(lowBeta),delimiter='\t')
 createDiagnostics(parms['seed'])
-log(parms)
 
-power=[]
-for run in range(2):
-    _=myMain({**parms,'n_assoc':None,'effectSize':None,'numDataSnps':100,'fit':['runLimix','fitY','fitVz','fitPsi','fitRef']}) 
-    _=myMain({**parms,'n_assoc':None,'effectSize':None,'numDataSnps':100,'fit':['runLimix']}) 
+_=myMain({**parms,'n_assoc':None,'effectSize':None,'numDataSnps':h0Snps,'fit':['runLimix','fitY','fitVz','fitPsi','fitRef']}) 
+_=myMain({**parms,'n_assoc':None,'effectSize':None,'numDataSnps':h1Snps,'fit':['runLimix']}) 
+
+coeff=[3.076430504,3.356933594]
+n_assoc=4
+power=[10]
+while np.abs(np.max(power)-.73)>0.03:
+    newBeta=np.mean(coeff)
+    power=myMain({**parms,'effectSize':newBeta,'n_assoc':n_assoc,'numDataSnps':None,'fit':['fitStats','computeH1','tablePower']})
+
+    maxPower=max(power)
+    if maxPower>0.73:
+        coeff[1]=newBeta
+    else:
+        coeff[0]=newBeta
     
-    for n in range(len(nList)):   
-        n_assoc=nList[n]
-        power+=[np.append(np.array([run,n_assoc]),myMain({**parms,'effectSize':newBeta,'n_assoc':n_assoc,
-            'numDataSnps':None,'fit':['fitStats','computeH1','tablePower']})).reshape(1,-1)]
-        print('******************\n**************\nn_Assoc {} run {}\n******************\n**************'.format(n_assoc,run),flush=True)
-
-        log('run {} n_assoc {} maxPower {}'.format(run,n_assoc,maxPower))
-
-power=pd.DataFrame(np.concatenate(power,axis=0),columns=['run','n_assoc']+parms['mcMethodNames'])
-power.to_csv('diagnostics/power.tsv',sep='\t')
+    log('n_assoc {}, newBeta {}, power {}'.format(n_assoc,newBeta,maxPower))
 
 git('power {}'.format(n_assoc))
 
+'''
+createDiagnostics(parms['seed'])
+log(parms)
+
+nList=[1,2,4,10,50,150,500]
+lowBeta=[3.433125,3.356933594,,3.076430504,2.634421806,2.299383806,]
+
+power=[]
+for run in range(10):
+    _=myMain({**parms,'n_assoc':None,'effectSize':None,'numDataSnps':h0Snps,'fit':['runLimix','fitY','fitVz','fitPsi','fitRef']}) 
+    _=myMain({**parms,'n_assoc':None,'effectSize':None,'numDataSnps':h1Snps,'fit':['runLimix']}) 
+    
+    for n in range(len(nList)):   
+        n_assoc=nList[n]
+        val=np.append(np.array([run,n_assoc,lowBeta[n]]),myMain({**parms,'effectSize':lowBeta[n],'n_assoc':n_assoc,
+            'numDataSnps':None,'fit':['fitStats','computeH1','tablePower']})).reshape(1,-1)
+        log('n_assoc {}, run {} : '.format(n_assoc,run)+val.tostring())
+        
+        print('n_assoc {}, run {} : '.format(n_assoc,run)+val.tostring(),flush=True)
+
+git('power')
+'''
