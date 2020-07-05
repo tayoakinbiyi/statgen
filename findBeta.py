@@ -273,13 +273,13 @@ h1Snps=1000
 
 createDiagnostics(parms['seed'])
 
-_=myMain({**parms,'n_assoc':None,'effectSize':None,'numDataSnps':h0Snps,'fit':['runLimix','fitY','fitVz','fitPsi','fitRef']}) 
-_=myMain({**parms,'n_assoc':None,'effectSize':None,'numDataSnps':h1Snps,'fit':['runLimix']}) 
+#_=myMain({**parms,'n_assoc':None,'effectSize':None,'numDataSnps':h0Snps,'fit':['runLimix','fitY','fitVz','fitPsi','fitRef']}) 
+#_=myMain({**parms,'n_assoc':None,'effectSize':None,'numDataSnps':h1Snps,'fit':['runLimix']}) 
 
-coeff=[3.076430504,3.356933594]
-n_assoc=4
+coeff=[1.7,2.018711487875]
+n_assoc=500
 power=[10]
-while np.abs(np.max(power)-.73)>0.03:
+while np.abs(np.max(power)-.73)>0.1:
     newBeta=np.mean(coeff)
     power=myMain({**parms,'effectSize':newBeta,'n_assoc':n_assoc,'numDataSnps':None,'fit':['fitStats','computeH1','tablePower']})
 
@@ -298,7 +298,7 @@ createDiagnostics(parms['seed'])
 log(parms)
 
 nList=[1,2,4,10,50,150,500]
-lowBeta=[3.433125,3.356933594,,3.076430504,2.634421806,2.299383806,]
+lowBeta=[3.433125,3.356933594,3.2627020872031256,3.076430504,2.634421806,2.299383806,]
 
 power=[]
 for run in range(10):
